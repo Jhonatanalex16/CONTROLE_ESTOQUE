@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle de Estoque</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+body{
+background:#eef2f7;
+padding:30px;
+color:#1f2937;
+}
+
+.container{
+max-width:1300px;
+margin:auto;
+}
+
+.topo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.logo h1{
+font-size:32px;
+font-weight:800;
+color:#111827;
+}
+
+.logo p{
+color:#6b7280;
+margin-top:5px;
+}
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:15px;
+margin-bottom:25px;
+}
+
+.info-card{
+background:white;
+padding:20px;
+border-radius:18px;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.info-card h3{
+font-size:15px;
+color:#6b7280;
+margin-bottom:10px;
+}
+
+.info-card span{
+font-size:30px;
+font-weight:800;
+color:#2563eb;
+}
+
+.card{
+background:white;
+padding:25px;
+border-radius:18px;
+margin-bottom:25px;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.card h2{
+margin-bottom:20px;
+font-size:22px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
+}
+
+input{
+padding:14px;
+border-radius:10px;
+border:1px solid #d1d5db;
+font-size:15px;
+}
+
+input:focus{
+outline:none;
+border-color:#2563eb;
+box-shadow:0 0 0 3px rgba(37,99,235,0.2);
+}
+
+button{
+padding:14px;
+border-radius:10px;
+border:none;
+font-weight:700;
+cursor:pointer;
+transition:0.2s;
+}
+
+button:hover{
+transform:translateY(-1px);
+}
+
+.btn-principal{
+background:#2563eb;
+color:white;
+}
+
+.btn-principal:hover{
+background:#1d4ed8;
+}
+
+.tabela-container{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+border-radius:18px;
+overflow:hidden;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+th{
+background:#2563eb;
+color:white;
+padding:16px;
+text-align:left;
+font-size:14px;
+}
+
+td{
+padding:15px;
+border-bottom:1px solid #e5e7eb;
+}
+
+tr:hover{
+background:#f9fafb;
+}
+
+.alerta{
+background:#fff1f2 !important;
+}
+
+.acoes{
+display:flex;
+gap:8px;
+}
+
+.entrada{
+background:#16a34a;
+color:white;
+}
+
+.saida{
+background:#dc2626;
+color:white;
+}
+
+.status-ok{
+background:#dcfce7;
+color:#166534;
+padding:6px 10px;
+border-radius:999px;
+font-size:13px;
+font-weight:700;
+}
+
+.status-alerta{
+background:#fee2e2;
+color:#991b1b;
+padding:6px 10px;
+border-radius:999px;
+font-size:13px;
+font-weight:700;
+}
+
+.rodape{
+text-align:center;
+margin-top:25px;
+color:#6b7280;
+font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="topo">
+<div class="logo">
+<h1>Controle de Estoque</h1>
+<p>Sistema inteligente de gerenciamento de estoque online</p>
+</div>
+</div>
+
+<div class="dashboard">
+
+<div class="info-card">
+<h3>Total de Itens</h3>
+<span id="totalItens">0</span>
+</div>
+
+<div class="info-card">
+<h3>Itens em Alerta</h3>
+<span id="itensAlerta">0</span>
+</div>
+
+<div class="info-card">
+<h3>Status Sistema</h3>
+<span style="font-size:18px;color:#16a34a;">ONLINE</span>
+</div>
+
+<div class="info-card">
+<h3>Total em Estoque</h3>
+<span id="estoqueTotal">0</span>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Cadastrar Novo Item</h2>
+
+<div class="grid">
+<input id="item" placeholder="Nome do item">
+<input id="quantidade" type="number" placeholder="Quantidade">
+<input id="minimo" type="number" placeholder="Alerta mínimo">
+
+
+<button class="btn-principal" onclick="cadastrar()">
+Cadastrar
+</button>
+</div>
+
+</div>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Quantidade</th>
+<th>Mínimo</th>
+
+<th>Status Estoque</th>
+<th>Ações</th>
+</tr>
+</thead>
+
+<tbody id="tabela"></tbody>
+</table>
+
+<div class="rodape">
+Sistema compartilhado em tempo real
+</div>
+
+</div>
+
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbwDfc6az14wh1YF2qNmZW6NanRET487an62jUUctJgHd-OVoPRrbYhHL3TTaGn2TcLN/exec";
+
+async function carregar(){
+
+const resposta = await fetch(API_URL);
+const dados = await resposta.json();
+
+const tabela = document.getElementById("tabela");
+
+ tabela.innerHTML = "";
+
+ let totalItens = dados.length;
+let itensAlerta = 0;
+let totalEstoque = 0;
+
+dados.forEach(item=>{
+
+ const alerta = Number(item.quantidade) <= Number(item.minimo);
+
+if(alerta){
+itensAlerta++;
+}
+
+totalEstoque += Number(item.quantidade);
+
+ tabela.innerHTML += `
+ <tr class="${alerta ? 'alerta' : ''}">
+
+ <td>${item.item}</td>
+ <td>${item.quantidade}</td>
+ <td>${item.minimo}</td>
+ 
+
+ <td>
+ <span class="${alerta ? 'status-alerta' : 'status-ok'}">
+ ${alerta ? 'ALERTA' : 'OK'}
+ </span>
+ </td>
+
+ <td>
+ <div class="acoes">
+
+ <button class="entrada"
+ onclick="movimentar('${item.item}','entrada')">
+ +
+ </button>
+
+ <button class="saida"
+ onclick="movimentar('${item.item}','saida')">
+ -
+ </button>
+
+ </div>
+ </td>
+
+ </tr>
+ `;
+
+ });
+
+document.getElementById("totalItens").innerText = totalItens;
+document.getElementById("itensAlerta").innerText = itensAlerta;
+document.getElementById("estoqueTotal").innerText = totalEstoque;
+
+}
+
+async function cadastrar(){
+
+const item = document.getElementById("item").value;
+const quantidade = document.getElementById("quantidade").value;
+const minimo = document.getElementById("minimo").value;
+
+
+if(!item || !quantidade || !minimo){
+alert("Preencha todos os campos");
+return;
+}
+
+await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify({
+tipo:"cadastro",
+item,
+quantidade,
+minimo,
+})
+});
+
+alert("Item cadastrado com sucesso");
+
+ document.getElementById("item").value = "";
+ document.getElementById("quantidade").value = "";
+ document.getElementById("minimo").value = "";
+ 
+
+carregar();
+}
+
+async function movimentar(item,acao){
+
+const quantidade = prompt("Digite a quantidade:");
+
+if(!quantidade) return;
+
+await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify({
+tipo:"movimentacao",
+item,
+acao,
+quantidade
+})
+});
+
+carregar();
+}
+
+carregar();
+
+</script>
+
+</body>
+</html>
