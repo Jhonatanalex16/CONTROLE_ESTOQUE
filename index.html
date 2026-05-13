@@ -28,11 +28,50 @@ body{
 background:#020617;
 color:#e2e8f0;
 overflow-x:hidden;
+transition:0.3s;
 }
 
 .layout{
 display:flex;
 min-height:100vh;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+background:#f1f5f9;
+color:#0f172a;
+}
+
+body.light-mode .sidebar{
+background:white;
+}
+
+body.light-mode .card,
+body.light-mode .card-info,
+body.light-mode table,
+body.light-mode .grafico{
+background:white;
+color:#0f172a;
+}
+
+body.light-mode th{
+background:#e2e8f0;
+color:#0f172a;
+}
+
+body.light-mode input{
+background:#f8fafc;
+color:#0f172a;
+}
+
+body.light-mode .menu button{
+background:#e2e8f0;
+color:#0f172a;
+}
+
+body.light-mode .status-online{
+background:white;
 }
 
 /* SIDEBAR */
@@ -506,15 +545,9 @@ ONLINE
 
 <input id="item" placeholder="Nome do item">
 
-<input
-id="quantidade"
-type="number"
-placeholder="Quantidade">
+<input id="quantidade" type="number" placeholder="Quantidade">
 
-<input
-id="minimo"
-type="number"
-placeholder="Estoque mínimo">
+<input id="minimo" type="number" placeholder="Estoque mínimo">
 
 <button class="btn" onclick="cadastrar()">
 Cadastrar
@@ -610,9 +643,26 @@ onkeyup="filtrarTabela()">
 
 <h2>🕓 Histórico</h2>
 
-<p style="color:#94a3b8;">
-Em breve...
-</p>
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Data</th>
+<th>Ação</th>
+<th>Item</th>
+<th>Quantidade</th>
+</tr>
+
+</thead>
+
+<tbody id="tabelaHistorico"></tbody>
+
+</table>
+
+</div>
 
 </div>
 
@@ -626,9 +676,17 @@ Em breve...
 
 <h2>⚙ Configurações</h2>
 
-<p style="color:#94a3b8;">
-Em breve...
-</p>
+<div style="display:flex;gap:15px;flex-wrap:wrap;">
+
+<button class="btn" onclick="ativarDarkMode()">
+🌙 Tema Escuro
+</button>
+
+<button class="btn" onclick="ativarLightMode()">
+☀ Tema Claro
+</button>
+
+</div>
 
 </div>
 
@@ -640,7 +698,7 @@ Em breve...
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbwDfc6az14wh1YF2qNmZW6NanRET487an62jUUctJgHd-OVoPRrbYhHL3TTaGn2TcLN/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwgLYJQCHWMNm4ic_w1WT-TyLbnrlKoieJkw3VpvEs3zE8XY07Eez31lWCrWZYg0pfY/exec";
 
 let grafico;
 
@@ -672,6 +730,34 @@ event.currentTarget.classList.add("active");
 
 }
 
+function ativarLightMode(){
+
+document.body.classList.add("light-mode");
+
+localStorage.setItem("tema","light");
+
+toast("Tema claro ativado");
+
+}
+
+function ativarDarkMode(){
+
+document.body.classList.remove("light-mode");
+
+localStorage.setItem("tema","dark");
+
+toast("Tema escuro ativado");
+
+}
+
+const temaSalvo = localStorage.getItem("tema");
+
+if(temaSalvo === "light"){
+
+document.body.classList.add("light-mode");
+
+}
+
 function toast(mensagem){
 
 const div = document.createElement("div");
@@ -694,16 +780,25 @@ async function carregar(){
 
 const resposta = await fetch(API_URL);
 
-const dados = await resposta.json();
+const resultado = await resposta.json();
+
+const dados = resultado.estoque;
+
+const historico = resultado.historico;
 
 const tabela = document.getElementById("tabela");
 
 const tabelaAlertas =
 document.getElementById("tabelaAlertas");
 
+const tabelaHistorico =
+document.getElementById("tabelaHistorico");
+
 tabela.innerHTML = "";
 
 tabelaAlertas.innerHTML = "";
+
+tabelaHistorico.innerHTML = "";
 
 let totalItens = dados.length;
 
@@ -795,6 +890,23 @@ onclick="movimentar('${item.item}','saida')">
 </div>
 
 </td>
+
+</tr>
+
+`;
+
+});
+
+historico.reverse().forEach(item=>{
+
+tabelaHistorico.innerHTML += `
+
+<tr>
+
+<td>${new Date(item.data).toLocaleString()}</td>
+<td>${item.acao}</td>
+<td>${item.item}</td>
+<td>${item.quantidade}</td>
 
 </tr>
 
