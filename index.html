@@ -12,51 +12,83 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
+font-family:'Inter',sans-serif;
 }
 body{
-background:#020617;
+background:radial-gradient(circle at top,#0f172a,#020617 60%);
 color:#e2e8f0;
 overflow-x:hidden;
+min-height:100vh;
+}
+body::before{
+content:'';
+position:fixed;
+width:500px;
+height:500px;
+background:rgba(59,130,246,0.15);
+filter:blur(120px);
+top:-200px;
+right:-100px;
+z-index:-1;
+}
+body::after{
+content:'';
+position:fixed;
+1
+width:400px;
+height:400px;
+background:rgba(168,85,247,0.12);
+filter:blur(120px);
+bottom:-150px;
+left:-100px;
+z-index:-1;
 }
 .layout{
 display:flex;
 min-height:100vh;
+padding:20px;
+gap:20px;
 }
 .sidebar{
-width:260px;
-background:rgba(15,23,42,0.95);
-border-right:1px solid rgba(255,255,255,0.05);
-padding:25px;
-position:fixed;
-height:100%;
+width:270px;
+background:rgba(15,23,42,0.75);
+border:1px solid rgba(255,255,255,0.08);
+backdrop-filter:blur(18px);
+border-radius:32px;
+padding:30px 22px;
+height:calc(100vh - 40px);
+position:sticky;
+top:20px;
+box-shadow:0 0 40px rgba(0,0,0,0.35);
 }
 .logo{
-margin-bottom:40px;
+margin-bottom:45px;
 }
 .logo h1{
-1
-font-size:28px;
+font-size:32px;
 font-weight:900;
-background:linear-gradient(90deg,#38bdf8,#2563eb);
+letter-spacing:1px;
+background:linear-gradient(90deg,#38bdf8,#818cf8,#a855f7);
 -webkit-background-clip:text;
 -webkit-text-fill-color:transparent;
 }
 .logo p{
-margin-top:8px;
+margin-top:10px;
 color:#94a3b8;
 font-size:14px;
+line-height:1.5;
 }
 .menu{
 display:flex;
+2
 flex-direction:column;
 gap:14px;
 }
 .menu button{
-background:#111827;
-border:none;
-padding:16px;
-border-radius:16px;
+background:rgba(255,255,255,0.03);
+border:1px solid rgba(255,255,255,0.05);
+padding:18px;
+border-radius:18px;
 color:#cbd5e1;
 font-size:15px;
 font-weight:700;
@@ -64,129 +96,238 @@ cursor:pointer;
 transition:0.3s;
 display:flex;
 align-items:center;
-gap:12px;
+gap:14px;
 }
 .menu button:hover{
-background:#1e293b;
-transform:translateX(4px);
+transform:translateX(6px);
+background:rgba(59,130,246,0.15);
+box-shadow:0 0 25px rgba(59,130,246,0.2);
 }
 .menu-btn.active{
-background:linear-gradient(90deg,#2563eb,#06b6d4);
+background:linear-gradient(90deg,rgba(37,99,235,0.4),rgba(168,85,247,0.3));
+border:1px solid rgba(96,165,250,0.35);
 color:white;
+box-shadow:0 0 30px rgba(59,130,246,0.35);
 }
 .main{
-margin-left:260px;
-padding:30px;
-width:100%;
+flex:1;
 }
 .topo{
-2
 display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:30px;
+padding:28px;
+background:rgba(15,23,42,0.6);
+border:1px solid rgba(255,255,255,0.06);
+backdrop-filter:blur(18px);
+border-radius:30px;
+}
+.topo h2{
+font-size:38px;
+font-weight:900;
+3
+line-height:1.1;
+}
+.topo span{
+background:linear-gradient(90deg,#38bdf8,#a855f7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+.status-badge{
+padding:14px 22px;
+border-radius:18px;
+background:rgba(34,197,94,0.12);
+border:1px solid rgba(34,197,94,0.3);
+color:#4ade80;
+font-weight:800;
 }
 .dashboard{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:22px;
 margin-bottom:30px;
 }
-.card-info,.card,.grafico{
-background:rgba(15,23,42,0.8);
-border:1px solid rgba(255,255,255,0.05);
-padding:24px;
-border-radius:24px;
+.card-info{
+position:relative;
+overflow:hidden;
+background:rgba(15,23,42,0.72);
+border:1px solid rgba(255,255,255,0.06);
+backdrop-filter:blur(20px);
+padding:28px;
+border-radius:30px;
+transition:0.35s;
+}
+.card-info::before{
+content:'';
+position:absolute;
+width:140px;
+height:140px;
+background:rgba(59,130,246,0.18);
+border-radius:50%;
+right:-40px;
+top:-40px;
+filter:blur(10px);
+}
+.card-info:hover{
+transform:translateY(-6px);
+box-shadow:0 0 35px rgba(59,130,246,0.18);
+4
+}
+.card-info h3{
+color:#94a3b8;
+font-size:14px;
+margin-bottom:14px;
 }
 .card-info span{
-font-size:34px;
+font-size:42px;
 font-weight:900;
-color:#38bdf8;
+color:#f8fafc;
+}
+.card,.grafico{
+background:rgba(15,23,42,0.72);
+border:1px solid rgba(255,255,255,0.06);
+backdrop-filter:blur(20px);
+padding:30px;
+border-radius:30px;
+margin-bottom:28px;
+}
+.card h2,.grafico h2{
+font-size:24px;
+margin-bottom:22px;
 }
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:14px;
+gap:16px;
 }
 input{
-background:#0f172a;
-border:1px solid rgba(255,255,255,0.05);
-padding:16px;
-border-radius:16px;
+background:rgba(2,6,23,0.7);
+border:1px solid rgba(255,255,255,0.06);
+padding:18px;
+border-radius:18px;
 color:white;
+font-size:15px;
+transition:0.3s;
 }
-button{
-border:none;
-cursor:pointer;
-transition:0.2s;
+input:focus{
+outline:none;
+border-color:#60a5fa;
+box-shadow:0 0 0 4px rgba(59,130,246,0.18);
 }
 .btn{
-background:linear-gradient(90deg,#2563eb,#06b6d4);
-padding:16px;
-border-radius:16px;
+5
+background:linear-gradient(90deg,#2563eb,#7c3aed);
+padding:18px;
+border:none;
+border-radius:18px;
 color:white;
-3
 font-weight:800;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+}
+.btn:hover{
+transform:translateY(-3px);
+box-shadow:0 0 30px rgba(99,102,241,0.35);
 }
 .table-container{
-overflow-x:auto;
-border-radius:24px;
+overflow:auto;
+border-radius:28px;
 }
 table{
 width:100%;
 border-collapse:collapse;
-background:rgba(15,23,42,0.85);
+background:rgba(15,23,42,0.75);
+border-radius:28px;
+overflow:hidden;
 }
 th{
-background:#111827;
-padding:18px;
+background:rgba(255,255,255,0.04);
+padding:20px;
 text-align:left;
+font-size:14px;
+color:#cbd5e1;
 }
 td{
-padding:18px;
+padding:20px;
 border-bottom:1px solid rgba(255,255,255,0.05);
 }
+tr:hover{
+background:rgba(255,255,255,0.03);
+}
 .alerta{
-background:rgba(127,29,29,0.2);
+background:rgba(127,29,29,0.18);
 }
 .status-ok{
-background:rgba(22,163,74,0.2);
+6
+background:rgba(34,197,94,0.14);
 color:#4ade80;
-padding:8px 12px;
+padding:8px 14px;
 border-radius:999px;
-font-size:13px;
-font-weight:700;
+font-size:12px;
+font-weight:800;
 }
 .status-alerta{
-background:rgba(220,38,38,0.2);
+background:rgba(239,68,68,0.14);
 color:#f87171;
-padding:8px 12px;
+padding:8px 14px;
 border-radius:999px;
-font-size:13px;
-font-weight:700;
+font-size:12px;
+font-weight:800;
 }
 .acoes{
 display:flex;
 gap:10px;
 }
-4
+.entrada,.saida{
+width:42px;
+height:42px;
+border:none;
+border-radius:14px;
+font-size:18px;
+font-weight:900;
+cursor:pointer;
+transition:0.3s;
+}
 .entrada{
-background:#16a34a;
+background:linear-gradient(90deg,#16a34a,#22c55e);
 color:white;
-padding:12px 14px;
-border-radius:12px;
 }
 .saida{
-background:#dc2626;
+background:linear-gradient(90deg,#dc2626,#ef4444);
 color:white;
-padding:12px 14px;
-border-radius:12px;
+}
+.entrada:hover,.saida:hover{
+transform:scale(1.08);
 }
 .secao{
 display:none;
+animation:fade 0.4s;
 }
+7
 .secao.ativa{
 display:block;
+}
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(10px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+@media(max-width:950px){
+.layout{
+flex-direction:column;
+}
+.sidebar{
+width:100%;
+height:auto;
+position:relative;
+}
 }
 </style>
 </head>
@@ -204,12 +345,12 @@ Dashboard
 </button>
 <button onclick="mostrarSecao('estoque')" class="menu-btn">
 <i class="fa-solid fa-box"></i>
+8
 Estoque
 </button>
 <button onclick="mostrarSecao('alertas')" class="menu-btn">
 <i class="fa-solid fa-triangle-exclamation"></i>
 Alertas
-5
 </button>
 </div>
 </div>
@@ -239,13 +380,13 @@ Alertas
 <div id="estoque" class="secao">
 <div class="card">
 <h2> Novo Item</h2>
+9
 <div class="grid">
 <input id="item" placeholder="Nome do item">
 <input id="quantidade" type="number" placeholder="Quantidade">
 <input id="minimo" type="number" placeholder="Mínimo">
 <button class="btn" onclick="cadastrar()">Cadastrar</button>
 </div>
-6
 </div>
 <div class="table-container">
 <table>
@@ -282,10 +423,10 @@ Alertas
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbwDfc6az14wh1YF2qNmZW6NanRET487an62jUUctJgHd-OVoPRrbYhHL3TTaGn2TcLN/exec";
 let grafico;
+10
 function mostrarSecao(secaoId){
 const secoes = document.querySelectorAll('.secao');
 secoes.forEach(secao=>{
-7
 secao.classList.remove('ativa');
 });
 document.getElementById(secaoId).classList.add('ativa');
@@ -317,12 +458,12 @@ tabelaAlertas.innerHTML += `
 totalEstoque += Number(item.quantidade);
 nomes.push(item.item);
 quantidades.push(item.quantidade);
+11
 tabela.innerHTML += `
 <tr class="${alerta ? 'alerta' : ''}">
 <td>${item.item}</td>
 <td>${item.quantidade}</td>
 <td>${item.minimo}</td>
-8
 <td>
 <span class="${alerta ? 'status-alerta' : 'status-ok'}">
 ${alerta ? 'ALERTA' : 'OK'}
@@ -359,11 +500,11 @@ borderWidth:1
 }]
 }
 });
+12
 }
 async function cadastrar(){
 const item = document.getElementById('item').value;
 const quantidade = document.getElementById('quantidade').value;
-9
 const minimo = document.getElementById('minimo').value;
 await fetch(API_URL,{
 method:'POST',
