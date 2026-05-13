@@ -424,14 +424,155 @@ transform:translateY(0);
 }
 }
 
+/* RESPONSIVIDADE MOBILE */
+
 @media(max-width:900px){
 
-.sidebar{
-display:none;
+body{
+overflow-x:hidden;
 }
+
+/* SIDEBAR */
+
+.sidebar{
+width:100%;
+height:auto;
+position:relative;
+padding:15px;
+border-right:none;
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.logo{
+margin-bottom:20px;
+text-align:center;
+}
+
+.logo h1{
+font-size:24px;
+}
+
+.logo p{
+font-size:12px;
+}
+
+.menu{
+flex-direction:row;
+overflow-x:auto;
+padding-bottom:5px;
+}
+
+.menu button{
+min-width:160px;
+justify-content:center;
+font-size:14px;
+padding:14px;
+}
+
+/* MAIN */
 
 .main{
 margin-left:0;
+padding:15px;
+width:100%;
+}
+
+/* TOPO */
+
+.topo{
+flex-direction:column;
+align-items:flex-start;
+gap:15px;
+}
+
+.topo h2{
+font-size:24px;
+}
+
+.status-online{
+width:100%;
+text-align:center;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+grid-template-columns:1fr;
+gap:15px;
+}
+
+.card-info{
+padding:20px;
+}
+
+.card-info span{
+font-size:28px;
+}
+
+/* FORM */
+
+.grid{
+grid-template-columns:1fr;
+}
+
+input{
+width:100%;
+font-size:16px;
+}
+
+.btn{
+width:100%;
+}
+
+/* PESQUISA */
+
+.pesquisa input{
+font-size:16px;
+}
+
+/* TABELAS */
+
+.table-container{
+overflow-x:auto;
+border-radius:18px;
+}
+
+table{
+min-width:700px;
+}
+
+/* AÇÕES */
+
+.acoes{
+flex-direction:row;
+justify-content:center;
+}
+
+.entrada,
+.saida{
+padding:10px 12px;
+font-size:14px;
+}
+
+/* GRÁFICO */
+
+.grafico{
+padding:15px;
+overflow-x:auto;
+}
+
+#graficoEstoque{
+min-height:250px;
+}
+
+/* TOAST */
+
+.toast{
+right:10px;
+left:10px;
+top:10px;
+width:auto;
+font-size:14px;
 }
 
 }
@@ -698,7 +839,7 @@ onkeyup="filtrarTabela()">
 
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbwgLYJQCHWMNm4ic_w1WT-TyLbnrlKoieJkw3VpvEs3zE8XY07Eez31lWCrWZYg0pfY/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw0AjZ8vgnDFfuYFi79SznwHFz0xwIUj4bQgyLE4DZUaR8CpZ42mHCIbzbl3iG1Y52w/exec";
 
 let grafico;
 
