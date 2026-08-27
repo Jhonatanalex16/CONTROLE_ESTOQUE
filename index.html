@@ -475,6 +475,42 @@ color:#38bdf8;
 font-weight:700;
 }
 
+/* =========================
+   PRE-VISUALIZACAO RELATORIO
+========================= */
+.relatorio-modal{
+position:fixed;
+inset:0;
+background:rgba(2,6,23,.88);
+backdrop-filter:blur(8px);
+z-index:10000;
+display:none;
+padding:25px;
+overflow:auto;
+}
+.relatorio-modal.ativo{display:flex;justify-content:center;align-items:flex-start;}
+.relatorio-modal-conteudo{
+width:100%;max-width:1100px;background:#0f172a;color:#e2e8f0;
+border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:28px;margin:10px auto;
+box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.relatorio-modal-topo{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px;}
+.relatorio-modal-topo h2{color:#38bdf8;margin:0;}
+.relatorio-filtros-aplicados{background:#111827;border-radius:16px;padding:16px;margin-bottom:20px;display:flex;gap:22px;flex-wrap:wrap;}
+.relatorio-filtros-aplicados span{color:#94a3b8;}
+.relatorio-filtros-aplicados strong{color:#38bdf8;}
+.relatorio-preview-table{width:100%;border-collapse:collapse;background:#111827;border-radius:16px;overflow:hidden;}
+.relatorio-preview-table th{background:#1e293b;padding:14px;text-align:left;}
+.relatorio-preview-table td{padding:14px;border-bottom:1px solid rgba(255,255,255,.06);}
+.relatorio-preview-resumo{margin-top:18px;padding:16px;background:rgba(37,99,235,.12);border-radius:15px;font-weight:800;}
+.relatorio-modal-acoes{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:22px;}
+.relatorio-modal-acoes button{padding:14px 18px;border-radius:14px;color:#fff;font-weight:800;}
+@media(max-width:700px){.relatorio-modal{padding:10px}.relatorio-modal-conteudo{padding:18px}.relatorio-modal-topo{align-items:flex-start;flex-direction:column}.relatorio-preview-wrap{overflow-x:auto}.relatorio-preview-table{min-width:700px}.relatorio-modal-acoes button{width:100%}}
+body.light-mode .relatorio-modal-conteudo{background:#fff;color:#0f172a}
+body.light-mode .relatorio-filtros-aplicados{background:#f1f5f9}
+body.light-mode .relatorio-preview-table{background:#fff}
+body.light-mode .relatorio-preview-table th{background:#e2e8f0;color:#0f172a}
+
 .toast{
 position:fixed;
 top:20px;
@@ -661,22 +697,6 @@ top:10px;
 
 }
 
-
-/* =========================
-   PRE-VISUALIZACAO DO RELATORIO
-   ========================= */
-.modal-relatorio{position:fixed;inset:0;background:rgba(2,6,23,.88);backdrop-filter:blur(8px);z-index:10000;padding:25px;overflow-y:auto;display:none;}
-.modal-relatorio.ativo{display:flex;justify-content:center;align-items:flex-start;}
-.modal-relatorio-conteudo{width:100%;max-width:1100px;background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:24px;box-shadow:0 25px 80px rgba(0,0,0,.55);overflow:hidden;margin:10px auto;}
-.modal-relatorio-topo{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px 25px;border-bottom:1px solid rgba(255,255,255,.06);}
-.modal-relatorio-topo h2{color:#38bdf8;font-size:20px;}
-.modal-relatorio-preview{background:white;color:#172033;padding:30px;max-height:70vh;overflow:auto;}
-.modal-relatorio-preview table{background:white;color:#172033;}
-.modal-relatorio-preview th{background:#172033;color:white;}
-.modal-relatorio-preview td{color:#172033;}
-.modal-relatorio-acoes{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding:18px 25px;background:#111827;}
-.btn-preview-fechar{background:#dc2626;}.btn-preview-imprimir{background:#16a34a;}.btn-preview-pdf{background:linear-gradient(90deg,#2563eb,#06b6d4);}
-@media(max-width:700px){.modal-relatorio{padding:8px}.modal-relatorio-conteudo{border-radius:16px}.modal-relatorio-preview{padding:15px;max-height:68vh}.modal-relatorio-acoes{padding:15px}.modal-relatorio-acoes .btn{width:100%}.modal-relatorio-topo{padding:15px}}
 </style>
 
 </head>
@@ -1185,7 +1205,7 @@ mínimos e status atuais.
 class="btn"
 onclick="gerarRelatorio('estoque')">
 
-Gerar PDF
+👁️ Visualizar Relatório
 
 </button>
 
@@ -1205,7 +1225,7 @@ estoque mínimo.
 class="btn"
 onclick="gerarRelatorio('alertas')">
 
-Gerar PDF
+👁️ Visualizar Relatório
 
 </button>
 
@@ -1225,7 +1245,7 @@ dentro do período selecionado.
 class="btn"
 onclick="gerarRelatorio('saidas')">
 
-Gerar PDF
+👁️ Visualizar Relatório
 
 </button>
 
@@ -1245,7 +1265,7 @@ para determinado setor.
 class="btn"
 onclick="gerarRelatorio('setor')">
 
-Gerar PDF
+👁️ Visualizar Relatório
 
 </button>
 
@@ -1265,7 +1285,7 @@ destinados a cada setor.
 class="btn"
 onclick="gerarRelatorio('resumo_setor')">
 
-Gerar PDF
+👁️ Visualizar Relatório
 
 </button>
 
@@ -1285,7 +1305,7 @@ de um item específico.
 class="btn"
 onclick="gerarRelatorio('item')">
 
-Gerar PDF
+👁️ Visualizar Relatório
 
 </button>
 
@@ -1305,7 +1325,7 @@ no período selecionado.
 class="btn"
 onclick="gerarRelatorio('historico')">
 
-Gerar PDF
+👁️ Visualizar Relatório
 
 </button>
 
@@ -1318,6 +1338,23 @@ Gerar PDF
 
 </div>
 
+
+<!-- PRE-VISUALIZACAO DO RELATORIO -->
+<div id="modalRelatorio" class="relatorio-modal">
+  <div class="relatorio-modal-conteudo">
+    <div class="relatorio-modal-topo">
+      <div><h2 id="previewTitulo">📊 Relatório</h2><p id="previewSubtitulo" style="color:#94a3b8;margin-top:5px;">Pré-visualização</p></div>
+      <button class="btn btn-danger" onclick="fecharPreVisualizacao()">✕ Fechar</button>
+    </div>
+    <div id="previewFiltros" class="relatorio-filtros-aplicados"></div>
+    <div id="previewConteudo"></div>
+    <div class="relatorio-modal-acoes">
+      <button class="btn btn-success" onclick="imprimirPreVisualizacao()">🖨️ Imprimir</button>
+      <button class="btn" onclick="baixarPDFPreVisualizacao()">📄 Gerar PDF</button>
+      <button class="btn btn-danger" onclick="fecharPreVisualizacao()">✕ Fechar</button>
+    </div>
+  </div>
+</div>
 
 <!-- CONFIGURAÇÕES -->
 
@@ -1360,7 +1397,7 @@ onclick="ativarLightMode()">
 <script>
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyk4SkVLKi5GAz856l6nZ1vayuK2RADK9Wve9c9yOf-xRpDbPNmsM_hn6fCgSPszr2g/exec";
+"https://script.google.com/macros/s/AKfycbxHsRU7uafVL77uvionWkorQypStHYUFL9rOijJeB7PgmXUy2oymx_SdbJF8HKJskfJ/exec";
 
 let grafico = null;
 
@@ -2387,94 +2424,66 @@ select.appendChild(option);
 ========================= */
 
 async function gerarRelatorio(tipo){
+
 const dataInicial=document.getElementById("dataInicial").value;
 const dataFinal=document.getElementById("dataFinal").value;
 const setor=document.getElementById("filtroSetor").value;
 const codigoItem=document.getElementById("filtroItem").value;
-if(dataInicial&&dataFinal&&dataInicial>dataFinal){toast("A data inicial não pode ser maior que a final","erro");return;}
+
+if(dataInicial && dataFinal && dataInicial>dataFinal){
+toast("A data inicial não pode ser maior que a final","erro");
+return;
+}
+
 try{
- toast("Preparando pré-visualização...");
- const resposta=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"relatorio",relatorio:tipo,dataInicial:dataInicial,dataFinal:dataFinal,setor:setor,codigoItem:codigoItem})});
- const resultado=await resposta.json();
- if(!resultado.sucesso){toast(resultado.mensagem||"Erro ao gerar relatório","erro");return;}
- window.relatorioPreviewAtual={pdf:resultado.pdf,nomeArquivo:resultado.nomeArquivo,html:resultado.html||""};
- abrirPreviewRelatorio(resultado.html||"",tipo);
+toast("Preparando relatório...","sucesso");
+const resposta=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"relatorio",relatorio:tipo,dataInicial,dataFinal,setor,codigoItem,modo:"preview"})});
+const resultado=await resposta.json();
+if(!resultado.sucesso){toast(resultado.mensagem||"Erro ao gerar relatório","erro");return;}
+
+window.relatorioPreviewAtual={pdf:resultado.pdf,nomeArquivo:resultado.nomeArquivo};
+
+document.getElementById("previewTitulo").innerText=resultado.titulo||"📊 Relatório";
+document.getElementById("previewSubtitulo").innerText="Pré-visualização do relatório";
+
+document.getElementById("previewFiltros").innerHTML=`
+<span>📅 Período: <strong>${escapeHtml(resultado.filtros?.periodo || "Todos os registros")}</strong></span>
+<span>🏢 Setor: <strong>${escapeHtml(resultado.filtros?.setor || "Todos os setores")}</strong></span>
+<span>📦 Item: <strong>${escapeHtml(resultado.filtros?.item || "Todos os itens")}</strong></span>
+`;
+
+document.getElementById("previewConteudo").innerHTML=resultado.conteudo||"<p>Nenhum dado encontrado.</p>";
+document.getElementById("modalRelatorio").classList.add("ativo");
+
 }catch(erro){console.error(erro);toast("Erro ao preparar relatório","erro");}
 }
-function abrirPreviewRelatorio(html,tipo){
- const preview=document.getElementById("previewRelatorio");
- const titulo=document.getElementById("tituloPreview");
- const titulos={estoque:"📦 Pré-visualização — Estoque Atual",alertas:"⚠️ Pré-visualização — Itens em Alerta",saidas:"📤 Pré-visualização — Saídas",setor:"🏢 Pré-visualização — Relatório por Setor",resumo_setor:"📊 Pré-visualização — Resumo por Setor",item:"📦 Pré-visualização — Movimentações por Item",historico:"📋 Pré-visualização — Histórico Completo"};
- titulo.innerText=titulos[tipo]||"📊 Pré-visualização do relatório";
- const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");
- preview.innerHTML=doc.body?doc.body.innerHTML:html;
- document.getElementById("modalRelatorio").classList.add("ativo");
+
+function fecharPreVisualizacao(){document.getElementById("modalRelatorio").classList.remove("ativo");}
+
+function baixarPDFPreVisualizacao(){
+if(!window.relatorioPreviewAtual?.pdf){toast("PDF não disponível","erro");return;}
+baixarPDF(window.relatorioPreviewAtual.pdf,window.relatorioPreviewAtual.nomeArquivo);
+toast("PDF gerado com sucesso!","sucesso");
 }
-function fecharPreviewRelatorio(){document.getElementById("modalRelatorio").classList.remove("ativo");}
-function imprimirPreviewRelatorio(){
- const preview=document.getElementById("previewRelatorio").innerHTML;const titulo=document.getElementById("tituloPreview").innerText;const janela=window.open("","_blank");
- if(!janela){toast("Permita a abertura de janelas para imprimir","erro");return;}
- janela.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${escapeHtml(titulo)}</title><style>body{font-family:Arial,sans-serif;padding:35px;color:#172033}table{width:100%;border-collapse:collapse;margin-top:20px}th{background:#172033;color:white;padding:10px;text-align:left;font-size:12px}td{padding:9px;border-bottom:1px solid #ddd;font-size:12px}.resumo{display:flex;gap:15px;margin-bottom:25px}.resumo-box{border:1px solid #ddd;padding:15px;border-radius:8px;flex:1}.resumo-box strong{font-size:22px;display:block;margin-top:5px}.rodape{margin-top:30px;font-size:10px;color:#64748b;text-align:center}</style></head><body>${preview}</body></html>`);
- janela.document.close();janela.focus();setTimeout(()=>janela.print(),400);
-}
-function baixarPDFPreview(){
- if(!window.relatorioPreviewAtual||!window.relatorioPreviewAtual.pdf){toast("Gere a pré-visualização primeiro","erro");return;}
- baixarPDF(window.relatorioPreviewAtual.pdf,window.relatorioPreviewAtual.nomeArquivo);toast("PDF baixado com sucesso!","sucesso");
+
+function imprimirPreVisualizacao(){
+const titulo=document.getElementById("previewTitulo").innerText;
+const filtros=document.getElementById("previewFiltros").outerHTML;
+const conteudo=document.getElementById("previewConteudo").innerHTML;
+const janela=window.open("","_blank");
+janela.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${escapeHtml(titulo)}</title><style>body{font-family:Arial,sans-serif;padding:35px;color:#172033}h1{font-size:24px;margin-bottom:20px}.relatorio-filtros-aplicados{display:flex;gap:20px;flex-wrap:wrap;background:#f3f4f6;padding:15px;border-radius:10px}.relatorio-filtros-aplicados span{color:#374151}.relatorio-filtros-aplicados strong{color:#111827}.relatorio-preview-table{width:100%;border-collapse:collapse;margin-top:20px}.relatorio-preview-table th,.relatorio-preview-table td{border:1px solid #d1d5db;padding:10px;text-align:left}.relatorio-preview-table th{background:#e5e7eb}.relatorio-preview-resumo{margin-top:15px;padding:12px;border:1px solid #d1d5db;font-weight:bold}</style></head><body><h1>${escapeHtml(titulo)}</h1>${filtros}${conteudo}</body></html>`);
+janela.document.close();janela.focus();setTimeout(()=>janela.print(),500);
 }
 
 /* =========================
    DOWNLOAD PDF
 ========================= */
-
 function baixarPDF(base64,nomeArquivo){
-
-const byteCharacters=
-atob(base64);
-
-const byteNumbers=
-new Array(byteCharacters.length);
-
-for(
-let i=0;
-i<byteCharacters.length;
-i++
-){
-
-byteNumbers[i]=
-byteCharacters.charCodeAt(i);
-
+const byteCharacters=atob(base64);const byteNumbers=new Array(byteCharacters.length);
+for(let i=0;i<byteCharacters.length;i++)byteNumbers[i]=byteCharacters.charCodeAt(i);
+const byteArray=new Uint8Array(byteNumbers);const blob=new Blob([byteArray],{type:"application/pdf"});
+const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download=nomeArquivo||"relatorio.pdf";document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
 }
-
-const byteArray=
-new Uint8Array(byteNumbers);
-
-const blob=
-new Blob(
-[byteArray],
-{type:"application/pdf"}
-);
-
-const url=
-URL.createObjectURL(blob);
-
-const link=
-document.createElement("a");
-
-link.href=url;
-
-link.download=
-nomeArquivo || "relatorio.pdf";
-
-document.body.appendChild(link);
-
-link.click();
-
-link.remove();
-
-URL.revokeObjectURL(url);
-
-}
-
 
 /* =========================
    UTILITÁRIOS
@@ -2534,20 +2543,6 @@ document
 
 </script>
 
-
-<!-- ========================= MODAL PRE-VISUALIZACAO ========================= -->
-<div id="modalRelatorio" class="modal-relatorio">
-<div class="modal-relatorio-conteudo">
-<div class="modal-relatorio-topo">
-<h2 id="tituloPreview">📊 Pré-visualização do relatório</h2>
-<button class="btn btn-preview-fechar" onclick="fecharPreviewRelatorio()">✕ Fechar</button>
-</div>
-<div id="previewRelatorio" class="modal-relatorio-preview"></div>
-<div class="modal-relatorio-acoes">
-<button class="btn btn-preview-imprimir" onclick="imprimirPreviewRelatorio()">🖨️ Imprimir</button>
-<button class="btn btn-preview-pdf" onclick="baixarPDFPreview()">📄 👁️ Visualizar Relatório</button>
-<button class="btn btn-preview-fechar" onclick="fecharPreviewRelatorio()">✕ Fechar</button>
-</div></div></div>
 </body>
 
 </html>
