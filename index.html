@@ -661,6 +661,22 @@ top:10px;
 
 }
 
+
+/* =========================
+   PRE-VISUALIZACAO DO RELATORIO
+   ========================= */
+.modal-relatorio{position:fixed;inset:0;background:rgba(2,6,23,.88);backdrop-filter:blur(8px);z-index:10000;padding:25px;overflow-y:auto;display:none;}
+.modal-relatorio.ativo{display:flex;justify-content:center;align-items:flex-start;}
+.modal-relatorio-conteudo{width:100%;max-width:1100px;background:#0f172a;border:1px solid rgba(255,255,255,.08);border-radius:24px;box-shadow:0 25px 80px rgba(0,0,0,.55);overflow:hidden;margin:10px auto;}
+.modal-relatorio-topo{display:flex;justify-content:space-between;align-items:center;gap:15px;padding:20px 25px;border-bottom:1px solid rgba(255,255,255,.06);}
+.modal-relatorio-topo h2{color:#38bdf8;font-size:20px;}
+.modal-relatorio-preview{background:white;color:#172033;padding:30px;max-height:70vh;overflow:auto;}
+.modal-relatorio-preview table{background:white;color:#172033;}
+.modal-relatorio-preview th{background:#172033;color:white;}
+.modal-relatorio-preview td{color:#172033;}
+.modal-relatorio-acoes{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding:18px 25px;background:#111827;}
+.btn-preview-fechar{background:#dc2626;}.btn-preview-imprimir{background:#16a34a;}.btn-preview-pdf{background:linear-gradient(90deg,#2563eb,#06b6d4);}
+@media(max-width:700px){.modal-relatorio{padding:8px}.modal-relatorio-conteudo{border-radius:16px}.modal-relatorio-preview{padding:15px;max-height:68vh}.modal-relatorio-acoes{padding:15px}.modal-relatorio-acoes .btn{width:100%}.modal-relatorio-topo{padding:15px}}
 </style>
 
 </head>
@@ -1344,7 +1360,7 @@ onclick="ativarLightMode()">
 <script>
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwC8bByubM3SmwO-CQ3gczSYEHDoTq5OKBNPgJOo3dhqrathCPvapMwavLke_4nm433/exec";
+"https://script.google.com/macros/s/AKfycbyk4SkVLKi5GAz856l6nZ1vayuK2RADK9Wve9c9yOf-xRpDbPNmsM_hn6fCgSPszr2g/exec";
 
 let grafico = null;
 
@@ -2371,104 +2387,40 @@ select.appendChild(option);
 ========================= */
 
 async function gerarRelatorio(tipo){
-
-const dataInicial=
-document
-.getElementById("dataInicial")
-.value;
-
-const dataFinal=
-document
-.getElementById("dataFinal")
-.value;
-
-const setor=
-document
-.getElementById("filtroSetor")
-.value;
-
-const codigoItem=
-document
-.getElementById("filtroItem")
-.value;
-
-
-if(
-dataInicial &&
-dataFinal &&
-dataInicial>dataFinal
-){
-
-toast("A data inicial não pode ser maior que a final","erro");
-
-return;
-
-}
-
-
+const dataInicial=document.getElementById("dataInicial").value;
+const dataFinal=document.getElementById("dataFinal").value;
+const setor=document.getElementById("filtroSetor").value;
+const codigoItem=document.getElementById("filtroItem").value;
+if(dataInicial&&dataFinal&&dataInicial>dataFinal){toast("A data inicial não pode ser maior que a final","erro");return;}
 try{
-
-toast("Gerando relatório...");
-
-
-const resposta=await fetch(API_URL,{
-
-method:"POST",
-
-body:JSON.stringify({
-
-tipo:"relatorio",
-
-relatorio:tipo,
-
-dataInicial:dataInicial,
-
-dataFinal:dataFinal,
-
-setor:setor,
-
-codigoItem:codigoItem
-
-})
-
-});
-
-
-const resultado=await resposta.json();
-
-
-if(!resultado.sucesso){
-
-toast(
-resultado.mensagem ||
-"Erro ao gerar relatório",
-"erro"
-);
-
-return;
-
+ toast("Preparando pré-visualização...");
+ const resposta=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"relatorio",relatorio:tipo,dataInicial:dataInicial,dataFinal:dataFinal,setor:setor,codigoItem:codigoItem})});
+ const resultado=await resposta.json();
+ if(!resultado.sucesso){toast(resultado.mensagem||"Erro ao gerar relatório","erro");return;}
+ window.relatorioPreviewAtual={pdf:resultado.pdf,nomeArquivo:resultado.nomeArquivo,html:resultado.html||""};
+ abrirPreviewRelatorio(resultado.html||"",tipo);
+}catch(erro){console.error(erro);toast("Erro ao preparar relatório","erro");}
 }
-
-
-baixarPDF(
-resultado.pdf,
-resultado.nomeArquivo
-);
-
-
-toast("PDF gerado com sucesso!","sucesso");
-
-
-}catch(erro){
-
-console.error(erro);
-
-toast("Erro ao gerar PDF","erro");
-
+function abrirPreviewRelatorio(html,tipo){
+ const preview=document.getElementById("previewRelatorio");
+ const titulo=document.getElementById("tituloPreview");
+ const titulos={estoque:"📦 Pré-visualização — Estoque Atual",alertas:"⚠️ Pré-visualização — Itens em Alerta",saidas:"📤 Pré-visualização — Saídas",setor:"🏢 Pré-visualização — Relatório por Setor",resumo_setor:"📊 Pré-visualização — Resumo por Setor",item:"📦 Pré-visualização — Movimentações por Item",historico:"📋 Pré-visualização — Histórico Completo"};
+ titulo.innerText=titulos[tipo]||"📊 Pré-visualização do relatório";
+ const parser=new DOMParser();const doc=parser.parseFromString(html,"text/html");
+ preview.innerHTML=doc.body?doc.body.innerHTML:html;
+ document.getElementById("modalRelatorio").classList.add("ativo");
 }
-
+function fecharPreviewRelatorio(){document.getElementById("modalRelatorio").classList.remove("ativo");}
+function imprimirPreviewRelatorio(){
+ const preview=document.getElementById("previewRelatorio").innerHTML;const titulo=document.getElementById("tituloPreview").innerText;const janela=window.open("","_blank");
+ if(!janela){toast("Permita a abertura de janelas para imprimir","erro");return;}
+ janela.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${escapeHtml(titulo)}</title><style>body{font-family:Arial,sans-serif;padding:35px;color:#172033}table{width:100%;border-collapse:collapse;margin-top:20px}th{background:#172033;color:white;padding:10px;text-align:left;font-size:12px}td{padding:9px;border-bottom:1px solid #ddd;font-size:12px}.resumo{display:flex;gap:15px;margin-bottom:25px}.resumo-box{border:1px solid #ddd;padding:15px;border-radius:8px;flex:1}.resumo-box strong{font-size:22px;display:block;margin-top:5px}.rodape{margin-top:30px;font-size:10px;color:#64748b;text-align:center}</style></head><body>${preview}</body></html>`);
+ janela.document.close();janela.focus();setTimeout(()=>janela.print(),400);
 }
-
+function baixarPDFPreview(){
+ if(!window.relatorioPreviewAtual||!window.relatorioPreviewAtual.pdf){toast("Gere a pré-visualização primeiro","erro");return;}
+ baixarPDF(window.relatorioPreviewAtual.pdf,window.relatorioPreviewAtual.nomeArquivo);toast("PDF baixado com sucesso!","sucesso");
+}
 
 /* =========================
    DOWNLOAD PDF
@@ -2582,6 +2534,20 @@ document
 
 </script>
 
+
+<!-- ========================= MODAL PRE-VISUALIZACAO ========================= -->
+<div id="modalRelatorio" class="modal-relatorio">
+<div class="modal-relatorio-conteudo">
+<div class="modal-relatorio-topo">
+<h2 id="tituloPreview">📊 Pré-visualização do relatório</h2>
+<button class="btn btn-preview-fechar" onclick="fecharPreviewRelatorio()">✕ Fechar</button>
+</div>
+<div id="previewRelatorio" class="modal-relatorio-preview"></div>
+<div class="modal-relatorio-acoes">
+<button class="btn btn-preview-imprimir" onclick="imprimirPreviewRelatorio()">🖨️ Imprimir</button>
+<button class="btn btn-preview-pdf" onclick="baixarPDFPreview()">📄 👁️ Visualizar Relatório</button>
+<button class="btn btn-preview-fechar" onclick="fecharPreviewRelatorio()">✕ Fechar</button>
+</div></div></div>
 </body>
 
 </html>
