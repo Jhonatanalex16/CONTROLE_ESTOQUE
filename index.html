@@ -1,2341 +1,488 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>CONTROLE DE ESTOQUE</title>
-
 <link rel="icon" href="./icone.png">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
-
-body{
-background:#020617;
-color:#e2e8f0;
-overflow-x:hidden;
-transition:.3s;
-}
-
-.layout{
-display:flex;
-min-height:100vh;
-}
-
-.sidebar{
-width:260px;
-background:rgba(15,23,42,.95);
-border-right:1px solid rgba(255,255,255,.05);
-padding:25px;
-position:fixed;
-height:100%;
-backdrop-filter:blur(10px);
-z-index:10;
-}
-
-.logo{
-margin-bottom:40px;
-}
-
-.logo h1{
-font-size:28px;
-font-weight:900;
-background:linear-gradient(90deg,#38bdf8,#2563eb);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
-.logo p{
-margin-top:8px;
-color:#94a3b8;
-font-size:14px;
-}
-
-.menu{
-display:flex;
-flex-direction:column;
-gap:14px;
-}
-
-.menu button{
-background:#111827;
-border:none;
-padding:16px;
-border-radius:16px;
-color:#cbd5e1;
-font-size:15px;
-font-weight:700;
-cursor:pointer;
-transition:.3s;
-display:flex;
-align-items:center;
-gap:12px;
-width:100%;
-text-align:left;
-}
-
-.menu button:hover{
-background:#1e293b;
-transform:translateX(4px);
-box-shadow:0 0 20px rgba(59,130,246,.25);
-}
-
-.menu-btn.active{
-background:linear-gradient(90deg,#2563eb,#06b6d4);
-box-shadow:0 0 20px rgba(59,130,246,.3);
-}
-
-.main{
-margin-left:260px;
-padding:30px;
-width:100%;
-}
-
-.topo{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:30px;
-}
-
-.topo h2{
-font-size:30px;
-font-weight:800;
-}
-
-.topo span{
-color:#38bdf8;
-}
-
-.status-online{
-background:#111827;
-padding:14px 20px;
-border-radius:16px;
-font-weight:700;
-color:#4ade80;
-}
-
-.secao{
-display:none;
-}
-
-.secao.ativa{
-display:block;
-}
-
-.dashboard{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
-margin-bottom:30px;
-}
-
-.card-info{
-background:rgba(15,23,42,.8);
-border:1px solid rgba(255,255,255,.05);
-padding:24px;
-border-radius:24px;
-backdrop-filter:blur(10px);
-transition:.3s;
-position:relative;
-overflow:hidden;
-}
-
-.card-info:hover{
-transform:translateY(-4px);
-box-shadow:0 0 25px rgba(59,130,246,.2);
-}
-
-.card-info h3{
-font-size:14px;
-color:#94a3b8;
-margin-bottom:10px;
-}
-
-.card-info span{
-font-size:34px;
-font-weight:900;
-color:#38bdf8;
-}
-
-.card{
-background:rgba(15,23,42,.8);
-padding:28px;
-border-radius:24px;
-border:1px solid rgba(255,255,255,.05);
-margin-bottom:30px;
-}
-
-.card h2{
-margin-bottom:22px;
-font-size:22px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:14px;
-}
-
-input,
-select{
-background:#0f172a;
-border:1px solid rgba(255,255,255,.07);
-padding:16px;
-border-radius:16px;
-color:white;
-font-size:15px;
-width:100%;
-transition:.2s;
-}
-
-select option{
-background:#0f172a;
-color:white;
-}
-
-input::placeholder{
-color:#64748b;
-}
-
-input:focus,
-select:focus{
-outline:none;
-border-color:#2563eb;
-box-shadow:0 0 0 4px rgba(37,99,235,.2);
-}
-
-button{
-border:none;
-cursor:pointer;
-transition:.2s;
-}
-
-.btn{
-background:linear-gradient(90deg,#2563eb,#06b6d4);
-padding:16px 20px;
-border-radius:16px;
-color:white;
-font-weight:800;
-font-size:15px;
-}
-
-.btn:hover{
-transform:scale(1.02);
-box-shadow:0 0 20px rgba(59,130,246,.35);
-}
-
-.btn-success{
-background:#16a34a;
-}
-
-.btn-danger{
-background:#dc2626;
-}
-
-.btn-secondary{
-background:#334155;
-}
-
-.leitor-card{
-border:1px solid rgba(56,189,248,.15);
-}
-
-.leitor-status{
-margin-top:15px;
-padding:15px;
-border-radius:14px;
-background:#0f172a;
-display:none;
-}
-
-.leitor-status.sucesso{
-display:block;
-color:#38bdf8;
-font-weight:800;
-}
-
-.leitor-status.erro{
-display:block;
-color:#f87171;
-font-weight:800;
-}
-
-.item-identificado{
-margin-top:20px;
-display:none;
-background:rgba(22,163,74,.08);
-border:1px solid rgba(74,222,128,.2);
-padding:20px;
-border-radius:18px;
-}
-
-.item-identificado.ativo{
-display:block;
-}
-
-.item-identificado h3{
-color:#4ade80;
-margin-bottom:8px;
-}
-
-.item-identificado strong{
-font-size:24px;
-color:#38bdf8;
-}
-
-.acoes-leitor{
-display:none;
-margin-top:18px;
-gap:12px;
-flex-wrap:wrap;
-}
-
-.acoes-leitor.ativo{
-display:flex;
-}
-
-.acao-box{
-display:none;
-margin-top:18px;
-padding:20px;
-background:#0f172a;
-border-radius:18px;
-border:1px solid rgba(255,255,255,.05);
-}
-
-.acao-box.ativo{
-display:block;
-}
-
-.acao-box h3{
-margin-bottom:15px;
-}
-
-.pesquisa{
-margin-bottom:20px;
-position:relative;
-}
-
-.pesquisa i{
-position:absolute;
-left:18px;
-top:18px;
-color:#64748b;
-}
-
-.pesquisa input{
-padding-left:50px;
-}
-
-.table-container{
-overflow-x:auto;
-border-radius:24px;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-background:rgba(15,23,42,.85);
-border-radius:24px;
-overflow:hidden;
-}
-
-th{
-background:#111827;
-padding:18px;
-text-align:left;
-font-size:14px;
-color:#cbd5e1;
-}
-
-td{
-padding:18px;
-border-bottom:1px solid rgba(255,255,255,.05);
-}
-
-tr:hover{
-background:rgba(255,255,255,.03);
-}
-
-.alerta{
-background:rgba(127,29,29,.2);
-}
-
-.status-ok{
-background:rgba(22,163,74,.2);
-color:#4ade80;
-padding:8px 12px;
-border-radius:999px;
-font-size:13px;
-font-weight:700;
-}
-
-.status-alerta{
-background:rgba(220,38,38,.2);
-color:#f87171;
-padding:8px 12px;
-border-radius:999px;
-font-size:13px;
-font-weight:700;
-}
-
-.acoes{
-display:flex;
-gap:10px;
-}
-
-.entrada{
-background:#16a34a;
-color:white;
-padding:12px 14px;
-border-radius:12px;
-font-weight:900;
-}
-
-.saida{
-background:#dc2626;
-color:white;
-padding:12px 14px;
-border-radius:12px;
-font-weight:900;
-}
-
-.grafico{
-margin-top:30px;
-background:rgba(15,23,42,.8);
-padding:25px;
-border-radius:24px;
-border:1px solid rgba(255,255,255,.05);
-}
-
-.relatorios-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:16px;
-}
-
-.relatorio-box{
-background:#111827;
-padding:20px;
-border-radius:20px;
-border:1px solid rgba(255,255,255,.04);
-}
-
-.relatorio-box h3{
-margin-bottom:10px;
-font-size:17px;
-}
-
-.relatorio-box p{
-font-size:14px;
-color:#94a3b8;
-line-height:1.5;
-margin-bottom:15px;
-}
-
-.filtros{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:14px;
-margin-bottom:25px;
-}
-
-.filtro-grupo label{
-display:block;
-margin-bottom:7px;
-font-size:13px;
-font-weight:700;
-color:#94a3b8;
-}
-
-.relatorio-info{
-display:none;
-padding:16px;
-margin-bottom:20px;
-background:#0f172a;
-border-radius:15px;
-color:#38bdf8;
-font-weight:700;
-}
-
-/* =========================
-   PRE-VISUALIZACAO RELATORIO
-========================= */
-.relatorio-modal{
-position:fixed;
-inset:0;
-background:rgba(2,6,23,.88);
-backdrop-filter:blur(8px);
-z-index:10000;
-display:none;
-padding:25px;
-overflow:auto;
-}
-.relatorio-modal.ativo{display:flex;justify-content:center;align-items:flex-start;}
-.relatorio-filtros-modal-conteudo{max-width:850px;}
-.relatorio-filtros-modal-conteudo .filtros{margin-bottom:0;}
-.relatorio-modal-conteudo{
-width:100%;max-width:1100px;background:#0f172a;color:#e2e8f0;
-border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:28px;margin:10px auto;
-box-shadow:0 20px 60px rgba(0,0,0,.5);
-}
-.relatorio-modal-topo{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px;}
-.relatorio-modal-topo h2{color:#38bdf8;margin:0;}
-.relatorio-filtros-aplicados{background:#111827;border-radius:16px;padding:16px;margin-bottom:20px;display:flex;gap:22px;flex-wrap:wrap;}
-.relatorio-filtros-aplicados span{color:#94a3b8;}
-.relatorio-filtros-aplicados strong{color:#38bdf8;}
-.relatorio-preview-table{width:100%;border-collapse:collapse;background:#111827;border-radius:16px;overflow:hidden;}
-.relatorio-preview-table th{background:#1e293b;padding:14px;text-align:left;}
-.relatorio-preview-table td{padding:14px;border-bottom:1px solid rgba(255,255,255,.06);}
-.relatorio-preview-resumo{margin-top:18px;padding:16px;background:rgba(37,99,235,.12);border-radius:15px;font-weight:800;}
-.relatorio-modal-acoes{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:22px;}
-.relatorio-modal-acoes button{padding:14px 18px;border-radius:14px;color:#fff;font-weight:800;}
-@media(max-width:700px){.relatorio-modal{padding:10px}.relatorio-modal-conteudo{padding:18px}.relatorio-modal-topo{align-items:flex-start;flex-direction:column}.relatorio-preview-wrap{overflow-x:auto}.relatorio-preview-table{min-width:700px}.relatorio-modal-acoes button{width:100%}}
-body.light-mode .relatorio-modal-conteudo{background:#fff;color:#0f172a}
-body.light-mode .relatorio-filtros-aplicados{background:#f1f5f9}
-body.light-mode .relatorio-preview-table{background:#fff}
-body.light-mode .relatorio-preview-table th{background:#e2e8f0;color:#0f172a}
-
-.toast{
-position:fixed;
-top:20px;
-right:20px;
-background:#111827;
-padding:16px 22px;
-border-radius:14px;
-border-left:5px solid #38bdf8;
-font-weight:700;
-box-shadow:0 0 20px rgba(0,0,0,.3);
-animation:fade .3s;
-z-index:9999;
-}
-
-.toast.erro{
-border-left-color:#ef4444;
-}
-
-.toast.sucesso{
-border-left-color:#22c55e;
-}
-
-@keyframes fade{
-
-from{
-opacity:0;
-transform:translateY(-10px);
-}
-
-to{
-opacity:1;
-transform:translateY(0);
-}
-
-}
-
-body.light-mode{
-background:#f1f5f9;
-color:#0f172a;
-}
-
-body.light-mode .sidebar{
-background:white;
-}
-
-body.light-mode .card,
-body.light-mode .card-info,
-body.light-mode table,
-body.light-mode .grafico,
-body.light-mode .leitor-status,
-body.light-mode .acao-box,
-body.light-mode .item-identificado,
-body.light-mode .relatorio-info{
-background:white;
-color:#0f172a;
-}
-
-body.light-mode th{
-background:#e2e8f0;
-color:#0f172a;
-}
-
-body.light-mode input,
-body.light-mode select{
-background:#f8fafc;
-color:#0f172a;
-}
-
-body.light-mode select option{
-background:white;
-color:#0f172a;
-}
-
-body.light-mode .menu button{
-background:#e2e8f0;
-color:#0f172a;
-}
-
-body.light-mode .status-online{
-background:white;
-}
-
-body.light-mode .relatorio-box{
-background:#e2e8f0;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#020617;color:#e2e8f0;overflow-x:hidden;transition:.3s}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:260px;background:rgba(15,23,42,.95);border-right:1px solid rgba(255,255,255,.05);padding:25px;position:fixed;height:100%;backdrop-filter:blur(10px);z-index:10}
+.logo{margin-bottom:40px}.logo h1{font-size:28px;font-weight:900;background:linear-gradient(90deg,#38bdf8,#2563eb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.logo p{margin-top:8px;color:#94a3b8;font-size:14px}
+.menu{display:flex;flex-direction:column;gap:14px}.menu button{background:#111827;border:none;padding:16px;border-radius:16px;color:#cbd5e1;font-size:15px;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:12px;width:100%;text-align:left}.menu button:hover{background:#1e293b;transform:translateX(4px);box-shadow:0 0 20px rgba(59,130,246,.25)}.menu-btn.active{background:linear-gradient(90deg,#2563eb,#06b6d4);box-shadow:0 0 20px rgba(59,130,246,.3)}
+.main{margin-left:260px;padding:30px;width:100%}.topo{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}.topo h2{font-size:30px;font-weight:800}.topo span{color:#38bdf8}.status-online{background:#111827;padding:14px 20px;border-radius:16px;font-weight:700;color:#4ade80}
+.secao{display:none}.secao.ativa{display:block}
+.dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-bottom:30px}
+.card-info{background:rgba(15,23,42,.8);border:1px solid rgba(255,255,255,.05);padding:24px;border-radius:24px;backdrop-filter:blur(10px);transition:.3s;position:relative;overflow:hidden}.card-info:hover{transform:translateY(-4px);box-shadow:0 0 25px rgba(59,130,246,.2)}.card-info h3{font-size:14px;color:#94a3b8;margin-bottom:10px}.card-info span{font-size:34px;font-weight:900;color:#38bdf8}
+.card{background:rgba(15,23,42,.8);padding:28px;border-radius:24px;border:1px solid rgba(255,255,255,.05);margin-bottom:30px}.card h2{margin-bottom:22px;font-size:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+input,select{background:#0f172a;border:1px solid rgba(255,255,255,.07);padding:16px;border-radius:16px;color:white;font-size:15px;width:100%;transition:.2s}select option{background:#0f172a;color:white}input::placeholder{color:#64748b}input:focus,select:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 4px rgba(37,99,235,.2)}
+button{border:none;cursor:pointer;transition:.2s}.btn{background:linear-gradient(90deg,#2563eb,#06b6d4);padding:16px 20px;border-radius:16px;color:white;font-weight:800;font-size:15px}.btn:hover{transform:scale(1.02);box-shadow:0 0 20px rgba(59,130,246,.35)}.btn-success{background:#16a34a}.btn-danger{background:#dc2626}.btn-secondary{background:#334155}
+.leitor-card{border:1px solid rgba(56,189,248,.15)}.leitor-status{margin-top:15px;padding:15px;border-radius:14px;background:#0f172a;display:none}.leitor-status.sucesso{display:block;color:#38bdf8;font-weight:800}.leitor-status.erro{display:block;color:#f87171;font-weight:800}
+.item-identificado{margin-top:20px;display:none;background:rgba(22,163,74,.08);border:1px solid rgba(74,222,128,.2);padding:20px;border-radius:18px}.item-identificado.ativo{display:block}.item-identificado h3{color:#4ade80;margin-bottom:8px}.item-identificado strong{font-size:24px;color:#38bdf8}
+.acoes-leitor{display:none;margin-top:18px;gap:12px;flex-wrap:wrap}.acoes-leitor.ativo{display:flex}.acao-box{display:none;margin-top:18px;padding:20px;background:#0f172a;border-radius:18px;border:1px solid rgba(255,255,255,.05)}.acao-box.ativo{display:block}.acao-box h3{margin-bottom:15px}
+.pesquisa{margin-bottom:20px;position:relative}.pesquisa i{position:absolute;left:18px;top:18px;color:#64748b}.pesquisa input{padding-left:50px}
+.table-container{overflow-x:auto;border-radius:24px}table{width:100%;border-collapse:collapse;background:rgba(15,23,42,.85);border-radius:24px;overflow:hidden}th{background:#111827;padding:18px;text-align:left;font-size:14px;color:#cbd5e1}td{padding:18px;border-bottom:1px solid rgba(255,255,255,.05)}tr:hover{background:rgba(255,255,255,.03)}.alerta{background:rgba(127,29,29,.2)}
+.status-ok{background:rgba(22,163,74,.2);color:#4ade80;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}.status-alerta{background:rgba(220,38,38,.2);color:#f87171;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}
+.acoes{display:flex;gap:10px}.entrada{background:#16a34a;color:white;padding:12px 14px;border-radius:12px;font-weight:900}.saida{background:#dc2626;color:white;padding:12px 14px;border-radius:12px;font-weight:900}
+.grafico{margin-top:30px;background:rgba(15,23,42,.8);padding:25px;border-radius:24px;border:1px solid rgba(255,255,255,.05)}
+.relatorios-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.relatorio-box{background:#111827;padding:20px;border-radius:20px;border:1px solid rgba(255,255,255,.04)}.relatorio-box h3{margin-bottom:10px;font-size:17px}.relatorio-box p{font-size:14px;color:#94a3b8;line-height:1.5;margin-bottom:15px}
+.filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:25px}.filtro-grupo label{display:block;margin-bottom:7px;font-size:13px;font-weight:700;color:#94a3b8}
+.relatorio-modal{position:fixed;inset:0;background:rgba(2,6,23,.88);backdrop-filter:blur(8px);z-index:10000;display:none;padding:25px;overflow:auto}.relatorio-modal.ativo{display:flex;justify-content:center;align-items:flex-start}
+.relatorio-filtros-modal-conteudo{max-width:850px}.relatorio-modal-conteudo{width:100%;max-width:1100px;background:#0f172a;color:#e2e8f0;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:28px;margin:10px auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.relatorio-modal-topo{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}.relatorio-modal-topo h2{color:#38bdf8;margin:0}.relatorio-filtros-aplicados{background:#111827;border-radius:16px;padding:16px;margin-bottom:20px;display:flex;gap:22px;flex-wrap:wrap}.relatorio-filtros-aplicados span{color:#94a3b8}.relatorio-filtros-aplicados strong{color:#38bdf8}
+.relatorio-preview-table{width:100%;border-collapse:collapse;background:#111827;border-radius:16px;overflow:hidden}.relatorio-preview-table th{background:#1e293b;padding:14px;text-align:left}.relatorio-preview-table td{padding:14px;border-bottom:1px solid rgba(255,255,255,.06)}.relatorio-preview-resumo{margin-top:18px;padding:16px;background:rgba(37,99,235,.12);border-radius:15px;font-weight:800}.relatorio-modal-acoes{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:22px}.relatorio-modal-acoes button{padding:14px 18px;border-radius:14px;color:#fff;font-weight:800}
+.toast{position:fixed;top:20px;right:20px;background:#111827;padding:16px 22px;border-radius:14px;border-left:5px solid #38bdf8;font-weight:700;box-shadow:0 0 20px rgba(0,0,0,.3);animation:fade .3s;z-index:9999}.toast.erro{border-left-color:#ef4444}.toast.sucesso{border-left-color:#22c55e}@keyframes fade{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+body.light-mode{background:#f1f5f9;color:#0f172a}body.light-mode .sidebar{background:white}body.light-mode .card,body.light-mode .card-info,body.light-mode table,body.light-mode .grafico,body.light-mode .leitor-status,body.light-mode .acao-box,body.light-mode .item-identificado{background:white;color:#0f172a}body.light-mode th{background:#e2e8f0;color:#0f172a}body.light-mode input,body.light-mode select{background:#f8fafc;color:#0f172a}body.light-mode select option{background:white;color:#0f172a}body.light-mode .menu button{background:#e2e8f0;color:#0f172a}body.light-mode .status-online{background:white}body.light-mode .relatorio-box{background:#e2e8f0}
+body.light-mode .relatorio-modal-conteudo{background:#fff;color:#0f172a}body.light-mode .relatorio-filtros-aplicados{background:#f1f5f9}body.light-mode .relatorio-preview-table{background:#fff}body.light-mode .relatorio-preview-table th{background:#e2e8f0;color:#0f172a}
+
+/* SETORES */
+.lista-setores-vazia{padding:20px;background:#0f172a;border-radius:16px;color:#94a3b8;text-align:center}
+.setor-item{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 18px;margin-bottom:10px;background:#111827;border:1px solid rgba(255,255,255,.05);border-radius:15px;transition:.2s}
+.setor-item:hover{background:#1e293b;transform:translateX(3px)}
+.setor-nome{font-weight:700;color:#e2e8f0;display:flex;align-items:center;gap:10px}
+.btn-excluir-setor{background:#dc2626;color:white;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer}.btn-excluir-setor:hover{background:#b91c1c}
+body.light-mode .lista-setores-vazia{background:#f8fafc;color:#64748b}body.light-mode .setor-item{background:#f8fafc;border-color:#e2e8f0}body.light-mode .setor-item:hover{background:#e2e8f0}body.light-mode .setor-nome{color:#0f172a}
 
 @media(max-width:900px){
-
-.sidebar{
-width:100%;
-height:auto;
-position:relative;
-padding:15px;
-border-right:none;
-border-bottom:1px solid rgba(255,255,255,.05);
+.sidebar{width:100%;height:auto;position:relative;padding:15px;border-right:none;border-bottom:1px solid rgba(255,255,255,.05)}.logo{margin-bottom:20px;text-align:center}.logo h1{font-size:24px}.logo p{font-size:12px}.menu{flex-direction:row;overflow-x:auto;padding-bottom:5px}.menu button{min-width:160px;justify-content:center;font-size:14px;padding:14px;text-align:center}.main{margin-left:0;padding:15px;width:100%}.topo{flex-direction:column;align-items:flex-start;gap:15px}.topo h2{font-size:24px}.status-online{width:100%;text-align:center}.dashboard,.grid{grid-template-columns:1fr}input,select{font-size:16px}.btn{width:100%}table{min-width:750px}.acoes{justify-content:center}.grafico{overflow-x:auto}.toast{right:10px;left:10px;top:10px}.relatorio-modal{padding:10px}.relatorio-modal-conteudo{padding:18px}.relatorio-modal-topo{align-items:flex-start;flex-direction:column}.relatorio-preview-wrap{overflow-x:auto}.relatorio-preview-table{min-width:700px}.relatorio-modal-acoes button{width:100%}
 }
-
-.logo{
-margin-bottom:20px;
-text-align:center;
-}
-
-.logo h1{
-font-size:24px;
-}
-
-.logo p{
-font-size:12px;
-}
-
-.menu{
-flex-direction:row;
-overflow-x:auto;
-padding-bottom:5px;
-}
-
-.menu button{
-min-width:160px;
-justify-content:center;
-font-size:14px;
-padding:14px;
-text-align:center;
-}
-
-.main{
-margin-left:0;
-padding:15px;
-width:100%;
-}
-
-.topo{
-flex-direction:column;
-align-items:flex-start;
-gap:15px;
-}
-
-.topo h2{
-font-size:24px;
-}
-
-.status-online{
-width:100%;
-text-align:center;
-}
-
-.dashboard{
-grid-template-columns:1fr;
-}
-
-.grid{
-grid-template-columns:1fr;
-}
-
-input,
-select{
-font-size:16px;
-}
-
-.btn{
-width:100%;
-}
-
-.table-container{
-overflow-x:auto;
-}
-
-table{
-min-width:750px;
-}
-
-.acoes{
-justify-content:center;
-}
-
-.grafico{
-overflow-x:auto;
-}
-
-.toast{
-right:10px;
-left:10px;
-top:10px;
-}
-
-}
-
 </style>
-
 </head>
 
 <body>
-
 <div class="layout">
 
 <div class="sidebar">
-
 <div class="logo">
-
 <h1>⚡ T.I-HEDA</h1>
-
 <p>SISTEMA DE ESTOQUE</p>
-
 </div>
 
 <div class="menu">
-
-<button class="menu-btn active"
-onclick="mostrarSecao('dashboard',event)">
-<i class="fa-solid fa-chart-line"></i>
-Dashboard
-</button>
-
-<button class="menu-btn"
-onclick="mostrarSecao('estoque',event)">
-<i class="fa-solid fa-box"></i>
-Estoque
-</button>
-
-<button class="menu-btn"
-onclick="mostrarSecao('alertas',event)">
-<i class="fa-solid fa-triangle-exclamation"></i>
-Alertas
-</button>
-
-<button class="menu-btn"
-onclick="mostrarSecao('historico',event)">
-<i class="fa-solid fa-clock-rotate-left"></i>
-Histórico
-</button>
-
-<button class="menu-btn"
-onclick="mostrarSecao('relatorios',event)">
-<i class="fa-solid fa-file-pdf"></i>
-Relatórios
-</button>
-
-<button class="menu-btn"
-onclick="mostrarSecao('config',event)">
-<i class="fa-solid fa-gear"></i>
-Configurações
-</button>
-
+<button class="menu-btn active" onclick="mostrarSecao('dashboard',event)"><i class="fa-solid fa-chart-line"></i>Dashboard</button>
+<button class="menu-btn" onclick="mostrarSecao('estoque',event)"><i class="fa-solid fa-box"></i>Estoque</button>
+<button class="menu-btn" onclick="mostrarSecao('alertas',event)"><i class="fa-solid fa-triangle-exclamation"></i>Alertas</button>
+<button class="menu-btn" onclick="mostrarSecao('historico',event)"><i class="fa-solid fa-clock-rotate-left"></i>Histórico</button>
+<button class="menu-btn" onclick="mostrarSecao('relatorios',event)"><i class="fa-solid fa-file-pdf"></i>Relatórios</button>
+<button class="menu-btn" onclick="mostrarSecao('config',event)"><i class="fa-solid fa-gear"></i>Configurações</button>
 </div>
-
 </div>
-
 
 <div class="main">
 
 <div class="topo">
-
-<div>
-<h2>⚡ Controle de <span>Estoque</span></h2>
+<div><h2>⚡ Controle de <span>Estoque</span></h2></div>
+<div class="status-online">🟢 Sistema Online</div>
 </div>
-
-<div class="status-online">
-🟢 Sistema Online
-</div>
-
-</div>
-
 
 <!-- DASHBOARD -->
-
 <div id="dashboard" class="secao ativa">
-
 <div class="dashboard">
-
-<div class="card-info">
-<h3>Total de Itens</h3>
-<span id="totalItens">0</span>
+<div class="card-info"><h3>Total de Itens</h3><span id="totalItens">0</span></div>
+<div class="card-info"><h3>Itens em Alerta</h3><span id="itensAlerta">0</span></div>
+<div class="card-info"><h3>Total Estoque</h3><span id="estoqueTotal">0</span></div>
+<div class="card-info"><h3>Status</h3><span style="font-size:22px;color:#4ade80">ONLINE</span></div>
 </div>
-
-<div class="card-info">
-<h3>Itens em Alerta</h3>
-<span id="itensAlerta">0</span>
 </div>
-
-<div class="card-info">
-<h3>Total Estoque</h3>
-<span id="estoqueTotal">0</span>
-</div>
-
-<div class="card-info">
-<h3>Status</h3>
-<span style="font-size:22px;color:#4ade80;">
-ONLINE
-</span>
-</div>
-
-</div>
-
-</div>
-
 
 <!-- ESTOQUE -->
-
 <div id="estoque" class="secao">
 
-
-<!-- LEITOR -->
-
 <div class="card leitor-card">
-
 <h2>📷 Leitor de Código de Barras</h2>
-
 <div class="grid">
-
-<input
-id="codigoLeitor"
-placeholder="Bipe o código de barras aqui..."
-autocomplete="off">
-
-<button
-class="btn"
-onclick="identificarCodigo()">
-
-<i class="fa-solid fa-barcode"></i>
-Identificar
-
-</button>
-
+<input id="codigoLeitor" placeholder="Bipe o código de barras aqui..." autocomplete="off">
+<button class="btn" onclick="identificarCodigo()"><i class="fa-solid fa-barcode"></i> Identificar</button>
 </div>
 
+<div id="leitorStatus" class="leitor-status"></div>
 
-<div id="leitorStatus"
-class="leitor-status">
-</div>
-
-
-<div id="itemIdentificado"
-class="item-identificado">
-
+<div id="itemIdentificado" class="item-identificado">
 <h3>✅ Item identificado</h3>
-
 <strong id="nomeItemLeitor">---</strong>
-
-<p style="margin-top:8px;">
-Código:
-<span id="codigoItemLeitor">---</span>
-</p>
-
-<p style="margin-top:5px;">
-Estoque atual:
-<strong id="estoqueItemLeitor"
-style="font-size:18px;color:#4ade80;">
-0
-</strong>
-</p>
-
+<p style="margin-top:8px">Código: <span id="codigoItemLeitor">---</span></p>
+<p style="margin-top:5px">Estoque atual: <strong id="estoqueItemLeitor" style="font-size:18px;color:#4ade80">0</strong></p>
 </div>
-
 
 <div id="acoesLeitor" class="acoes-leitor">
-
-<button
-class="btn btn-success"
-onclick="selecionarAcao('entrada')">
-
-🟢 ADICIONAR ENTRADA
-
-</button>
-
-<button
-class="btn btn-danger"
-onclick="selecionarAcao('saida')">
-
-🔴 DAR SAÍDA
-
-</button>
-
+<button class="btn btn-success" onclick="selecionarAcao('entrada')">🟢 ADICIONAR ENTRADA</button>
+<button class="btn btn-danger" onclick="selecionarAcao('saida')">🔴 DAR SAÍDA</button>
 </div>
-
-
-<!-- ENTRADA -->
 
 <div id="boxEntrada" class="acao-box">
-
 <h3>🟢 Entrada de Estoque</h3>
-
 <div class="grid">
-
-<input
-type="number"
-id="quantidadeEntrada"
-min="1"
-placeholder="Quantidade">
-
-<button
-class="btn btn-success"
-onclick="confirmarEntrada()">
-
-CONFIRMAR ENTRADA
-
-</button>
-
-<button
-class="btn btn-secondary"
-onclick="cancelarOperacao()">
-
-CANCELAR
-
-</button>
-
+<input type="number" id="quantidadeEntrada" min="1" placeholder="Quantidade">
+<button class="btn btn-success" onclick="confirmarEntrada()">CONFIRMAR ENTRADA</button>
+<button class="btn btn-secondary" onclick="cancelarOperacao()">CANCELAR</button>
 </div>
-
 </div>
-
-
-<!-- SAÍDA -->
 
 <div id="boxSaida" class="acao-box">
-
 <h3>🔴 Saída de Estoque</h3>
-
 <div class="grid">
-
-<input
-type="number"
-id="quantidadeSaida"
-min="1"
-placeholder="Quantidade">
-
-<select id="setorSaida">
-
-<option value="">
-Selecione o setor
-</option>
-
-</select>
-
-<button
-class="btn btn-danger"
-onclick="confirmarSaida()">
-
-CONFIRMAR SAÍDA
-
-</button>
-
-<button
-class="btn btn-secondary"
-onclick="cancelarOperacao()">
-
-CANCELAR
-
-</button>
-
+<input type="number" id="quantidadeSaida" min="1" placeholder="Quantidade">
+<select id="setorSaida"><option value="">Selecione o setor</option></select>
+<button class="btn btn-danger" onclick="confirmarSaida()">CONFIRMAR SAÍDA</button>
+<button class="btn btn-secondary" onclick="cancelarOperacao()">CANCELAR</button>
 </div>
-
 </div>
-
 </div>
-
-
-<!-- NOVO ITEM -->
 
 <div class="card">
-
 <h2>📦 Novo Item</h2>
-
 <div class="grid">
-
-<input
-id="item"
-placeholder="Nome do item">
-
-<input
-id="codigo"
-placeholder="Código de barras">
-
-<input
-id="quantidade"
-type="number"
-min="0"
-placeholder="Quantidade">
-
-<input
-id="minimo"
-type="number"
-min="0"
-placeholder="Estoque mínimo">
-
-<button
-class="btn"
-onclick="cadastrar()">
-
-Cadastrar
-
-</button>
-
+<input id="item" placeholder="Nome do item">
+<input id="codigo" placeholder="Código de barras">
+<input id="quantidade" type="number" min="0" placeholder="Quantidade">
+<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
+<button class="btn" onclick="cadastrar()">Cadastrar</button>
 </div>
-
 </div>
-
 
 <div class="pesquisa">
-
 <i class="fa-solid fa-magnifying-glass"></i>
-
-<input
-type="text"
-id="pesquisa"
-placeholder="Pesquisar item..."
-onkeyup="filtrarTabela()">
-
+<input type="text" id="pesquisa" placeholder="Pesquisar item..." onkeyup="filtrarTabela()">
 </div>
-
 
 <div class="table-container">
-
 <table>
-
-<thead>
-
-<tr>
-
-<th>Item</th>
-<th>Código</th>
-<th>Quantidade</th>
-<th>Mínimo</th>
-<th>Status</th>
-<th>Ações</th>
-
-</tr>
-
-</thead>
-
+<thead><tr><th>Item</th><th>Código</th><th>Quantidade</th><th>Mínimo</th><th>Status</th><th>Ações</th></tr></thead>
 <tbody id="tabela"></tbody>
-
 </table>
-
 </div>
-
 
 <div class="grafico">
-
-<h2 style="margin-bottom:20px;">
-📊 Visão Estoque
-</h2>
-
+<h2 style="margin-bottom:20px">📊 Visão Estoque</h2>
 <canvas id="graficoEstoque"></canvas>
-
 </div>
-
 </div>
-
 
 <!-- ALERTAS -->
-
 <div id="alertas" class="secao">
-
 <div class="card">
-
 <h2>⚠ Alertas</h2>
-
 <div class="table-container">
-
 <table>
-
-<thead>
-
-<tr>
-<th>Item</th>
-<th>Código</th>
-<th>Quantidade</th>
-<th>Mínimo</th>
-</tr>
-
-</thead>
-
+<thead><tr><th>Item</th><th>Código</th><th>Quantidade</th><th>Mínimo</th></tr></thead>
 <tbody id="tabelaAlertas"></tbody>
-
 </table>
-
 </div>
-
 </div>
-
 </div>
-
 
 <!-- HISTÓRICO -->
-
 <div id="historico" class="secao">
-
 <div class="card">
-
 <h2>🕓 Histórico</h2>
-
 <div class="table-container">
-
 <table>
-
-<thead>
-
-<tr>
-<th>Data</th>
-<th>Ação</th>
-<th>Item</th>
-<th>Código</th>
-<th>Quantidade</th>
-<th>Setor</th>
-</tr>
-
-</thead>
-
+<thead><tr><th>Data</th><th>Ação</th><th>Item</th><th>Código</th><th>Quantidade</th><th>Setor</th></tr></thead>
 <tbody id="tabelaHistorico"></tbody>
-
 </table>
-
 </div>
-
 </div>
-
 </div>
-
 
 <!-- RELATÓRIOS -->
-
 <div id="relatorios" class="secao">
-
 <div class="card">
-
 <h2>📊 Relatórios</h2>
 
 <div class="relatorios-grid">
 
+<div class="relatorio-box"><h3>📦 Estoque Atual</h3><p>Lista todos os itens, quantidades, mínimos e status atuais.</p><button class="btn" onclick="gerarRelatorio('estoque')">👁️ Visualizar Relatório</button></div>
 
-<div class="relatorio-box">
+<div class="relatorio-box"><h3>⚠️ Itens em Alerta</h3><p>Lista os produtos abaixo ou no estoque mínimo.</p><button class="btn" onclick="gerarRelatorio('alertas')">👁️ Visualizar Relatório</button></div>
 
-<h3>📦 Estoque Atual</h3>
+<div class="relatorio-box"><h3>📤 Saídas</h3><p>Lista as retiradas realizadas dentro do período selecionado.</p><button class="btn" onclick="gerarRelatorio('saidas')">👁️ Visualizar Relatório</button></div>
 
-<p>
-Lista todos os itens, quantidades,
-mínimos e status atuais.
-</p>
+<div class="relatorio-box"><h3>🏢 Por Setor</h3><p>Mostra tudo que foi destinado para determinado setor.</p><button class="btn" onclick="gerarRelatorio('setor')">👁️ Visualizar Relatório</button></div>
 
-<button
-class="btn"
-onclick="gerarRelatorio('estoque')">
+<div class="relatorio-box"><h3>📊 Resumo por Setor</h3><p>Compara a quantidade de itens destinados a cada setor.</p><button class="btn" onclick="gerarRelatorio('resumo_setor')">👁️ Visualizar Relatório</button></div>
 
-👁️ Visualizar Relatório
+<div class="relatorio-box"><h3>📦 Movimentações por Item</h3><p>Mostra entradas e saídas de um item específico.</p><button class="btn" onclick="gerarRelatorio('item')">👁️ Visualizar Relatório</button></div>
 
-</button>
+<div class="relatorio-box"><h3>📋 Histórico Completo</h3><p>Todas as movimentações registradas no período selecionado.</p><button class="btn" onclick="gerarRelatorio('historico')">👁️ Visualizar Relatório</button></div>
 
 </div>
-
-
-<div class="relatorio-box">
-
-<h3>⚠️ Itens em Alerta</h3>
-
-<p>
-Lista os produtos abaixo ou no
-estoque mínimo.
-</p>
-
-<button
-class="btn"
-onclick="gerarRelatorio('alertas')">
-
-👁️ Visualizar Relatório
-
-</button>
-
 </div>
-
-
-<div class="relatorio-box">
-
-<h3>📤 Saídas</h3>
-
-<p>
-Lista as retiradas realizadas
-dentro do período selecionado.
-</p>
-
-<button
-class="btn"
-onclick="gerarRelatorio('saidas')">
-
-👁️ Visualizar Relatório
-
-</button>
-
-</div>
-
-
-<div class="relatorio-box">
-
-<h3>🏢 Por Setor</h3>
-
-<p>
-Mostra tudo que foi destinado
-para determinado setor.
-</p>
-
-<button
-class="btn"
-onclick="gerarRelatorio('setor')">
-
-👁️ Visualizar Relatório
-
-</button>
-
-</div>
-
-
-<div class="relatorio-box">
-
-<h3>📊 Resumo por Setor</h3>
-
-<p>
-Compara a quantidade de itens
-destinados a cada setor.
-</p>
-
-<button
-class="btn"
-onclick="gerarRelatorio('resumo_setor')">
-
-👁️ Visualizar Relatório
-
-</button>
-
-</div>
-
-
-<div class="relatorio-box">
-
-<h3>📦 Movimentações por Item</h3>
-
-<p>
-Mostra entradas e saídas
-de um item específico.
-</p>
-
-<button
-class="btn"
-onclick="gerarRelatorio('item')">
-
-👁️ Visualizar Relatório
-
-</button>
-
-</div>
-
-
-<div class="relatorio-box">
-
-<h3>📋 Histórico Completo</h3>
-
-<p>
-Todas as movimentações registradas
-no período selecionado.
-</p>
-
-<button
-class="btn"
-onclick="gerarRelatorio('historico')">
-
-👁️ Visualizar Relatório
-
-</button>
-
-</div>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- FILTROS DO RELATORIO -->
-<div id="modalFiltrosRelatorio" class="relatorio-modal">
-  <div class="relatorio-modal-conteudo relatorio-filtros-modal-conteudo">
-    <div class="relatorio-modal-topo">
-      <div>
-        <h2 id="filtroRelatorioTitulo">🔎 Filtros do Relatório</h2>
-        <p style="color:#94a3b8;margin-top:5px;">Selecione os filtros antes de gerar o relatório.</p>
-      </div>
-      <button class="btn btn-danger" onclick="fecharFiltrosRelatorio()">✕ Fechar</button>
-    </div>
-
-    <div class="filtros">
-      <div class="filtro-grupo">
-        <label>Data inicial</label>
-        <input type="date" id="dataInicial">
-      </div>
-      <div class="filtro-grupo">
-        <label>Data final</label>
-        <input type="date" id="dataFinal">
-      </div>
-      <div class="filtro-grupo">
-        <label>Setor</label>
-        <select id="filtroSetor">
-          <option value="">Todos os setores</option>
-        </select>
-      </div>
-      <div class="filtro-grupo">
-        <label>Item</label>
-        <select id="filtroItem">
-          <option value="">Todos os itens</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="relatorio-modal-acoes">
-      <button class="btn btn-danger" onclick="fecharFiltrosRelatorio()">Cancelar</button>
-      <button class="btn" onclick="confirmarGerarRelatorio()">📊 Gerar Relatório</button>
-    </div>
-  </div>
-</div>
-
-<!-- PRE-VISUALIZACAO DO RELATORIO -->
-<div id="modalRelatorio" class="relatorio-modal">
-  <div class="relatorio-modal-conteudo">
-    <div class="relatorio-modal-topo">
-      <div><h2 id="previewTitulo">📊 Relatório</h2><p id="previewSubtitulo" style="color:#94a3b8;margin-top:5px;">Pré-visualização</p></div>
-      <button class="btn btn-danger" onclick="fecharPreVisualizacao()">✕ Fechar</button>
-    </div>
-    <div id="previewFiltros" class="relatorio-filtros-aplicados"></div>
-    <div id="previewConteudo"></div>
-    <div class="relatorio-modal-acoes">
-      <button class="btn btn-success" onclick="imprimirPreVisualizacao()">🖨️ Imprimir</button>
-      <button class="btn" onclick="baixarPDFPreVisualizacao()">📄 Gerar PDF</button>
-      <button class="btn btn-danger" onclick="fecharPreVisualizacao()">✕ Fechar</button>
-    </div>
-  </div>
 </div>
 
 <!-- CONFIGURAÇÕES -->
-
 <div id="config" class="secao">
 
 <div class="card">
-
 <h2>⚙ Configurações</h2>
+<div style="display:flex;gap:15px;flex-wrap:wrap">
+<button class="btn" onclick="ativarDarkMode()">🌙 Tema Escuro</button>
+<button class="btn" onclick="ativarLightMode()">☀ Tema Claro</button>
+</div>
+</div>
 
-<div style="display:flex;gap:15px;flex-wrap:wrap;">
+<div class="card">
+<h2>🏢 Gerenciar Setores</h2>
+<p style="color:#94a3b8;margin-bottom:20px">
+Cadastre e gerencie os setores utilizados nas saídas de estoque e nos relatórios.
+</p>
 
-<button
-class="btn"
-onclick="ativarDarkMode()">
+<div class="grid">
+<input type="text" id="novoSetor" placeholder="Digite o nome do setor..." maxlength="100">
+<button class="btn btn-success" onclick="adicionarSetor()">➕ Adicionar Setor</button>
+</div>
 
-🌙 Tema Escuro
-
-</button>
-
-<button
-class="btn"
-onclick="ativarLightMode()">
-
-☀ Tema Claro
-
-</button>
-
+<div id="listaSetores" style="margin-top:25px"></div>
 </div>
 
 </div>
 
 </div>
-
-
 </div>
 
+<!-- FILTROS -->
+<div id="modalFiltrosRelatorio" class="relatorio-modal">
+<div class="relatorio-modal-conteudo relatorio-filtros-modal-conteudo">
+<div class="relatorio-modal-topo">
+<div>
+<h2 id="filtroRelatorioTitulo">🔎 Filtros do Relatório</h2>
+<p style="color:#94a3b8;margin-top:5px">Selecione os filtros antes de gerar o relatório.</p>
+</div>
+<button class="btn btn-danger" onclick="fecharFiltrosRelatorio()">✕ Fechar</button>
 </div>
 
+<div class="filtros">
+<div class="filtro-grupo"><label>Data inicial</label><input type="date" id="dataInicial"></div>
+<div class="filtro-grupo"><label>Data final</label><input type="date" id="dataFinal"></div>
+<div class="filtro-grupo"><label>Setor</label><select id="filtroSetor"><option value="">Todos os setores</option></select></div>
+<div class="filtro-grupo"><label>Item</label><select id="filtroItem"><option value="">Todos os itens</option></select></div>
+</div>
+
+<div class="relatorio-modal-acoes">
+<button class="btn btn-danger" onclick="fecharFiltrosRelatorio()">Cancelar</button>
+<button class="btn" onclick="confirmarGerarRelatorio()">📊 Gerar Relatório</button>
+</div>
+</div>
+</div>
+
+<!-- PREVIEW -->
+<div id="modalRelatorio" class="relatorio-modal">
+<div class="relatorio-modal-conteudo">
+<div class="relatorio-modal-topo">
+<div>
+<h2 id="previewTitulo">📊 Relatório</h2>
+<p id="previewSubtitulo" style="color:#94a3b8;margin-top:5px">Pré-visualização</p>
+</div>
+<button class="btn btn-danger" onclick="fecharPreVisualizacao()">✕ Fechar</button>
+</div>
+<div id="previewFiltros" class="relatorio-filtros-aplicados"></div>
+<div id="previewConteudo"></div>
+<div class="relatorio-modal-acoes">
+<button class="btn btn-success" onclick="imprimirPreVisualizacao()">🖨️ Imprimir</button>
+<button class="btn" onclick="baixarPDFPreVisualizacao()">📄 Gerar PDF</button>
+<button class="btn btn-danger" onclick="fecharPreVisualizacao()">✕ Fechar</button>
+</div>
+</div>
+</div>
 
 <script>
+const API_URL="https://script.google.com/macros/s/AKfycbyQNtUOdQomremcQo-VdCkzj9C-BH25xcMlIgNCbea-L9kLWynGqMaU85ZF1efttPLW/exec";
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbwGZpoDe6myM9WOTJxs9i0oIz8qpy5Giyw6xAq3_m0LtFdfFnWiFUVodcAJVqpAO6pA/exec";
+let grafico=null;
+let dadosGlobais=[];
+let historicoGlobal=[];
+let setoresGlobais=[];
+let itemSelecionado=null;
+let tipoRelatorioSelecionado="";
 
-let grafico = null;
-
-let dadosGlobais = [];
-
-let historicoGlobal = [];
-
-let itemSelecionado = null;
-
-
-/* =========================
-   NAVEGAÇÃO
-========================= */
-
-function mostrarSecao(secaoId,event){
-
-document
-.querySelectorAll(".secao")
-.forEach(secao=>{
-secao.classList.remove("ativa");
-});
-
-document
-.getElementById(secaoId)
-.classList.add("ativa");
-
-document
-.querySelectorAll(".menu-btn")
-.forEach(btn=>{
-btn.classList.remove("active");
-});
-
-if(event){
-event.currentTarget.classList.add("active");
+function mostrarSecao(id,event){
+document.querySelectorAll(".secao").forEach(x=>x.classList.remove("ativa"));
+document.getElementById(id).classList.add("ativa");
+document.querySelectorAll(".menu-btn").forEach(x=>x.classList.remove("active"));
+if(event)event.currentTarget.classList.add("active");
 }
 
+function ativarLightMode(){document.body.classList.add("light-mode");localStorage.setItem("tema","light");toast("Tema claro ativado","sucesso")}
+function ativarDarkMode(){document.body.classList.remove("light-mode");localStorage.setItem("tema","dark");toast("Tema escuro ativado","sucesso")}
+if(localStorage.getItem("tema")==="light")document.body.classList.add("light-mode");
+
+function toast(msg,tipo=""){
+const d=document.createElement("div");d.className="toast "+tipo;d.innerText=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),3000);
 }
-
-
-/* =========================
-   TEMA
-========================= */
-
-function ativarLightMode(){
-
-document.body.classList.add("light-mode");
-
-localStorage.setItem("tema","light");
-
-toast("Tema claro ativado","sucesso");
-
-}
-
-function ativarDarkMode(){
-
-document.body.classList.remove("light-mode");
-
-localStorage.setItem("tema","dark");
-
-toast("Tema escuro ativado","sucesso");
-
-}
-
-if(localStorage.getItem("tema")==="light"){
-document.body.classList.add("light-mode");
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-function toast(mensagem,tipo=""){
-
-const div=document.createElement("div");
-
-div.className="toast "+tipo;
-
-div.innerText=mensagem;
-
-document.body.appendChild(div);
-
-setTimeout(()=>{
-div.remove();
-},3000);
-
-}
-
-
-/* =========================
-   CARREGAR
-========================= */
 
 async function carregar(){
-
 try{
-
-const resposta=await fetch(API_URL);
-
-if(!resposta.ok){
-throw new Error("Erro na comunicação");
-}
-
-const resultado=await resposta.json();
-
-dadosGlobais=resultado.estoque || [];
-
-historicoGlobal=resultado.historico || [];
-
+const r=await fetch(API_URL);
+if(!r.ok)throw new Error("Erro na comunicação");
+const resultado=await r.json();
+dadosGlobais=resultado.estoque||[];
+historicoGlobal=resultado.historico||[];
 renderizarTudo();
-
-carregarSetores(resultado.setores || []);
-
+carregarSetores(resultado.setores||[]);
 carregarItensRelatorios();
-
-}catch(erro){
-
-console.error(erro);
-
-toast("Erro ao carregar os dados","erro");
-
+}catch(e){console.error(e);toast("Erro ao carregar os dados","erro")}
 }
-
-}
-
-
-/* =========================
-   RENDERIZAR
-========================= */
 
 function renderizarTudo(){
-
 const tabela=document.getElementById("tabela");
-
-const tabelaAlertas=
-document.getElementById("tabelaAlertas");
-
-const tabelaHistorico=
-document.getElementById("tabelaHistorico");
-
-tabela.innerHTML="";
-
-tabelaAlertas.innerHTML="";
-
-tabelaHistorico.innerHTML="";
-
-let totalEstoque=0;
-
-let itensAlerta=0;
-
-const nomes=[];
-
-const quantidades=[];
-
+const alertas=document.getElementById("tabelaAlertas");
+const hist=document.getElementById("tabelaHistorico");
+tabela.innerHTML="";alertas.innerHTML="";hist.innerHTML="";
+let total=0,alertasCount=0,n=[],q=[];
 
 dadosGlobais.forEach(item=>{
-
-const alerta=
-Number(item.quantidade)
-<=
-Number(item.minimo);
-
+const alerta=Number(item.quantidade)<=Number(item.minimo);
 if(alerta){
-
-itensAlerta++;
-
-tabelaAlertas.innerHTML+=`
-
-<tr>
-
-<td>${escapeHtml(item.item)}</td>
-
-<td>${escapeHtml(item.codigo)}</td>
-
-<td>${item.quantidade}</td>
-
-<td>${item.minimo}</td>
-
-</tr>
-
-`;
-
+alertasCount++;
+alertas.innerHTML+=`<tr><td>${escapeHtml(item.item)}</td><td>${escapeHtml(item.codigo)}</td><td>${item.quantidade}</td><td>${item.minimo}</td></tr>`;
 }
-
-totalEstoque+=Number(item.quantidade);
-
-nomes.push(item.item);
-
-quantidades.push(Number(item.quantidade));
-
-
-tabela.innerHTML+=`
-
-<tr class="${alerta ? "alerta":""}">
-
-<td>${escapeHtml(item.item)}</td>
-
-<td>${escapeHtml(item.codigo)}</td>
-
-<td>${item.quantidade}</td>
-
-<td>${item.minimo}</td>
-
-<td>
-
-<span class="${alerta ? "status-alerta":"status-ok"}">
-
-${alerta ? "ALERTA":"OK"}
-
-</span>
-
-</td>
-
-<td>
-
-<div class="acoes">
-
-<button
-class="entrada"
-onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">
-
-+
-
-</button>
-
-<button
-class="saida"
-onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">
-
-−
-
-</button>
-
-</div>
-
-</td>
-
-</tr>
-
-`;
-
+total+=Number(item.quantidade);n.push(item.item);q.push(Number(item.quantidade));
+tabela.innerHTML+=`<tr class="${alerta?"alerta":""}">
+<td>${escapeHtml(item.item)}</td><td>${escapeHtml(item.codigo)}</td><td>${item.quantidade}</td><td>${item.minimo}</td>
+<td><span class="${alerta?"status-alerta":"status-ok"}">${alerta?"ALERTA":"OK"}</span></td>
+<td><div class="acoes"><button class="entrada" onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">+</button>
+<button class="saida" onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">−</button></div></td></tr>`;
 });
 
-
-historicoGlobal
-.slice()
-.reverse()
-.forEach(item=>{
-
-tabelaHistorico.innerHTML+=`
-
-<tr>
-
-<td>${formatarData(item.data)}</td>
-
-<td>${escapeHtml(item.acao)}</td>
-
-<td>${escapeHtml(item.item)}</td>
-
-<td>${escapeHtml(item.codigo)}</td>
-
-<td>${item.quantidade}</td>
-
-<td>${escapeHtml(item.setor || "-")}</td>
-
-</tr>
-
-`;
-
+historicoGlobal.slice().reverse().forEach(x=>{
+hist.innerHTML+=`<tr><td>${formatarData(x.data)}</td><td>${escapeHtml(x.acao)}</td><td>${escapeHtml(x.item)}</td><td>${escapeHtml(x.codigo)}</td><td>${x.quantidade}</td><td>${escapeHtml(x.setor||"-")}</td></tr>`;
 });
 
-
-document.getElementById("totalItens").innerText=
-dadosGlobais.length;
-
-document.getElementById("itensAlerta").innerText=
-itensAlerta;
-
-document.getElementById("estoqueTotal").innerText=
-totalEstoque;
-
-
-gerarGrafico(nomes,quantidades);
-
+document.getElementById("totalItens").innerText=dadosGlobais.length;
+document.getElementById("itensAlerta").innerText=alertasCount;
+document.getElementById("estoqueTotal").innerText=total;
+gerarGrafico(n,q);
 }
-
-
-/* =========================
-   GRÁFICO
-========================= */
 
 function gerarGrafico(labels,data){
-
-const canvas=
-document.getElementById("graficoEstoque");
-
-if(!canvas)return;
-
-const ctx=canvas.getContext("2d");
-
-if(grafico){
-grafico.destroy();
+const c=document.getElementById("graficoEstoque");if(!c)return;
+if(grafico)grafico.destroy();
+grafico=new Chart(c.getContext("2d"),{type:"bar",data:{labels,datasets:[{label:"Quantidade",data,borderWidth:1}]},options:{responsive:true,plugins:{legend:{labels:{color:"white"}}},scales:{x:{ticks:{color:"white"}},y:{ticks:{color:"white"}}}}});
 }
 
-grafico=new Chart(ctx,{
-
-type:"bar",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Quantidade",
-
-data:data,
-
-borderWidth:1
-
-}]
-
-},
-
-options:{
-
-responsive:true,
-
-plugins:{
-
-legend:{
-labels:{
-color:"white"
-}
-}
-
-},
-
-scales:{
-
-x:{
-ticks:{
-color:"white"
-}
-},
-
-y:{
-ticks:{
-color:"white"
-}
-}
-
-}
-
-}
-
+document.getElementById("codigoLeitor").addEventListener("keydown",e=>{
+if(e.key==="Enter"){e.preventDefault();identificarCodigo()}
 });
-
-}
-
-
-/* =========================
-   LEITOR
-========================= */
-
-document
-.getElementById("codigoLeitor")
-.addEventListener("keydown",function(event){
-
-if(event.key==="Enter"){
-
-event.preventDefault();
-
-identificarCodigo();
-
-}
-
-});
-
 
 async function identificarCodigo(){
-
-const codigo=
-document
-.getElementById("codigoLeitor")
-.value
-.trim();
-
-if(!codigo){
-
-toast("Bipe ou digite um código","erro");
-
-return;
-
-}
-
-const item=
-dadosGlobais.find(
-x=>
-String(x.codigo).trim().toLowerCase()
-===
-codigo.toLowerCase()
-);
-
-
-const status=
-document.getElementById("leitorStatus");
-
-
+const codigo=document.getElementById("codigoLeitor").value.trim();
+if(!codigo){toast("Bipe ou digite um código","erro");return}
+const item=dadosGlobais.find(x=>String(x.codigo).trim().toLowerCase()===codigo.toLowerCase());
+const status=document.getElementById("leitorStatus");
 if(!item){
-
 itemSelecionado=null;
-
-document
-.getElementById("itemIdentificado")
-.classList.remove("ativo");
-
-document
-.getElementById("acoesLeitor")
-.classList.remove("ativo");
-
-status.className="leitor-status erro";
-
-status.innerText=
-"❌ Código não encontrado no estoque.";
-
-return;
-
+document.getElementById("itemIdentificado").classList.remove("ativo");
+document.getElementById("acoesLeitor").classList.remove("ativo");
+status.className="leitor-status erro";status.innerText="❌ Código não encontrado no estoque.";return;
 }
-
-
 itemSelecionado=item;
-
-document
-.getElementById("nomeItemLeitor")
-.innerText=item.item;
-
-document
-.getElementById("codigoItemLeitor")
-.innerText=item.codigo;
-
-document
-.getElementById("estoqueItemLeitor")
-.innerText=item.quantidade;
-
-document
-.getElementById("itemIdentificado")
-.classList.add("ativo");
-
-document
-.getElementById("acoesLeitor")
-.classList.add("ativo");
-
-document
-.getElementById("boxEntrada")
-.classList.remove("ativo");
-
-document
-.getElementById("boxSaida")
-.classList.remove("ativo");
-
-status.className="leitor-status sucesso";
-
-status.innerText=
-"✅ Item identificado com sucesso.";
-
+document.getElementById("nomeItemLeitor").innerText=item.item;
+document.getElementById("codigoItemLeitor").innerText=item.codigo;
+document.getElementById("estoqueItemLeitor").innerText=item.quantidade;
+document.getElementById("itemIdentificado").classList.add("ativo");
+document.getElementById("acoesLeitor").classList.add("ativo");
+document.getElementById("boxEntrada").classList.remove("ativo");
+document.getElementById("boxSaida").classList.remove("ativo");
+status.className="leitor-status sucesso";status.innerText="✅ Item identificado com sucesso.";
 }
-
-
-/* =========================
-   ESCOLHER ENTRADA / SAÍDA
-========================= */
 
 function selecionarAcao(acao){
-
 if(!itemSelecionado)return;
-
-document
-.getElementById("boxEntrada")
-.classList.remove("ativo");
-
-document
-.getElementById("boxSaida")
-.classList.remove("ativo");
-
-
+document.getElementById("boxEntrada").classList.remove("ativo");
+document.getElementById("boxSaida").classList.remove("ativo");
 if(acao==="entrada"){
-
-document
-.getElementById("quantidadeEntrada")
-.value="";
-
-document
-.getElementById("boxEntrada")
-.classList.add("ativo");
-
-document
-.getElementById("quantidadeEntrada")
-.focus();
-
+document.getElementById("quantidadeEntrada").value="";
+document.getElementById("boxEntrada").classList.add("ativo");
+document.getElementById("quantidadeEntrada").focus();
+}else{
+document.getElementById("quantidadeSaida").value="";
+document.getElementById("setorSaida").value="";
+document.getElementById("boxSaida").classList.add("ativo");
+document.getElementById("quantidadeSaida").focus();
 }
-
-
-if(acao==="saida"){
-
-document
-.getElementById("quantidadeSaida")
-.value="";
-
-document
-.getElementById("setorSaida")
-.value="";
-
-document
-.getElementById("boxSaida")
-.classList.add("ativo");
-
-document
-.getElementById("quantidadeSaida")
-.focus();
-
 }
-
-}
-
-
-/* =========================
-   CONFIRMAR ENTRADA
-========================= */
 
 async function confirmarEntrada(){
-
 if(!itemSelecionado)return;
-
-const quantidade=
-Number(
-document
-.getElementById("quantidadeEntrada")
-.value
-);
-
-if(!quantidade || quantidade<=0){
-
-toast("Informe uma quantidade válida","erro");
-
-return;
-
+const q=Number(document.getElementById("quantidadeEntrada").value);
+if(!q||q<=0){toast("Informe uma quantidade válida","erro");return}
+await enviarMovimentacao(itemSelecionado.codigo,"entrada",q,"");
 }
-
-await enviarMovimentacao(
-itemSelecionado.codigo,
-"entrada",
-quantidade,
-""
-);
-
-}
-
-
-/* =========================
-   CONFIRMAR SAÍDA
-========================= */
 
 async function confirmarSaida(){
-
 if(!itemSelecionado)return;
-
-const quantidade=
-Number(
-document
-.getElementById("quantidadeSaida")
-.value
-);
-
-const setor=
-document
-.getElementById("setorSaida")
-.value;
-
-if(!quantidade || quantidade<=0){
-
-toast("Informe uma quantidade válida","erro");
-
-return;
-
+const q=Number(document.getElementById("quantidadeSaida").value);
+const setor=document.getElementById("setorSaida").value;
+if(!q||q<=0){toast("Informe uma quantidade válida","erro");return}
+if(!setor){toast("Selecione o setor de destino","erro");return}
+if(q>Number(itemSelecionado.quantidade)){toast("Estoque insuficiente","erro");return}
+await enviarMovimentacao(itemSelecionado.codigo,"saida",q,setor);
 }
 
-if(!setor){
-
-toast("Selecione o setor de destino","erro");
-
-return;
-
-}
-
-if(quantidade>Number(itemSelecionado.quantidade)){
-
-toast("Estoque insuficiente","erro");
-
-return;
-
-}
-
-await enviarMovimentacao(
-itemSelecionado.codigo,
-"saida",
-quantidade,
-setor
-);
-
-}
-
-
-/* =========================
-   ENVIAR MOVIMENTAÇÃO
-========================= */
-
-async function enviarMovimentacao(
-codigo,
-acao,
-quantidade,
-setor
-){
-
+async function enviarMovimentacao(codigo,acao,quantidade,setor){
 try{
-
-const resposta=await fetch(API_URL,{
-
-method:"POST",
-
-body:JSON.stringify({
-
-tipo:"movimentacao",
-
-codigo:codigo,
-
-acao:acao,
-
-quantidade:quantidade,
-
-setor:setor
-
-})
-
-});
-
-const texto=await resposta.text();
-
-if(texto==="ESTOQUE_INSUFICIENTE"){
-
-toast("Estoque insuficiente","erro");
-
-return;
-
+const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"movimentacao",codigo,acao,quantidade,setor})});
+const texto=await r.text();
+if(texto==="ESTOQUE_INSUFICIENTE"){toast("Estoque insuficiente","erro");return}
+if(texto==="CODIGO_NAO_ENCONTRADO"){toast("Código não encontrado","erro");return}
+if(texto!=="OK"){toast("Não foi possível realizar a operação","erro");return}
+toast(acao==="entrada"?"Entrada realizada com sucesso!":"Saída realizada com sucesso!","sucesso");
+cancelarOperacao();await carregar();
+}catch(e){console.error(e);toast("Erro ao realizar movimentação","erro")}
 }
-
-if(texto==="CODIGO_NAO_ENCONTRADO"){
-
-toast("Código não encontrado","erro");
-
-return;
-
-}
-
-if(texto!=="OK"){
-
-toast("Não foi possível realizar a operação","erro");
-
-return;
-
-}
-
-toast(
-acao==="entrada"
-?
-"Entrada realizada com sucesso!"
-:
-"Saída realizada com sucesso!",
-"sucesso"
-);
-
-cancelarOperacao();
-
-await carregar();
-
-}catch(erro){
-
-console.error(erro);
-
-toast("Erro ao realizar movimentação","erro");
-
-}
-
-}
-
-
-/* =========================
-   CANCELAR
-========================= */
 
 function cancelarOperacao(){
-
 itemSelecionado=null;
-
-document
-.getElementById("codigoLeitor")
-.value="";
-
-document
-.getElementById("itemIdentificado")
-.classList.remove("ativo");
-
-document
-.getElementById("acoesLeitor")
-.classList.remove("ativo");
-
-document
-.getElementById("boxEntrada")
-.classList.remove("ativo");
-
-document
-.getElementById("boxSaida")
-.classList.remove("ativo");
-
-document
-.getElementById("leitorStatus")
-.className="leitor-status";
-
-document
-.getElementById("quantidadeEntrada")
-.value="";
-
-document
-.getElementById("quantidadeSaida")
-.value="";
-
-document
-.getElementById("setorSaida")
-.value="";
-
-setTimeout(()=>{
-
-document
-.getElementById("codigoLeitor")
-.focus();
-
-},100);
-
+["codigoLeitor","quantidadeEntrada","quantidadeSaida"].forEach(id=>document.getElementById(id).value="");
+document.getElementById("itemIdentificado").classList.remove("ativo");
+document.getElementById("acoesLeitor").classList.remove("ativo");
+document.getElementById("boxEntrada").classList.remove("ativo");
+document.getElementById("boxSaida").classList.remove("ativo");
+document.getElementById("leitorStatus").className="leitor-status";
+document.getElementById("setorSaida").value="";
+setTimeout(()=>document.getElementById("codigoLeitor").focus(),100);
 }
-
-
-/* =========================
-   MOVIMENTAÇÃO MANUAL
-========================= */
 
 function movimentacaoManual(codigo,acao){
-
-document
-.getElementById("codigoLeitor")
-.value=codigo;
-
-identificarCodigo().then(()=>{
-
-setTimeout(()=>{
-
-selecionarAcao(acao);
-
-},150);
-
-});
-
+document.getElementById("codigoLeitor").value=codigo;
+identificarCodigo().then(()=>setTimeout(()=>selecionarAcao(acao),150));
 }
-
-
-/* =========================
-   CADASTRAR ITEM
-========================= */
 
 async function cadastrar(){
-
-const item=
-document
-.getElementById("item")
-.value
-.trim();
-
-const codigo=
-document
-.getElementById("codigo")
-.value
-.trim();
-
-const quantidade=
-document
-.getElementById("quantidade")
-.value;
-
-const minimo=
-document
-.getElementById("minimo")
-.value;
-
-
-if(
-!item ||
-!codigo ||
-quantidade==="" ||
-minimo===""
-){
-
-toast("Preencha todos os campos","erro");
-
-return;
-
-}
-
-
-if(Number(quantidade)<0 || Number(minimo)<0){
-
-toast("Quantidade e mínimo não podem ser negativos","erro");
-
-return;
-
-}
-
-
+const item=document.getElementById("item").value.trim();
+const codigo=document.getElementById("codigo").value.trim();
+const quantidade=document.getElementById("quantidade").value;
+const minimo=document.getElementById("minimo").value;
+if(!item||!codigo||quantidade===""||minimo===""){toast("Preencha todos os campos","erro");return}
+if(Number(quantidade)<0||Number(minimo)<0){toast("Quantidade e mínimo não podem ser negativos","erro");return}
 try{
-
-const resposta=await fetch(API_URL,{
-
-method:"POST",
-
-body:JSON.stringify({
-
-tipo:"cadastro",
-
-item:item,
-
-codigo:codigo,
-
-quantidade:Number(quantidade),
-
-minimo:Number(minimo)
-
-})
-
-});
-
-
-const texto=await resposta.text();
-
-
-if(texto==="ITEM_JA_EXISTE"){
-
-toast("Esse item já existe","erro");
-
-return;
-
-}
-
-if(texto==="CODIGO_JA_EXISTE"){
-
-toast("Esse código já está cadastrado","erro");
-
-return;
-
-}
-
-
-if(texto!=="OK"){
-
-toast("Não foi possível cadastrar","erro");
-
-return;
-
-}
-
-
+const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"cadastro",item,codigo,quantidade:Number(quantidade),minimo:Number(minimo)})});
+const t=await r.text();
+if(t==="ITEM_JA_EXISTE"){toast("Esse item já existe","erro");return}
+if(t==="CODIGO_JA_EXISTE"){toast("Esse código já está cadastrado","erro");return}
+if(t!=="OK"){toast("Não foi possível cadastrar","erro");return}
 toast("Item cadastrado com sucesso!","sucesso");
-
-
-document
-.getElementById("item")
-.value="";
-
-document
-.getElementById("codigo")
-.value="";
-
-document
-.getElementById("quantidade")
-.value="";
-
-document
-.getElementById("minimo")
-.value="";
-
-
+["item","codigo","quantidade","minimo"].forEach(id=>document.getElementById(id).value="");
 await carregar();
-
-
-}catch(erro){
-
-console.error(erro);
-
-toast("Erro ao cadastrar item","erro");
-
+}catch(e){console.error(e);toast("Erro ao cadastrar item","erro")}
 }
-
-}
-
-
-/* =========================
-   PESQUISA
-========================= */
 
 function filtrarTabela(){
-
-const filtro=
-document
-.getElementById("pesquisa")
-.value
-.toLowerCase();
-
-document
-.querySelectorAll("#tabela tr")
-.forEach(linha=>{
-
-const texto=
-linha.innerText.toLowerCase();
-
-linha.style.display=
-texto.includes(filtro)
-?
-""
-:
-"none";
-
-});
-
+const f=document.getElementById("pesquisa").value.toLowerCase();
+document.querySelectorAll("#tabela tr").forEach(l=>l.style.display=l.innerText.toLowerCase().includes(f)?"":"none");
 }
-
 
 /* =========================
    SETORES
 ========================= */
 
 function carregarSetores(setores){
+setoresGlobais=Array.isArray(setores)?setores.slice():[];
 
 const selects=[
 document.getElementById("setorSaida"),
@@ -2343,172 +490,149 @@ document.getElementById("filtroSetor")
 ];
 
 selects.forEach(select=>{
-
 if(!select)return;
+const atual=select.value;
+select.innerHTML=select.id==="setorSaida"
+?'<option value="">Selecione o setor</option>'
+:'<option value="">Todos os setores</option>';
 
-const valorAtual=select.value;
-
-if(select.id==="setorSaida"){
-
-select.innerHTML=
-'<option value="">Selecione o setor</option>';
-
-}else{
-
-select.innerHTML=
-'<option value="">Todos os setores</option>';
-
-}
-
-setores.forEach(setor=>{
-
-const option=
-document.createElement("option");
-
-option.value=setor;
-
-option.textContent=setor;
-
-select.appendChild(option);
-
+setoresGlobais.forEach(setor=>{
+const o=document.createElement("option");
+o.value=setor;o.textContent=setor;select.appendChild(o);
 });
 
-select.value=valorAtual;
-
+if(Array.from(select.options).some(o=>o.value===atual))select.value=atual;
 });
 
+renderizarListaSetores();
 }
 
+function renderizarListaSetores(){
+const lista=document.getElementById("listaSetores");
+if(!lista)return;
+lista.innerHTML="";
 
-/* =========================
-   ITENS NOS RELATÓRIOS
-========================= */
+if(!setoresGlobais.length){
+lista.innerHTML='<div class="lista-setores-vazia">Nenhum setor cadastrado.</div>';
+return;
+}
+
+setoresGlobais.slice().sort((a,b)=>a.localeCompare(b,"pt-BR")).forEach(setor=>{
+const div=document.createElement("div");
+div.className="setor-item";
+
+const nome=document.createElement("div");
+nome.className="setor-nome";
+nome.innerHTML="🏢 "+escapeHtml(setor);
+
+const botao=document.createElement("button");
+botao.className="btn-excluir-setor";
+botao.innerHTML="🗑️ Excluir";
+botao.onclick=()=>excluirSetor(setor);
+
+div.appendChild(nome);
+div.appendChild(botao);
+lista.appendChild(div);
+});
+}
+
+async function adicionarSetor(){
+const campo=document.getElementById("novoSetor");
+const setor=campo.value.trim();
+
+if(!setor){toast("Digite o nome do setor","erro");campo.focus();return}
+
+if(setoresGlobais.some(x=>String(x).trim().toLowerCase()===setor.toLowerCase())){
+toast("Esse setor já está cadastrado","erro");campo.focus();return;
+}
+
+try{
+const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"setor",acao:"adicionar",setor})});
+const t=await r.text();
+
+if(t==="SETOR_JA_EXISTE"){toast("Esse setor já está cadastrado","erro");return}
+if(t!=="OK"){toast("Não foi possível adicionar o setor","erro");return}
+
+campo.value="";
+toast("Setor adicionado com sucesso!","sucesso");
+await carregar();
+campo.focus();
+}catch(e){console.error(e);toast("Erro ao adicionar setor","erro")}
+}
+
+async function excluirSetor(setor){
+if(!confirm('Deseja realmente excluir o setor "'+setor+'"?'))return;
+
+try{
+const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"setor",acao:"excluir",setor})});
+const t=await r.text();
+
+if(t==="SETOR_NAO_ENCONTRADO"){toast("Setor não encontrado","erro");await carregar();return}
+if(t!=="OK"){toast("Não foi possível excluir o setor","erro");return}
+
+toast("Setor excluído com sucesso!","sucesso");
+await carregar();
+}catch(e){console.error(e);toast("Erro ao excluir setor","erro")}
+}
 
 function carregarItensRelatorios(){
-
-const select=
-document.getElementById("filtroItem");
-
-select.innerHTML=
-'<option value="">Todos os itens</option>';
-
+const select=document.getElementById("filtroItem");
+select.innerHTML='<option value="">Todos os itens</option>';
 dadosGlobais.forEach(item=>{
-
-const option=
-document.createElement("option");
-
-option.value=item.codigo;
-
-option.textContent=
-item.item+" ("+item.codigo+")";
-
-select.appendChild(option);
-
+const o=document.createElement("option");
+o.value=item.codigo;o.textContent=item.item+" ("+item.codigo+")";
+select.appendChild(o);
 });
-
 }
-
 
 /* =========================
    RELATÓRIOS
 ========================= */
 
-let tipoRelatorioSelecionado = "";
-
 function gerarRelatorio(tipo){
-  tipoRelatorioSelecionado = tipo;
-
-  const nomes = {
-    estoque: "📦 Estoque Atual",
-    alertas: "⚠️ Itens em Alerta",
-    saidas: "📤 Saídas",
-    setor: "🏢 Por Setor",
-    resumo_setor: "📊 Resumo por Setor",
-    item: "📦 Movimentações por Item",
-    historico: "📋 Histórico Completo"
-  };
-
-  document.getElementById("filtroRelatorioTitulo").innerText =
-    "🔎 Filtros — " + (nomes[tipo] || "Relatório");
-
-  document.getElementById("modalFiltrosRelatorio").classList.add("ativo");
+tipoRelatorioSelecionado=tipo;
+const nomes={estoque:"📦 Estoque Atual",alertas:"⚠️ Itens em Alerta",saidas:"📤 Saídas",setor:"🏢 Por Setor",resumo_setor:"📊 Resumo por Setor",item:"📦 Movimentações por Item",historico:"📋 Histórico Completo"};
+document.getElementById("filtroRelatorioTitulo").innerText="🔎 Filtros — "+nomes[tipo];
+document.getElementById("modalFiltrosRelatorio").classList.add("ativo");
 }
 
-function fecharFiltrosRelatorio(){
-  document.getElementById("modalFiltrosRelatorio").classList.remove("ativo");
-}
+function fecharFiltrosRelatorio(){document.getElementById("modalFiltrosRelatorio").classList.remove("ativo")}
 
 async function confirmarGerarRelatorio(){
-  const tipo = tipoRelatorioSelecionado;
-  if(!tipo){
-    toast("Selecione um relatório","erro");
-    return;
-  }
+const tipo=tipoRelatorioSelecionado;
+const dataInicial=document.getElementById("dataInicial").value;
+const dataFinal=document.getElementById("dataFinal").value;
+const setor=document.getElementById("filtroSetor").value;
+const codigoItem=document.getElementById("filtroItem").value;
 
-  const dataInicial=document.getElementById("dataInicial").value;
-  const dataFinal=document.getElementById("dataFinal").value;
-  const setor=document.getElementById("filtroSetor").value;
-  const codigoItem=document.getElementById("filtroItem").value;
+if(dataInicial&&dataFinal&&dataInicial>dataFinal){toast("A data inicial não pode ser maior que a final","erro");return}
+fecharFiltrosRelatorio();
 
-  if(dataInicial && dataFinal && dataInicial>dataFinal){
-    toast("A data inicial não pode ser maior que a final","erro");
-    return;
-  }
+try{
+toast("Preparando relatório...","sucesso");
+const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"relatorio",relatorio:tipo,dataInicial,dataFinal,setor,codigoItem,modo:"preview"})});
+const resultado=await r.json();
 
-  fecharFiltrosRelatorio();
+if(!resultado.sucesso){toast(resultado.mensagem||"Erro ao gerar relatório","erro");return}
 
-  try{
-    toast("Preparando relatório...","sucesso");
-    const resposta=await fetch(API_URL,{
-      method:"POST",
-      body:JSON.stringify({
-        tipo:"relatorio",
-        relatorio:tipo,
-        dataInicial,
-        dataFinal,
-        setor,
-        codigoItem,
-        modo:"preview"
-      })
-    });
+window.relatorioPreviewAtual={pdf:resultado.pdf,nomeArquivo:resultado.nomeArquivo};
+document.getElementById("previewTitulo").innerText=resultado.titulo||"📊 Relatório";
+document.getElementById("previewSubtitulo").innerText="Pré-visualização do relatório";
 
-    const resultado=await resposta.json();
-    if(!resultado.sucesso){
-      toast(resultado.mensagem||"Erro ao gerar relatório","erro");
-      return;
-    }
+document.getElementById("previewFiltros").innerHTML=`
+<span>📅 Período: <strong>${escapeHtml(resultado.filtros?.periodo||"Todos os registros")}</strong></span>
+<span>🏢 Setor: <strong>${escapeHtml(resultado.filtros?.setor||"Todos os setores")}</strong></span>
+<span>📦 Item: <strong>${escapeHtml(resultado.filtros?.item||"Todos os itens")}</strong></span>`;
 
-    window.relatorioPreviewAtual={
-      pdf:resultado.pdf,
-      nomeArquivo:resultado.nomeArquivo
-    };
-
-    document.getElementById("previewTitulo").innerText=resultado.titulo||"📊 Relatório";
-    document.getElementById("previewSubtitulo").innerText="Pré-visualização do relatório";
-
-    document.getElementById("previewFiltros").innerHTML=`
-      <span>📅 Período: <strong>${escapeHtml(resultado.filtros?.periodo || "Todos os registros")}</strong></span>
-      <span>🏢 Setor: <strong>${escapeHtml(resultado.filtros?.setor || "Todos os setores")}</strong></span>
-      <span>📦 Item: <strong>${escapeHtml(resultado.filtros?.item || "Todos os itens")}</strong></span>
-    `;
-
-    document.getElementById("previewConteudo").innerHTML=
-      resultado.conteudo||"<p>Nenhum dado encontrado.</p>";
-
-    document.getElementById("modalRelatorio").classList.add("ativo");
-
-  }catch(erro){
-    console.error(erro);
-    toast("Erro ao preparar relatório","erro");
-  }
+document.getElementById("previewConteudo").innerHTML=resultado.conteudo||"<p>Nenhum dado encontrado.</p>";
+document.getElementById("modalRelatorio").classList.add("ativo");
+}catch(e){console.error(e);toast("Erro ao preparar relatório","erro")}
 }
 
-function fecharPreVisualizacao(){
-  document.getElementById("modalRelatorio").classList.remove("ativo");
-}
+function fecharPreVisualizacao(){document.getElementById("modalRelatorio").classList.remove("ativo")}
 
 function baixarPDFPreVisualizacao(){
-if(!window.relatorioPreviewAtual?.pdf){toast("PDF não disponível","erro");return;}
+if(!window.relatorioPreviewAtual?.pdf){toast("PDF não disponível","erro");return}
 baixarPDF(window.relatorioPreviewAtual.pdf,window.relatorioPreviewAtual.nomeArquivo);
 toast("PDF gerado com sucesso!","sucesso");
 }
@@ -2518,78 +642,52 @@ const titulo=document.getElementById("previewTitulo").innerText;
 const filtros=document.getElementById("previewFiltros").outerHTML;
 const conteudo=document.getElementById("previewConteudo").innerHTML;
 const janela=window.open("","_blank");
-janela.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${escapeHtml(titulo)}</title><style>body{font-family:Arial,sans-serif;padding:35px;color:#172033}h1{font-size:24px;margin-bottom:20px}.relatorio-filtros-aplicados{display:flex;gap:20px;flex-wrap:wrap;background:#f3f4f6;padding:15px;border-radius:10px}.relatorio-filtros-aplicados span{color:#374151}.relatorio-filtros-aplicados strong{color:#111827}.relatorio-preview-table{width:100%;border-collapse:collapse;margin-top:20px}.relatorio-preview-table th,.relatorio-preview-table td{border:1px solid #d1d5db;padding:10px;text-align:left}.relatorio-preview-table th{background:#e5e7eb}.relatorio-preview-resumo{margin-top:15px;padding:12px;border:1px solid #d1d5db;font-weight:bold}</style></head><body><h1>${escapeHtml(titulo)}</h1>${filtros}${conteudo}</body></html>`);
+
+janela.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${escapeHtml(titulo)}</title>
+<style>
+body{font-family:Arial,sans-serif;padding:35px;color:#172033}
+h1{font-size:24px;margin-bottom:20px}
+.relatorio-filtros-aplicados{display:flex;gap:20px;flex-wrap:wrap;background:#f3f4f6;padding:15px;border-radius:10px}
+.relatorio-filtros-aplicados span{color:#374151}.relatorio-filtros-aplicados strong{color:#111827}
+.relatorio-preview-table{width:100%;border-collapse:collapse;margin-top:20px}
+.relatorio-preview-table th,.relatorio-preview-table td{border:1px solid #d1d5db;padding:10px;text-align:left}
+.relatorio-preview-table th{background:#e5e7eb}
+.relatorio-preview-resumo{margin-top:15px;padding:12px;border:1px solid #d1d5db;font-weight:bold}
+</style></head><body><h1>${escapeHtml(titulo)}</h1>${filtros}${conteudo}</body></html>`);
+
 janela.document.close();janela.focus();setTimeout(()=>janela.print(),500);
 }
 
-/* =========================
-   DOWNLOAD PDF
-========================= */
 function baixarPDF(base64,nomeArquivo){
-const byteCharacters=atob(base64);const byteNumbers=new Array(byteCharacters.length);
-for(let i=0;i<byteCharacters.length;i++)byteNumbers[i]=byteCharacters.charCodeAt(i);
-const byteArray=new Uint8Array(byteNumbers);const blob=new Blob([byteArray],{type:"application/pdf"});
-const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download=nomeArquivo||"relatorio.pdf";document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
+const chars=atob(base64),nums=new Array(chars.length);
+for(let i=0;i<chars.length;i++)nums[i]=chars.charCodeAt(i);
+const blob=new Blob([new Uint8Array(nums)],{type:"application/pdf"});
+const url=URL.createObjectURL(blob),link=document.createElement("a");
+link.href=url;link.download=nomeArquivo||"relatorio.pdf";document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
 }
-
-/* =========================
-   UTILITÁRIOS
-========================= */
 
 function formatarData(data){
-
 if(!data)return"-";
-
 const d=new Date(data);
-
-if(isNaN(d.getTime())){
-return data;
-}
-
+if(isNaN(d.getTime()))return data;
 return d.toLocaleString("pt-BR");
-
 }
 
-
-function escapeHtml(valor){
-
-return String(valor ?? "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
+function escapeHtml(v){
+return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
 }
 
-
-function escapeJs(valor){
-
-return String(valor ?? "")
-.replace(/\\/g,"\\\\")
-.replace(/'/g,"\\'")
-.replace(/\n/g,"\\n")
-.replace(/\r/g,"\\r");
-
+function escapeJs(v){
+return String(v??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/\n/g,"\\n").replace(/\r/g,"\\r");
 }
 
-
-/* =========================
-   INICIALIZAÇÃO
-========================= */
+document.getElementById("novoSetor").addEventListener("keydown",e=>{
+if(e.key==="Enter"){e.preventDefault();adicionarSetor()}
+});
 
 carregar();
 
-setTimeout(()=>{
-
-document
-.getElementById("codigoLeitor")
-.focus();
-
-},1000);
-
+setTimeout(()=>document.getElementById("codigoLeitor").focus(),1000);
 </script>
-
 </body>
-
 </html>
