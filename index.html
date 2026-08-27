@@ -15,6 +15,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<!-- Biblioteca para geração de PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
 <style>
 
 *{
@@ -36,7 +41,9 @@ display:flex;
 min-height:100vh;
 }
 
+/* ========================= */
 /* LIGHT MODE */
+/* ========================= */
 
 body.light-mode{
 background:#f1f5f9;
@@ -49,6 +56,7 @@ background:white;
 
 body.light-mode .card,
 body.light-mode .card-info,
+body.light-mode .mov-card,
 body.light-mode table,
 body.light-mode .grafico{
 background:white;
@@ -60,7 +68,8 @@ background:#e2e8f0;
 color:#0f172a;
 }
 
-body.light-mode input{
+body.light-mode input,
+body.light-mode select{
 background:#f8fafc;
 color:#0f172a;
 }
@@ -74,7 +83,9 @@ body.light-mode .status-online{
 background:white;
 }
 
+/* ========================= */
 /* SIDEBAR */
+/* ========================= */
 
 .sidebar{
 width:260px;
@@ -136,7 +147,9 @@ background:linear-gradient(90deg,#2563eb,#06b6d4);
 box-shadow:0 0 20px rgba(59,130,246,0.3);
 }
 
-/* CONTEÚDO */
+/* ========================= */
+/* MAIN */
+/* ========================= */
 
 .main{
 margin-left:260px;
@@ -169,7 +182,9 @@ font-weight:700;
 color:#4ade80;
 }
 
+/* ========================= */
 /* SEÇÕES */
+/* ========================= */
 
 .secao{
 display:none;
@@ -179,7 +194,9 @@ display:none;
 display:block;
 }
 
+/* ========================= */
 /* DASHBOARD */
+/* ========================= */
 
 .dashboard{
 display:grid;
@@ -227,7 +244,9 @@ font-weight:900;
 color:#38bdf8;
 }
 
-/* FORM */
+/* ========================= */
+/* CARDS */
+/* ========================= */
 
 .card{
 background:rgba(15,23,42,0.8);
@@ -242,13 +261,18 @@ margin-bottom:22px;
 font-size:22px;
 }
 
+/* ========================= */
+/* GRID */
+/* ========================= */
+
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:14px;
 }
 
-input{
+input,
+select{
 background:#0f172a;
 border:1px solid rgba(255,255,255,0.05);
 padding:16px;
@@ -256,13 +280,19 @@ border-radius:16px;
 color:white;
 font-size:15px;
 transition:0.2s;
+width:100%;
+}
+
+select{
+cursor:pointer;
 }
 
 input::placeholder{
 color:#64748b;
 }
 
-input:focus{
+input:focus,
+select:focus{
 outline:none;
 border-color:#2563eb;
 box-shadow:0 0 0 4px rgba(37,99,235,0.2);
@@ -288,7 +318,9 @@ transform:scale(1.03);
 box-shadow:0 0 20px rgba(59,130,246,0.35);
 }
 
+/* ========================= */
 /* MOVIMENTAÇÃO */
+/* ========================= */
 
 .movimentacao{
 display:grid;
@@ -309,7 +341,10 @@ margin-bottom:15px;
 }
 
 .mov-card input{
-width:100%;
+margin-bottom:12px;
+}
+
+.mov-card select{
 margin-bottom:12px;
 }
 
@@ -321,9 +356,12 @@ width:100%;
 margin-bottom:12px;
 font-weight:700;
 color:#38bdf8;
+min-height:22px;
 }
 
+/* ========================= */
 /* PESQUISA */
+/* ========================= */
 
 .pesquisa{
 margin-bottom:20px;
@@ -338,11 +376,12 @@ color:#64748b;
 }
 
 .pesquisa input{
-width:100%;
 padding-left:50px;
 }
 
+/* ========================= */
 /* TABELA */
+/* ========================= */
 
 .table-container{
 overflow-x:auto;
@@ -422,7 +461,9 @@ border-radius:12px;
 font-weight:900;
 }
 
+/* ========================= */
 /* GRÁFICO */
+/* ========================= */
 
 .grafico{
 margin-top:30px;
@@ -432,7 +473,73 @@ border-radius:24px;
 border:1px solid rgba(255,255,255,0.05);
 }
 
+/* ========================= */
+/* RELATÓRIOS */
+/* ========================= */
+
+.relatorio-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:14px;
+margin-bottom:20px;
+}
+
+.relatorio-acoes{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+
+.btn-pdf{
+background:#dc2626;
+padding:16px 22px;
+border-radius:16px;
+color:white;
+font-weight:800;
+}
+
+.btn-pdf:hover{
+transform:scale(1.03);
+box-shadow:0 0 20px rgba(220,38,38,0.35);
+}
+
+.btn-limpar{
+background:#475569;
+padding:16px 22px;
+border-radius:16px;
+color:white;
+font-weight:800;
+}
+
+.resumo-relatorio{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+margin:20px 0;
+}
+
+.resumo-box{
+background:rgba(30,41,59,0.8);
+padding:20px;
+border-radius:18px;
+border:1px solid rgba(255,255,255,0.05);
+}
+
+.resumo-box h3{
+font-size:13px;
+color:#94a3b8;
+margin-bottom:8px;
+}
+
+.resumo-box strong{
+font-size:25px;
+color:#38bdf8;
+}
+
+/* ========================= */
 /* TOAST */
+/* ========================= */
 
 .toast{
 position:fixed;
@@ -462,7 +569,9 @@ transform:translateY(0);
 
 }
 
-/* RESPONSIVIDADE */
+/* ========================= */
+/* MOBILE */
+/* ========================= */
 
 @media(max-width:900px){
 
@@ -535,8 +644,8 @@ grid-template-columns:1fr;
 grid-template-columns:1fr;
 }
 
-input{
-width:100%;
+input,
+select{
 font-size:16px;
 }
 
@@ -550,7 +659,7 @@ border-radius:18px;
 }
 
 table{
-min-width:700px;
+min-width:750px;
 }
 
 .acoes{
@@ -569,6 +678,19 @@ padding:15px;
 overflow-x:auto;
 }
 
+.relatorio-grid{
+grid-template-columns:1fr;
+}
+
+.relatorio-acoes{
+flex-direction:column;
+}
+
+.btn-pdf,
+.btn-limpar{
+width:100%;
+}
+
 .toast{
 right:10px;
 left:10px;
@@ -585,6 +707,10 @@ font-size:14px;
 <body>
 
 <div class="layout">
+
+<!-- ========================= -->
+<!-- SIDEBAR -->
+<!-- ========================= -->
 
 <div class="sidebar">
 
@@ -631,6 +757,14 @@ Histórico
 </button>
 
 <button class="menu-btn"
+onclick="mostrarSecao('relatorios',event)">
+
+<i class="fa-solid fa-file-pdf"></i>
+Relatórios
+
+</button>
+
+<button class="menu-btn"
 onclick="mostrarSecao('config',event)">
 
 <i class="fa-solid fa-gear"></i>
@@ -641,6 +775,10 @@ Configurações
 </div>
 
 </div>
+
+<!-- ========================= -->
+<!-- MAIN -->
+<!-- ========================= -->
 
 <div class="main">
 
@@ -660,7 +798,10 @@ Configurações
 
 </div>
 
+
+<!-- ========================= -->
 <!-- DASHBOARD -->
+<!-- ========================= -->
 
 <div id="dashboard" class="secao ativa">
 
@@ -704,13 +845,18 @@ ONLINE
 
 </div>
 
+
+<!-- ========================= -->
 <!-- ESTOQUE -->
+<!-- ========================= -->
 
 <div id="estoque" class="secao">
 
-<!-- MOVIMENTAÇÃO POR CÓDIGO -->
+<!-- MOVIMENTAÇÃO -->
 
 <div class="movimentacao">
+
+<!-- ENTRADA -->
 
 <div class="mov-card">
 
@@ -726,7 +872,9 @@ oninput="identificarProduto('entrada')">
 <div
 id="produtoEntrada"
 class="info-item">
+
 Produto: aguardando código...
+
 </div>
 
 <input
@@ -745,6 +893,9 @@ Adicionar ao estoque
 
 </div>
 
+
+<!-- SAÍDA -->
+
 <div class="mov-card">
 
 <h2>📤 Saída de Estoque</h2>
@@ -759,7 +910,9 @@ oninput="identificarProduto('saida')">
 <div
 id="produtoSaida"
 class="info-item">
+
 Produto: aguardando código...
+
 </div>
 
 <input
@@ -767,6 +920,50 @@ id="quantidadeSaida"
 type="number"
 min="1"
 placeholder="Digite somente a quantidade">
+
+<select id="setorSaida">
+
+<option value="">
+Selecione o setor de destino
+</option>
+
+<option value="Administrativo">
+Administrativo
+</option>
+
+<option value="Financeiro">
+Financeiro
+</option>
+
+<option value="RH">
+RH
+</option>
+
+<option value="TI">
+TI
+</option>
+
+<option value="Diretoria">
+Diretoria
+</option>
+
+<option value="Recepção">
+Recepção
+</option>
+
+<option value="Comercial">
+Comercial
+</option>
+
+<option value="Almoxarifado">
+Almoxarifado
+</option>
+
+<option value="Outro">
+Outro
+</option>
+
+</select>
 
 <button
 class="btn"
@@ -779,6 +976,7 @@ Remover do estoque
 </div>
 
 </div>
+
 
 <!-- CADASTRO -->
 
@@ -820,6 +1018,9 @@ Cadastrar
 
 </div>
 
+
+<!-- PESQUISA -->
+
 <div class="pesquisa">
 
 <i class="fa-solid fa-magnifying-glass"></i>
@@ -831,6 +1032,9 @@ placeholder="Pesquisar item..."
 onkeyup="filtrarTabela()">
 
 </div>
+
+
+<!-- TABELA -->
 
 <div class="table-container">
 
@@ -857,6 +1061,9 @@ onkeyup="filtrarTabela()">
 
 </div>
 
+
+<!-- GRÁFICO -->
+
 <div class="grafico">
 
 <h2 style="margin-bottom:20px;">
@@ -869,7 +1076,10 @@ onkeyup="filtrarTabela()">
 
 </div>
 
+
+<!-- ========================= -->
 <!-- ALERTAS -->
+<!-- ========================= -->
 
 <div id="alertas" class="secao">
 
@@ -904,7 +1114,10 @@ onkeyup="filtrarTabela()">
 
 </div>
 
+
+<!-- ========================= -->
 <!-- HISTÓRICO -->
+<!-- ========================= -->
 
 <div id="historico" class="secao">
 
@@ -924,6 +1137,8 @@ onkeyup="filtrarTabela()">
 <th>Ação</th>
 <th>Item</th>
 <th>Quantidade</th>
+<th>Código</th>
+<th>Setor</th>
 
 </tr>
 
@@ -939,7 +1154,164 @@ onkeyup="filtrarTabela()">
 
 </div>
 
+
+<!-- ========================= -->
+<!-- RELATÓRIOS -->
+<!-- ========================= -->
+
+<div id="relatorios" class="secao">
+
+<div class="card">
+
+<h2>📊 Gerador de Relatórios</h2>
+
+<div class="relatorio-grid">
+
+<select id="tipoRelatorio">
+
+<option value="geral">
+📊 Resumo Geral
+</option>
+
+<option value="estoque">
+📦 Estoque Atual
+</option>
+
+<option value="saidas">
+📤 Saídas
+</option>
+
+<option value="entradas">
+📥 Entradas
+</option>
+
+<option value="setor">
+🏢 Por Setor
+</option>
+
+<option value="periodo">
+📅 Por Período
+</option>
+
+<option value="item">
+📦 Por Item
+</option>
+
+<option value="alertas">
+⚠ Estoque Baixo
+</option>
+
+<option value="codigo">
+🔎 Rastreamento por Código
+</option>
+
+</select>
+
+
+<input
+id="relatorioInicio"
+type="date"
+title="Data inicial">
+
+
+<input
+id="relatorioFim"
+type="date"
+title="Data final">
+
+
+<select id="relatorioSetor">
+
+<option value="">
+Todos os setores
+</option>
+
+</select>
+
+
+<select id="relatorioItem">
+
+<option value="">
+Todos os itens
+</option>
+
+</select>
+
+
+<input
+id="relatorioCodigo"
+placeholder="Código de barras">
+
+
+</div>
+
+
+<div class="relatorio-acoes">
+
+<button
+class="btn"
+onclick="visualizarRelatorio()">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+Visualizar Relatório
+
+</button>
+
+
+<button
+class="btn-pdf"
+onclick="gerarPDF()">
+
+<i class="fa-solid fa-file-pdf"></i>
+Gerar PDF
+
+</button>
+
+
+<button
+class="btn-limpar"
+onclick="limparFiltros()">
+
+<i class="fa-solid fa-eraser"></i>
+Limpar
+
+</button>
+
+</div>
+
+</div>
+
+
+<div
+id="resultadoRelatorio"
+class="card"
+style="display:none;">
+
+<h2>📋 Resultado</h2>
+
+<div id="resumoRelatorio"
+class="resumo-relatorio"></div>
+
+<div class="table-container">
+
+<table>
+
+<thead id="cabecalhoRelatorio"></thead>
+
+<tbody id="corpoRelatorio"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ========================= -->
 <!-- CONFIG -->
+<!-- ========================= -->
 
 <div id="config" class="secao">
 
@@ -971,29 +1343,40 @@ onclick="ativarLightMode()">
 
 </div>
 
+
 </div>
 
 </div>
+
 
 <script>
 
+/* ================================================= */
+/* API */
+/* ================================================= */
+
 const API_URL =
-"https://script.google.com/macros/s/AKfycbx-P-ArTvOzsDaS8LvB-FCdC-gp-esojfx6j_JFNsLPh6Ef0yb-ngqag8pZumBTZoo2/exec";
+"https://script.google.com/macros/s/AKfycbxnsf-p7ymlFkpRQL8yUJ4ugKvRNe0gyGZFvwourlcGDddHHcTMkx-z-LVv-PCoGKhF/exec";
+
 
 let grafico;
 
-let estoqueAtual = [];
+let estoqueAtual=[];
 
-/* ========================= */
+let historicoAtual=[];
+
+let ultimoRelatorio=[];
+
+
+/* ================================================= */
 /* NAVEGAÇÃO */
-/* ========================= */
+/* ================================================= */
 
 function mostrarSecao(secaoId,event){
 
-const secoes =
-document.querySelectorAll(".secao");
-
-secoes.forEach(secao=>{
+document
+.querySelectorAll(".secao")
+.forEach(secao=>{
 secao.classList.remove("ativa");
 });
 
@@ -1001,20 +1384,22 @@ document
 .getElementById(secaoId)
 .classList.add("ativa");
 
-const botoes =
-document.querySelectorAll(".menu-btn");
-
-botoes.forEach(btn=>{
+document
+.querySelectorAll(".menu-btn")
+.forEach(btn=>{
 btn.classList.remove("active");
 });
 
+if(event){
 event.currentTarget.classList.add("active");
+}
 
 }
 
-/* ========================= */
+
+/* ================================================= */
 /* TEMAS */
-/* ========================= */
+/* ================================================= */
 
 function ativarLightMode(){
 
@@ -1026,6 +1411,7 @@ toast("Tema claro ativado");
 
 }
 
+
 function ativarDarkMode(){
 
 document.body.classList.remove("light-mode");
@@ -1036,23 +1422,21 @@ toast("Tema escuro ativado");
 
 }
 
-const temaSalvo =
-localStorage.getItem("tema");
 
-if(temaSalvo === "light"){
+if(localStorage.getItem("tema")==="light"){
 
 document.body.classList.add("light-mode");
 
 }
 
-/* ========================= */
+
+/* ================================================= */
 /* TOAST */
-/* ========================= */
+/* ================================================= */
 
 function toast(mensagem){
 
-const div =
-document.createElement("div");
+const div=document.createElement("div");
 
 div.className="toast";
 
@@ -1066,60 +1450,83 @@ div.remove();
 
 }
 
-/* ========================= */
-/* CARREGAR DADOS */
-/* ========================= */
+
+/* ================================================= */
+/* ESCAPE */
+/* ================================================= */
+
+function escapeHTML(valor){
+
+return String(valor ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function escapeJS(valor){
+
+return String(valor ?? "")
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'")
+.replace(/\n/g,"\\n")
+.replace(/\r/g,"\\r");
+
+}
+
+
+/* ================================================= */
+/* CARREGAR */
+/* ================================================= */
 
 async function carregar(){
 
 try{
 
-const resposta =
-await fetch(API_URL);
+const resposta=await fetch(API_URL);
 
-const resultado =
-await resposta.json();
+const resultado=await resposta.json();
 
-const dados =
-resultado.estoque || [];
+const dados=resultado.estoque || [];
 
-const historico =
-resultado.historico || [];
+const historico=resultado.historico || [];
 
 estoqueAtual=dados;
 
-const tabela =
-document.getElementById("tabela");
+historicoAtual=historico;
 
-const tabelaAlertas =
-document.getElementById("tabelaAlertas");
+const tabela=document.getElementById("tabela");
 
-const tabelaHistorico =
-document.getElementById("tabelaHistorico");
+const tabelaAlertas=document.getElementById("tabelaAlertas");
+
+const tabelaHistorico=document.getElementById("tabelaHistorico");
 
 tabela.innerHTML="";
+
 tabelaAlertas.innerHTML="";
+
 tabelaHistorico.innerHTML="";
 
-let totalItens=dados.length;
-
-let itensAlerta=0;
 
 let totalEstoque=0;
 
+let itensAlerta=0;
+
 const nomes=[];
+
 const quantidades=[];
+
 
 dados.forEach(item=>{
 
-const quantidade=
-Number(item.quantidade);
+const quantidade=Number(item.quantidade)||0;
 
-const minimo=
-Number(item.minimo);
+const minimo=Number(item.minimo)||0;
 
-const alerta=
-quantidade<=minimo;
+const alerta=quantidade<=minimo;
 
 if(alerta){
 
@@ -1143,15 +1550,17 @@ tabelaAlertas.innerHTML+=`
 
 }
 
+
 totalEstoque+=quantidade;
 
 nomes.push(item.item);
 
 quantidades.push(quantidade);
 
+
 tabela.innerHTML+=`
 
-<tr class="${alerta ? 'alerta' : ''}">
+<tr class="${alerta?'alerta':''}">
 
 <td>${escapeHTML(item.codigo)}</td>
 
@@ -1163,9 +1572,9 @@ tabela.innerHTML+=`
 
 <td>
 
-<span class="${alerta ? 'status-alerta' : 'status-ok'}">
+<span class="${alerta?'status-alerta':'status-ok'}">
 
-${alerta ? 'ALERTA' : 'OK'}
+${alerta?'ALERTA':'OK'}
 
 </span>
 
@@ -1187,7 +1596,7 @@ onclick="abrirMovimentacao('${escapeJS(item.codigo)}','entrada')">
 class="saida"
 onclick="abrirMovimentacao('${escapeJS(item.codigo)}','saida')">
 
--
+−
 
 </button>
 
@@ -1201,6 +1610,7 @@ onclick="abrirMovimentacao('${escapeJS(item.codigo)}','saida')">
 
 });
 
+
 historico
 .slice()
 .reverse()
@@ -1210,10 +1620,11 @@ let data=item.data;
 
 try{
 
-data=
-new Date(item.data).toLocaleString("pt-BR");
+data=new Date(item.data)
+.toLocaleString("pt-BR");
 
 }catch(e){}
+
 
 tabelaHistorico.innerHTML+=`
 
@@ -1221,11 +1632,15 @@ tabelaHistorico.innerHTML+=`
 
 <td>${escapeHTML(String(data))}</td>
 
-<td>${escapeHTML(String(item.acao))}</td>
+<td>${escapeHTML(String(item.acao||""))}</td>
 
-<td>${escapeHTML(String(item.item))}</td>
+<td>${escapeHTML(String(item.item||""))}</td>
 
-<td>${item.quantidade}</td>
+<td>${escapeHTML(String(item.quantidade||""))}</td>
+
+<td>${escapeHTML(String(item.codigo||""))}</td>
+
+<td>${escapeHTML(String(item.setor||"—"))}</td>
 
 </tr>
 
@@ -1233,8 +1648,9 @@ tabelaHistorico.innerHTML+=`
 
 });
 
+
 document.getElementById("totalItens").innerText=
-totalItens;
+dados.length;
 
 document.getElementById("itensAlerta").innerText=
 itensAlerta;
@@ -1242,46 +1658,91 @@ itensAlerta;
 document.getElementById("estoqueTotal").innerText=
 totalEstoque;
 
+
+preencherFiltros();
+
 gerarGrafico(nomes,quantidades);
+
 
 }catch(erro){
 
 console.error(erro);
 
-toast("Erro ao carregar o estoque");
+toast("Erro ao carregar os dados");
 
 }
 
 }
 
-/* ========================= */
-/* ESCAPE */
-/* ========================= */
 
-function escapeHTML(valor){
+/* ================================================= */
+/* FILTROS */
+/* ================================================= */
 
-return String(valor ?? "")
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+function preencherFiltros(){
+
+const setorSelect=
+document.getElementById("relatorioSetor");
+
+const itemSelect=
+document.getElementById("relatorioItem");
+
+
+const setores=[
+...new Set(
+historicoAtual
+.map(item=>String(item.setor||"").trim())
+.filter(Boolean)
+)
+].sort();
+
+
+const itens=[
+...new Set(
+estoqueAtual
+.map(item=>String(item.item||"").trim())
+.filter(Boolean)
+)
+].sort();
+
+
+setorSelect.innerHTML=
+'<option value="">Todos os setores</option>';
+
+setores.forEach(setor=>{
+
+setorSelect.innerHTML+=`
+
+<option value="${escapeHTML(setor)}">
+${escapeHTML(setor)}
+</option>
+
+`;
+
+});
+
+
+itemSelect.innerHTML=
+'<option value="">Todos os itens</option>';
+
+itens.forEach(item=>{
+
+itemSelect.innerHTML+=`
+
+<option value="${escapeHTML(item)}">
+${escapeHTML(item)}
+</option>
+
+`;
+
+});
 
 }
 
-function escapeJS(valor){
 
-return String(valor ?? "")
-.replace(/\\/g,"\\\\")
-.replace(/'/g,"\\'")
-.replace(/\n/g,"\\n")
-.replace(/\r/g,"\\r");
-
-}
-
-/* ========================= */
+/* ================================================= */
 /* GRÁFICO */
-/* ========================= */
+/* ================================================= */
 
 function gerarGrafico(labels,data){
 
@@ -1290,8 +1751,7 @@ document.getElementById("graficoEstoque");
 
 if(!canvas)return;
 
-const ctx=
-canvas.getContext("2d");
+const ctx=canvas.getContext("2d");
 
 if(grafico){
 grafico.destroy();
@@ -1324,11 +1784,9 @@ responsive:true,
 plugins:{
 
 legend:{
-
 labels:{
 color:"white"
 }
-
 }
 
 },
@@ -1355,9 +1813,10 @@ color:"white"
 
 }
 
-/* ========================= */
+
+/* ================================================= */
 /* IDENTIFICAR PRODUTO */
-/* ========================= */
+/* ================================================= */
 
 function identificarProduto(tipo){
 
@@ -1371,8 +1830,7 @@ tipo==="entrada"
 ?document.getElementById("produtoEntrada")
 :document.getElementById("produtoSaida");
 
-const codigo=
-campo.value.trim();
+const codigo=campo.value.trim();
 
 if(!codigo){
 
@@ -1383,15 +1841,18 @@ return;
 
 }
 
+
 const produto=
 estoqueAtual.find(item=>
 String(item.codigo).trim()===codigo
 );
 
+
 if(produto){
 
 display.innerText=
-"Produto: "+produto.item+
+"Produto: "+
+produto.item+
 " | Estoque atual: "+
 produto.quantidade;
 
@@ -1404,38 +1865,47 @@ display.innerText=
 
 }
 
-/* ========================= */
+
+/* ================================================= */
 /* ABRIR MOVIMENTAÇÃO */
-/* ========================= */
+/* ================================================= */
 
 function abrirMovimentacao(codigo,tipo){
 
-mostrarSecao("estoque",{
+mostrarSecao(
+"estoque",
+{
 currentTarget:
 document.querySelectorAll(".menu-btn")[1]
-});
+}
+);
+
 
 const campo=
 tipo==="entrada"
 ?document.getElementById("codigoEntrada")
 :document.getElementById("codigoSaida");
 
+
 campo.value=codigo;
 
 identificarProduto(tipo);
+
 
 const quantidade=
 tipo==="entrada"
 ?document.getElementById("quantidadeEntrada")
 :document.getElementById("quantidadeSaida");
 
+
 quantidade.focus();
 
 }
 
-/* ========================= */
+
+/* ================================================= */
 /* MOVIMENTAÇÃO */
-/* ========================= */
+/* ================================================= */
 
 async function realizarMovimentacao(tipo){
 
@@ -1444,18 +1914,25 @@ tipo==="entrada"
 ?document.getElementById("codigoEntrada").value.trim()
 :document.getElementById("codigoSaida").value.trim();
 
+
 const quantidade=
 tipo==="entrada"
 ?document.getElementById("quantidadeEntrada").value
 :document.getElementById("quantidadeSaida").value;
 
+
+const setor=
+document.getElementById("setorSaida").value;
+
+
 if(!codigo){
 
-toast("Bipe ou informe o código de barras");
+toast("Bipe o código de barras");
 
 return;
 
 }
+
 
 if(!quantidade || Number(quantidade)<=0){
 
@@ -1465,10 +1942,21 @@ return;
 
 }
 
+
+if(tipo==="saida" && !setor){
+
+toast("Selecione o setor de destino");
+
+return;
+
+}
+
+
 const produto=
 estoqueAtual.find(item=>
 String(item.codigo).trim()===codigo
 );
+
 
 if(!produto){
 
@@ -1477,6 +1965,7 @@ toast("Código não encontrado");
 return;
 
 }
+
 
 try{
 
@@ -1493,14 +1982,20 @@ codigo:codigo,
 
 acao:tipo,
 
-quantidade:Number(quantidade)
+quantidade:Number(quantidade),
+
+setor:
+tipo==="saida"
+?setor
+:""
 
 })
 
 });
 
-const texto=
-await resposta.text();
+
+const texto=await resposta.text();
+
 
 if(texto==="ESTOQUE_INSUFICIENTE"){
 
@@ -1510,6 +2005,7 @@ return;
 
 }
 
+
 if(texto==="CODIGO_NAO_ENCONTRADO"){
 
 toast("Código não encontrado");
@@ -1517,6 +2013,7 @@ toast("Código não encontrado");
 return;
 
 }
+
 
 if(texto==="QUANTIDADE_INVALIDA"){
 
@@ -1526,29 +2023,48 @@ return;
 
 }
 
+
+if(texto==="SETOR_OBRIGATORIO"){
+
+toast("Informe o setor de destino");
+
+return;
+
+}
+
+
 toast(
 tipo==="entrada"
 ?"Entrada realizada"
 :"Saída realizada"
 );
 
+
 if(tipo==="entrada"){
 
 document.getElementById("codigoEntrada").value="";
+
 document.getElementById("quantidadeEntrada").value="";
+
 document.getElementById("produtoEntrada").innerText=
 "Produto: aguardando código...";
 
 }else{
 
 document.getElementById("codigoSaida").value="";
+
 document.getElementById("quantidadeSaida").value="";
+
 document.getElementById("produtoSaida").innerText=
 "Produto: aguardando código...";
 
+document.getElementById("setorSaida").value="";
+
 }
 
+
 await carregar();
+
 
 }catch(erro){
 
@@ -1560,9 +2076,10 @@ toast("Erro ao realizar movimentação");
 
 }
 
-/* ========================= */
+
+/* ================================================= */
 /* CADASTRO */
-/* ========================= */
+/* ================================================= */
 
 async function cadastrar(){
 
@@ -1578,6 +2095,7 @@ document.getElementById("quantidade").value;
 const minimo=
 document.getElementById("minimo").value;
 
+
 if(
 !codigo ||
 !item ||
@@ -1591,13 +2109,18 @@ return;
 
 }
 
-if(Number(quantidade)<0 || Number(minimo)<0){
+
+if(
+Number(quantidade)<0 ||
+Number(minimo)<0
+){
 
 toast("Quantidade inválida");
 
 return;
 
 }
+
 
 try{
 
@@ -1622,8 +2145,9 @@ minimo:Number(minimo)
 
 });
 
-const texto=
-await resposta.text();
+
+const texto=await resposta.text();
+
 
 if(texto==="ITEM_JA_EXISTE"){
 
@@ -1633,6 +2157,7 @@ return;
 
 }
 
+
 if(texto==="CODIGO_JA_EXISTE"){
 
 toast("Esse código já está cadastrado");
@@ -1640,6 +2165,7 @@ toast("Esse código já está cadastrado");
 return;
 
 }
+
 
 if(texto==="CAMPOS_OBRIGATORIOS"){
 
@@ -1649,14 +2175,21 @@ return;
 
 }
 
+
 toast("Item cadastrado com sucesso");
 
+
 document.getElementById("codigo").value="";
+
 document.getElementById("item").value="";
+
 document.getElementById("quantidade").value="";
+
 document.getElementById("minimo").value="";
 
+
 await carregar();
+
 
 }catch(erro){
 
@@ -1668,9 +2201,10 @@ toast("Erro ao cadastrar item");
 
 }
 
-/* ========================= */
+
+/* ================================================= */
 /* PESQUISA */
-/* ========================= */
+/* ================================================= */
 
 function filtrarTabela(){
 
@@ -1680,10 +2214,10 @@ document
 .value
 .toLowerCase();
 
-const linhas=
-document.querySelectorAll("#tabela tr");
 
-linhas.forEach(linha=>{
+document
+.querySelectorAll("#tabela tr")
+.forEach(linha=>{
 
 const texto=
 linha.innerText.toLowerCase();
@@ -1697,16 +2231,717 @@ texto.includes(filtro)
 
 }
 
+
+/* ================================================= */
+/* VISUALIZAR RELATÓRIO */
+/* ================================================= */
+
+function visualizarRelatorio(){
+
+const tipo=
+document.getElementById("tipoRelatorio").value;
+
+const inicio=
+document.getElementById("relatorioInicio").value;
+
+const fim=
+document.getElementById("relatorioFim").value;
+
+const setor=
+document.getElementById("relatorioSetor").value;
+
+const item=
+document.getElementById("relatorioItem").value;
+
+const codigo=
+document.getElementById("relatorioCodigo").value.trim();
+
+
+let dados=[];
+
+
+/* ------------------------- */
+/* ESTOQUE */
+/* ------------------------- */
+
+if(
+tipo==="estoque" ||
+tipo==="alertas"
+){
+
+dados=estoqueAtual.map(item=>({
+
+codigo:item.codigo,
+
+item:item.item,
+
+quantidade:Number(item.quantidade),
+
+minimo:Number(item.minimo),
+
+status:item.status
+
+}));
+
+
+if(tipo==="alertas"){
+
+dados=dados.filter(item=>
+Number(item.quantidade)<=
+Number(item.minimo)
+);
+
+}
+
+}
+
+
+/* ------------------------- */
+/* HISTÓRICO */
+/* ------------------------- */
+
+else{
+
+dados=historicoAtual.map(item=>({
+
+data:item.data,
+
+acao:item.acao,
+
+item:item.item,
+
+quantidade:Number(item.quantidade)||0,
+
+codigo:item.codigo||"",
+
+setor:item.setor||"—"
+
+}));
+
+
+/* FILTRO POR AÇÃO */
+
+if(tipo==="saidas"){
+
+dados=dados.filter(item=>
+String(item.acao).toUpperCase()==="SAIDA"
+);
+
+}
+
+
+if(tipo==="entradas"){
+
+dados=dados.filter(item=>
+String(item.acao).toUpperCase()==="ENTRADA"
+);
+
+}
+
+
+/* FILTRO SETOR */
+
+if(setor){
+
+dados=dados.filter(item=>
+String(item.setor).trim()===setor
+);
+
+}
+
+
+/* FILTRO ITEM */
+
+if(item){
+
+dados=dados.filter(itemAtual=>
+String(itemAtual.item).trim()===item
+);
+
+}
+
+
+/* FILTRO CÓDIGO */
+
+if(codigo){
+
+dados=dados.filter(itemAtual=>
+String(itemAtual.codigo).trim()===codigo
+);
+
+}
+
+
+/* FILTRO DATA */
+
+if(inicio){
+
+dados=dados.filter(itemAtual=>
+dataDentroPeriodo(itemAtual.data,inicio,fim)
+);
+
+}
+
+}
+
+
+ultimoRelatorio=dados;
+
+
+const resultado=
+document.getElementById("resultadoRelatorio");
+
+const cabecalho=
+document.getElementById("cabecalhoRelatorio");
+
+const corpo=
+document.getElementById("corpoRelatorio");
+
+const resumo=
+document.getElementById("resumoRelatorio");
+
+
+resultado.style.display="block";
+
+cabecalho.innerHTML="";
+
+corpo.innerHTML="";
+
+resumo.innerHTML="";
+
+
 /* ========================= */
-/* LEITOR DE CÓDIGO */
+/* CABEÇALHO ESTOQUE */
 /* ========================= */
 
-document.addEventListener("keydown",function(event){
+if(
+tipo==="estoque" ||
+tipo==="alertas"
+){
+
+cabecalho.innerHTML=`
+
+<tr>
+
+<th>Código</th>
+<th>Item</th>
+<th>Quantidade</th>
+<th>Mínimo</th>
+<th>Status</th>
+
+</tr>
+
+`;
+
+
+dados.forEach(item=>{
+
+corpo.innerHTML+=`
+
+<tr>
+
+<td>${escapeHTML(item.codigo)}</td>
+
+<td>${escapeHTML(item.item)}</td>
+
+<td>${item.quantidade}</td>
+
+<td>${item.minimo}</td>
+
+<td>${item.status}</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* ========================= */
+/* CABEÇALHO HISTÓRICO */
+/* ========================= */
+
+else{
+
+cabecalho.innerHTML=`
+
+<tr>
+
+<th>Data</th>
+<th>Ação</th>
+<th>Item</th>
+<th>Quantidade</th>
+<th>Código</th>
+<th>Setor</th>
+
+</tr>
+
+`;
+
+
+dados.forEach(item=>{
+
+corpo.innerHTML+=`
+
+<tr>
+
+<td>${formatarData(item.data)}</td>
+
+<td>${escapeHTML(item.acao)}</td>
+
+<td>${escapeHTML(item.item)}</td>
+
+<td>${item.quantidade}</td>
+
+<td>${escapeHTML(item.codigo)}</td>
+
+<td>${escapeHTML(item.setor)}</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+/* ========================= */
+/* RESUMO */
+/* ========================= */
+
+let quantidadeTotal=
+dados.reduce(
+(total,item)=>
+total+Number(item.quantidade||0),
+0
+);
+
+
+resumo.innerHTML=`
+
+<div class="resumo-box">
+
+<h3>Registros</h3>
+
+<strong>${dados.length}</strong>
+
+</div>
+
+<div class="resumo-box">
+
+<h3>Quantidade</h3>
+
+<strong>${quantidadeTotal}</strong>
+
+</div>
+
+`;
+
+
+if(tipo==="geral"){
+
+const entradas=
+dados.filter(item=>
+String(item.acao).toUpperCase()==="ENTRADA"
+);
+
+const saidas=
+dados.filter(item=>
+String(item.acao).toUpperCase()==="SAIDA"
+);
+
+
+resumo.innerHTML+=`
+
+<div class="resumo-box">
+
+<h3>Entradas</h3>
+
+<strong>${entradas.length}</strong>
+
+</div>
+
+<div class="resumo-box">
+
+<h3>Saídas</h3>
+
+<strong>${saidas.length}</strong>
+
+</div>
+
+`;
+
+}
+
+
+if(dados.length===0){
+
+corpo.innerHTML=`
+
+<tr>
+
+<td colspan="10" style="text-align:center;padding:30px;">
+
+Nenhum registro encontrado.
+
+</td>
+
+</tr>
+
+`;
+
+}
+
+}
+
+
+/* ================================================= */
+/* DATA */
+/* ================================================= */
+
+function dataDentroPeriodo(data,inicio,fim){
+
+const d=new Date(data);
+
+if(isNaN(d.getTime())){
+
+return false;
+
+}
+
+
+const dataInicial=
+new Date(inicio+"T00:00:00");
+
+
+if(d<dataInicial){
+
+return false;
+
+}
+
+
+if(fim){
+
+const dataFinal=
+new Date(fim+"T23:59:59");
+
+if(d>dataFinal){
+
+return false;
+
+}
+
+}
+
+
+return true;
+
+}
+
+
+/* ================================================= */
+/* FORMATAR DATA */
+/* ================================================= */
+
+function formatarData(data){
+
+try{
+
+return new Date(data)
+.toLocaleString("pt-BR");
+
+}catch(e){
+
+return String(data);
+
+}
+
+}
+
+
+/* ================================================= */
+/* LIMPAR FILTROS */
+/* ================================================= */
+
+function limparFiltros(){
+
+document.getElementById("tipoRelatorio").value="geral";
+
+document.getElementById("relatorioInicio").value="";
+
+document.getElementById("relatorioFim").value="";
+
+document.getElementById("relatorioSetor").value="";
+
+document.getElementById("relatorioItem").value="";
+
+document.getElementById("relatorioCodigo").value="";
+
+document.getElementById("resultadoRelatorio").style.display="none";
+
+ultimoRelatorio=[];
+
+}
+
+
+/* ================================================= */
+/* GERAR PDF */
+/* ================================================= */
+
+function gerarPDF(){
+
+if(ultimoRelatorio.length===0){
+
+visualizarRelatorio();
+
+}
+
+
+setTimeout(()=>{
+
+if(ultimoRelatorio.length===0){
+
+toast("Nenhum dado para gerar o PDF");
+
+return;
+
+}
+
+
+const {jsPDF}=window.jspdf;
+
+const doc=
+new jsPDF({
+orientation:"landscape",
+unit:"mm",
+format:"a4"
+});
+
+
+const tipo=
+document.getElementById("tipoRelatorio");
+
+const titulo=
+tipo.options[tipo.selectedIndex].text;
+
+
+const inicio=
+document.getElementById("relatorioInicio").value;
+
+const fim=
+document.getElementById("relatorioFim").value;
+
+const setor=
+document.getElementById("relatorioSetor").value;
+
+
+doc.setFontSize(20);
+
+doc.text(
+"⚡ T.I-HEDA",
+14,
+18
+);
+
+
+doc.setFontSize(16);
+
+doc.text(
+"RELATÓRIO DE ESTOQUE",
+14,
+28
+);
+
+
+doc.setFontSize(11);
+
+doc.text(
+titulo.replace(/[^\x00-\x7F]/g,""),
+14,
+36
+);
+
+
+let informacoes="";
+
+
+if(inicio){
+
+informacoes+="Início: "+inicio+"   ";
+
+}
+
+if(fim){
+
+informacoes+="Fim: "+fim+"   ";
+
+}
+
+if(setor){
+
+informacoes+="Setor: "+setor;
+
+}
+
+
+if(informacoes){
+
+doc.setFontSize(9);
+
+doc.text(
+informacoes,
+14,
+43
+);
+
+}
+
+
+let startY=
+informacoes?50:43;
+
+
+/* ========================= */
+/* TABELA PDF */
+/* ========================= */
+
+let head=[];
+
+let body=[];
+
+
+if(
+tipo.value==="estoque" ||
+tipo.value==="alertas"
+){
+
+head=[[
+"Código",
+"Item",
+"Quantidade",
+"Mínimo",
+"Status"
+]];
+
+
+body=
+ultimoRelatorio.map(item=>[
+item.codigo,
+item.item,
+item.quantidade,
+item.minimo,
+item.status
+]);
+
+}else{
+
+head=[[
+"Data",
+"Ação",
+"Item",
+"Quantidade",
+"Código",
+"Setor"
+]];
+
+
+body=
+ultimoRelatorio.map(item=>[
+formatarData(item.data),
+item.acao,
+item.item,
+item.quantidade,
+item.codigo,
+item.setor
+]);
+
+}
+
+
+doc.autoTable({
+
+head:head,
+
+body:body,
+
+startY:startY,
+
+theme:"grid",
+
+styles:{
+
+fontSize:8,
+
+cellPadding:3
+
+},
+
+headStyles:{
+
+fontSize:8,
+
+fontStyle:"bold"
+
+}
+
+});
+
+
+const pagina=
+doc.internal.getNumberOfPages();
+
+
+doc.setFontSize(8);
+
+doc.text(
+"Gerado pelo Sistema T.I-HEDA",
+14,
+doc.internal.pageSize.height-8
+);
+
+
+doc.text(
+"Página "+pagina,
+doc.internal.pageSize.width-35,
+doc.internal.pageSize.height-8
+);
+
+
+const nomeArquivo=
+"relatorio-ti-heda-"+
+new Date()
+.toISOString()
+.slice(0,10)+
+".pdf";
+
+
+doc.save(nomeArquivo);
+
+
+toast("PDF gerado com sucesso");
+
+},300);
+
+}
+
+
+/* ================================================= */
+/* LEITOR DE CÓDIGO */
+/* ================================================= */
+
+document.addEventListener(
+"keydown",
+function(event){
 
 if(event.key==="Enter"){
 
 const ativo=
 document.activeElement;
+
 
 if(
 ativo &&
@@ -1728,11 +2963,13 @@ ativo.id==="codigoEntrada"
 
 }
 
-});
+}
+);
 
-/* ========================= */
-/* INICIALIZAÇÃO */
-/* ========================= */
+
+/* ================================================= */
+/* INICIAR */
+/* ================================================= */
 
 carregar();
 
