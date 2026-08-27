@@ -10,8 +10,7 @@ content="width=device-width, initial-scale=1.0">
 
 <title>CONTROLE DE ESTOQUE</title>
 
-<link rel="icon"
-href="./icone.png">
+<link rel="icon" href="./icone.png">
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -39,40 +38,6 @@ display:flex;
 min-height:100vh;
 }
 
-body.light-mode{
-background:#f1f5f9;
-color:#0f172a;
-}
-
-body.light-mode .sidebar{
-background:white;
-}
-
-body.light-mode .card,
-body.light-mode .card-info,
-body.light-mode table,
-body.light-mode .grafico,
-body.light-mode .scanner{
-background:white;
-color:#0f172a;
-}
-
-body.light-mode th{
-background:#e2e8f0;
-color:#0f172a;
-}
-
-body.light-mode input,
-body.light-mode select{
-background:#f8fafc;
-color:#0f172a;
-}
-
-body.light-mode .menu button{
-background:#e2e8f0;
-color:#0f172a;
-}
-
 .sidebar{
 width:260px;
 background:rgba(15,23,42,.95);
@@ -81,6 +46,7 @@ padding:25px;
 position:fixed;
 height:100%;
 backdrop-filter:blur(10px);
+z-index:10;
 }
 
 .logo{
@@ -120,15 +86,19 @@ transition:.3s;
 display:flex;
 align-items:center;
 gap:12px;
+width:100%;
+text-align:left;
 }
 
 .menu button:hover{
 background:#1e293b;
 transform:translateX(4px);
+box-shadow:0 0 20px rgba(59,130,246,.25);
 }
 
 .menu-btn.active{
 background:linear-gradient(90deg,#2563eb,#06b6d4);
+box-shadow:0 0 20px rgba(59,130,246,.3);
 }
 
 .main{
@@ -146,6 +116,7 @@ margin-bottom:30px;
 
 .topo h2{
 font-size:30px;
+font-weight:800;
 }
 
 .topo span{
@@ -180,7 +151,15 @@ background:rgba(15,23,42,.8);
 border:1px solid rgba(255,255,255,.05);
 padding:24px;
 border-radius:24px;
+backdrop-filter:blur(10px);
 transition:.3s;
+position:relative;
+overflow:hidden;
+}
+
+.card-info:hover{
+transform:translateY(-4px);
+box-shadow:0 0 25px rgba(59,130,246,.2);
 }
 
 .card-info h3{
@@ -205,72 +184,148 @@ margin-bottom:30px;
 
 .card h2{
 margin-bottom:22px;
+font-size:22px;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
 gap:14px;
 }
 
 input,
 select{
 background:#0f172a;
-border:1px solid rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.07);
 padding:16px;
 border-radius:16px;
 color:white;
 font-size:15px;
 width:100%;
+transition:.2s;
+}
+
+select option{
+background:#0f172a;
+color:white;
+}
+
+input::placeholder{
+color:#64748b;
 }
 
 input:focus,
 select:focus{
 outline:none;
 border-color:#2563eb;
+box-shadow:0 0 0 4px rgba(37,99,235,.2);
+}
+
+button{
+border:none;
+cursor:pointer;
+transition:.2s;
 }
 
 .btn{
 background:linear-gradient(90deg,#2563eb,#06b6d4);
-padding:16px;
+padding:16px 20px;
 border-radius:16px;
 color:white;
 font-weight:800;
 font-size:15px;
-border:none;
-cursor:pointer;
+}
+
+.btn:hover{
+transform:scale(1.02);
+box-shadow:0 0 20px rgba(59,130,246,.35);
+}
+
+.btn-success{
+background:#16a34a;
 }
 
 .btn-danger{
 background:#dc2626;
 }
 
-.btn-green{
-background:#16a34a;
-}
-
 .btn-secondary{
-background:#475569;
+background:#334155;
 }
 
-.scanner{
-background:rgba(15,23,42,.8);
-padding:25px;
-border-radius:24px;
-margin-bottom:25px;
+.leitor-card{
+border:1px solid rgba(56,189,248,.15);
+}
+
+.leitor-status{
+margin-top:15px;
+padding:15px;
+border-radius:14px;
+background:#0f172a;
+display:none;
+}
+
+.leitor-status.sucesso{
+display:block;
+color:#38bdf8;
+font-weight:800;
+}
+
+.leitor-status.erro{
+display:block;
+color:#f87171;
+font-weight:800;
+}
+
+.item-identificado{
+margin-top:20px;
+display:none;
+background:rgba(22,163,74,.08);
+border:1px solid rgba(74,222,128,.2);
+padding:20px;
+border-radius:18px;
+}
+
+.item-identificado.ativo{
+display:block;
+}
+
+.item-identificado h3{
+color:#4ade80;
+margin-bottom:8px;
+}
+
+.item-identificado strong{
+font-size:24px;
+color:#38bdf8;
+}
+
+.acoes-leitor{
+display:none;
+margin-top:18px;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.acoes-leitor.ativo{
+display:flex;
+}
+
+.acao-box{
+display:none;
+margin-top:18px;
+padding:20px;
+background:#0f172a;
+border-radius:18px;
 border:1px solid rgba(255,255,255,.05);
 }
 
-.scanner-title{
-font-size:20px;
-font-weight:800;
-margin-bottom:15px;
+.acao-box.ativo{
+display:block;
 }
 
-.scanner-status{
-margin-top:12px;
-color:#38bdf8;
-font-weight:700;
+.acao-box h3{
+margin-bottom:15px;
 }
 
 .pesquisa{
@@ -298,6 +353,8 @@ table{
 width:100%;
 border-collapse:collapse;
 background:rgba(15,23,42,.85);
+border-radius:24px;
+overflow:hidden;
 }
 
 th{
@@ -305,11 +362,16 @@ background:#111827;
 padding:18px;
 text-align:left;
 font-size:14px;
+color:#cbd5e1;
 }
 
 td{
 padding:18px;
 border-bottom:1px solid rgba(255,255,255,.05);
+}
+
+tr:hover{
+background:rgba(255,255,255,.03);
 }
 
 .alerta{
@@ -339,22 +401,20 @@ display:flex;
 gap:10px;
 }
 
-.entrada,
-.saida{
-color:white;
-padding:12px 16px;
-border-radius:12px;
-font-weight:900;
-border:none;
-cursor:pointer;
-}
-
 .entrada{
 background:#16a34a;
+color:white;
+padding:12px 14px;
+border-radius:12px;
+font-weight:900;
 }
 
 .saida{
 background:#dc2626;
+color:white;
+padding:12px 14px;
+border-radius:12px;
+font-weight:900;
 }
 
 .grafico{
@@ -362,6 +422,57 @@ margin-top:30px;
 background:rgba(15,23,42,.8);
 padding:25px;
 border-radius:24px;
+border:1px solid rgba(255,255,255,.05);
+}
+
+.relatorios-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:16px;
+}
+
+.relatorio-box{
+background:#111827;
+padding:20px;
+border-radius:20px;
+border:1px solid rgba(255,255,255,.04);
+}
+
+.relatorio-box h3{
+margin-bottom:10px;
+font-size:17px;
+}
+
+.relatorio-box p{
+font-size:14px;
+color:#94a3b8;
+line-height:1.5;
+margin-bottom:15px;
+}
+
+.filtros{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:14px;
+margin-bottom:25px;
+}
+
+.filtro-grupo label{
+display:block;
+margin-bottom:7px;
+font-size:13px;
+font-weight:700;
+color:#94a3b8;
+}
+
+.relatorio-info{
+display:none;
+padding:16px;
+margin-bottom:20px;
+background:#0f172a;
+border-radius:15px;
+color:#38bdf8;
+font-weight:700;
 }
 
 .toast{
@@ -374,48 +485,80 @@ border-radius:14px;
 border-left:5px solid #38bdf8;
 font-weight:700;
 box-shadow:0 0 20px rgba(0,0,0,.3);
+animation:fade .3s;
 z-index:9999;
 }
 
-.lista-setores{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:12px;
-margin-top:20px;
+.toast.erro{
+border-left-color:#ef4444;
 }
 
-.setor-item{
-background:#1e293b;
-padding:15px;
-border-radius:14px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+.toast.sucesso{
+border-left-color:#22c55e;
 }
 
-.setor-item button{
-background:#dc2626;
-color:white;
-border:none;
-border-radius:8px;
-padding:8px 10px;
-cursor:pointer;
+@keyframes fade{
+
+from{
+opacity:0;
+transform:translateY(-10px);
 }
 
-.relatorios{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:15px;
+to{
+opacity:1;
+transform:translateY(0);
 }
 
-.relatorio-card{
-background:#111827;
-padding:20px;
-border-radius:18px;
 }
 
-.relatorio-card h3{
-margin-bottom:10px;
+body.light-mode{
+background:#f1f5f9;
+color:#0f172a;
+}
+
+body.light-mode .sidebar{
+background:white;
+}
+
+body.light-mode .card,
+body.light-mode .card-info,
+body.light-mode table,
+body.light-mode .grafico,
+body.light-mode .leitor-status,
+body.light-mode .acao-box,
+body.light-mode .item-identificado,
+body.light-mode .relatorio-info{
+background:white;
+color:#0f172a;
+}
+
+body.light-mode th{
+background:#e2e8f0;
+color:#0f172a;
+}
+
+body.light-mode input,
+body.light-mode select{
+background:#f8fafc;
+color:#0f172a;
+}
+
+body.light-mode select option{
+background:white;
+color:#0f172a;
+}
+
+body.light-mode .menu button{
+background:#e2e8f0;
+color:#0f172a;
+}
+
+body.light-mode .status-online{
+background:white;
+}
+
+body.light-mode .relatorio-box{
+background:#e2e8f0;
 }
 
 @media(max-width:900px){
@@ -425,6 +568,8 @@ width:100%;
 height:auto;
 position:relative;
 padding:15px;
+border-right:none;
+border-bottom:1px solid rgba(255,255,255,.05);
 }
 
 .logo{
@@ -432,25 +577,42 @@ margin-bottom:20px;
 text-align:center;
 }
 
+.logo h1{
+font-size:24px;
+}
+
+.logo p{
+font-size:12px;
+}
+
 .menu{
 flex-direction:row;
 overflow-x:auto;
+padding-bottom:5px;
 }
 
 .menu button{
 min-width:160px;
 justify-content:center;
+font-size:14px;
+padding:14px;
+text-align:center;
 }
 
 .main{
 margin-left:0;
 padding:15px;
+width:100%;
 }
 
 .topo{
 flex-direction:column;
 align-items:flex-start;
 gap:15px;
+}
+
+.topo h2{
+font-size:24px;
 }
 
 .status-online{
@@ -466,6 +628,19 @@ grid-template-columns:1fr;
 grid-template-columns:1fr;
 }
 
+input,
+select{
+font-size:16px;
+}
+
+.btn{
+width:100%;
+}
+
+.table-container{
+overflow-x:auto;
+}
+
 table{
 min-width:750px;
 }
@@ -474,35 +649,14 @@ min-width:750px;
 justify-content:center;
 }
 
+.grafico{
+overflow-x:auto;
 }
 
-@media print{
-
-body{
-background:white !important;
-color:black !important;
-}
-
-.sidebar,
-.topo,
-.btn,
-.menu,
-.scanner,
-.pesquisa{
-display:none !important;
-}
-
-.main{
-margin:0;
-padding:20px;
-}
-
-.secao{
-display:none !important;
-}
-
-#relatorioImpressao{
-display:block !important;
+.toast{
+right:10px;
+left:10px;
+top:10px;
 }
 
 }
@@ -552,12 +706,6 @@ Histórico
 </button>
 
 <button class="menu-btn"
-onclick="mostrarSecao('setores',event)">
-<i class="fa-solid fa-building"></i>
-Setores
-</button>
-
-<button class="menu-btn"
 onclick="mostrarSecao('relatorios',event)">
 <i class="fa-solid fa-file-pdf"></i>
 Relatórios
@@ -573,17 +721,13 @@ Configurações
 
 </div>
 
+
 <div class="main">
 
 <div class="topo">
 
 <div>
-
-<h2>
-⚡ Controle de
-<span>Estoque</span>
-</h2>
-
+<h2>⚡ Controle de <span>Estoque</span></h2>
 </div>
 
 <div class="status-online">
@@ -595,8 +739,7 @@ Configurações
 
 <!-- DASHBOARD -->
 
-<div id="dashboard"
-class="secao ativa">
+<div id="dashboard" class="secao ativa">
 
 <div class="dashboard">
 
@@ -616,8 +759,10 @@ class="secao ativa">
 </div>
 
 <div class="card-info">
-<h3>Setores</h3>
-<span id="totalSetores">0</span>
+<h3>Status</h3>
+<span style="font-size:22px;color:#4ade80;">
+ONLINE
+</span>
 </div>
 
 </div>
@@ -627,30 +772,164 @@ class="secao ativa">
 
 <!-- ESTOQUE -->
 
-<div id="estoque"
-class="secao">
+<div id="estoque" class="secao">
 
 
-<div class="scanner">
+<!-- LEITOR -->
 
-<div class="scanner-title">
-📷 Leitor de Código de Barras
-</div>
+<div class="card leitor-card">
+
+<h2>📷 Leitor de Código de Barras</h2>
+
+<div class="grid">
 
 <input
-id="codigoScanner"
+id="codigoLeitor"
 placeholder="Bipe o código de barras aqui..."
-autocomplete="off"
-autofocus
-onkeydown="scannerEnter(event)">
+autocomplete="off">
 
-<div id="scannerStatus"
-class="scanner-status">
-Aguardando código...
+<button
+class="btn"
+onclick="identificarCodigo()">
+
+<i class="fa-solid fa-barcode"></i>
+Identificar
+
+</button>
+
+</div>
+
+
+<div id="leitorStatus"
+class="leitor-status">
+</div>
+
+
+<div id="itemIdentificado"
+class="item-identificado">
+
+<h3>✅ Item identificado</h3>
+
+<strong id="nomeItemLeitor">---</strong>
+
+<p style="margin-top:8px;">
+Código:
+<span id="codigoItemLeitor">---</span>
+</p>
+
+<p style="margin-top:5px;">
+Estoque atual:
+<strong id="estoqueItemLeitor"
+style="font-size:18px;color:#4ade80;">
+0
+</strong>
+</p>
+
+</div>
+
+
+<div id="acoesLeitor" class="acoes-leitor">
+
+<button
+class="btn btn-success"
+onclick="selecionarAcao('entrada')">
+
+🟢 ADICIONAR ENTRADA
+
+</button>
+
+<button
+class="btn btn-danger"
+onclick="selecionarAcao('saida')">
+
+🔴 DAR SAÍDA
+
+</button>
+
+</div>
+
+
+<!-- ENTRADA -->
+
+<div id="boxEntrada" class="acao-box">
+
+<h3>🟢 Entrada de Estoque</h3>
+
+<div class="grid">
+
+<input
+type="number"
+id="quantidadeEntrada"
+min="1"
+placeholder="Quantidade">
+
+<button
+class="btn btn-success"
+onclick="confirmarEntrada()">
+
+CONFIRMAR ENTRADA
+
+</button>
+
+<button
+class="btn btn-secondary"
+onclick="cancelarOperacao()">
+
+CANCELAR
+
+</button>
+
 </div>
 
 </div>
 
+
+<!-- SAÍDA -->
+
+<div id="boxSaida" class="acao-box">
+
+<h3>🔴 Saída de Estoque</h3>
+
+<div class="grid">
+
+<input
+type="number"
+id="quantidadeSaida"
+min="1"
+placeholder="Quantidade">
+
+<select id="setorSaida">
+
+<option value="">
+Selecione o setor
+</option>
+
+</select>
+
+<button
+class="btn btn-danger"
+onclick="confirmarSaida()">
+
+CONFIRMAR SAÍDA
+
+</button>
+
+<button
+class="btn btn-secondary"
+onclick="cancelarOperacao()">
+
+CANCELAR
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- NOVO ITEM -->
 
 <div class="card">
 
@@ -713,6 +992,7 @@ onkeyup="filtrarTabela()">
 <tr>
 
 <th>Item</th>
+<th>Código</th>
 <th>Quantidade</th>
 <th>Mínimo</th>
 <th>Status</th>
@@ -731,7 +1011,9 @@ onkeyup="filtrarTabela()">
 
 <div class="grafico">
 
-<h2>📊 Visão Estoque</h2>
+<h2 style="margin-bottom:20px;">
+📊 Visão Estoque
+</h2>
 
 <canvas id="graficoEstoque"></canvas>
 
@@ -742,8 +1024,7 @@ onkeyup="filtrarTabela()">
 
 <!-- ALERTAS -->
 
-<div id="alertas"
-class="secao">
+<div id="alertas" class="secao">
 
 <div class="card">
 
@@ -757,6 +1038,7 @@ class="secao">
 
 <tr>
 <th>Item</th>
+<th>Código</th>
 <th>Quantidade</th>
 <th>Mínimo</th>
 </tr>
@@ -774,10 +1056,9 @@ class="secao">
 </div>
 
 
-<!-- HISTORICO -->
+<!-- HISTÓRICO -->
 
-<div id="historico"
-class="secao">
+<div id="historico" class="secao">
 
 <div class="card">
 
@@ -790,14 +1071,12 @@ class="secao">
 <thead>
 
 <tr>
-
 <th>Data</th>
 <th>Ação</th>
 <th>Item</th>
-<th>Quantidade</th>
 <th>Código</th>
+<th>Quantidade</th>
 <th>Setor</th>
-
 </tr>
 
 </thead>
@@ -813,67 +1092,77 @@ class="secao">
 </div>
 
 
-<!-- SETORES -->
+<!-- RELATÓRIOS -->
 
-<div id="setores"
-class="secao">
-
-<div class="card">
-
-<h2>🏢 Gerenciar Setores</h2>
-
-<p style="margin-bottom:20px;color:#94a3b8">
-
-Você pode cadastrar os setores diretamente nesta tela
-ou pela aba SETORES da planilha.
-
-</p>
-
-<div class="grid">
-
-<input
-id="novoSetor"
-placeholder="Nome do novo setor">
-
-<button
-class="btn"
-onclick="cadastrarSetor()">
-
-Adicionar Setor
-
-</button>
-
-</div>
-
-<div
-id="listaSetores"
-class="lista-setores">
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- RELATORIOS -->
-
-<div id="relatorios"
-class="secao">
+<div id="relatorios" class="secao">
 
 <div class="card">
 
 <h2>📊 Relatórios</h2>
 
-<div class="relatorios">
+<div class="filtros">
 
-<div class="relatorio-card">
+<div class="filtro-grupo">
+
+<label>Data inicial</label>
+
+<input
+type="date"
+id="dataInicial">
+
+</div>
+
+<div class="filtro-grupo">
+
+<label>Data final</label>
+
+<input
+type="date"
+id="dataFinal">
+
+</div>
+
+<div class="filtro-grupo">
+
+<label>Setor</label>
+
+<select id="filtroSetor">
+
+<option value="">
+Todos os setores
+</option>
+
+</select>
+
+</div>
+
+<div class="filtro-grupo">
+
+<label>Item</label>
+
+<select id="filtroItem">
+
+<option value="">
+Todos os itens
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="relatorios-grid">
+
+
+<div class="relatorio-box">
 
 <h3>📦 Estoque Atual</h3>
 
 <p>
 Lista todos os itens, quantidades,
-mínimos e status.
+mínimos e status atuais.
 </p>
 
 <button
@@ -887,12 +1176,13 @@ Gerar PDF
 </div>
 
 
-<div class="relatorio-card">
+<div class="relatorio-box">
 
-<h3>⚠ Itens em Alerta</h3>
+<h3>⚠️ Itens em Alerta</h3>
 
 <p>
-Lista os produtos abaixo ou no estoque mínimo.
+Lista os produtos abaixo ou no
+estoque mínimo.
 </p>
 
 <button
@@ -906,12 +1196,13 @@ Gerar PDF
 </div>
 
 
-<div class="relatorio-card">
+<div class="relatorio-box">
 
 <h3>📤 Saídas</h3>
 
 <p>
-Lista todas as retiradas de estoque.
+Lista as retiradas realizadas
+dentro do período selecionado.
 </p>
 
 <button
@@ -925,19 +1216,14 @@ Gerar PDF
 </div>
 
 
-<div class="relatorio-card">
+<div class="relatorio-box">
 
 <h3>🏢 Por Setor</h3>
 
-<select
-id="relatorioSetor"
-style="margin:15px 0">
-
-<option value="">
-Selecione o setor
-</option>
-
-</select>
+<p>
+Mostra tudo que foi destinado
+para determinado setor.
+</p>
 
 <button
 class="btn"
@@ -950,12 +1236,53 @@ Gerar PDF
 </div>
 
 
-<div class="relatorio-card">
+<div class="relatorio-box">
+
+<h3>📊 Resumo por Setor</h3>
+
+<p>
+Compara a quantidade de itens
+destinados a cada setor.
+</p>
+
+<button
+class="btn"
+onclick="gerarRelatorio('resumo_setor')">
+
+Gerar PDF
+
+</button>
+
+</div>
+
+
+<div class="relatorio-box">
+
+<h3>📦 Movimentações por Item</h3>
+
+<p>
+Mostra entradas e saídas
+de um item específico.
+</p>
+
+<button
+class="btn"
+onclick="gerarRelatorio('item')">
+
+Gerar PDF
+
+</button>
+
+</div>
+
+
+<div class="relatorio-box">
 
 <h3>📋 Histórico Completo</h3>
 
 <p>
-Todas as movimentações registradas.
+Todas as movimentações registradas
+no período selecionado.
 </p>
 
 <button
@@ -969,30 +1296,6 @@ Gerar PDF
 </div>
 
 
-<div class="relatorio-card">
-
-<h3>📦 Movimentações por Item</h3>
-
-<select
-id="relatorioItem"
-style="margin:15px 0">
-
-<option value="">
-Selecione o item
-</option>
-
-</select>
-
-<button
-class="btn"
-onclick="gerarRelatorio('item')">
-
-Gerar PDF
-
-</button>
-
-</div>
-
 </div>
 
 </div>
@@ -1000,16 +1303,15 @@ Gerar PDF
 </div>
 
 
-<!-- CONFIG -->
+<!-- CONFIGURAÇÕES -->
 
-<div id="config"
-class="secao">
+<div id="config" class="secao">
 
 <div class="card">
 
 <h2>⚙ Configurações</h2>
 
-<div style="display:flex;gap:15px;flex-wrap:wrap">
+<div style="display:flex;gap:15px;flex-wrap:wrap;">
 
 <button
 class="btn"
@@ -1034,12 +1336,6 @@ onclick="ativarLightMode()">
 </div>
 
 
-<div id="relatorioImpressao"
-style="display:none">
-
-</div>
-
-
 </div>
 
 </div>
@@ -1047,30 +1343,21 @@ style="display:none">
 
 <script>
 
-
-/* =========================================================
-   API
-   ========================================================= */
-
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwyqBvxlAa5JbB0T1oNtOBHAk2JwTuy3_Vv21J6JgXnqQpKx0jIGYmwo-ycErTOI3Zc/exec";
+"https://script.google.com/macros/s/AKfycbw0AjZ8vgnDFfuYFi79SznwHFz0xwIUj4bQgyLE4DZUaR8CpZ42mHCIbzbl3iG1Y52w/exec";
+
+let grafico = null;
+
+let dadosGlobais = [];
+
+let historicoGlobal = [];
+
+let itemSelecionado = null;
 
 
-let grafico;
-
-let dadosSistema = {
-
-estoque: [],
-codigos: [],
-setores: [],
-historico: []
-
-};
-
-
-/* =========================================================
+/* =========================
    NAVEGAÇÃO
-   ========================================================= */
+========================= */
 
 function mostrarSecao(secaoId,event){
 
@@ -1091,76 +1378,54 @@ btn.classList.remove("active");
 });
 
 if(event){
-
-event.currentTarget
-.classList.add("active");
-
+event.currentTarget.classList.add("active");
 }
 
 }
 
 
-/* =========================================================
+/* =========================
    TEMA
-   ========================================================= */
+========================= */
 
 function ativarLightMode(){
 
-document.body
-.classList.add("light-mode");
+document.body.classList.add("light-mode");
 
-localStorage.setItem(
-"tema",
-"light"
-);
+localStorage.setItem("tema","light");
 
-toast("Tema claro ativado");
+toast("Tema claro ativado","sucesso");
 
 }
-
 
 function ativarDarkMode(){
 
-document.body
-.classList.remove("light-mode");
+document.body.classList.remove("light-mode");
 
-localStorage.setItem(
-"tema",
-"dark"
-);
+localStorage.setItem("tema","dark");
 
-toast("Tema escuro ativado");
+toast("Tema escuro ativado","sucesso");
 
 }
 
-
-if(
-localStorage.getItem("tema")
-===
-"light"
-){
-
-document.body
-.classList.add("light-mode");
-
+if(localStorage.getItem("tema")==="light"){
+document.body.classList.add("light-mode");
 }
 
 
-/* =========================================================
+/* =========================
    TOAST
-   ========================================================= */
+========================= */
 
-function toast(mensagem){
+function toast(mensagem,tipo=""){
 
-const div =
-document.createElement("div");
+const div=document.createElement("div");
 
-div.className="toast";
+div.className="toast "+tipo;
 
 div.innerText=mensagem;
 
-document.body
-.appendChild(div);
+document.body.appendChild(div);
 
 setTimeout(()=>{
 div.remove();
@@ -1169,130 +1434,125 @@ div.remove();
 }
 
 
-/* =========================================================
-   ESCAPE HTML
-   ========================================================= */
-
-function escapeHTML(valor){
-
-return String(valor)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
-
-}
-
-
-/* =========================================================
+/* =========================
    CARREGAR
-   ========================================================= */
+========================= */
 
 async function carregar(){
 
 try{
 
-const resposta =
-await fetch(API_URL);
+const resposta=await fetch(API_URL);
 
-const resultado =
-await resposta.json();
+if(!resposta.ok){
+throw new Error("Erro na comunicação");
+}
 
+const resultado=await resposta.json();
 
-dadosSistema =
-resultado;
+dadosGlobais=resultado.estoque || [];
 
+historicoGlobal=resultado.historico || [];
 
-const dados =
-resultado.estoque || [];
+renderizarTudo();
 
-const historico =
-resultado.historico || [];
+carregarSetores(resultado.setores || []);
 
-const setores =
-resultado.setores || [];
+carregarItensRelatorios();
 
-const codigos =
-resultado.codigos || [];
+}catch(erro){
 
+console.error(erro);
 
-/* DASHBOARD */
+toast("Erro ao carregar os dados","erro");
 
-document
-.getElementById("totalItens")
-.innerText =
-dados.length;
+}
+
+}
 
 
-document
-.getElementById("itensAlerta")
-.innerText =
-dados.filter(
-i=>i.status==="ALERTA"
-).length;
+/* =========================
+   RENDERIZAR
+========================= */
 
+function renderizarTudo(){
 
-document
-.getElementById("estoqueTotal")
-.innerText =
-dados.reduce(
-(total,item)=>
-total + Number(item.quantidade || 0),
-0
-);
+const tabela=document.getElementById("tabela");
 
+const tabelaAlertas=
+document.getElementById("tabelaAlertas");
 
-document
-.getElementById("totalSetores")
-.innerText =
-setores.length;
-
-
-/* TABELA */
-
-const tabela =
-document.getElementById("tabela");
+const tabelaHistorico=
+document.getElementById("tabelaHistorico");
 
 tabela.innerHTML="";
 
+tabelaAlertas.innerHTML="";
 
-dados.forEach(item=>{
+tabelaHistorico.innerHTML="";
 
-const alerta =
+let totalEstoque=0;
+
+let itensAlerta=0;
+
+const nomes=[];
+
+const quantidades=[];
+
+
+dadosGlobais.forEach(item=>{
+
+const alerta=
 Number(item.quantidade)
 <=
 Number(item.minimo);
 
+if(alerta){
 
-tabela.innerHTML += `
+itensAlerta++;
 
-<tr
-class="${alerta ? "alerta" : ""}">
+tabelaAlertas.innerHTML+=`
+
+<tr>
+
+<td>${escapeHtml(item.item)}</td>
+
+<td>${escapeHtml(item.codigo)}</td>
+
+<td>${item.quantidade}</td>
+
+<td>${item.minimo}</td>
+
+</tr>
+
+`;
+
+}
+
+totalEstoque+=Number(item.quantidade);
+
+nomes.push(item.item);
+
+quantidades.push(Number(item.quantidade));
+
+
+tabela.innerHTML+=`
+
+<tr class="${alerta ? "alerta":""}">
+
+<td>${escapeHtml(item.item)}</td>
+
+<td>${escapeHtml(item.codigo)}</td>
+
+<td>${item.quantidade}</td>
+
+<td>${item.minimo}</td>
 
 <td>
-${escapeHTML(item.item)}
-</td>
 
-<td>
-${item.quantidade}
-</td>
+<span class="${alerta ? "status-alerta":"status-ok"}">
 
-<td>
-${item.minimo}
-</td>
-
-<td>
-
-<span class="${
-alerta
-?
-"status-alerta"
-:
-"status-ok"
-}">
-
-${alerta ? "ALERTA" : "OK"}
+${alerta ? "ALERTA":"OK"}
 
 </span>
 
@@ -1304,10 +1564,7 @@ ${alerta ? "ALERTA" : "OK"}
 
 <button
 class="entrada"
-onclick='movimentar(
-${JSON.stringify(item.item)},
-"entrada"
-)'>
+onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">
 
 +
 
@@ -1315,12 +1572,9 @@ ${JSON.stringify(item.item)},
 
 <button
 class="saida"
-onclick='movimentar(
-${JSON.stringify(item.item)},
-"saida"
-)'>
+onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">
 
--
+−
 
 </button>
 
@@ -1335,107 +1589,26 @@ ${JSON.stringify(item.item)},
 });
 
 
-/* ALERTAS */
-
-const tabelaAlertas =
-document.getElementById(
-"tabelaAlertas"
-);
-
-tabelaAlertas.innerHTML="";
-
-
-dados
-.filter(
-item =>
-Number(item.quantidade)
-<=
-Number(item.minimo)
-)
-.forEach(item=>{
-
-tabelaAlertas.innerHTML += `
-
-<tr>
-
-<td>
-${escapeHTML(item.item)}
-</td>
-
-<td>
-${item.quantidade}
-</td>
-
-<td>
-${item.minimo}
-</td>
-
-</tr>
-
-`;
-
-});
-
-
-/* HISTORICO */
-
-const tabelaHistorico =
-document.getElementById(
-"tabelaHistorico"
-);
-
-tabelaHistorico.innerHTML="";
-
-
-[...historico]
+historicoGlobal
+.slice()
 .reverse()
 .forEach(item=>{
 
-let data="";
-
-try{
-
-data =
-new Date(
-item.data
-).toLocaleString(
-"pt-BR"
-);
-
-}catch(e){
-
-data=item.data;
-
-}
-
-
-tabelaHistorico.innerHTML += `
+tabelaHistorico.innerHTML+=`
 
 <tr>
 
-<td>
-${escapeHTML(data)}
-</td>
+<td>${formatarData(item.data)}</td>
 
-<td>
-${escapeHTML(item.acao)}
-</td>
+<td>${escapeHtml(item.acao)}</td>
 
-<td>
-${escapeHTML(item.item)}
-</td>
+<td>${escapeHtml(item.item)}</td>
 
-<td>
-${item.quantidade}
-</td>
+<td>${escapeHtml(item.codigo)}</td>
 
-<td>
-${escapeHTML(item.codigo || "-")}
-</td>
+<td>${item.quantidade}</td>
 
-<td>
-${escapeHTML(item.setor || "-")}
-</td>
+<td>${escapeHtml(item.setor || "-")}</td>
 
 </tr>
 
@@ -1444,156 +1617,39 @@ ${escapeHTML(item.setor || "-")}
 });
 
 
-/* SETORES */
+document.getElementById("totalItens").innerText=
+dadosGlobais.length;
 
-const listaSetores =
-document.getElementById(
-"listaSetores"
-);
+document.getElementById("itensAlerta").innerText=
+itensAlerta;
 
-listaSetores.innerHTML="";
-
-
-setores.forEach(setor=>{
-
-listaSetores.innerHTML += `
-
-<div class="setor-item">
-
-<span>
-${escapeHTML(setor)}
-</span>
-
-<button
-onclick='excluirSetor(
-${JSON.stringify(setor)}
-)'>
-
-<i class="fa-solid fa-trash"></i>
-
-</button>
-
-</div>
-
-`;
-
-});
+document.getElementById("estoqueTotal").innerText=
+totalEstoque;
 
 
-/* SELECT SETORES */
-
-const selectSetor =
-document.getElementById(
-"relatorioSetor"
-);
-
-selectSetor.innerHTML = `
-
-<option value="">
-Selecione o setor
-</option>
-
-`;
-
-setores.forEach(setor=>{
-
-selectSetor.innerHTML += `
-
-<option value="${escapeHTML(setor)}">
-${escapeHTML(setor)}
-</option>
-
-`;
-
-});
-
-
-/* SELECT ITENS */
-
-const selectItem =
-document.getElementById(
-"relatorioItem"
-);
-
-selectItem.innerHTML = `
-
-<option value="">
-Selecione o item
-</option>
-
-`;
-
-dados.forEach(item=>{
-
-selectItem.innerHTML += `
-
-<option value="${escapeHTML(item.item)}">
-${escapeHTML(item.item)}
-</option>
-
-`;
-
-});
-
-
-/* GRÁFICO */
-
-gerarGrafico(
-
-dados.map(
-item=>item.item
-),
-
-dados.map(
-item=>Number(item.quantidade)
-)
-
-);
-
-
-}
-
-catch(erro){
-
-console.error(erro);
-
-toast(
-"Erro ao carregar o sistema"
-);
-
-}
+gerarGrafico(nomes,quantidades);
 
 }
 
 
-/* =========================================================
+/* =========================
    GRÁFICO
-   ========================================================= */
+========================= */
 
 function gerarGrafico(labels,data){
 
-const canvas =
-document.getElementById(
-"graficoEstoque"
-);
+const canvas=
+document.getElementById("graficoEstoque");
 
-if(!canvas) return;
+if(!canvas)return;
 
-const ctx =
-canvas.getContext("2d");
-
+const ctx=canvas.getContext("2d");
 
 if(grafico){
-
 grafico.destroy();
-
 }
 
-
-grafico =
-new Chart(
-ctx,
-{
+grafico=new Chart(ctx,{
 
 type:"bar",
 
@@ -1620,19 +1676,9 @@ responsive:true,
 plugins:{
 
 legend:{
-
 labels:{
-
-color:
-document.body.classList
-.contains("light-mode")
-?
-"#0f172a"
-:
-"white"
-
+color:"white"
 }
-
 }
 
 },
@@ -1640,444 +1686,271 @@ document.body.classList
 scales:{
 
 x:{
-
 ticks:{
-
-color:
-document.body.classList
-.contains("light-mode")
-?
-"#0f172a"
-:
-"white"
-
+color:"white"
 }
-
 },
 
 y:{
-
 ticks:{
-
-color:
-document.body.classList
-.contains("light-mode")
-?
-"#0f172a"
-:
-"white"
-
+color:"white"
+}
 }
 
 }
 
 }
 
-}
-
-}
-
-);
+});
 
 }
 
 
-/* =========================================================
-   CADASTRAR ITEM
-   ========================================================= */
+/* =========================
+   LEITOR
+========================= */
 
-async function cadastrar(){
+document
+.getElementById("codigoLeitor")
+.addEventListener("keydown",function(event){
 
-const item =
-document.getElementById(
-"item"
-).value.trim();
+if(event.key==="Enter"){
 
-const codigo =
-document.getElementById(
-"codigo"
-).value.trim();
+event.preventDefault();
 
-const quantidade =
-document.getElementById(
-"quantidade"
-).value;
+identificarCodigo();
 
-const minimo =
-document.getElementById(
-"minimo"
-).value;
+}
+
+});
 
 
-if(
-!item ||
-quantidade === "" ||
-minimo === ""
-){
+async function identificarCodigo(){
 
-toast(
-"Preencha os campos obrigatórios"
-);
+const codigo=
+document
+.getElementById("codigoLeitor")
+.value
+.trim();
+
+if(!codigo){
+
+toast("Bipe ou digite um código","erro");
 
 return;
 
 }
 
-
-try{
-
-const resposta =
-await fetch(
-API_URL,
-{
-
-method:"POST",
-
-body:JSON.stringify({
-
-tipo:"cadastro",
-
-item:item,
-
-codigo:codigo,
-
-quantidade:quantidade,
-
-minimo:minimo
-
-})
-
-}
-);
-
-
-const texto =
-await resposta.text();
-
-
-if(
-texto ===
-"ITEM_JA_EXISTE"
-){
-
-toast(
-"Esse item já existe"
-);
-
-return;
-
-}
-
-
-if(
-texto ===
-"CODIGO_JA_EXISTE"
-){
-
-toast(
-"Esse código já está cadastrado"
-);
-
-return;
-
-}
-
-
-if(
-texto !== "OK"
-){
-
-toast(texto);
-
-return;
-
-}
-
-
-toast(
-"Item cadastrado com sucesso"
-);
-
-
-document.getElementById(
-"item"
-).value="";
-
-document.getElementById(
-"codigo"
-).value="";
-
-document.getElementById(
-"quantidade"
-).value="";
-
-document.getElementById(
-"minimo"
-).value="";
-
-
-carregar();
-
-}
-
-catch(erro){
-
-toast(
-"Erro ao cadastrar item"
-);
-
-}
-
-}
-
-
-/* =========================================================
-   LEITOR DE CÓDIGO
-   ========================================================= */
-
-function scannerEnter(event){
-
-if(
-event.key !== "Enter"
-) return;
-
-
-const campo =
-document.getElementById(
-"codigoScanner"
-);
-
-const codigo =
-campo.value.trim();
-
-
-if(!codigo) return;
-
-
-identificarCodigo(codigo);
-
-
-campo.value="";
-
-
-}
-
-
-/* =========================================================
-   IDENTIFICA CÓDIGO
-   ========================================================= */
-
-function identificarCodigo(codigo){
-
-const encontrado =
-dadosSistema.codigos
-.find(
-item =>
-String(item.codigo)
-.trim()
+const item=
+dadosGlobais.find(
+x=>
+String(x.codigo).trim().toLowerCase()
 ===
-String(codigo)
-.trim()
+codigo.toLowerCase()
 );
 
 
-const status =
-document.getElementById(
-"scannerStatus"
-);
-
-
-if(!encontrado){
-
-status.innerText =
-"❌ Código não cadastrado";
-
-toast(
-"Esse código não está cadastrado"
-);
-
-return;
-
-}
-
-
-status.innerText =
-"✅ Item identificado: "
-+
-encontrado.item;
-
-
-const item =
-dadosSistema.estoque
-.find(
-i =>
-i.item
-.toLowerCase()
-===
-encontrado.item
-.toLowerCase()
-);
+const status=
+document.getElementById("leitorStatus");
 
 
 if(!item){
 
-toast(
-"Item não encontrado no estoque"
-);
+itemSelecionado=null;
+
+document
+.getElementById("itemIdentificado")
+.classList.remove("ativo");
+
+document
+.getElementById("acoesLeitor")
+.classList.remove("ativo");
+
+status.className="leitor-status erro";
+
+status.innerText=
+"❌ Código não encontrado no estoque.";
 
 return;
 
 }
 
 
-abrirMovimentacao(
-item.item,
-codigo
-);
+itemSelecionado=item;
+
+document
+.getElementById("nomeItemLeitor")
+.innerText=item.item;
+
+document
+.getElementById("codigoItemLeitor")
+.innerText=item.codigo;
+
+document
+.getElementById("estoqueItemLeitor")
+.innerText=item.quantidade;
+
+document
+.getElementById("itemIdentificado")
+.classList.add("ativo");
+
+document
+.getElementById("acoesLeitor")
+.classList.add("ativo");
+
+document
+.getElementById("boxEntrada")
+.classList.remove("ativo");
+
+document
+.getElementById("boxSaida")
+.classList.remove("ativo");
+
+status.className="leitor-status sucesso";
+
+status.innerText=
+"✅ Item identificado com sucesso.";
 
 }
 
 
-/* =========================================================
-   MOVIMENTAÇÃO PELO BOTÃO
-   ========================================================= */
+/* =========================
+   ESCOLHER ENTRADA / SAÍDA
+========================= */
 
-function movimentar(item,acao){
+function selecionarAcao(acao){
 
-abrirMovimentacao(
-item,
+if(!itemSelecionado)return;
+
+document
+.getElementById("boxEntrada")
+.classList.remove("ativo");
+
+document
+.getElementById("boxSaida")
+.classList.remove("ativo");
+
+
+if(acao==="entrada"){
+
+document
+.getElementById("quantidadeEntrada")
+.value="";
+
+document
+.getElementById("boxEntrada")
+.classList.add("ativo");
+
+document
+.getElementById("quantidadeEntrada")
+.focus();
+
+}
+
+
+if(acao==="saida"){
+
+document
+.getElementById("quantidadeSaida")
+.value="";
+
+document
+.getElementById("setorSaida")
+.value="";
+
+document
+.getElementById("boxSaida")
+.classList.add("ativo");
+
+document
+.getElementById("quantidadeSaida")
+.focus();
+
+}
+
+}
+
+
+/* =========================
+   CONFIRMAR ENTRADA
+========================= */
+
+async function confirmarEntrada(){
+
+if(!itemSelecionado)return;
+
+const quantidade=
+Number(
+document
+.getElementById("quantidadeEntrada")
+.value
+);
+
+if(!quantidade || quantidade<=0){
+
+toast("Informe uma quantidade válida","erro");
+
+return;
+
+}
+
+await enviarMovimentacao(
+itemSelecionado.codigo,
+"entrada",
+quantidade,
 ""
 );
 
 }
 
 
-/* =========================================================
-   ABRIR MOVIMENTAÇÃO
-   ========================================================= */
+/* =========================
+   CONFIRMAR SAÍDA
+========================= */
 
-function abrirMovimentacao(
-item,
-codigo
-){
+async function confirmarSaida(){
 
-const acao =
-confirm(
-"OK = ENTRADA\n\n"
-+
-"Cancelar = SAÍDA"
-)
-?
-"entrada"
-:
-"saida";
+if(!itemSelecionado)return;
 
-
-let quantidade =
-prompt(
-"Item: "
-+
-item
-+
-"\n\nDigite a quantidade:"
+const quantidade=
+Number(
+document
+.getElementById("quantidadeSaida")
+.value
 );
 
+const setor=
+document
+.getElementById("setorSaida")
+.value;
 
-if(
-quantidade === null
-) return;
+if(!quantidade || quantidade<=0){
 
-
-quantidade =
-Number(quantidade);
-
-
-if(
-isNaN(quantidade) ||
-quantidade <= 0
-){
-
-toast(
-"Quantidade inválida"
-);
+toast("Informe uma quantidade válida","erro");
 
 return;
 
 }
 
+if(!setor){
 
-let setor="";
-
-
-if(
-acao === "saida"
-){
-
-if(
-!dadosSistema.setores.length
-){
-
-toast(
-"Nenhum setor cadastrado"
-);
+toast("Selecione o setor de destino","erro");
 
 return;
 
 }
 
+if(quantidade>Number(itemSelecionado.quantidade)){
 
-const lista =
-dadosSistema.setores
-.map(
-(s,i)=>
-`${i+1} - ${s}`
-)
-.join("\n");
-
-
-const escolha =
-prompt(
-"SETOR DE DESTINO\n\n"
-+
-lista
-+
-"\n\nDigite o número do setor:"
-);
-
-
-if(
-escolha === null
-) return;
-
-
-const indice =
-Number(escolha)-1;
-
-
-if(
-isNaN(indice) ||
-!dadosSistema.setores[indice]
-){
-
-toast(
-"Setor inválido"
-);
+toast("Estoque insuficiente","erro");
 
 return;
 
 }
 
-
-setor =
-dadosSistema.setores[indice];
-
-}
-
-
-enviarMovimentacao(
-item,
-codigo,
-acao,
+await enviarMovimentacao(
+itemSelecionado.codigo,
+"saida",
 quantidade,
 setor
 );
@@ -2085,12 +1958,11 @@ setor
 }
 
 
-/* =========================================================
+/* =========================
    ENVIAR MOVIMENTAÇÃO
-   ========================================================= */
+========================= */
 
 async function enviarMovimentacao(
-item,
 codigo,
 acao,
 quantidade,
@@ -2099,18 +1971,13 @@ setor
 
 try{
 
-const resposta =
-await fetch(
-API_URL,
-{
+const resposta=await fetch(API_URL,{
 
 method:"POST",
 
 body:JSON.stringify({
 
 tipo:"movimentacao",
-
-item:item,
 
 codigo:codigo,
 
@@ -2122,803 +1989,460 @@ setor:setor
 
 })
 
-}
-);
+});
 
+const texto=await resposta.text();
 
-const texto =
-await resposta.text();
+if(texto==="ESTOQUE_INSUFICIENTE"){
 
-
-if(
-texto ===
-"ESTOQUE_INSUFICIENTE"
-){
-
-toast(
-"❌ Estoque insuficiente"
-);
+toast("Estoque insuficiente","erro");
 
 return;
 
 }
 
+if(texto==="CODIGO_NAO_ENCONTRADO"){
 
-if(
-texto ===
-"SETOR_OBRIGATORIO"
-){
-
-toast(
-"Informe o setor"
-);
+toast("Código não encontrado","erro");
 
 return;
 
 }
 
+if(texto!=="OK"){
 
-if(
-texto ===
-"SETOR_NAO_ENCONTRADO"
-){
-
-toast(
-"Setor não encontrado"
-);
+toast("Não foi possível realizar a operação","erro");
 
 return;
 
 }
 
-
-if(
-texto ===
-"ITEM_NAO_ENCONTRADO"
-){
-
 toast(
-"Item não encontrado"
-);
-
-return;
-
-}
-
-
-if(
-texto !== "OK"
-){
-
-toast(texto);
-
-return;
-
-}
-
-
-toast(
-acao === "entrada"
+acao==="entrada"
 ?
-"✅ Entrada realizada"
+"Entrada realizada com sucesso!"
 :
-"✅ Saída realizada para "
-+
-setor
+"Saída realizada com sucesso!",
+"sucesso"
 );
 
+cancelarOperacao();
 
-carregar();
+await carregar();
 
+}catch(erro){
 
-document.getElementById(
-"codigoScanner"
-).focus();
+console.error(erro);
 
-}
-
-catch(erro){
-
-toast(
-"Erro na movimentação"
-);
+toast("Erro ao realizar movimentação","erro");
 
 }
 
 }
 
 
-/* =========================================================
-   CADASTRAR SETOR
-   ========================================================= */
+/* =========================
+   CANCELAR
+========================= */
 
-async function cadastrarSetor(){
+function cancelarOperacao(){
 
-const setor =
-document.getElementById(
-"novoSetor"
-).value.trim();
+itemSelecionado=null;
 
+document
+.getElementById("codigoLeitor")
+.value="";
 
-if(!setor){
+document
+.getElementById("itemIdentificado")
+.classList.remove("ativo");
 
-toast(
-"Digite o nome do setor"
-);
+document
+.getElementById("acoesLeitor")
+.classList.remove("ativo");
 
-return;
+document
+.getElementById("boxEntrada")
+.classList.remove("ativo");
 
-}
+document
+.getElementById("boxSaida")
+.classList.remove("ativo");
 
+document
+.getElementById("leitorStatus")
+.className="leitor-status";
 
-try{
+document
+.getElementById("quantidadeEntrada")
+.value="";
 
-const resposta =
-await fetch(
-API_URL,
-{
+document
+.getElementById("quantidadeSaida")
+.value="";
 
-method:"POST",
+document
+.getElementById("setorSaida")
+.value="";
 
-body:JSON.stringify({
+setTimeout(()=>{
 
-tipo:"cadastrarSetor",
+document
+.getElementById("codigoLeitor")
+.focus();
 
-setor:setor
-
-})
-
-}
-);
-
-
-const texto =
-await resposta.text();
-
-
-if(
-texto ===
-"SETOR_JA_EXISTE"
-){
-
-toast(
-"Esse setor já existe"
-);
-
-return;
+},100);
 
 }
 
 
-if(
-texto !== "OK"
-){
+/* =========================
+   MOVIMENTAÇÃO MANUAL
+========================= */
 
-toast(texto);
+function movimentacaoManual(codigo,acao){
 
-return;
+document
+.getElementById("codigoLeitor")
+.value=codigo;
 
-}
+identificarCodigo().then(()=>{
 
+setTimeout(()=>{
 
-document.getElementById(
-"novoSetor"
-).value="";
+selecionarAcao(acao);
 
+},150);
 
-toast(
-"Setor cadastrado"
-);
-
-
-carregar();
-
-}
-
-catch(erro){
-
-toast(
-"Erro ao cadastrar setor"
-);
-
-}
+});
 
 }
 
 
-/* =========================================================
-   EXCLUIR SETOR
-   ========================================================= */
+/* =========================
+   CADASTRAR ITEM
+========================= */
 
-async function excluirSetor(setor){
+async function cadastrar(){
 
-const confirmar =
-confirm(
-"Excluir o setor:\n\n"
-+
-setor
-+
-"\n\nDeseja continuar?"
-);
-
-
-if(!confirmar) return;
-
-
-try{
-
-const resposta =
-await fetch(
-API_URL,
-{
-
-method:"POST",
-
-body:JSON.stringify({
-
-tipo:"excluirSetor",
-
-setor:setor
-
-})
-
-}
-);
-
-
-const texto =
-await resposta.text();
-
-
-if(
-texto !== "OK"
-){
-
-toast(texto);
-
-return;
-
-}
-
-
-toast(
-"Setor excluído"
-);
-
-
-carregar();
-
-}
-
-catch(erro){
-
-toast(
-"Erro ao excluir setor"
-);
-
-}
-
-}
-
-
-/* =========================================================
-   FILTRO
-   ========================================================= */
-
-function filtrarTabela(){
-
-const filtro =
-document.getElementById(
-"pesquisa"
-)
+const item=
+document
+.getElementById("item")
 .value
-.toLowerCase();
+.trim();
+
+const codigo=
+document
+.getElementById("codigo")
+.value
+.trim();
+
+const quantidade=
+document
+.getElementById("quantidade")
+.value;
+
+const minimo=
+document
+.getElementById("minimo")
+.value;
+
+
+if(
+!item ||
+!codigo ||
+quantidade==="" ||
+minimo===""
+){
+
+toast("Preencha todos os campos","erro");
+
+return;
+
+}
+
+
+if(Number(quantidade)<0 || Number(minimo)<0){
+
+toast("Quantidade e mínimo não podem ser negativos","erro");
+
+return;
+
+}
+
+
+try{
+
+const resposta=await fetch(API_URL,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+tipo:"cadastro",
+
+item:item,
+
+codigo:codigo,
+
+quantidade:Number(quantidade),
+
+minimo:Number(minimo)
+
+})
+
+});
+
+
+const texto=await resposta.text();
+
+
+if(texto==="ITEM_JA_EXISTE"){
+
+toast("Esse item já existe","erro");
+
+return;
+
+}
+
+if(texto==="CODIGO_JA_EXISTE"){
+
+toast("Esse código já está cadastrado","erro");
+
+return;
+
+}
+
+
+if(texto!=="OK"){
+
+toast("Não foi possível cadastrar","erro");
+
+return;
+
+}
+
+
+toast("Item cadastrado com sucesso!","sucesso");
 
 
 document
-.querySelectorAll(
-"#tabela tr"
-)
-.forEach(
-linha=>{
+.getElementById("item")
+.value="";
 
-linha.style.display =
-linha.innerText
-.toLowerCase()
-.includes(filtro)
+document
+.getElementById("codigo")
+.value="";
+
+document
+.getElementById("quantidade")
+.value="";
+
+document
+.getElementById("minimo")
+.value="";
+
+
+await carregar();
+
+
+}catch(erro){
+
+console.error(erro);
+
+toast("Erro ao cadastrar item","erro");
+
+}
+
+}
+
+
+/* =========================
+   PESQUISA
+========================= */
+
+function filtrarTabela(){
+
+const filtro=
+document
+.getElementById("pesquisa")
+.value
+.toLowerCase();
+
+document
+.querySelectorAll("#tabela tr")
+.forEach(linha=>{
+
+const texto=
+linha.innerText.toLowerCase();
+
+linha.style.display=
+texto.includes(filtro)
 ?
 ""
 :
 "none";
 
-}
-);
+});
 
 }
 
 
-/* =========================================================
+/* =========================
+   SETORES
+========================= */
+
+function carregarSetores(setores){
+
+const selects=[
+document.getElementById("setorSaida"),
+document.getElementById("filtroSetor")
+];
+
+selects.forEach(select=>{
+
+if(!select)return;
+
+const valorAtual=select.value;
+
+if(select.id==="setorSaida"){
+
+select.innerHTML=
+'<option value="">Selecione o setor</option>';
+
+}else{
+
+select.innerHTML=
+'<option value="">Todos os setores</option>';
+
+}
+
+setores.forEach(setor=>{
+
+const option=
+document.createElement("option");
+
+option.value=setor;
+
+option.textContent=setor;
+
+select.appendChild(option);
+
+});
+
+select.value=valorAtual;
+
+});
+
+}
+
+
+/* =========================
+   ITENS NOS RELATÓRIOS
+========================= */
+
+function carregarItensRelatorios(){
+
+const select=
+document.getElementById("filtroItem");
+
+select.innerHTML=
+'<option value="">Todos os itens</option>';
+
+dadosGlobais.forEach(item=>{
+
+const option=
+document.createElement("option");
+
+option.value=item.codigo;
+
+option.textContent=
+item.item+" ("+item.codigo+")";
+
+select.appendChild(option);
+
+});
+
+}
+
+
+/* =========================
    RELATÓRIOS
-   ========================================================= */
+========================= */
 
-function gerarRelatorio(tipo){
+async function gerarRelatorio(tipo){
 
-let titulo="";
-let linhas=[];
+const dataInicial=
+document
+.getElementById("dataInicial")
+.value;
 
+const dataFinal=
+document
+.getElementById("dataFinal")
+.value;
 
-if(
-tipo === "estoque"
-){
+const setor=
+document
+.getElementById("filtroSetor")
+.value;
 
-titulo =
-"RELATÓRIO DE ESTOQUE ATUAL";
-
-
-linhas =
-dadosSistema.estoque.map(
-item=>({
-
-col1:item.item,
-
-col2:item.quantidade,
-
-col3:item.minimo,
-
-col4:item.status
-
-})
-);
-
-}
+const codigoItem=
+document
+.getElementById("filtroItem")
+.value;
 
 
 if(
-tipo === "alertas"
+dataInicial &&
+dataFinal &&
+dataInicial>dataFinal
 ){
 
-titulo =
-"RELATÓRIO DE ITENS EM ALERTA";
-
-
-linhas =
-dadosSistema.estoque
-.filter(
-item =>
-item.status === "ALERTA"
-)
-.map(
-item=>({
-
-col1:item.item,
-
-col2:item.quantidade,
-
-col3:item.minimo,
-
-col4:item.status
-
-})
-);
-
-}
-
-
-if(
-tipo === "saidas"
-){
-
-titulo =
-"RELATÓRIO DE SAÍDAS";
-
-
-linhas =
-dadosSistema.historico
-.filter(
-item =>
-String(item.acao)
-.toUpperCase()
-===
-"SAIDA"
-)
-.map(
-item=>({
-
-col1:
-formatarData(item.data),
-
-col2:item.item,
-
-col3:item.quantidade,
-
-col4:item.setor || "-"
-
-})
-);
-
-}
-
-
-if(
-tipo === "setor"
-){
-
-const setor =
-document.getElementById(
-"relatorioSetor"
-).value;
-
-
-if(!setor){
-
-toast(
-"Selecione um setor"
-);
+toast("A data inicial não pode ser maior que a final","erro");
 
 return;
 
 }
 
-
-titulo =
-"RELATÓRIO DO SETOR: "
-+
-setor;
-
-
-linhas =
-dadosSistema.historico
-.filter(
-item =>
-String(item.setor)
-.toLowerCase()
-===
-setor.toLowerCase()
-)
-.map(
-item=>({
-
-col1:
-formatarData(item.data),
-
-col2:item.item,
-
-col3:item.quantidade,
-
-col4:item.acao
-
-})
-);
-
-}
-
-
-if(
-tipo === "historico"
-){
-
-titulo =
-"HISTÓRICO COMPLETO";
-
-
-linhas =
-dadosSistema.historico
-.map(
-item=>({
-
-col1:
-formatarData(item.data),
-
-col2:item.acao,
-
-col3:item.item,
-
-col4:item.quantidade,
-
-col5:item.setor || "-"
-
-})
-);
-
-}
-
-
-if(
-tipo === "item"
-){
-
-const itemSelecionado =
-document.getElementById(
-"relatorioItem"
-).value;
-
-
-if(!itemSelecionado){
-
-toast(
-"Selecione um item"
-);
-
-return;
-
-}
-
-
-titulo =
-"HISTÓRICO DO ITEM: "
-+
-itemSelecionado;
-
-
-linhas =
-dadosSistema.historico
-.filter(
-item =>
-String(item.item)
-.toLowerCase()
-===
-itemSelecionado.toLowerCase()
-)
-.map(
-item=>({
-
-col1:
-formatarData(item.data),
-
-col2:item.acao,
-
-col3:item.quantidade,
-
-col4:item.setor || "-"
-
-})
-);
-
-}
-
-
-criarRelatorioPDF(
-titulo,
-linhas
-);
-
-}
-
-
-/* =========================================================
-   FORMATAR DATA
-   ========================================================= */
-
-function formatarData(data){
 
 try{
 
-return new Date(data)
-.toLocaleString("pt-BR");
+toast("Gerando relatório...");
 
-}
-catch(e){
 
-return data;
+const resposta=await fetch(API_URL,{
 
-}
+method:"POST",
 
-}
+body:JSON.stringify({
 
+tipo:"relatorio",
 
-/* =========================================================
-   CRIAR RELATÓRIO PARA PDF
-   ========================================================= */
+relatorio:tipo,
 
-function criarRelatorioPDF(
-titulo,
-linhas
-){
+dataInicial:dataInicial,
 
-let html = `
+dataFinal:dataFinal,
 
-<!DOCTYPE html>
+setor:setor,
 
-<html lang="pt-BR">
+codigoItem:codigoItem
 
-<head>
+})
 
-<meta charset="UTF-8">
+});
 
-<title>
-${escapeHTML(titulo)}
-</title>
 
-<style>
+const resultado=await resposta.json();
 
-body{
 
-font-family:Arial,sans-serif;
-
-padding:40px;
-
-color:#111;
-
-}
-
-h1{
-
-text-align:center;
-
-margin-bottom:10px;
-
-}
-
-.data{
-
-text-align:center;
-
-margin-bottom:30px;
-
-color:#555;
-
-}
-
-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-}
-
-th,td{
-
-border:1px solid #ccc;
-
-padding:10px;
-
-text-align:left;
-
-}
-
-th{
-
-background:#eee;
-
-}
-
-.rodape{
-
-margin-top:30px;
-
-text-align:center;
-
-font-size:12px;
-
-color:#777;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h1>
-${escapeHTML(titulo)}
-</h1>
-
-<div class="data">
-
-Gerado em:
-${new Date().toLocaleString("pt-BR")}
-
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Informação</th>
-<th>Informação</th>
-<th>Informação</th>
-<th>Informação</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-`;
-
-
-linhas.forEach(
-linha=>{
-
-const valores =
-Object.values(linha);
-
-
-html += "<tr>";
-
-valores.forEach(
-valor=>{
-
-html +=
-"<td>"
-+
-escapeHTML(valor)
-+
-"</td>";
-
-}
-);
-
-html += "</tr>";
-
-}
-);
-
-
-if(!linhas.length){
-
-html += `
-
-<tr>
-
-<td colspan="4">
-
-Nenhum registro encontrado.
-
-</td>
-
-</tr>
-
-`;
-
-}
-
-
-html += `
-
-</tbody>
-
-</table>
-
-<div class="rodape">
-
-T.I-HEDA - Sistema de Controle de Estoque
-
-</div>
-
-<script>
-
-window.onload=function(){
-
-window.print();
-
-};
-
-<\/script>
-
-</body>
-
-</html>
-
-`;
-
-
-const janela =
-window.open(
-"",
-"_blank"
-);
-
-
-if(!janela){
+if(!resultado.sucesso){
 
 toast(
-"Permita pop-ups no navegador para gerar o PDF"
+resultado.mensagem ||
+"Erro ao gerar relatório",
+"erro"
 );
 
 return;
@@ -2926,20 +2450,135 @@ return;
 }
 
 
-janela.document.open();
+baixarPDF(
+resultado.pdf,
+resultado.nomeArquivo
+);
 
-janela.document.write(html);
 
-janela.document.close();
+toast("PDF gerado com sucesso!","sucesso");
+
+
+}catch(erro){
+
+console.error(erro);
+
+toast("Erro ao gerar PDF","erro");
+
+}
 
 }
 
 
-/* =========================================================
+/* =========================
+   DOWNLOAD PDF
+========================= */
+
+function baixarPDF(base64,nomeArquivo){
+
+const byteCharacters=
+atob(base64);
+
+const byteNumbers=
+new Array(byteCharacters.length);
+
+for(
+let i=0;
+i<byteCharacters.length;
+i++
+){
+
+byteNumbers[i]=
+byteCharacters.charCodeAt(i);
+
+}
+
+const byteArray=
+new Uint8Array(byteNumbers);
+
+const blob=
+new Blob(
+[byteArray],
+{type:"application/pdf"}
+);
+
+const url=
+URL.createObjectURL(blob);
+
+const link=
+document.createElement("a");
+
+link.href=url;
+
+link.download=
+nomeArquivo || "relatorio.pdf";
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================
+   UTILITÁRIOS
+========================= */
+
+function formatarData(data){
+
+if(!data)return"-";
+
+const d=new Date(data);
+
+if(isNaN(d.getTime())){
+return data;
+}
+
+return d.toLocaleString("pt-BR");
+
+}
+
+
+function escapeHtml(valor){
+
+return String(valor ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function escapeJs(valor){
+
+return String(valor ?? "")
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'")
+.replace(/\n/g,"\\n")
+.replace(/\r/g,"\\r");
+
+}
+
+
+/* =========================
    INICIALIZAÇÃO
-   ========================================================= */
+========================= */
 
 carregar();
+
+setTimeout(()=>{
+
+document
+.getElementById("codigoLeitor")
+.focus();
+
+},1000);
 
 </script>
 
