@@ -489,6 +489,8 @@ padding:25px;
 overflow:auto;
 }
 .relatorio-modal.ativo{display:flex;justify-content:center;align-items:flex-start;}
+.relatorio-filtros-modal-conteudo{max-width:850px;}
+.relatorio-filtros-modal-conteudo .filtros{margin-bottom:0;}
 .relatorio-modal-conteudo{
 width:100%;max-width:1100px;background:#0f172a;color:#e2e8f0;
 border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:28px;margin:10px auto;
@@ -1136,59 +1138,6 @@ onkeyup="filtrarTabela()">
 
 <h2>📊 Relatórios</h2>
 
-<div class="filtros">
-
-<div class="filtro-grupo">
-
-<label>Data inicial</label>
-
-<input
-type="date"
-id="dataInicial">
-
-</div>
-
-<div class="filtro-grupo">
-
-<label>Data final</label>
-
-<input
-type="date"
-id="dataFinal">
-
-</div>
-
-<div class="filtro-grupo">
-
-<label>Setor</label>
-
-<select id="filtroSetor">
-
-<option value="">
-Todos os setores
-</option>
-
-</select>
-
-</div>
-
-<div class="filtro-grupo">
-
-<label>Item</label>
-
-<select id="filtroItem">
-
-<option value="">
-Todos os itens
-</option>
-
-</select>
-
-</div>
-
-</div>
-
-
 <div class="relatorios-grid">
 
 
@@ -1339,6 +1288,47 @@ onclick="gerarRelatorio('historico')">
 </div>
 
 
+<!-- FILTROS DO RELATORIO -->
+<div id="modalFiltrosRelatorio" class="relatorio-modal">
+  <div class="relatorio-modal-conteudo relatorio-filtros-modal-conteudo">
+    <div class="relatorio-modal-topo">
+      <div>
+        <h2 id="filtroRelatorioTitulo">🔎 Filtros do Relatório</h2>
+        <p style="color:#94a3b8;margin-top:5px;">Selecione os filtros antes de gerar o relatório.</p>
+      </div>
+      <button class="btn btn-danger" onclick="fecharFiltrosRelatorio()">✕ Fechar</button>
+    </div>
+
+    <div class="filtros">
+      <div class="filtro-grupo">
+        <label>Data inicial</label>
+        <input type="date" id="dataInicial">
+      </div>
+      <div class="filtro-grupo">
+        <label>Data final</label>
+        <input type="date" id="dataFinal">
+      </div>
+      <div class="filtro-grupo">
+        <label>Setor</label>
+        <select id="filtroSetor">
+          <option value="">Todos os setores</option>
+        </select>
+      </div>
+      <div class="filtro-grupo">
+        <label>Item</label>
+        <select id="filtroItem">
+          <option value="">Todos os itens</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="relatorio-modal-acoes">
+      <button class="btn btn-danger" onclick="fecharFiltrosRelatorio()">Cancelar</button>
+      <button class="btn" onclick="confirmarGerarRelatorio()">📊 Gerar Relatório</button>
+    </div>
+  </div>
+</div>
+
 <!-- PRE-VISUALIZACAO DO RELATORIO -->
 <div id="modalRelatorio" class="relatorio-modal">
   <div class="relatorio-modal-conteudo">
@@ -1397,7 +1387,7 @@ onclick="ativarLightMode()">
 <script>
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxHsRU7uafVL77uvionWkorQypStHYUFL9rOijJeB7PgmXUy2oymx_SdbJF8HKJskfJ/exec";
+"https://script.google.com/macros/s/AKfycbwGZpoDe6myM9WOTJxs9i0oIz8qpy5Giyw6xAq3_m0LtFdfFnWiFUVodcAJVqpAO6pA/exec";
 
 let grafico = null;
 
@@ -2423,42 +2413,99 @@ select.appendChild(option);
    RELATÓRIOS
 ========================= */
 
-async function gerarRelatorio(tipo){
+let tipoRelatorioSelecionado = "";
 
-const dataInicial=document.getElementById("dataInicial").value;
-const dataFinal=document.getElementById("dataFinal").value;
-const setor=document.getElementById("filtroSetor").value;
-const codigoItem=document.getElementById("filtroItem").value;
+function gerarRelatorio(tipo){
+  tipoRelatorioSelecionado = tipo;
 
-if(dataInicial && dataFinal && dataInicial>dataFinal){
-toast("A data inicial não pode ser maior que a final","erro");
-return;
+  const nomes = {
+    estoque: "📦 Estoque Atual",
+    alertas: "⚠️ Itens em Alerta",
+    saidas: "📤 Saídas",
+    setor: "🏢 Por Setor",
+    resumo_setor: "📊 Resumo por Setor",
+    item: "📦 Movimentações por Item",
+    historico: "📋 Histórico Completo"
+  };
+
+  document.getElementById("filtroRelatorioTitulo").innerText =
+    "🔎 Filtros — " + (nomes[tipo] || "Relatório");
+
+  document.getElementById("modalFiltrosRelatorio").classList.add("ativo");
 }
 
-try{
-toast("Preparando relatório...","sucesso");
-const resposta=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"relatorio",relatorio:tipo,dataInicial,dataFinal,setor,codigoItem,modo:"preview"})});
-const resultado=await resposta.json();
-if(!resultado.sucesso){toast(resultado.mensagem||"Erro ao gerar relatório","erro");return;}
-
-window.relatorioPreviewAtual={pdf:resultado.pdf,nomeArquivo:resultado.nomeArquivo};
-
-document.getElementById("previewTitulo").innerText=resultado.titulo||"📊 Relatório";
-document.getElementById("previewSubtitulo").innerText="Pré-visualização do relatório";
-
-document.getElementById("previewFiltros").innerHTML=`
-<span>📅 Período: <strong>${escapeHtml(resultado.filtros?.periodo || "Todos os registros")}</strong></span>
-<span>🏢 Setor: <strong>${escapeHtml(resultado.filtros?.setor || "Todos os setores")}</strong></span>
-<span>📦 Item: <strong>${escapeHtml(resultado.filtros?.item || "Todos os itens")}</strong></span>
-`;
-
-document.getElementById("previewConteudo").innerHTML=resultado.conteudo||"<p>Nenhum dado encontrado.</p>";
-document.getElementById("modalRelatorio").classList.add("ativo");
-
-}catch(erro){console.error(erro);toast("Erro ao preparar relatório","erro");}
+function fecharFiltrosRelatorio(){
+  document.getElementById("modalFiltrosRelatorio").classList.remove("ativo");
 }
 
-function fecharPreVisualizacao(){document.getElementById("modalRelatorio").classList.remove("ativo");}
+async function confirmarGerarRelatorio(){
+  const tipo = tipoRelatorioSelecionado;
+  if(!tipo){
+    toast("Selecione um relatório","erro");
+    return;
+  }
+
+  const dataInicial=document.getElementById("dataInicial").value;
+  const dataFinal=document.getElementById("dataFinal").value;
+  const setor=document.getElementById("filtroSetor").value;
+  const codigoItem=document.getElementById("filtroItem").value;
+
+  if(dataInicial && dataFinal && dataInicial>dataFinal){
+    toast("A data inicial não pode ser maior que a final","erro");
+    return;
+  }
+
+  fecharFiltrosRelatorio();
+
+  try{
+    toast("Preparando relatório...","sucesso");
+    const resposta=await fetch(API_URL,{
+      method:"POST",
+      body:JSON.stringify({
+        tipo:"relatorio",
+        relatorio:tipo,
+        dataInicial,
+        dataFinal,
+        setor,
+        codigoItem,
+        modo:"preview"
+      })
+    });
+
+    const resultado=await resposta.json();
+    if(!resultado.sucesso){
+      toast(resultado.mensagem||"Erro ao gerar relatório","erro");
+      return;
+    }
+
+    window.relatorioPreviewAtual={
+      pdf:resultado.pdf,
+      nomeArquivo:resultado.nomeArquivo
+    };
+
+    document.getElementById("previewTitulo").innerText=resultado.titulo||"📊 Relatório";
+    document.getElementById("previewSubtitulo").innerText="Pré-visualização do relatório";
+
+    document.getElementById("previewFiltros").innerHTML=`
+      <span>📅 Período: <strong>${escapeHtml(resultado.filtros?.periodo || "Todos os registros")}</strong></span>
+      <span>🏢 Setor: <strong>${escapeHtml(resultado.filtros?.setor || "Todos os setores")}</strong></span>
+      <span>📦 Item: <strong>${escapeHtml(resultado.filtros?.item || "Todos os itens")}</strong></span>
+    `;
+
+    document.getElementById("previewConteudo").innerHTML=
+      resultado.conteudo||"<p>Nenhum dado encontrado.</p>";
+
+    document.getElementById("modalRelatorio").classList.add("ativo");
+
+  }catch(erro){
+    console.error(erro);
+    toast("Erro ao preparar relatório","erro");
+  }
+}
+
+function fecharPreVisualizacao(){
+  document.getElementById("modalRelatorio").classList.remove("ativo");
+}
 
 function baixarPDFPreVisualizacao(){
 if(!window.relatorioPreviewAtual?.pdf){toast("PDF não disponível","erro");return;}
