@@ -3,691 +3,3683 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
 <title>CONTROLE DE ESTOQUE</title>
+
 <link rel="icon" href="./icone.png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-body{background:#020617;color:#e2e8f0;overflow-x:hidden;transition:.3s}
-.layout{display:flex;min-height:100vh}
-.sidebar{width:260px;background:rgba(15,23,42,.95);border-right:1px solid rgba(255,255,255,.05);padding:25px;position:fixed;height:100%;backdrop-filter:blur(10px);z-index:10}
-.logo{margin-bottom:40px}.logo h1{font-size:28px;font-weight:900;background:linear-gradient(90deg,#38bdf8,#2563eb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.logo p{margin-top:8px;color:#94a3b8;font-size:14px}
-.menu{display:flex;flex-direction:column;gap:14px}.menu button{background:#111827;border:none;padding:16px;border-radius:16px;color:#cbd5e1;font-size:15px;font-weight:700;cursor:pointer;transition:.3s;display:flex;align-items:center;gap:12px;width:100%;text-align:left}.menu button:hover{background:#1e293b;transform:translateX(4px);box-shadow:0 0 20px rgba(59,130,246,.25)}.menu-btn.active{background:linear-gradient(90deg,#2563eb,#06b6d4);box-shadow:0 0 20px rgba(59,130,246,.3)}
-.main{margin-left:260px;padding:30px;width:100%}.topo{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}.topo h2{font-size:30px;font-weight:800}.topo span{color:#38bdf8}.status-online{background:#111827;padding:14px 20px;border-radius:16px;font-weight:700;color:#4ade80}
-.secao{display:none}.secao.ativa{display:block}
-.dashboard{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-bottom:30px}
-.card-info{background:rgba(15,23,42,.8);border:1px solid rgba(255,255,255,.05);padding:24px;border-radius:24px;backdrop-filter:blur(10px);transition:.3s;position:relative;overflow:hidden}.card-info:hover{transform:translateY(-4px);box-shadow:0 0 25px rgba(59,130,246,.2)}.card-info h3{font-size:14px;color:#94a3b8;margin-bottom:10px}.card-info span{font-size:34px;font-weight:900;color:#38bdf8}
-.card{background:rgba(15,23,42,.8);padding:28px;border-radius:24px;border:1px solid rgba(255,255,255,.05);margin-bottom:30px}.card h2{margin-bottom:22px;font-size:22px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-input,select{background:#0f172a;border:1px solid rgba(255,255,255,.07);padding:16px;border-radius:16px;color:white;font-size:15px;width:100%;transition:.2s}select option{background:#0f172a;color:white}input::placeholder{color:#64748b}input:focus,select:focus{outline:none;border-color:#2563eb;box-shadow:0 0 0 4px rgba(37,99,235,.2)}
-button{border:none;cursor:pointer;transition:.2s}.btn{background:linear-gradient(90deg,#2563eb,#06b6d4);padding:16px 20px;border-radius:16px;color:white;font-weight:800;font-size:15px}.btn:hover{transform:scale(1.02);box-shadow:0 0 20px rgba(59,130,246,.35)}.btn-success{background:#16a34a}.btn-danger{background:#dc2626}.btn-secondary{background:#334155}
-.leitor-card{border:1px solid rgba(56,189,248,.15)}.leitor-status{margin-top:15px;padding:15px;border-radius:14px;background:#0f172a;display:none}.leitor-status.sucesso{display:block;color:#38bdf8;font-weight:800}.leitor-status.erro{display:block;color:#f87171;font-weight:800}
-.item-identificado{margin-top:20px;display:none;background:rgba(22,163,74,.08);border:1px solid rgba(74,222,128,.2);padding:20px;border-radius:18px}.item-identificado.ativo{display:block}.item-identificado h3{color:#4ade80;margin-bottom:8px}.item-identificado strong{font-size:24px;color:#38bdf8}
-.acoes-leitor{display:none;margin-top:18px;gap:12px;flex-wrap:wrap}.acoes-leitor.ativo{display:flex}.acao-box{display:none;margin-top:18px;padding:20px;background:#0f172a;border-radius:18px;border:1px solid rgba(255,255,255,.05)}.acao-box.ativo{display:block}.acao-box h3{margin-bottom:15px}
-.pesquisa{margin-bottom:20px;position:relative}.pesquisa i{position:absolute;left:18px;top:18px;color:#64748b}.pesquisa input{padding-left:50px}
-.table-container{overflow-x:auto;border-radius:24px}table{width:100%;border-collapse:collapse;background:rgba(15,23,42,.85);border-radius:24px;overflow:hidden}th{background:#111827;padding:18px;text-align:left;font-size:14px;color:#cbd5e1}td{padding:18px;border-bottom:1px solid rgba(255,255,255,.05)}tr:hover{background:rgba(255,255,255,.03)}.alerta{background:rgba(127,29,29,.2)}
-.status-ok{background:rgba(22,163,74,.2);color:#4ade80;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}.status-alerta{background:rgba(220,38,38,.2);color:#f87171;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:700}
-.acoes{display:flex;gap:10px}.entrada{background:#16a34a;color:white;padding:12px 14px;border-radius:12px;font-weight:900}.saida{background:#dc2626;color:white;padding:12px 14px;border-radius:12px;font-weight:900}
-.grafico{margin-top:30px;background:rgba(15,23,42,.8);padding:25px;border-radius:24px;border:1px solid rgba(255,255,255,.05)}
-.relatorios-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.relatorio-box{background:#111827;padding:20px;border-radius:20px;border:1px solid rgba(255,255,255,.04)}.relatorio-box h3{margin-bottom:10px;font-size:17px}.relatorio-box p{font-size:14px;color:#94a3b8;line-height:1.5;margin-bottom:15px}
-.filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:25px}.filtro-grupo label{display:block;margin-bottom:7px;font-size:13px;font-weight:700;color:#94a3b8}
-.relatorio-modal{position:fixed;inset:0;background:rgba(2,6,23,.88);backdrop-filter:blur(8px);z-index:10000;display:none;padding:25px;overflow:auto}.relatorio-modal.ativo{display:flex;justify-content:center;align-items:flex-start}
-.relatorio-filtros-modal-conteudo{max-width:850px}.relatorio-modal-conteudo{width:100%;max-width:1100px;background:#0f172a;color:#e2e8f0;border:1px solid rgba(255,255,255,.08);border-radius:24px;padding:28px;margin:10px auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}
-.relatorio-modal-topo{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}.relatorio-modal-topo h2{color:#38bdf8;margin:0}.relatorio-filtros-aplicados{background:#111827;border-radius:16px;padding:16px;margin-bottom:20px;display:flex;gap:22px;flex-wrap:wrap}.relatorio-filtros-aplicados span{color:#94a3b8}.relatorio-filtros-aplicados strong{color:#38bdf8}
-.relatorio-preview-table{width:100%;border-collapse:collapse;background:#111827;border-radius:16px;overflow:hidden}.relatorio-preview-table th{background:#1e293b;padding:14px;text-align:left}.relatorio-preview-table td{padding:14px;border-bottom:1px solid rgba(255,255,255,.06)}.relatorio-preview-resumo{margin-top:18px;padding:16px;background:rgba(37,99,235,.12);border-radius:15px;font-weight:800}.relatorio-modal-acoes{display:flex;justify-content:flex-end;gap:12px;flex-wrap:wrap;margin-top:22px}.relatorio-modal-acoes button{padding:14px 18px;border-radius:14px;color:#fff;font-weight:800}
-.toast{position:fixed;top:20px;right:20px;background:#111827;padding:16px 22px;border-radius:14px;border-left:5px solid #38bdf8;font-weight:700;box-shadow:0 0 20px rgba(0,0,0,.3);animation:fade .3s;z-index:9999}.toast.erro{border-left-color:#ef4444}.toast.sucesso{border-left-color:#22c55e}@keyframes fade{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-body.light-mode{background:#f1f5f9;color:#0f172a}body.light-mode .sidebar{background:white}body.light-mode .card,body.light-mode .card-info,body.light-mode table,body.light-mode .grafico,body.light-mode .leitor-status,body.light-mode .acao-box,body.light-mode .item-identificado{background:white;color:#0f172a}body.light-mode th{background:#e2e8f0;color:#0f172a}body.light-mode input,body.light-mode select{background:#f8fafc;color:#0f172a}body.light-mode select option{background:white;color:#0f172a}body.light-mode .menu button{background:#e2e8f0;color:#0f172a}body.light-mode .status-online{background:white}body.light-mode .relatorio-box{background:#e2e8f0}
-body.light-mode .relatorio-modal-conteudo{background:#fff;color:#0f172a}body.light-mode .relatorio-filtros-aplicados{background:#f1f5f9}body.light-mode .relatorio-preview-table{background:#fff}body.light-mode .relatorio-preview-table th{background:#e2e8f0;color:#0f172a}
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif
+}
+
+body{
+background:#020617;
+color:#e2e8f0;
+overflow-x:hidden;
+transition:.3s
+}
+
+/* LOGIN */
+
+#loginTela{
+position:fixed;
+inset:0;
+background:
+radial-gradient(circle at top,#0f3b65,#020617 55%);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:99999;
+padding:20px
+}
+
+.login-box{
+width:100%;
+max-width:430px;
+background:rgba(15,23,42,.95);
+border:1px solid rgba(56,189,248,.18);
+border-radius:28px;
+padding:35px;
+box-shadow:0 25px 80px rgba(0,0,0,.55);
+text-align:center
+}
+
+.login-logo{
+font-size:38px;
+font-weight:900;
+background:linear-gradient(90deg,#38bdf8,#2563eb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent
+}
+
+.login-subtitulo{
+color:#94a3b8;
+margin:8px 0 30px
+}
+
+.login-campo{
+margin-bottom:15px;
+text-align:left
+}
+
+.login-campo label{
+display:block;
+font-size:13px;
+font-weight:700;
+color:#94a3b8;
+margin-bottom:7px
+}
+
+.login-campo input{
+width:100%;
+background:#0f172a;
+border:1px solid rgba(255,255,255,.08);
+padding:16px;
+border-radius:15px;
+color:white;
+font-size:15px
+}
+
+.login-campo input:focus{
+outline:none;
+border-color:#2563eb;
+box-shadow:0 0 0 4px rgba(37,99,235,.15)
+}
+
+.login-erro{
+display:none;
+background:rgba(220,38,38,.15);
+border:1px solid rgba(248,113,113,.3);
+color:#f87171;
+padding:13px;
+border-radius:13px;
+margin-bottom:15px;
+font-weight:700
+}
+
+.login-btn{
+width:100%;
+padding:16px;
+border:none;
+border-radius:15px;
+background:linear-gradient(90deg,#2563eb,#06b6d4);
+color:white;
+font-size:16px;
+font-weight:900;
+cursor:pointer
+}
+
+.login-btn:hover{
+transform:translateY(-1px);
+box-shadow:0 0 25px rgba(37,99,235,.35)
+}
+
+/* SISTEMA */
+
+#sistema{
+display:none
+}
+
+.layout{
+display:flex;
+min-height:100vh
+}
+
+.sidebar{
+width:260px;
+background:rgba(15,23,42,.95);
+border-right:1px solid rgba(255,255,255,.05);
+padding:25px;
+position:fixed;
+height:100%;
+backdrop-filter:blur(10px);
+z-index:10
+}
+
+.logo{
+margin-bottom:25px
+}
+
+.logo h1{
+font-size:28px;
+font-weight:900;
+background:linear-gradient(90deg,#38bdf8,#2563eb);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent
+}
+
+.logo p{
+margin-top:8px;
+color:#94a3b8;
+font-size:14px
+}
+
+.usuario-logado{
+background:#111827;
+padding:12px;
+border-radius:14px;
+margin-bottom:25px;
+font-size:13px;
+color:#94a3b8
+}
+
+.usuario-logado strong{
+display:block;
+color:#38bdf8;
+margin-top:3px
+}
+
+.menu{
+display:flex;
+flex-direction:column;
+gap:12px
+}
+
+.menu button{
+background:#111827;
+border:none;
+padding:15px;
+border-radius:16px;
+color:#cbd5e1;
+font-size:15px;
+font-weight:700;
+cursor:pointer;
+transition:.3s;
+display:flex;
+align-items:center;
+gap:12px;
+width:100%;
+text-align:left
+}
+
+.menu button:hover{
+background:#1e293b;
+transform:translateX(4px)
+}
+
+.menu-btn.active{
+background:linear-gradient(90deg,#2563eb,#06b6d4);
+box-shadow:0 0 20px rgba(59,130,246,.3)
+}
+
+.btn-sair{
+margin-top:20px!important;
+background:#7f1d1d!important
+}
+
+.main{
+margin-left:260px;
+padding:30px;
+width:100%
+}
+
+.topo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px
+}
+
+.topo h2{
+font-size:30px;
+font-weight:800
+}
+
+.topo span{
+color:#38bdf8
+}
+
+.status-online{
+background:#111827;
+padding:14px 20px;
+border-radius:16px;
+font-weight:700;
+color:#4ade80
+}
+
+.secao{
+display:none
+}
+
+.secao.ativa{
+display:block
+}
+
+/* CARDS */
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin-bottom:30px
+}
+
+.card-info{
+background:rgba(15,23,42,.8);
+border:1px solid rgba(255,255,255,.05);
+padding:24px;
+border-radius:24px;
+backdrop-filter:blur(10px);
+transition:.3s
+}
+
+.card-info:hover{
+transform:translateY(-4px)
+}
+
+.card-info h3{
+font-size:14px;
+color:#94a3b8;
+margin-bottom:10px
+}
+
+.card-info span{
+font-size:34px;
+font-weight:900;
+color:#38bdf8
+}
+
+.card{
+background:rgba(15,23,42,.8);
+padding:28px;
+border-radius:24px;
+border:1px solid rgba(255,255,255,.05);
+margin-bottom:30px
+}
+
+.card h2{
+margin-bottom:22px;
+font-size:22px
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:14px
+}
+
+input,select{
+background:#0f172a;
+border:1px solid rgba(255,255,255,.07);
+padding:16px;
+border-radius:16px;
+color:white;
+font-size:15px;
+width:100%
+}
+
+select option{
+background:#0f172a;
+color:white
+}
+
+input:focus,select:focus{
+outline:none;
+border-color:#2563eb;
+box-shadow:0 0 0 4px rgba(37,99,235,.2)
+}
+
+.btn{
+background:linear-gradient(90deg,#2563eb,#06b6d4);
+padding:16px 20px;
+border-radius:16px;
+color:white;
+font-weight:800;
+font-size:15px;
+border:none;
+cursor:pointer
+}
+
+.btn-success{
+background:#16a34a
+}
+
+.btn-danger{
+background:#dc2626
+}
+
+.btn-secondary{
+background:#334155
+}
+
+/* GRAFICOS */
+
+.graficos-dashboard{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px
+}
+
+.grafico{
+background:rgba(15,23,42,.8);
+padding:25px;
+border-radius:24px;
+border:1px solid rgba(255,255,255,.05);
+min-height:350px
+}
+
+.grafico h2{
+font-size:19px;
+margin-bottom:20px
+}
+
+.grafico canvas{
+max-height:280px
+}
+
+.grafico-largo{
+grid-column:span 2
+}
+
+/* TABELAS */
+
+.pesquisa{
+margin-bottom:20px;
+position:relative
+}
+
+.pesquisa i{
+position:absolute;
+left:18px;
+top:18px;
+color:#64748b
+}
+
+.pesquisa input{
+padding-left:50px
+}
+
+.table-container{
+overflow-x:auto;
+border-radius:24px
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:rgba(15,23,42,.85)
+}
+
+th{
+background:#111827;
+padding:18px;
+text-align:left;
+font-size:14px;
+color:#cbd5e1
+}
+
+td{
+padding:18px;
+border-bottom:1px solid rgba(255,255,255,.05)
+}
+
+tr:hover{
+background:rgba(255,255,255,.03)
+}
+
+.alerta{
+background:rgba(127,29,29,.2)
+}
+
+.status-ok{
+background:rgba(22,163,74,.2);
+color:#4ade80;
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:700
+}
+
+.status-alerta{
+background:rgba(220,38,38,.2);
+color:#f87171;
+padding:8px 12px;
+border-radius:999px;
+font-size:13px;
+font-weight:700
+}
+
+.acoes{
+display:flex;
+gap:10px
+}
+
+.entrada{
+background:#16a34a;
+color:white;
+padding:12px 14px;
+border-radius:12px;
+font-weight:900
+}
+
+.saida{
+background:#dc2626;
+color:white;
+padding:12px 14px;
+border-radius:12px;
+font-weight:900
+}
+
+/* LEITOR */
+
+.leitor-status{
+margin-top:15px;
+padding:15px;
+border-radius:14px;
+background:#0f172a;
+display:none
+}
+
+.leitor-status.sucesso{
+display:block;
+color:#38bdf8
+}
+
+.leitor-status.erro{
+display:block;
+color:#f87171
+}
+
+.item-identificado{
+margin-top:20px;
+display:none;
+background:rgba(22,163,74,.08);
+border:1px solid rgba(74,222,128,.2);
+padding:20px;
+border-radius:18px
+}
+
+.item-identificado.ativo{
+display:block
+}
+
+.item-identificado h3{
+color:#4ade80;
+margin-bottom:8px
+}
+
+.item-identificado strong{
+font-size:24px;
+color:#38bdf8
+}
+
+.acoes-leitor{
+display:none;
+margin-top:18px;
+gap:12px;
+flex-wrap:wrap
+}
+
+.acoes-leitor.ativo{
+display:flex
+}
+
+.acao-box{
+display:none;
+margin-top:18px;
+padding:20px;
+background:#0f172a;
+border-radius:18px
+}
+
+.acao-box.ativo{
+display:block
+}
 
 /* SETORES */
-.lista-setores-vazia{padding:20px;background:#0f172a;border-radius:16px;color:#94a3b8;text-align:center}
-.setor-item{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:15px 18px;margin-bottom:10px;background:#111827;border:1px solid rgba(255,255,255,.05);border-radius:15px;transition:.2s}
-.setor-item:hover{background:#1e293b;transform:translateX(3px)}
-.setor-nome{font-weight:700;color:#e2e8f0;display:flex;align-items:center;gap:10px}
-.btn-excluir-setor{background:#dc2626;color:white;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer}.btn-excluir-setor:hover{background:#b91c1c}
-body.light-mode .lista-setores-vazia{background:#f8fafc;color:#64748b}body.light-mode .setor-item{background:#f8fafc;border-color:#e2e8f0}body.light-mode .setor-item:hover{background:#e2e8f0}body.light-mode .setor-nome{color:#0f172a}
+
+.setor-item{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:15px 18px;
+margin-bottom:10px;
+background:#111827;
+border-radius:15px
+}
+
+.setor-nome{
+font-weight:700
+}
+
+.btn-excluir-setor{
+background:#dc2626;
+color:white;
+padding:10px 14px;
+border-radius:10px;
+font-weight:800
+}
+
+/* RELATORIOS */
+
+.relatorios-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:16px
+}
+
+.relatorio-box{
+background:#111827;
+padding:20px;
+border-radius:20px
+}
+
+.relatorio-box h3{
+margin-bottom:10px
+}
+
+.relatorio-box p{
+font-size:14px;
+color:#94a3b8;
+line-height:1.5;
+margin-bottom:15px
+}
+
+.filtros{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:14px;
+margin-bottom:25px
+}
+
+.filtro-grupo label{
+display:block;
+margin-bottom:7px;
+font-size:13px;
+font-weight:700;
+color:#94a3b8
+}
+
+/* MODAIS */
+
+.relatorio-modal{
+position:fixed;
+inset:0;
+background:rgba(2,6,23,.88);
+backdrop-filter:blur(8px);
+z-index:10000;
+display:none;
+padding:25px;
+overflow:auto
+}
+
+.relatorio-modal.ativo{
+display:flex;
+justify-content:center;
+align-items:flex-start
+}
+
+.relatorio-modal-conteudo{
+width:100%;
+max-width:1100px;
+background:#0f172a;
+border-radius:24px;
+padding:28px;
+margin:10px auto
+}
+
+.relatorio-modal-topo{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+margin-bottom:22px
+}
+
+.relatorio-modal-topo h2{
+color:#38bdf8
+}
+
+.relatorio-filtros-aplicados{
+background:#111827;
+border-radius:16px;
+padding:16px;
+margin-bottom:20px;
+display:flex;
+gap:22px;
+flex-wrap:wrap
+}
+
+.relatorio-preview-table{
+width:100%;
+border-collapse:collapse;
+background:#111827
+}
+
+.relatorio-preview-table th,
+.relatorio-preview-table td{
+padding:14px;
+border-bottom:1px solid rgba(255,255,255,.06)
+}
+
+.relatorio-preview-table th{
+background:#1e293b
+}
+
+.relatorio-preview-resumo{
+margin-top:18px;
+padding:16px;
+background:rgba(37,99,235,.12);
+border-radius:15px;
+font-weight:800
+}
+
+.relatorio-modal-acoes{
+display:flex;
+justify-content:flex-end;
+gap:12px;
+flex-wrap:wrap;
+margin-top:22px
+}
+
+/* TOAST */
+
+.toast{
+position:fixed;
+top:20px;
+right:20px;
+background:#111827;
+padding:16px 22px;
+border-radius:14px;
+border-left:5px solid #38bdf8;
+font-weight:700;
+box-shadow:0 0 20px rgba(0,0,0,.3);
+z-index:999999
+}
+
+.toast.erro{
+border-left-color:#ef4444
+}
+
+.toast.sucesso{
+border-left-color:#22c55e
+}
+
+/* LIGHT */
+
+body.light-mode{
+background:#f1f5f9;
+color:#0f172a
+}
+
+body.light-mode .sidebar,
+body.light-mode .card,
+body.light-mode .card-info,
+body.light-mode .grafico{
+background:white
+}
+
+body.light-mode .menu button{
+background:#e2e8f0;
+color:#0f172a
+}
+
+body.light-mode .status-online{
+background:white
+}
+
+body.light-mode input,
+body.light-mode select{
+background:#f8fafc;
+color:#0f172a
+}
+
+body.light-mode .setor-item,
+body.light-mode .relatorio-box{
+background:#e2e8f0
+}
+
+body.light-mode th{
+background:#e2e8f0;
+color:#0f172a
+}
+
+body.light-mode table{
+background:white
+}
+
+/* MOBILE */
 
 @media(max-width:900px){
-.sidebar{width:100%;height:auto;position:relative;padding:15px;border-right:none;border-bottom:1px solid rgba(255,255,255,.05)}.logo{margin-bottom:20px;text-align:center}.logo h1{font-size:24px}.logo p{font-size:12px}.menu{flex-direction:row;overflow-x:auto;padding-bottom:5px}.menu button{min-width:160px;justify-content:center;font-size:14px;padding:14px;text-align:center}.main{margin-left:0;padding:15px;width:100%}.topo{flex-direction:column;align-items:flex-start;gap:15px}.topo h2{font-size:24px}.status-online{width:100%;text-align:center}.dashboard,.grid{grid-template-columns:1fr}input,select{font-size:16px}.btn{width:100%}table{min-width:750px}.acoes{justify-content:center}.grafico{overflow-x:auto}.toast{right:10px;left:10px;top:10px}.relatorio-modal{padding:10px}.relatorio-modal-conteudo{padding:18px}.relatorio-modal-topo{align-items:flex-start;flex-direction:column}.relatorio-preview-wrap{overflow-x:auto}.relatorio-preview-table{min-width:700px}.relatorio-modal-acoes button{width:100%}
+
+.sidebar{
+width:100%;
+height:auto;
+position:relative;
+padding:15px;
+border-right:none;
+border-bottom:1px solid rgba(255,255,255,.05)
+}
+
+.logo{
+text-align:center
+}
+
+.menu{
+flex-direction:row;
+overflow-x:auto
+}
+
+.menu button{
+min-width:150px;
+justify-content:center
+}
+
+.main{
+margin-left:0;
+padding:15px
+}
+
+.topo{
+flex-direction:column;
+align-items:flex-start
+}
+
+.status-online{
+width:100%;
+text-align:center
+}
+
+.graficos-dashboard{
+grid-template-columns:1fr
+}
+
+.grafico-largo{
+grid-column:span 1
+}
+
+.grid{
+grid-template-columns:1fr
+}
+
+table{
+min-width:750px
+}
+
+.relatorio-modal{
+padding:10px
+}
+
+.relatorio-modal-topo{
+flex-direction:column;
+align-items:flex-start
+}
+
 }
 </style>
 </head>
 
 <body>
+
+<!-- ================= LOGIN ================= -->
+
+<div id="loginTela">
+
+<div class="login-box">
+
+<div class="login-logo">⚡ T.I-HEDA</div>
+
+<div class="login-subtitulo">
+SISTEMA DE CONTROLE DE ESTOQUE
+</div>
+
+<div id="loginErro" class="login-erro"></div>
+
+<div class="login-campo">
+<label>Usuário</label>
+<input id="loginUsuario" autocomplete="username"
+placeholder="Digite seu usuário">
+</div>
+
+<div class="login-campo">
+<label>Senha</label>
+<input id="loginSenha" type="password"
+autocomplete="current-password"
+placeholder="Digite sua senha">
+</div>
+
+<button class="login-btn" onclick="fazerLogin()">
+<i class="fa-solid fa-right-to-bracket"></i>
+ENTRAR
+</button>
+
+</div>
+</div>
+
+
+<!-- ================= SISTEMA ================= -->
+
+<div id="sistema">
+
 <div class="layout">
 
 <div class="sidebar">
+
 <div class="logo">
 <h1>⚡ T.I-HEDA</h1>
 <p>SISTEMA DE ESTOQUE</p>
 </div>
 
+<div class="usuario-logado">
+Usuário conectado:
+<strong id="nomeUsuarioLogado">---</strong>
+</div>
+
 <div class="menu">
-<button class="menu-btn active" onclick="mostrarSecao('dashboard',event)"><i class="fa-solid fa-chart-line"></i>Dashboard</button>
-<button class="menu-btn" onclick="mostrarSecao('estoque',event)"><i class="fa-solid fa-box"></i>Estoque</button>
-<button class="menu-btn" onclick="mostrarSecao('alertas',event)"><i class="fa-solid fa-triangle-exclamation"></i>Alertas</button>
-<button class="menu-btn" onclick="mostrarSecao('historico',event)"><i class="fa-solid fa-clock-rotate-left"></i>Histórico</button>
-<button class="menu-btn" onclick="mostrarSecao('relatorios',event)"><i class="fa-solid fa-file-pdf"></i>Relatórios</button>
-<button class="menu-btn" onclick="mostrarSecao('config',event)"><i class="fa-solid fa-gear"></i>Configurações</button>
+
+<button class="menu-btn active"
+onclick="mostrarSecao('dashboard',event)">
+<i class="fa-solid fa-chart-line"></i>
+Dashboard
+</button>
+
+<button class="menu-btn"
+onclick="mostrarSecao('estoque',event)">
+<i class="fa-solid fa-box"></i>
+Estoque
+</button>
+
+<button class="menu-btn"
+onclick="mostrarSecao('alertas',event)">
+<i class="fa-solid fa-triangle-exclamation"></i>
+Alertas
+</button>
+
+<button class="menu-btn"
+onclick="mostrarSecao('historico',event)">
+<i class="fa-solid fa-clock-rotate-left"></i>
+Histórico
+</button>
+
+<button class="menu-btn"
+onclick="mostrarSecao('relatorios',event)">
+<i class="fa-solid fa-file-pdf"></i>
+Relatórios
+</button>
+
+<button class="menu-btn"
+onclick="mostrarSecao('config',event)">
+<i class="fa-solid fa-gear"></i>
+Configurações
+</button>
+
+<button class="menu-btn btn-sair"
+onclick="sairSistema()">
+<i class="fa-solid fa-right-from-bracket"></i>
+Sair
+</button>
+
 </div>
 </div>
+
 
 <div class="main">
 
 <div class="topo">
-<div><h2>⚡ Controle de <span>Estoque</span></h2></div>
-<div class="status-online">🟢 Sistema Online</div>
+
+<div>
+<h2>⚡ Controle de <span>Estoque</span></h2>
 </div>
+
+<div class="status-online">
+🟢 Sistema Online
+</div>
+
+</div>
+
 
 <!-- DASHBOARD -->
+
 <div id="dashboard" class="secao ativa">
+
 <div class="dashboard">
-<div class="card-info"><h3>Total de Itens</h3><span id="totalItens">0</span></div>
-<div class="card-info"><h3>Itens em Alerta</h3><span id="itensAlerta">0</span></div>
-<div class="card-info"><h3>Total Estoque</h3><span id="estoqueTotal">0</span></div>
-<div class="card-info"><h3>Status</h3><span style="font-size:22px;color:#4ade80">ONLINE</span></div>
-</div>
+
+<div class="card-info">
+<h3>Total de Itens</h3>
+<span id="totalItens">0</span>
 </div>
 
-<!-- ESTOQUE -->
-<div id="estoque" class="secao">
-
-<div class="card leitor-card">
-<h2>📷 Leitor de Código de Barras</h2>
-<div class="grid">
-<input id="codigoLeitor" placeholder="Bipe o código de barras aqui..." autocomplete="off">
-<button class="btn" onclick="identificarCodigo()"><i class="fa-solid fa-barcode"></i> Identificar</button>
+<div class="card-info">
+<h3>Itens em Alerta</h3>
+<span id="itensAlerta">0</span>
 </div>
 
-<div id="leitorStatus" class="leitor-status"></div>
-
-<div id="itemIdentificado" class="item-identificado">
-<h3>✅ Item identificado</h3>
-<strong id="nomeItemLeitor">---</strong>
-<p style="margin-top:8px">Código: <span id="codigoItemLeitor">---</span></p>
-<p style="margin-top:5px">Estoque atual: <strong id="estoqueItemLeitor" style="font-size:18px;color:#4ade80">0</strong></p>
+<div class="card-info">
+<h3>Total Estoque</h3>
+<span id="estoqueTotal">0</span>
 </div>
 
-<div id="acoesLeitor" class="acoes-leitor">
-<button class="btn btn-success" onclick="selecionarAcao('entrada')">🟢 ADICIONAR ENTRADA</button>
-<button class="btn btn-danger" onclick="selecionarAcao('saida')">🔴 DAR SAÍDA</button>
+<div class="card-info">
+<h3>Movimentações</h3>
+<span id="totalMovimentacoes">0</span>
 </div>
 
-<div id="boxEntrada" class="acao-box">
-<h3>🟢 Entrada de Estoque</h3>
-<div class="grid">
-<input type="number" id="quantidadeEntrada" min="1" placeholder="Quantidade">
-<button class="btn btn-success" onclick="confirmarEntrada()">CONFIRMAR ENTRADA</button>
-<button class="btn btn-secondary" onclick="cancelarOperacao()">CANCELAR</button>
-</div>
 </div>
 
-<div id="boxSaida" class="acao-box">
-<h3>🔴 Saída de Estoque</h3>
-<div class="grid">
-<input type="number" id="quantidadeSaida" min="1" placeholder="Quantidade">
-<select id="setorSaida"><option value="">Selecione o setor</option></select>
-<button class="btn btn-danger" onclick="confirmarSaida()">CONFIRMAR SAÍDA</button>
-<button class="btn btn-secondary" onclick="cancelarOperacao()">CANCELAR</button>
-</div>
-</div>
-</div>
 
-<div class="card">
-<h2>📦 Novo Item</h2>
-<div class="grid">
-<input id="item" placeholder="Nome do item">
-<input id="codigo" placeholder="Código de barras">
-<input id="quantidade" type="number" min="0" placeholder="Quantidade">
-<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
-<button class="btn" onclick="cadastrar()">Cadastrar</button>
-</div>
-</div>
+<div class="graficos-dashboard">
 
-<div class="pesquisa">
-<i class="fa-solid fa-magnifying-glass"></i>
-<input type="text" id="pesquisa" placeholder="Pesquisar item..." onkeyup="filtrarTabela()">
-</div>
-
-<div class="table-container">
-<table>
-<thead><tr><th>Item</th><th>Código</th><th>Quantidade</th><th>Mínimo</th><th>Status</th><th>Ações</th></tr></thead>
-<tbody id="tabela"></tbody>
-</table>
+<div class="grafico grafico-largo">
+<h2>📦 Estoque por Item</h2>
+<canvas id="graficoEstoque"></canvas>
 </div>
 
 <div class="grafico">
-<h2 style="margin-bottom:20px">📊 Visão Estoque</h2>
-<canvas id="graficoEstoque"></canvas>
+<h2>⚠️ Itens em Alerta × OK</h2>
+<canvas id="graficoStatus"></canvas>
 </div>
+
+<div class="grafico">
+<h2>📥 Entradas × 📤 Saídas</h2>
+<canvas id="graficoMovimentacoes"></canvas>
 </div>
+
+<div class="grafico">
+<h2>🏢 Saídas por Setor</h2>
+<canvas id="graficoSetores"></canvas>
+</div>
+
+<div class="grafico">
+<h2>📊 Itens Mais Movimentados</h2>
+<canvas id="graficoItensMovimentados"></canvas>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ESTOQUE -->
+
+<div id="estoque" class="secao">
+
+<div class="card">
+
+<h2>📷 Leitor de Código de Barras</h2>
+
+<div class="grid">
+
+<input id="codigoLeitor"
+placeholder="Bipe o código de barras aqui..."
+autocomplete="off">
+
+<button class="btn"
+onclick="identificarCodigo()">
+<i class="fa-solid fa-barcode"></i>
+Identificar
+</button>
+
+</div>
+
+<div id="leitorStatus"
+class="leitor-status"></div>
+
+<div id="itemIdentificado"
+class="item-identificado">
+
+<h3>✅ Item identificado</h3>
+
+<strong id="nomeItemLeitor">---</strong>
+
+<p style="margin-top:8px">
+Código:
+<span id="codigoItemLeitor">---</span>
+</p>
+
+<p style="margin-top:5px">
+Estoque atual:
+<strong id="estoqueItemLeitor"
+style="font-size:18px;color:#4ade80">
+0
+</strong>
+</p>
+
+</div>
+
+<div id="acoesLeitor"
+class="acoes-leitor">
+
+<button class="btn btn-success"
+onclick="selecionarAcao('entrada')">
+🟢 ADICIONAR ENTRADA
+</button>
+
+<button class="btn btn-danger"
+onclick="selecionarAcao('saida')">
+🔴 DAR SAÍDA
+</button>
+
+</div>
+
+<div id="boxEntrada" class="acao-box">
+
+<h3>🟢 Entrada de Estoque</h3>
+
+<div class="grid">
+
+<input type="number"
+id="quantidadeEntrada"
+min="1"
+placeholder="Quantidade">
+
+<button class="btn btn-success"
+onclick="confirmarEntrada()">
+CONFIRMAR ENTRADA
+</button>
+
+<button class="btn btn-secondary"
+onclick="cancelarOperacao()">
+CANCELAR
+</button>
+
+</div>
+
+</div>
+
+<div id="boxSaida" class="acao-box">
+
+<h3>🔴 Saída de Estoque</h3>
+
+<div class="grid">
+
+<input type="number"
+id="quantidadeSaida"
+min="1"
+placeholder="Quantidade">
+
+<select id="setorSaida">
+<option value="">Selecione o setor</option>
+</select>
+
+<button class="btn btn-danger"
+onclick="confirmarSaida()">
+CONFIRMAR SAÍDA
+</button>
+
+<button class="btn btn-secondary"
+onclick="cancelarOperacao()">
+CANCELAR
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h2>📦 Novo Item</h2>
+
+<div class="grid">
+
+<input id="item"
+placeholder="Nome do item">
+
+<input id="codigo"
+placeholder="Código de barras">
+
+<input id="quantidade"
+type="number"
+min="0"
+placeholder="Quantidade">
+
+<input id="minimo"
+type="number"
+min="0"
+placeholder="Estoque mínimo">
+
+<button class="btn"
+onclick="cadastrar()">
+Cadastrar
+</button>
+
+</div>
+
+</div>
+
+
+<div class="pesquisa">
+
+<i class="fa-solid fa-magnifying-glass"></i>
+
+<input type="text"
+id="pesquisa"
+placeholder="Pesquisar item..."
+onkeyup="filtrarTabela()">
+
+</div>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Item</th>
+<th>Código</th>
+<th>Quantidade</th>
+<th>Mínimo</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+
+</thead>
+
+<tbody id="tabela"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
 
 <!-- ALERTAS -->
+
 <div id="alertas" class="secao">
+
 <div class="card">
+
 <h2>⚠ Alertas</h2>
+
 <div class="table-container">
+
 <table>
-<thead><tr><th>Item</th><th>Código</th><th>Quantidade</th><th>Mínimo</th></tr></thead>
+
+<thead>
+<tr>
+<th>Item</th>
+<th>Código</th>
+<th>Quantidade</th>
+<th>Mínimo</th>
+</tr>
+</thead>
+
 <tbody id="tabelaAlertas"></tbody>
+
 </table>
+
 </div>
+
 </div>
+
 </div>
+
 
 <!-- HISTÓRICO -->
+
 <div id="historico" class="secao">
+
 <div class="card">
+
 <h2>🕓 Histórico</h2>
+
 <div class="table-container">
+
 <table>
-<thead><tr><th>Data</th><th>Ação</th><th>Item</th><th>Código</th><th>Quantidade</th><th>Setor</th></tr></thead>
+
+<thead>
+
+<tr>
+<th>Data</th>
+<th>Ação</th>
+<th>Item</th>
+<th>Código</th>
+<th>Quantidade</th>
+<th>Setor</th>
+<th>Usuário</th>
+</tr>
+
+</thead>
+
 <tbody id="tabelaHistorico"></tbody>
+
 </table>
-</div>
-</div>
+
 </div>
 
+</div>
+
+</div>
+
+
 <!-- RELATÓRIOS -->
+
 <div id="relatorios" class="secao">
+
 <div class="card">
+
 <h2>📊 Relatórios</h2>
 
 <div class="relatorios-grid">
 
-<div class="relatorio-box"><h3>📦 Estoque Atual</h3><p>Lista todos os itens, quantidades, mínimos e status atuais.</p><button class="btn" onclick="gerarRelatorio('estoque')">👁️ Visualizar Relatório</button></div>
-
-<div class="relatorio-box"><h3>⚠️ Itens em Alerta</h3><p>Lista os produtos abaixo ou no estoque mínimo.</p><button class="btn" onclick="gerarRelatorio('alertas')">👁️ Visualizar Relatório</button></div>
-
-<div class="relatorio-box"><h3>📤 Saídas</h3><p>Lista as retiradas realizadas dentro do período selecionado.</p><button class="btn" onclick="gerarRelatorio('saidas')">👁️ Visualizar Relatório</button></div>
-
-<div class="relatorio-box"><h3>🏢 Por Setor</h3><p>Mostra tudo que foi destinado para determinado setor.</p><button class="btn" onclick="gerarRelatorio('setor')">👁️ Visualizar Relatório</button></div>
-
-<div class="relatorio-box"><h3>📊 Resumo por Setor</h3><p>Compara a quantidade de itens destinados a cada setor.</p><button class="btn" onclick="gerarRelatorio('resumo_setor')">👁️ Visualizar Relatório</button></div>
-
-<div class="relatorio-box"><h3>📦 Movimentações por Item</h3><p>Mostra entradas e saídas de um item específico.</p><button class="btn" onclick="gerarRelatorio('item')">👁️ Visualizar Relatório</button></div>
-
-<div class="relatorio-box"><h3>📋 Histórico Completo</h3><p>Todas as movimentações registradas no período selecionado.</p><button class="btn" onclick="gerarRelatorio('historico')">👁️ Visualizar Relatório</button></div>
-
-</div>
-</div>
+<div class="relatorio-box">
+<h3>📦 Estoque Atual</h3>
+<p>Lista todos os itens, quantidades, mínimos e status atuais.</p>
+<button class="btn"
+onclick="gerarRelatorio('estoque')">
+👁️ Visualizar Relatório
+</button>
 </div>
 
-<!-- CONFIGURAÇÕES -->
+<div class="relatorio-box">
+<h3>⚠️ Itens em Alerta</h3>
+<p>Lista os produtos abaixo ou no estoque mínimo.</p>
+<button class="btn"
+onclick="gerarRelatorio('alertas')">
+👁️ Visualizar Relatório
+</button>
+</div>
+
+<div class="relatorio-box">
+<h3>📤 Saídas</h3>
+<p>Lista as retiradas realizadas no período.</p>
+<button class="btn"
+onclick="gerarRelatorio('saidas')">
+👁️ Visualizar Relatório
+</button>
+</div>
+
+<div class="relatorio-box">
+<h3>🏢 Por Setor</h3>
+<p>Mostra tudo que foi destinado para determinado setor.</p>
+<button class="btn"
+onclick="gerarRelatorio('setor')">
+👁️ Visualizar Relatório
+</button>
+</div>
+
+<div class="relatorio-box">
+<h3>📊 Resumo por Setor</h3>
+<p>Mostra o total de itens destinados a cada setor.</p>
+<button class="btn"
+onclick="gerarRelatorio('resumo_setor')">
+👁️ Visualizar Relatório
+</button>
+</div>
+
+<div class="relatorio-box">
+<h3>📦 Movimentações por Item</h3>
+<p>Mostra entradas e saídas de um item específico.</p>
+<button class="btn"
+onclick="gerarRelatorio('item')">
+👁️ Visualizar Relatório
+</button>
+</div>
+
+<div class="relatorio-box">
+<h3>📋 Histórico Completo</h3>
+<p>Todas as movimentações registradas.</p>
+<button class="btn"
+onclick="gerarRelatorio('historico')">
+👁️ Visualizar Relatório
+</button>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- CONFIG -->
+
 <div id="config" class="secao">
 
 <div class="card">
+
 <h2>⚙ Configurações</h2>
+
 <div style="display:flex;gap:15px;flex-wrap:wrap">
-<button class="btn" onclick="ativarDarkMode()">🌙 Tema Escuro</button>
-<button class="btn" onclick="ativarLightMode()">☀ Tema Claro</button>
-</div>
+
+<button class="btn"
+onclick="ativarDarkMode()">
+🌙 Tema Escuro
+</button>
+
+<button class="btn"
+onclick="ativarLightMode()">
+☀ Tema Claro
+</button>
+
 </div>
 
+</div>
+
+
 <div class="card">
+
 <h2>🏢 Gerenciar Setores</h2>
+
 <p style="color:#94a3b8;margin-bottom:20px">
-Cadastre e gerencie os setores utilizados nas saídas de estoque e nos relatórios.
+Cadastre e gerencie os setores utilizados nas saídas.
 </p>
 
 <div class="grid">
-<input type="text" id="novoSetor" placeholder="Digite o nome do setor..." maxlength="100">
-<button class="btn btn-success" onclick="adicionarSetor()">➕ Adicionar Setor</button>
+
+<input type="text"
+id="novoSetor"
+placeholder="Digite o nome do setor..."
+maxlength="100">
+
+<button class="btn btn-success"
+onclick="adicionarSetor()">
+➕ Adicionar Setor
+</button>
+
 </div>
 
-<div id="listaSetores" style="margin-top:25px"></div>
+<div id="listaSetores"
+style="margin-top:25px">
 </div>
 
 </div>
 
 </div>
+
+
 </div>
+</div>
+</div>
+
 
 <!-- FILTROS -->
-<div id="modalFiltrosRelatorio" class="relatorio-modal">
-<div class="relatorio-modal-conteudo relatorio-filtros-modal-conteudo">
+
+<div id="modalFiltrosRelatorio"
+class="relatorio-modal">
+
+<div class="relatorio-modal-conteudo">
+
 <div class="relatorio-modal-topo">
+
 <div>
-<h2 id="filtroRelatorioTitulo">🔎 Filtros do Relatório</h2>
-<p style="color:#94a3b8;margin-top:5px">Selecione os filtros antes de gerar o relatório.</p>
+
+<h2 id="filtroRelatorioTitulo">
+🔎 Filtros do Relatório
+</h2>
+
+<p style="color:#94a3b8;margin-top:5px">
+Selecione os filtros antes de gerar.
+</p>
+
 </div>
-<button class="btn btn-danger" onclick="fecharFiltrosRelatorio()">✕ Fechar</button>
+
+<button class="btn btn-danger"
+onclick="fecharFiltrosRelatorio()">
+✕ Fechar
+</button>
+
 </div>
 
 <div class="filtros">
-<div class="filtro-grupo"><label>Data inicial</label><input type="date" id="dataInicial"></div>
-<div class="filtro-grupo"><label>Data final</label><input type="date" id="dataFinal"></div>
-<div class="filtro-grupo"><label>Setor</label><select id="filtroSetor"><option value="">Todos os setores</option></select></div>
-<div class="filtro-grupo"><label>Item</label><select id="filtroItem"><option value="">Todos os itens</option></select></div>
+
+<div class="filtro-grupo">
+<label>Data inicial</label>
+<input type="date" id="dataInicial">
+</div>
+
+<div class="filtro-grupo">
+<label>Data final</label>
+<input type="date" id="dataFinal">
+</div>
+
+<div class="filtro-grupo">
+<label>Setor</label>
+<select id="filtroSetor">
+<option value="">Todos os setores</option>
+</select>
+</div>
+
+<div class="filtro-grupo">
+<label>Item</label>
+<select id="filtroItem">
+<option value="">Todos os itens</option>
+</select>
+</div>
+
 </div>
 
 <div class="relatorio-modal-acoes">
-<button class="btn btn-danger" onclick="fecharFiltrosRelatorio()">Cancelar</button>
-<button class="btn" onclick="confirmarGerarRelatorio()">📊 Gerar Relatório</button>
+
+<button class="btn btn-danger"
+onclick="fecharFiltrosRelatorio()">
+Cancelar
+</button>
+
+<button class="btn"
+onclick="confirmarGerarRelatorio()">
+📊 Gerar Relatório
+</button>
+
+</div>
+
 </div>
 </div>
-</div>
+
 
 <!-- PREVIEW -->
-<div id="modalRelatorio" class="relatorio-modal">
+
+<div id="modalRelatorio"
+class="relatorio-modal">
+
 <div class="relatorio-modal-conteudo">
+
 <div class="relatorio-modal-topo">
+
 <div>
-<h2 id="previewTitulo">📊 Relatório</h2>
-<p id="previewSubtitulo" style="color:#94a3b8;margin-top:5px">Pré-visualização</p>
+
+<h2 id="previewTitulo">
+📊 Relatório
+</h2>
+
+<p id="previewSubtitulo"
+style="color:#94a3b8;margin-top:5px">
+Pré-visualização
+</p>
+
 </div>
-<button class="btn btn-danger" onclick="fecharPreVisualizacao()">✕ Fechar</button>
+
+<button class="btn btn-danger"
+onclick="fecharPreVisualizacao()">
+✕ Fechar
+</button>
+
 </div>
-<div id="previewFiltros" class="relatorio-filtros-aplicados"></div>
-<div id="previewConteudo"></div>
+
+<div id="previewFiltros"
+class="relatorio-filtros-aplicados">
+</div>
+
+<div id="previewConteudo">
+</div>
+
 <div class="relatorio-modal-acoes">
-<button class="btn btn-success" onclick="imprimirPreVisualizacao()">🖨️ Imprimir</button>
-<button class="btn" onclick="baixarPDFPreVisualizacao()">📄 Gerar PDF</button>
-<button class="btn btn-danger" onclick="fecharPreVisualizacao()">✕ Fechar</button>
+
+<button class="btn btn-success"
+onclick="imprimirPreVisualizacao()">
+🖨️ Imprimir
+</button>
+
+<button class="btn"
+onclick="baixarPDFPreVisualizacao()">
+📄 Gerar PDF
+</button>
+
+<button class="btn btn-danger"
+onclick="fecharPreVisualizacao()">
+✕ Fechar
+</button>
+
+</div>
+
 </div>
 </div>
-</div>
+
 
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbyQNtUOdQomremcQo-VdCkzj9C-BH25xcMlIgNCbea-L9kLWynGqMaU85ZF1efttPLW/exec";
 
-let grafico=null;
-let dadosGlobais=[];
-let historicoGlobal=[];
-let setoresGlobais=[];
-let itemSelecionado=null;
-let tipoRelatorioSelecionado="";
+/* =====================================================
+   CONFIGURAÇÃO
+===================================================== */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbzYkLF5H8AK-1JUiLGvmINjZLWE60LuGStLzdm1Er5OeX0YpCCBXz3IzysLwlkH6sV5/exec";
+
+let token = localStorage.getItem("estoque_token") || "";
+let usuarioAtual = null;
+
+let dadosGlobais = [];
+let historicoGlobal = [];
+let setoresGlobais = [];
+let itemSelecionado = null;
+let tipoRelatorioSelecionado = "";
+
+let graficoEstoque = null;
+let graficoStatus = null;
+let graficoMovimentacoes = null;
+let graficoSetores = null;
+let graficoItensMovimentados = null;
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+document.getElementById("loginSenha")
+.addEventListener("keydown",function(e){
+
+if(e.key==="Enter"){
+fazerLogin();
+}
+
+});
+
+
+async function fazerLogin(){
+
+const usuario =
+document.getElementById("loginUsuario").value.trim();
+
+const senha =
+document.getElementById("loginSenha").value;
+
+const erro =
+document.getElementById("loginErro");
+
+erro.style.display="none";
+
+if(!usuario || !senha){
+
+erro.innerText="Informe usuário e senha.";
+erro.style.display="block";
+return;
+
+}
+
+try{
+
+const r=await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify({
+tipo:"login",
+usuario,
+senha
+})
+});
+
+const resultado=await r.json();
+
+if(!resultado.sucesso){
+
+erro.innerText=
+resultado.mensagem || "Usuário ou senha inválidos.";
+
+erro.style.display="block";
+return;
+
+}
+
+token=resultado.token;
+
+usuarioAtual=resultado.usuario;
+
+localStorage.setItem("estoque_token",token);
+
+localStorage.setItem(
+"estoque_usuario",
+JSON.stringify(usuarioAtual)
+);
+
+entrarSistema();
+
+}catch(e){
+
+console.error(e);
+
+erro.innerText=
+"Erro ao conectar ao servidor.";
+
+erro.style.display="block";
+
+}
+
+}
+
+
+function entrarSistema(){
+
+document.getElementById("loginTela").style.display="none";
+
+document.getElementById("sistema").style.display="block";
+
+document.getElementById("nomeUsuarioLogado").innerText=
+usuarioAtual.nome || usuarioAtual.usuario;
+
+carregar();
+
+}
+
+
+async function verificarSessao(){
+
+if(!token){
+
+return;
+
+}
+
+try{
+
+const r=await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify({
+tipo:"validarSessao",
+token
+})
+});
+
+const resultado=await r.json();
+
+if(resultado.sucesso){
+
+usuarioAtual=resultado.usuario;
+
+entrarSistema();
+
+}else{
+
+localStorage.removeItem("estoque_token");
+token="";
+
+}
+
+}catch(e){
+
+console.error(e);
+
+}
+
+}
+
+
+function sairSistema(){
+
+localStorage.removeItem("estoque_token");
+localStorage.removeItem("estoque_usuario");
+
+token="";
+usuarioAtual=null;
+
+document.getElementById("sistema").style.display="none";
+document.getElementById("loginTela").style.display="flex";
+
+document.getElementById("loginSenha").value="";
+
+}
+
+
+/* =====================================================
+   NAVEGAÇÃO
+===================================================== */
 
 function mostrarSecao(id,event){
-document.querySelectorAll(".secao").forEach(x=>x.classList.remove("ativa"));
-document.getElementById(id).classList.add("ativa");
-document.querySelectorAll(".menu-btn").forEach(x=>x.classList.remove("active"));
-if(event)event.currentTarget.classList.add("active");
+
+document.querySelectorAll(".secao")
+.forEach(x=>x.classList.remove("ativa"));
+
+document.getElementById(id)
+.classList.add("ativa");
+
+document.querySelectorAll(".menu-btn")
+.forEach(x=>x.classList.remove("active"));
+
+if(event){
+
+event.currentTarget.classList.add("active");
+
 }
 
-function ativarLightMode(){document.body.classList.add("light-mode");localStorage.setItem("tema","light");toast("Tema claro ativado","sucesso")}
-function ativarDarkMode(){document.body.classList.remove("light-mode");localStorage.setItem("tema","dark");toast("Tema escuro ativado","sucesso")}
-if(localStorage.getItem("tema")==="light")document.body.classList.add("light-mode");
+}
+
+
+/* =====================================================
+   TEMA
+===================================================== */
+
+function ativarLightMode(){
+
+document.body.classList.add("light-mode");
+
+localStorage.setItem("tema","light");
+
+toast("Tema claro ativado","sucesso");
+
+}
+
+function ativarDarkMode(){
+
+document.body.classList.remove("light-mode");
+
+localStorage.setItem("tema","dark");
+
+toast("Tema escuro ativado","sucesso");
+
+}
+
+if(localStorage.getItem("tema")==="light"){
+
+document.body.classList.add("light-mode");
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
 
 function toast(msg,tipo=""){
-const d=document.createElement("div");d.className="toast "+tipo;d.innerText=msg;document.body.appendChild(d);setTimeout(()=>d.remove(),3000);
+
+const d=document.createElement("div");
+
+d.className="toast "+tipo;
+
+d.innerText=msg;
+
+document.body.appendChild(d);
+
+setTimeout(()=>d.remove(),3000);
+
 }
+
+
+/* =====================================================
+   API
+===================================================== */
+
+async function apiPost(dados){
+
+dados.token=token;
+
+const r=await fetch(API_URL,{
+method:"POST",
+body:JSON.stringify(dados)
+});
+
+const texto=await r.text();
+
+let resultado;
+
+try{
+
+resultado=JSON.parse(texto);
+
+}catch(e){
+
+resultado={texto};
+
+}
+
+if(resultado?.sessaoExpirada){
+
+sairSistema();
+
+throw new Error("Sessão expirada");
+
+}
+
+return resultado;
+
+}
+
+
+/* =====================================================
+   CARREGAR
+===================================================== */
 
 async function carregar(){
+
 try{
-const r=await fetch(API_URL);
-if(!r.ok)throw new Error("Erro na comunicação");
+
+const r=await fetch(
+API_URL+"?token="+encodeURIComponent(token)
+);
+
 const resultado=await r.json();
-dadosGlobais=resultado.estoque||[];
-historicoGlobal=resultado.historico||[];
-renderizarTudo();
-carregarSetores(resultado.setores||[]);
-carregarItensRelatorios();
-}catch(e){console.error(e);toast("Erro ao carregar os dados","erro")}
+
+if(!resultado.sucesso){
+
+if(resultado.sessaoExpirada){
+
+sairSistema();
+
 }
+
+throw new Error(
+resultado.mensagem || "Erro ao carregar"
+);
+
+}
+
+dadosGlobais=resultado.estoque || [];
+
+historicoGlobal=resultado.historico || [];
+
+carregarSetores(resultado.setores || []);
+
+carregarItensRelatorios();
+
+renderizarTudo();
+
+}catch(e){
+
+console.error(e);
+
+toast(
+"Erro ao carregar os dados",
+"erro"
+);
+
+}
+
+}
+
+
+/* =====================================================
+   RENDERIZAÇÃO
+===================================================== */
 
 function renderizarTudo(){
-const tabela=document.getElementById("tabela");
-const alertas=document.getElementById("tabelaAlertas");
-const hist=document.getElementById("tabelaHistorico");
-tabela.innerHTML="";alertas.innerHTML="";hist.innerHTML="";
-let total=0,alertasCount=0,n=[],q=[];
+
+const tabela=
+document.getElementById("tabela");
+
+const alertas=
+document.getElementById("tabelaAlertas");
+
+const hist=
+document.getElementById("tabelaHistorico");
+
+tabela.innerHTML="";
+alertas.innerHTML="";
+hist.innerHTML="";
+
+let total=0;
+let alertasCount=0;
+
+let nomes=[];
+let quantidades=[];
 
 dadosGlobais.forEach(item=>{
-const alerta=Number(item.quantidade)<=Number(item.minimo);
+
+const alerta=
+Number(item.quantidade)<=Number(item.minimo);
+
 if(alerta){
+
 alertasCount++;
-alertas.innerHTML+=`<tr><td>${escapeHtml(item.item)}</td><td>${escapeHtml(item.codigo)}</td><td>${item.quantidade}</td><td>${item.minimo}</td></tr>`;
-}
-total+=Number(item.quantidade);n.push(item.item);q.push(Number(item.quantidade));
-tabela.innerHTML+=`<tr class="${alerta?"alerta":""}">
-<td>${escapeHtml(item.item)}</td><td>${escapeHtml(item.codigo)}</td><td>${item.quantidade}</td><td>${item.minimo}</td>
-<td><span class="${alerta?"status-alerta":"status-ok"}">${alerta?"ALERTA":"OK"}</span></td>
-<td><div class="acoes"><button class="entrada" onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">+</button>
-<button class="saida" onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">−</button></div></td></tr>`;
-});
 
-historicoGlobal.slice().reverse().forEach(x=>{
-hist.innerHTML+=`<tr><td>${formatarData(x.data)}</td><td>${escapeHtml(x.acao)}</td><td>${escapeHtml(x.item)}</td><td>${escapeHtml(x.codigo)}</td><td>${x.quantidade}</td><td>${escapeHtml(x.setor||"-")}</td></tr>`;
-});
+alertas.innerHTML+=`
+<tr>
+<td>${escapeHtml(item.item)}</td>
+<td>${escapeHtml(item.codigo)}</td>
+<td>${item.quantidade}</td>
+<td>${item.minimo}</td>
+</tr>`;
 
-document.getElementById("totalItens").innerText=dadosGlobais.length;
-document.getElementById("itensAlerta").innerText=alertasCount;
-document.getElementById("estoqueTotal").innerText=total;
-gerarGrafico(n,q);
 }
 
-function gerarGrafico(labels,data){
-const c=document.getElementById("graficoEstoque");if(!c)return;
-if(grafico)grafico.destroy();
-grafico=new Chart(c.getContext("2d"),{type:"bar",data:{labels,datasets:[{label:"Quantidade",data,borderWidth:1}]},options:{responsive:true,plugins:{legend:{labels:{color:"white"}}},scales:{x:{ticks:{color:"white"}},y:{ticks:{color:"white"}}}}});
+total+=Number(item.quantidade);
+
+nomes.push(item.item);
+quantidades.push(Number(item.quantidade));
+
+tabela.innerHTML+=`
+
+<tr class="${alerta?"alerta":""}">
+
+<td>${escapeHtml(item.item)}</td>
+
+<td>${escapeHtml(item.codigo)}</td>
+
+<td>${item.quantidade}</td>
+
+<td>${item.minimo}</td>
+
+<td>
+<span class="${
+alerta
+?"status-alerta"
+:"status-ok"
+}">
+${alerta?"ALERTA":"OK"}
+</span>
+</td>
+
+<td>
+
+<div class="acoes">
+
+<button class="entrada"
+onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">
++
+</button>
+
+<button class="saida"
+onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">
+−
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+historicoGlobal
+.slice()
+.reverse()
+.forEach(x=>{
+
+hist.innerHTML+=`
+
+<tr>
+
+<td>${formatarData(x.data)}</td>
+
+<td>${escapeHtml(x.acao)}</td>
+
+<td>${escapeHtml(x.item)}</td>
+
+<td>${escapeHtml(x.codigo)}</td>
+
+<td>${x.quantidade}</td>
+
+<td>${escapeHtml(x.setor || "-")}</td>
+
+<td>${escapeHtml(x.usuario || "-")}</td>
+
+</tr>
+
+`;
+
+});
+
+
+document.getElementById("totalItens")
+.innerText=dadosGlobais.length;
+
+document.getElementById("itensAlerta")
+.innerText=alertasCount;
+
+document.getElementById("estoqueTotal")
+.innerText=total;
+
+document.getElementById("totalMovimentacoes")
+.innerText=historicoGlobal.length;
+
+
+/* GRÁFICO 1 */
+
+gerarGraficoEstoque(
+nomes,
+quantidades
+);
+
+
+/* GRÁFICO 2 */
+
+const qtdOk=
+dadosGlobais.length-alertasCount;
+
+gerarGraficoStatus(
+alertasCount,
+qtdOk
+);
+
+
+/* GRÁFICO 3 */
+
+let entradas=0;
+let saidas=0;
+
+historicoGlobal.forEach(x=>{
+
+if(String(x.acao).toLowerCase()==="entrada"){
+
+entradas+=Number(x.quantidade)||0;
+
 }
 
-document.getElementById("codigoLeitor").addEventListener("keydown",e=>{
-if(e.key==="Enter"){e.preventDefault();identificarCodigo()}
+if(String(x.acao).toLowerCase()==="saida"){
+
+saidas+=Number(x.quantidade)||0;
+
+}
+
 });
+
+gerarGraficoMovimentacoes(
+entradas,
+saidas
+);
+
+
+/* GRÁFICO 4 */
+
+const mapaSetores={};
+
+historicoGlobal.forEach(x=>{
+
+if(String(x.acao).toLowerCase()==="saida"){
+
+const setor=x.setor || "Sem setor";
+
+mapaSetores[setor]=
+(mapaSetores[setor]||0)+
+(Number(x.quantidade)||0);
+
+}
+
+});
+
+gerarGraficoSetores(
+Object.keys(mapaSetores),
+Object.values(mapaSetores)
+);
+
+
+/* GRÁFICO 5 */
+
+const mapaItens={};
+
+historicoGlobal.forEach(x=>{
+
+const nome=x.item || "Item";
+
+mapaItens[nome]=
+(mapaItens[nome]||0)+
+(Number(x.quantidade)||0);
+
+});
+
+const itensOrdenados=
+Object.entries(mapaItens)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,10);
+
+gerarGraficoItensMovimentados(
+itensOrdenados.map(x=>x[0]),
+itensOrdenados.map(x=>x[1])
+);
+
+}
+
+
+/* =====================================================
+   GRÁFICO 1
+===================================================== */
+
+function gerarGraficoEstoque(labels,data){
+
+const c=
+document.getElementById("graficoEstoque");
+
+if(!c)return;
+
+if(graficoEstoque)
+graficoEstoque.destroy();
+
+graficoEstoque=new Chart(
+c.getContext("2d"),
+{
+
+type:"bar",
+
+data:{
+labels:labels,
+datasets:[{
+label:"Quantidade em estoque",
+data:data,
+borderWidth:1
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false,
+
+plugins:{
+legend:{
+labels:{color:"white"}
+}
+},
+
+scales:{
+x:{
+ticks:{
+color:"white"
+}
+},
+
+y:{
+beginAtZero:true,
+ticks:{
+color:"white"
+}
+}
+}
+
+}
+
+});
+
+}
+
+
+/* =====================================================
+   GRÁFICO 2
+===================================================== */
+
+function gerarGraficoStatus(alertas,ok){
+
+const c=
+document.getElementById("graficoStatus");
+
+if(!c)return;
+
+if(graficoStatus)
+graficoStatus.destroy();
+
+graficoStatus=new Chart(
+c.getContext("2d"),
+{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+"Em alerta",
+"OK"
+],
+
+datasets:[{
+data:[
+alertas,
+ok
+],
+borderWidth:1
+}]
+
+},
+
+options:{
+responsive:true,
+
+plugins:{
+legend:{
+position:"bottom",
+labels:{
+color:"white"
+}
+}
+}
+
+}
+
+});
+
+}
+
+
+/* =====================================================
+   GRÁFICO 3
+===================================================== */
+
+function gerarGraficoMovimentacoes(
+entradas,
+saidas
+){
+
+const c=
+document.getElementById(
+"graficoMovimentacoes"
+);
+
+if(!c)return;
+
+if(graficoMovimentacoes)
+graficoMovimentacoes.destroy();
+
+graficoMovimentacoes=new Chart(
+c.getContext("2d"),
+{
+
+type:"bar",
+
+data:{
+
+labels:[
+"Entradas",
+"Saídas"
+],
+
+datasets:[{
+
+label:"Quantidade",
+data:[
+entradas,
+saidas
+],
+
+borderWidth:1
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+legend:{
+labels:{
+color:"white"
+}
+}
+},
+
+scales:{
+
+x:{
+ticks:{
+color:"white"
+}
+},
+
+y:{
+beginAtZero:true,
+ticks:{
+color:"white"
+}
+}
+
+}
+
+}
+
+});
+
+}
+
+
+/* =====================================================
+   GRÁFICO 4
+===================================================== */
+
+function gerarGraficoSetores(
+labels,
+data
+){
+
+const c=
+document.getElementById(
+"graficoSetores"
+);
+
+if(!c)return;
+
+if(graficoSetores)
+graficoSetores.destroy();
+
+graficoSetores=new Chart(
+c.getContext("2d"),
+{
+
+type:"pie",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+label:"Saídas",
+data:data,
+borderWidth:1
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+legend:{
+position:"bottom",
+labels:{
+color:"white"
+}
+}
+}
+
+}
+
+});
+
+}
+
+
+/* =====================================================
+   GRÁFICO 5
+===================================================== */
+
+function gerarGraficoItensMovimentados(
+labels,
+data
+){
+
+const c=
+document.getElementById(
+"graficoItensMovimentados"
+);
+
+if(!c)return;
+
+if(graficoItensMovimentados)
+graficoItensMovimentados.destroy();
+
+graficoItensMovimentados=new Chart(
+c.getContext("2d"),
+{
+
+type:"bar",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+label:"Quantidade movimentada",
+data:data,
+borderWidth:1
+
+}]
+
+},
+
+options:{
+
+indexAxis:"y",
+
+responsive:true,
+
+plugins:{
+legend:{
+labels:{
+color:"white"
+}
+}
+},
+
+scales:{
+
+x:{
+beginAtZero:true,
+ticks:{
+color:"white"
+}
+},
+
+y:{
+ticks:{
+color:"white"
+}
+}
+
+}
+
+}
+
+});
+
+}
+
+
+/* =====================================================
+   LEITOR
+===================================================== */
+
+document.getElementById(
+"codigoLeitor"
+).addEventListener(
+"keydown",
+e=>{
+
+if(e.key==="Enter"){
+
+e.preventDefault();
+
+identificarCodigo();
+
+}
+
+});
+
 
 async function identificarCodigo(){
-const codigo=document.getElementById("codigoLeitor").value.trim();
-if(!codigo){toast("Bipe ou digite um código","erro");return}
-const item=dadosGlobais.find(x=>String(x.codigo).trim().toLowerCase()===codigo.toLowerCase());
-const status=document.getElementById("leitorStatus");
+
+const codigo=
+document.getElementById(
+"codigoLeitor"
+).value.trim();
+
+if(!codigo){
+
+toast(
+"Bipe ou digite um código",
+"erro"
+);
+
+return;
+
+}
+
+const item=
+dadosGlobais.find(
+x=>String(x.codigo)
+.trim()
+.toLowerCase()
+===codigo.toLowerCase()
+);
+
+const status=
+document.getElementById(
+"leitorStatus"
+);
+
 if(!item){
+
 itemSelecionado=null;
-document.getElementById("itemIdentificado").classList.remove("ativo");
-document.getElementById("acoesLeitor").classList.remove("ativo");
-status.className="leitor-status erro";status.innerText="❌ Código não encontrado no estoque.";return;
+
+document.getElementById(
+"itemIdentificado"
+).classList.remove("ativo");
+
+document.getElementById(
+"acoesLeitor"
+).classList.remove("ativo");
+
+status.className=
+"leitor-status erro";
+
+status.innerText=
+"❌ Código não encontrado no estoque.";
+
+return;
+
 }
+
 itemSelecionado=item;
-document.getElementById("nomeItemLeitor").innerText=item.item;
-document.getElementById("codigoItemLeitor").innerText=item.codigo;
-document.getElementById("estoqueItemLeitor").innerText=item.quantidade;
-document.getElementById("itemIdentificado").classList.add("ativo");
-document.getElementById("acoesLeitor").classList.add("ativo");
-document.getElementById("boxEntrada").classList.remove("ativo");
-document.getElementById("boxSaida").classList.remove("ativo");
-status.className="leitor-status sucesso";status.innerText="✅ Item identificado com sucesso.";
+
+document.getElementById(
+"nomeItemLeitor"
+).innerText=item.item;
+
+document.getElementById(
+"codigoItemLeitor"
+).innerText=item.codigo;
+
+document.getElementById(
+"estoqueItemLeitor"
+).innerText=item.quantidade;
+
+document.getElementById(
+"itemIdentificado"
+).classList.add("ativo");
+
+document.getElementById(
+"acoesLeitor"
+).classList.add("ativo");
+
+document.getElementById(
+"boxEntrada"
+).classList.remove("ativo");
+
+document.getElementById(
+"boxSaida"
+).classList.remove("ativo");
+
+status.className=
+"leitor-status sucesso";
+
+status.innerText=
+"✅ Item identificado com sucesso.";
+
 }
+
 
 function selecionarAcao(acao){
+
 if(!itemSelecionado)return;
-document.getElementById("boxEntrada").classList.remove("ativo");
-document.getElementById("boxSaida").classList.remove("ativo");
+
+document.getElementById(
+"boxEntrada"
+).classList.remove("ativo");
+
+document.getElementById(
+"boxSaida"
+).classList.remove("ativo");
+
 if(acao==="entrada"){
-document.getElementById("quantidadeEntrada").value="";
-document.getElementById("boxEntrada").classList.add("ativo");
-document.getElementById("quantidadeEntrada").focus();
+
+document.getElementById(
+"quantidadeEntrada"
+).value="";
+
+document.getElementById(
+"boxEntrada"
+).classList.add("ativo");
+
+document.getElementById(
+"quantidadeEntrada"
+).focus();
+
 }else{
-document.getElementById("quantidadeSaida").value="";
-document.getElementById("setorSaida").value="";
-document.getElementById("boxSaida").classList.add("ativo");
-document.getElementById("quantidadeSaida").focus();
+
+document.getElementById(
+"quantidadeSaida"
+).value="";
+
+document.getElementById(
+"setorSaida"
+).value="";
+
+document.getElementById(
+"boxSaida"
+).classList.add("ativo");
+
+document.getElementById(
+"quantidadeSaida"
+).focus();
+
 }
+
 }
+
+
+/* =====================================================
+   MOVIMENTAÇÃO
+===================================================== */
 
 async function confirmarEntrada(){
+
 if(!itemSelecionado)return;
-const q=Number(document.getElementById("quantidadeEntrada").value);
-if(!q||q<=0){toast("Informe uma quantidade válida","erro");return}
-await enviarMovimentacao(itemSelecionado.codigo,"entrada",q,"");
+
+const q=
+Number(
+document.getElementById(
+"quantidadeEntrada"
+).value
+);
+
+if(!q || q<=0){
+
+toast(
+"Informe uma quantidade válida",
+"erro"
+);
+
+return;
+
 }
+
+await enviarMovimentacao(
+itemSelecionado.codigo,
+"entrada",
+q,
+""
+);
+
+}
+
 
 async function confirmarSaida(){
+
 if(!itemSelecionado)return;
-const q=Number(document.getElementById("quantidadeSaida").value);
-const setor=document.getElementById("setorSaida").value;
-if(!q||q<=0){toast("Informe uma quantidade válida","erro");return}
-if(!setor){toast("Selecione o setor de destino","erro");return}
-if(q>Number(itemSelecionado.quantidade)){toast("Estoque insuficiente","erro");return}
-await enviarMovimentacao(itemSelecionado.codigo,"saida",q,setor);
+
+const q=
+Number(
+document.getElementById(
+"quantidadeSaida"
+).value
+);
+
+const setor=
+document.getElementById(
+"setorSaida"
+).value;
+
+if(!q || q<=0){
+
+toast(
+"Informe uma quantidade válida",
+"erro"
+);
+
+return;
+
 }
 
-async function enviarMovimentacao(codigo,acao,quantidade,setor){
-try{
-const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"movimentacao",codigo,acao,quantidade,setor})});
-const texto=await r.text();
-if(texto==="ESTOQUE_INSUFICIENTE"){toast("Estoque insuficiente","erro");return}
-if(texto==="CODIGO_NAO_ENCONTRADO"){toast("Código não encontrado","erro");return}
-if(texto!=="OK"){toast("Não foi possível realizar a operação","erro");return}
-toast(acao==="entrada"?"Entrada realizada com sucesso!":"Saída realizada com sucesso!","sucesso");
-cancelarOperacao();await carregar();
-}catch(e){console.error(e);toast("Erro ao realizar movimentação","erro")}
+if(!setor){
+
+toast(
+"Selecione o setor de destino",
+"erro"
+);
+
+return;
+
 }
+
+if(q>Number(itemSelecionado.quantidade)){
+
+toast(
+"Estoque insuficiente",
+"erro"
+);
+
+return;
+
+}
+
+await enviarMovimentacao(
+itemSelecionado.codigo,
+"saida",
+q,
+setor
+);
+
+}
+
+
+async function enviarMovimentacao(
+codigo,
+acao,
+quantidade,
+setor
+){
+
+try{
+
+const resultado=
+await apiPost({
+
+tipo:"movimentacao",
+
+codigo,
+acao,
+quantidade,
+setor
+
+});
+
+if(!resultado.sucesso){
+
+toast(
+resultado.mensagem ||
+"Não foi possível realizar a operação",
+"erro"
+);
+
+return;
+
+}
+
+toast(
+acao==="entrada"
+?"Entrada realizada com sucesso!"
+:"Saída realizada com sucesso!",
+"sucesso"
+);
+
+cancelarOperacao();
+
+await carregar();
+
+}catch(e){
+
+console.error(e);
+
+toast(
+"Erro ao realizar movimentação",
+"erro"
+);
+
+}
+
+}
+
 
 function cancelarOperacao(){
+
 itemSelecionado=null;
-["codigoLeitor","quantidadeEntrada","quantidadeSaida"].forEach(id=>document.getElementById(id).value="");
-document.getElementById("itemIdentificado").classList.remove("ativo");
-document.getElementById("acoesLeitor").classList.remove("ativo");
-document.getElementById("boxEntrada").classList.remove("ativo");
-document.getElementById("boxSaida").classList.remove("ativo");
-document.getElementById("leitorStatus").className="leitor-status";
-document.getElementById("setorSaida").value="";
-setTimeout(()=>document.getElementById("codigoLeitor").focus(),100);
+
+[
+"codigoLeitor",
+"quantidadeEntrada",
+"quantidadeSaida"
+].forEach(
+id=>document.getElementById(id).value=""
+);
+
+document.getElementById(
+"itemIdentificado"
+).classList.remove("ativo");
+
+document.getElementById(
+"acoesLeitor"
+).classList.remove("ativo");
+
+document.getElementById(
+"boxEntrada"
+).classList.remove("ativo");
+
+document.getElementById(
+"boxSaida"
+).classList.remove("ativo");
+
+document.getElementById(
+"leitorStatus"
+).className=
+"leitor-status";
+
+document.getElementById(
+"setorSaida"
+).value="";
+
+setTimeout(
+()=>document.getElementById(
+"codigoLeitor"
+).focus(),
+100
+);
+
 }
 
-function movimentacaoManual(codigo,acao){
-document.getElementById("codigoLeitor").value=codigo;
-identificarCodigo().then(()=>setTimeout(()=>selecionarAcao(acao),150));
+
+function movimentacaoManual(
+codigo,
+acao
+){
+
+document.getElementById(
+"codigoLeitor"
+).value=codigo;
+
+identificarCodigo()
+.then(
+()=>setTimeout(
+()=>selecionarAcao(acao),
+150
+)
+);
+
 }
+
+
+/* =====================================================
+   CADASTRO
+===================================================== */
 
 async function cadastrar(){
-const item=document.getElementById("item").value.trim();
-const codigo=document.getElementById("codigo").value.trim();
-const quantidade=document.getElementById("quantidade").value;
-const minimo=document.getElementById("minimo").value;
-if(!item||!codigo||quantidade===""||minimo===""){toast("Preencha todos os campos","erro");return}
-if(Number(quantidade)<0||Number(minimo)<0){toast("Quantidade e mínimo não podem ser negativos","erro");return}
-try{
-const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"cadastro",item,codigo,quantidade:Number(quantidade),minimo:Number(minimo)})});
-const t=await r.text();
-if(t==="ITEM_JA_EXISTE"){toast("Esse item já existe","erro");return}
-if(t==="CODIGO_JA_EXISTE"){toast("Esse código já está cadastrado","erro");return}
-if(t!=="OK"){toast("Não foi possível cadastrar","erro");return}
-toast("Item cadastrado com sucesso!","sucesso");
-["item","codigo","quantidade","minimo"].forEach(id=>document.getElementById(id).value="");
-await carregar();
-}catch(e){console.error(e);toast("Erro ao cadastrar item","erro")}
+
+const item=
+document.getElementById("item")
+.value.trim();
+
+const codigo=
+document.getElementById("codigo")
+.value.trim();
+
+const quantidade=
+document.getElementById("quantidade")
+.value;
+
+const minimo=
+document.getElementById("minimo")
+.value;
+
+if(
+!item ||
+!codigo ||
+quantidade==="" ||
+minimo===""
+){
+
+toast(
+"Preencha todos os campos",
+"erro"
+);
+
+return;
+
 }
+
+if(
+Number(quantidade)<0 ||
+Number(minimo)<0
+){
+
+toast(
+"Quantidade e mínimo não podem ser negativos",
+"erro"
+);
+
+return;
+
+}
+
+try{
+
+const resultado=
+await apiPost({
+
+tipo:"cadastro",
+
+item,
+codigo,
+quantidade:Number(quantidade),
+minimo:Number(minimo)
+
+});
+
+if(!resultado.sucesso){
+
+toast(
+resultado.mensagem ||
+"Não foi possível cadastrar",
+"erro"
+);
+
+return;
+
+}
+
+toast(
+"Item cadastrado com sucesso!",
+"sucesso"
+);
+
+[
+"item",
+"codigo",
+"quantidade",
+"minimo"
+].forEach(
+id=>document.getElementById(id).value=""
+);
+
+await carregar();
+
+}catch(e){
+
+console.error(e);
+
+toast(
+"Erro ao cadastrar item",
+"erro"
+);
+
+}
+
+}
+
+
+/* =====================================================
+   PESQUISA
+===================================================== */
 
 function filtrarTabela(){
-const f=document.getElementById("pesquisa").value.toLowerCase();
-document.querySelectorAll("#tabela tr").forEach(l=>l.style.display=l.innerText.toLowerCase().includes(f)?"":"none");
+
+const f=
+document.getElementById(
+"pesquisa"
+).value.toLowerCase();
+
+document.querySelectorAll(
+"#tabela tr"
+).forEach(
+l=>l.style.display=
+l.innerText
+.toLowerCase()
+.includes(f)
+?""
+:"none"
+);
+
 }
 
-/* =========================
+
+/* =====================================================
    SETORES
-========================= */
+===================================================== */
 
 function carregarSetores(setores){
-setoresGlobais=Array.isArray(setores)?setores.slice():[];
+
+setoresGlobais=
+Array.isArray(setores)
+?setores.slice()
+:[];
 
 const selects=[
+
 document.getElementById("setorSaida"),
+
 document.getElementById("filtroSetor")
+
 ];
 
 selects.forEach(select=>{
+
 if(!select)return;
+
 const atual=select.value;
-select.innerHTML=select.id==="setorSaida"
+
+select.innerHTML=
+select.id==="setorSaida"
 ?'<option value="">Selecione o setor</option>'
 :'<option value="">Todos os setores</option>';
 
 setoresGlobais.forEach(setor=>{
+
 const o=document.createElement("option");
-o.value=setor;o.textContent=setor;select.appendChild(o);
+
+o.value=setor;
+o.textContent=setor;
+
+select.appendChild(o);
+
 });
 
-if(Array.from(select.options).some(o=>o.value===atual))select.value=atual;
+if(
+Array.from(select.options)
+.some(o=>o.value===atual)
+){
+
+select.value=atual;
+
+}
+
 });
 
 renderizarListaSetores();
+
 }
 
+
 function renderizarListaSetores(){
-const lista=document.getElementById("listaSetores");
+
+const lista=
+document.getElementById(
+"listaSetores"
+);
+
 if(!lista)return;
+
 lista.innerHTML="";
 
 if(!setoresGlobais.length){
-lista.innerHTML='<div class="lista-setores-vazia">Nenhum setor cadastrado.</div>';
+
+lista.innerHTML=
+'<div style="padding:20px;background:#0f172a;border-radius:16px;color:#94a3b8;text-align:center">Nenhum setor cadastrado.</div>';
+
 return;
+
 }
 
-setoresGlobais.slice().sort((a,b)=>a.localeCompare(b,"pt-BR")).forEach(setor=>{
-const div=document.createElement("div");
+setoresGlobais
+.slice()
+.sort(
+(a,b)=>a.localeCompare(b,"pt-BR")
+)
+.forEach(setor=>{
+
+const div=
+document.createElement("div");
+
 div.className="setor-item";
 
-const nome=document.createElement("div");
-nome.className="setor-nome";
-nome.innerHTML="🏢 "+escapeHtml(setor);
+const nome=
+document.createElement("div");
 
-const botao=document.createElement("button");
-botao.className="btn-excluir-setor";
+nome.className="setor-nome";
+
+nome.innerHTML=
+"🏢 "+escapeHtml(setor);
+
+const botao=
+document.createElement("button");
+
+botao.className=
+"btn-excluir-setor";
+
 botao.innerHTML="🗑️ Excluir";
-botao.onclick=()=>excluirSetor(setor);
+
+botao.onclick=
+()=>excluirSetor(setor);
 
 div.appendChild(nome);
 div.appendChild(botao);
+
 lista.appendChild(div);
+
 });
+
 }
+
 
 async function adicionarSetor(){
-const campo=document.getElementById("novoSetor");
+
+const campo=
+document.getElementById(
+"novoSetor"
+);
+
 const setor=campo.value.trim();
 
-if(!setor){toast("Digite o nome do setor","erro");campo.focus();return}
+if(!setor){
 
-if(setoresGlobais.some(x=>String(x).trim().toLowerCase()===setor.toLowerCase())){
-toast("Esse setor já está cadastrado","erro");campo.focus();return;
+toast(
+"Digite o nome do setor",
+"erro"
+);
+
+campo.focus();
+
+return;
+
 }
 
 try{
-const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"setor",acao:"adicionar",setor})});
-const t=await r.text();
 
-if(t==="SETOR_JA_EXISTE"){toast("Esse setor já está cadastrado","erro");return}
-if(t!=="OK"){toast("Não foi possível adicionar o setor","erro");return}
+const resultado=
+await apiPost({
+
+tipo:"setor",
+acao:"adicionar",
+setor
+
+});
+
+if(!resultado.sucesso){
+
+toast(
+resultado.mensagem ||
+"Não foi possível adicionar o setor",
+"erro"
+);
+
+return;
+
+}
 
 campo.value="";
-toast("Setor adicionado com sucesso!","sucesso");
+
+toast(
+"Setor adicionado com sucesso!",
+"sucesso"
+);
+
 await carregar();
+
 campo.focus();
-}catch(e){console.error(e);toast("Erro ao adicionar setor","erro")}
+
+}catch(e){
+
+console.error(e);
+
+toast(
+"Erro ao adicionar setor",
+"erro"
+);
+
 }
+
+}
+
 
 async function excluirSetor(setor){
-if(!confirm('Deseja realmente excluir o setor "'+setor+'"?'))return;
+
+if(
+!confirm(
+'Deseja realmente excluir o setor "'+
+setor+
+'"?'
+)
+)return;
 
 try{
-const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"setor",acao:"excluir",setor})});
-const t=await r.text();
 
-if(t==="SETOR_NAO_ENCONTRADO"){toast("Setor não encontrado","erro");await carregar();return}
-if(t!=="OK"){toast("Não foi possível excluir o setor","erro");return}
+const resultado=
+await apiPost({
 
-toast("Setor excluído com sucesso!","sucesso");
-await carregar();
-}catch(e){console.error(e);toast("Erro ao excluir setor","erro")}
+tipo:"setor",
+acao:"excluir",
+setor
+
+});
+
+if(!resultado.sucesso){
+
+toast(
+resultado.mensagem ||
+"Não foi possível excluir o setor",
+"erro"
+);
+
+return;
+
 }
+
+toast(
+"Setor excluído com sucesso!",
+"sucesso"
+);
+
+await carregar();
+
+}catch(e){
+
+console.error(e);
+
+toast(
+"Erro ao excluir setor",
+"erro"
+);
+
+}
+
+}
+
+
+/* =====================================================
+   ITENS DOS RELATÓRIOS
+===================================================== */
 
 function carregarItensRelatorios(){
-const select=document.getElementById("filtroItem");
-select.innerHTML='<option value="">Todos os itens</option>';
+
+const select=
+document.getElementById(
+"filtroItem"
+);
+
+select.innerHTML=
+'<option value="">Todos os itens</option>';
+
 dadosGlobais.forEach(item=>{
-const o=document.createElement("option");
-o.value=item.codigo;o.textContent=item.item+" ("+item.codigo+")";
+
+const o=
+document.createElement("option");
+
+o.value=item.codigo;
+
+o.textContent=
+item.item+
+" ("+
+item.codigo+
+")";
+
 select.appendChild(o);
+
 });
+
 }
 
-/* =========================
+
+/* =====================================================
    RELATÓRIOS
-========================= */
+===================================================== */
 
 function gerarRelatorio(tipo){
+
 tipoRelatorioSelecionado=tipo;
-const nomes={estoque:"📦 Estoque Atual",alertas:"⚠️ Itens em Alerta",saidas:"📤 Saídas",setor:"🏢 Por Setor",resumo_setor:"📊 Resumo por Setor",item:"📦 Movimentações por Item",historico:"📋 Histórico Completo"};
-document.getElementById("filtroRelatorioTitulo").innerText="🔎 Filtros — "+nomes[tipo];
-document.getElementById("modalFiltrosRelatorio").classList.add("ativo");
+
+const nomes={
+
+estoque:"📦 Estoque Atual",
+
+alertas:"⚠️ Itens em Alerta",
+
+saidas:"📤 Saídas",
+
+setor:"🏢 Por Setor",
+
+resumo_setor:"📊 Resumo por Setor",
+
+item:"📦 Movimentações por Item",
+
+historico:"📋 Histórico Completo"
+
+};
+
+document.getElementById(
+"filtroRelatorioTitulo"
+).innerText=
+"🔎 Filtros — "+nomes[tipo];
+
+document.getElementById(
+"modalFiltrosRelatorio"
+).classList.add("ativo");
+
 }
 
-function fecharFiltrosRelatorio(){document.getElementById("modalFiltrosRelatorio").classList.remove("ativo")}
+
+function fecharFiltrosRelatorio(){
+
+document.getElementById(
+"modalFiltrosRelatorio"
+).classList.remove("ativo");
+
+}
+
 
 async function confirmarGerarRelatorio(){
-const tipo=tipoRelatorioSelecionado;
-const dataInicial=document.getElementById("dataInicial").value;
-const dataFinal=document.getElementById("dataFinal").value;
-const setor=document.getElementById("filtroSetor").value;
-const codigoItem=document.getElementById("filtroItem").value;
 
-if(dataInicial&&dataFinal&&dataInicial>dataFinal){toast("A data inicial não pode ser maior que a final","erro");return}
+const tipo=
+tipoRelatorioSelecionado;
+
+const dataInicial=
+document.getElementById(
+"dataInicial"
+).value;
+
+const dataFinal=
+document.getElementById(
+"dataFinal"
+).value;
+
+const setor=
+document.getElementById(
+"filtroSetor"
+).value;
+
+const codigoItem=
+document.getElementById(
+"filtroItem"
+).value;
+
+if(
+dataInicial &&
+dataFinal &&
+dataInicial>dataFinal
+){
+
+toast(
+"A data inicial não pode ser maior que a final",
+"erro"
+);
+
+return;
+
+}
+
 fecharFiltrosRelatorio();
 
 try{
-toast("Preparando relatório...","sucesso");
-const r=await fetch(API_URL,{method:"POST",body:JSON.stringify({tipo:"relatorio",relatorio:tipo,dataInicial,dataFinal,setor,codigoItem,modo:"preview"})});
-const resultado=await r.json();
 
-if(!resultado.sucesso){toast(resultado.mensagem||"Erro ao gerar relatório","erro");return}
+toast(
+"Preparando relatório...",
+"sucesso"
+);
 
-window.relatorioPreviewAtual={pdf:resultado.pdf,nomeArquivo:resultado.nomeArquivo};
-document.getElementById("previewTitulo").innerText=resultado.titulo||"📊 Relatório";
-document.getElementById("previewSubtitulo").innerText="Pré-visualização do relatório";
+const resultado=
+await apiPost({
 
-document.getElementById("previewFiltros").innerHTML=`
-<span>📅 Período: <strong>${escapeHtml(resultado.filtros?.periodo||"Todos os registros")}</strong></span>
-<span>🏢 Setor: <strong>${escapeHtml(resultado.filtros?.setor||"Todos os setores")}</strong></span>
-<span>📦 Item: <strong>${escapeHtml(resultado.filtros?.item||"Todos os itens")}</strong></span>`;
+tipo:"relatorio",
 
-document.getElementById("previewConteudo").innerHTML=resultado.conteudo||"<p>Nenhum dado encontrado.</p>";
-document.getElementById("modalRelatorio").classList.add("ativo");
-}catch(e){console.error(e);toast("Erro ao preparar relatório","erro")}
-}
+relatorio:tipo,
 
-function fecharPreVisualizacao(){document.getElementById("modalRelatorio").classList.remove("ativo")}
+dataInicial,
 
-function baixarPDFPreVisualizacao(){
-if(!window.relatorioPreviewAtual?.pdf){toast("PDF não disponível","erro");return}
-baixarPDF(window.relatorioPreviewAtual.pdf,window.relatorioPreviewAtual.nomeArquivo);
-toast("PDF gerado com sucesso!","sucesso");
-}
+dataFinal,
 
-function imprimirPreVisualizacao(){
-const titulo=document.getElementById("previewTitulo").innerText;
-const filtros=document.getElementById("previewFiltros").outerHTML;
-const conteudo=document.getElementById("previewConteudo").innerHTML;
-const janela=window.open("","_blank");
+setor,
 
-janela.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>${escapeHtml(titulo)}</title>
-<style>
-body{font-family:Arial,sans-serif;padding:35px;color:#172033}
-h1{font-size:24px;margin-bottom:20px}
-.relatorio-filtros-aplicados{display:flex;gap:20px;flex-wrap:wrap;background:#f3f4f6;padding:15px;border-radius:10px}
-.relatorio-filtros-aplicados span{color:#374151}.relatorio-filtros-aplicados strong{color:#111827}
-.relatorio-preview-table{width:100%;border-collapse:collapse;margin-top:20px}
-.relatorio-preview-table th,.relatorio-preview-table td{border:1px solid #d1d5db;padding:10px;text-align:left}
-.relatorio-preview-table th{background:#e5e7eb}
-.relatorio-preview-resumo{margin-top:15px;padding:12px;border:1px solid #d1d5db;font-weight:bold}
-</style></head><body><h1>${escapeHtml(titulo)}</h1>${filtros}${conteudo}</body></html>`);
+codigoItem
 
-janela.document.close();janela.focus();setTimeout(()=>janela.print(),500);
-}
-
-function baixarPDF(base64,nomeArquivo){
-const chars=atob(base64),nums=new Array(chars.length);
-for(let i=0;i<chars.length;i++)nums[i]=chars.charCodeAt(i);
-const blob=new Blob([new Uint8Array(nums)],{type:"application/pdf"});
-const url=URL.createObjectURL(blob),link=document.createElement("a");
-link.href=url;link.download=nomeArquivo||"relatorio.pdf";document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
-}
-
-function formatarData(data){
-if(!data)return"-";
-const d=new Date(data);
-if(isNaN(d.getTime()))return data;
-return d.toLocaleString("pt-BR");
-}
-
-function escapeHtml(v){
-return String(v??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
-}
-
-function escapeJs(v){
-return String(v??"").replace(/\\/g,"\\\\").replace(/'/g,"\\'").replace(/\n/g,"\\n").replace(/\r/g,"\\r");
-}
-
-document.getElementById("novoSetor").addEventListener("keydown",e=>{
-if(e.key==="Enter"){e.preventDefault();adicionarSetor()}
 });
 
-carregar();
+if(!resultado.sucesso){
 
-setTimeout(()=>document.getElementById("codigoLeitor").focus(),1000);
+toast(
+resultado.mensagem ||
+"Erro ao gerar relatório",
+"erro"
+);
+
+return;
+
+}
+
+window.relatorioPreviewAtual={
+
+pdf:resultado.pdf,
+nomeArquivo:resultado.nomeArquivo
+
+};
+
+document.getElementById(
+"previewTitulo"
+).innerText=
+resultado.titulo;
+
+document.getElementById(
+"previewFiltros"
+).innerHTML=`
+
+<span>
+📅 Período:
+<strong>
+${escapeHtml(
+resultado.filtros.periodo
+)}
+</strong>
+</span>
+
+<span>
+🏢 Setor:
+<strong>
+${escapeHtml(
+resultado.filtros.setor
+)}
+</strong>
+</span>
+
+<span>
+📦 Item:
+<strong>
+${escapeHtml(
+resultado.filtros.item
+)}
+</strong>
+</span>
+
+`;
+
+document.getElementById(
+"previewConteudo"
+).innerHTML=
+resultado.conteudo;
+
+document.getElementById(
+"modalRelatorio"
+).classList.add("ativo");
+
+}catch(e){
+
+console.error(e);
+
+toast(
+"Erro ao preparar relatório",
+"erro"
+);
+
+}
+
+}
+
+
+function fecharPreVisualizacao(){
+
+document.getElementById(
+"modalRelatorio"
+).classList.remove("ativo");
+
+}
+
+
+function baixarPDFPreVisualizacao(){
+
+if(
+!window.relatorioPreviewAtual?.pdf
+){
+
+toast(
+"PDF não disponível",
+"erro"
+);
+
+return;
+
+}
+
+baixarPDF(
+window.relatorioPreviewAtual.pdf,
+window.relatorioPreviewAtual.nomeArquivo
+);
+
+toast(
+"PDF gerado com sucesso!",
+"sucesso"
+);
+
+}
+
+
+function imprimirPreVisualizacao(){
+
+const titulo=
+document.getElementById(
+"previewTitulo"
+).innerText;
+
+const filtros=
+document.getElementById(
+"previewFiltros"
+).outerHTML;
+
+const conteudo=
+document.getElementById(
+"previewConteudo"
+).innerHTML;
+
+const janela=
+window.open("","_blank");
+
+janela.document.write(`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+${escapeHtml(titulo)}
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:35px;
+color:#172033
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px
+}
+
+th,td{
+border:1px solid #d1d5db;
+padding:10px;
+text-align:left
+}
+
+th{
+background:#e5e7eb
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>
+${escapeHtml(titulo)}
+</h1>
+
+${filtros}
+
+${conteudo}
+
+</body>
+
+</html>
+
+`);
+
+janela.document.close();
+
+janela.focus();
+
+setTimeout(
+()=>janela.print(),
+500
+);
+
+}
+
+
+function baixarPDF(
+base64,
+nomeArquivo
+){
+
+const chars=atob(base64);
+
+const nums=
+new Array(chars.length);
+
+for(
+let i=0;
+i<chars.length;
+i++
+){
+
+nums[i]=chars.charCodeAt(i);
+
+}
+
+const blob=
+new Blob(
+[
+new Uint8Array(nums)
+],
+{
+type:"application/pdf"
+}
+);
+
+const url=
+URL.createObjectURL(blob);
+
+const link=
+document.createElement("a");
+
+link.href=url;
+
+link.download=
+nomeArquivo ||
+"relatorio.pdf";
+
+document.body.appendChild(link);
+
+link.click();
+
+link.remove();
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =====================================================
+   UTILITÁRIOS
+===================================================== */
+
+function formatarData(data){
+
+if(!data)return"-";
+
+const d=new Date(data);
+
+if(isNaN(d.getTime()))
+return data;
+
+return d.toLocaleString(
+"pt-BR"
+);
+
+}
+
+
+function escapeHtml(v){
+
+return String(v??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function escapeJs(v){
+
+return String(v??"")
+.replace(/\\/g,"\\\\")
+.replace(/'/g,"\\'")
+.replace(/\n/g,"\\n")
+.replace(/\r/g,"\\r");
+
+}
+
+
+/* ENTER SETOR */
+
+document.getElementById(
+"novoSetor"
+).addEventListener(
+"keydown",
+e=>{
+
+if(e.key==="Enter"){
+
+e.preventDefault();
+
+adicionarSetor();
+
+}
+
+});
+
+
+/* INICIALIZAÇÃO */
+
+verificarSessao();
+
 </script>
+
 </body>
 </html>
