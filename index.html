@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -410,7 +411,7 @@ border-left:5px solid #38bdf8;
 font-weight:700;
 box-shadow:0 0 20px rgba(0,0,0,0.3);
 animation:fade 0.3s;
-z-index:999;
+z-index:9999;
 }
 
 @keyframes fade{
@@ -424,6 +425,67 @@ transform:translateY(0);
 }
 }
 
+/* MODAL */
+
+.modal-overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.75);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9998;
+padding:20px;
+}
+
+.modal{
+background:#0f172a;
+width:100%;
+max-width:480px;
+padding:30px;
+border-radius:24px;
+box-shadow:0 20px 50px rgba(0,0,0,0.5);
+}
+
+.modal h2{
+margin-bottom:20px;
+}
+
+.modal label{
+display:block;
+margin-bottom:8px;
+color:#94a3b8;
+font-weight:600;
+}
+
+.modal input{
+width:100%;
+margin-bottom:18px;
+}
+
+.produto-identificado{
+padding:15px;
+border-radius:14px;
+background:#111827;
+margin-bottom:18px;
+display:none;
+color:#4ade80;
+font-weight:700;
+}
+
+.modal-acoes{
+display:flex;
+gap:10px;
+}
+
+.modal-acoes button{
+flex:1;
+}
+
+.btn-cancelar{
+background:#374151;
+}
+
 /* RESPONSIVIDADE MOBILE */
 
 @media(max-width:900px){
@@ -431,8 +493,6 @@ transform:translateY(0);
 body{
 overflow-x:hidden;
 }
-
-/* SIDEBAR */
 
 .sidebar{
 width:100%;
@@ -469,15 +529,11 @@ font-size:14px;
 padding:14px;
 }
 
-/* MAIN */
-
 .main{
 margin-left:0;
 padding:15px;
 width:100%;
 }
-
-/* TOPO */
 
 .topo{
 flex-direction:column;
@@ -494,8 +550,6 @@ width:100%;
 text-align:center;
 }
 
-/* DASHBOARD */
-
 .dashboard{
 grid-template-columns:1fr;
 gap:15px;
@@ -508,8 +562,6 @@ padding:20px;
 .card-info span{
 font-size:28px;
 }
-
-/* FORM */
 
 .grid{
 grid-template-columns:1fr;
@@ -524,13 +576,9 @@ font-size:16px;
 width:100%;
 }
 
-/* PESQUISA */
-
 .pesquisa input{
 font-size:16px;
 }
-
-/* TABELAS */
 
 .table-container{
 overflow-x:auto;
@@ -540,8 +588,6 @@ border-radius:18px;
 table{
 min-width:700px;
 }
-
-/* AÇÕES */
 
 .acoes{
 flex-direction:row;
@@ -554,8 +600,6 @@ padding:10px 12px;
 font-size:14px;
 }
 
-/* GRÁFICO */
-
 .grafico{
 padding:15px;
 overflow-x:auto;
@@ -565,14 +609,20 @@ overflow-x:auto;
 min-height:250px;
 }
 
-/* TOAST */
-
 .toast{
 right:10px;
 left:10px;
 top:10px;
 width:auto;
 font-size:14px;
+}
+
+.modal{
+padding:22px;
+}
+
+.modal-acoes{
+flex-direction:column;
 }
 
 }
@@ -837,11 +887,18 @@ onkeyup="filtrarTabela()">
 
 </div>
 
+
 <script>
 
-const API_URL = "https://script.google.com/macros/s/AKfycbw0AjZ8vgnDFfuYFi79SznwHFz0xwIUj4bQgyLE4DZUaR8CpZ42mHCIbzbl3iG1Y52w/exec";
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw0AjZ8vgnDFfuYFi79SznwHFz0xwIUj4bQgyLE4DZUaR8CpZ42mHCIbzbl3iG1Y52w/exec";
 
 let grafico;
+
+
+/* =========================================================
+   NAVEGAÇÃO
+   ========================================================= */
 
 function mostrarSecao(secaoId,event){
 
@@ -849,9 +906,7 @@ const secoes =
 document.querySelectorAll(".secao");
 
 secoes.forEach(secao=>{
-
 secao.classList.remove("ativa");
-
 });
 
 document
@@ -862,14 +917,17 @@ const botoes =
 document.querySelectorAll(".menu-btn");
 
 botoes.forEach(btn=>{
-
 btn.classList.remove("active");
-
 });
 
 event.currentTarget.classList.add("active");
 
 }
+
+
+/* =========================================================
+   TEMAS
+   ========================================================= */
 
 function ativarLightMode(){
 
@@ -891,17 +949,22 @@ toast("Tema escuro ativado");
 
 }
 
-const temaSalvo = localStorage.getItem("tema");
+const temaSalvo =
+localStorage.getItem("tema");
 
 if(temaSalvo === "light"){
-
 document.body.classList.add("light-mode");
-
 }
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
 
 function toast(mensagem){
 
-const div = document.createElement("div");
+const div =
+document.createElement("div");
 
 div.className = "toast";
 
@@ -910,24 +973,34 @@ div.innerText = mensagem;
 document.body.appendChild(div);
 
 setTimeout(()=>{
-
 div.remove();
-
 },3000);
 
 }
 
+
+/* =========================================================
+   CARREGAR
+   ========================================================= */
+
 async function carregar(){
 
-const resposta = await fetch(API_URL);
+try{
 
-const resultado = await resposta.json();
+const resposta =
+await fetch(API_URL);
 
-const dados = resultado.estoque;
+const resultado =
+await resposta.json();
 
-const historico = resultado.historico;
+const dados =
+resultado.estoque || [];
 
-const tabela = document.getElementById("tabela");
+const historico =
+resultado.historico || [];
+
+const tabela =
+document.getElementById("tabela");
 
 const tabelaAlertas =
 document.getElementById("tabelaAlertas");
@@ -950,6 +1023,7 @@ let totalEstoque = 0;
 const nomes = [];
 
 const quantidades = [];
+
 
 dados.forEach(item=>{
 
@@ -976,11 +1050,15 @@ tabelaAlertas.innerHTML += `
 
 }
 
-totalEstoque += Number(item.quantidade);
+totalEstoque +=
+Number(item.quantidade);
 
 nomes.push(item.item);
 
-quantidades.push(item.quantidade);
+quantidades.push(
+Number(item.quantidade)
+);
+
 
 tabela.innerHTML += `
 
@@ -1014,7 +1092,7 @@ ${alerta ? 'ALERTA' : 'OK'}
 
 <button
 class="entrada"
-onclick="movimentar('${item.item}','entrada')">
+onclick="abrirMovimentacao('entrada')">
 
 +
 
@@ -1022,7 +1100,7 @@ onclick="movimentar('${item.item}','entrada')">
 
 <button
 class="saida"
-onclick="movimentar('${item.item}','saida')">
+onclick="abrirMovimentacao('saida')">
 
 -
 
@@ -1038,15 +1116,21 @@ onclick="movimentar('${item.item}','saida')">
 
 });
 
-historico.reverse().forEach(item=>{
+
+[...historico].reverse().forEach(item=>{
 
 tabelaHistorico.innerHTML += `
 
 <tr>
 
-<td>${new Date(item.data).toLocaleString()}</td>
+<td>
+${new Date(item.data).toLocaleString()}
+</td>
+
 <td>${item.acao}</td>
+
 <td>${item.item}</td>
+
 <td>${item.quantidade}</td>
 
 </tr>
@@ -1055,22 +1139,47 @@ tabelaHistorico.innerHTML += `
 
 });
 
-document.getElementById("totalItens").innerText = totalItens;
 
-document.getElementById("itensAlerta").innerText = itensAlerta;
+document.getElementById("totalItens")
+.innerText = totalItens;
 
-document.getElementById("estoqueTotal").innerText = totalEstoque;
+document.getElementById("itensAlerta")
+.innerText = itensAlerta;
+
+document.getElementById("estoqueTotal")
+.innerText = totalEstoque;
 
 gerarGrafico(nomes,quantidades);
 
+
+}catch(erro){
+
+console.error(erro);
+
+toast(
+"Erro ao carregar os dados"
+);
+
 }
+
+}
+
+
+/* =========================================================
+   GRÁFICO
+   ========================================================= */
 
 function gerarGrafico(labels,data){
 
+const canvas =
+document.getElementById("graficoEstoque");
+
+if(!canvas){
+return;
+}
+
 const ctx =
-document
-.getElementById("graficoEstoque")
-.getContext("2d");
+canvas.getContext("2d");
 
 if(grafico){
 grafico.destroy();
@@ -1103,7 +1212,12 @@ responsive:true,
 plugins:{
 legend:{
 labels:{
-color:'white'
+color:
+document.body.classList.contains("light-mode")
+?
+"#0f172a"
+:
+"white"
 }
 }
 },
@@ -1112,13 +1226,23 @@ scales:{
 
 x:{
 ticks:{
-color:'white'
+color:
+document.body.classList.contains("light-mode")
+?
+"#0f172a"
+:
+"white"
 }
 },
 
 y:{
 ticks:{
-color:'white'
+color:
+document.body.classList.contains("light-mode")
+?
+"#0f172a"
+:
+"white"
 }
 }
 
@@ -1130,51 +1254,109 @@ color:'white'
 
 }
 
+
+/* =========================================================
+   CADASTRAR
+   ========================================================= */
+
 async function cadastrar(){
 
 const item =
-document.getElementById("item").value;
+document.getElementById("item").value.trim();
 
 const quantidade =
-document.getElementById("quantidade").value;
+Number(
+document.getElementById("quantidade").value
+);
 
 const minimo =
-document.getElementById("minimo").value;
+Number(
+document.getElementById("minimo").value
+);
 
-if(!item || !quantidade || !minimo){
 
-toast("Preencha todos os campos");
+if(
+!item ||
+!Number.isFinite(quantidade) ||
+quantidade < 0 ||
+!Number.isFinite(minimo) ||
+minimo < 0
+){
+
+toast(
+"Preencha os campos corretamente"
+);
 
 return;
 
 }
 
-const resposta = await fetch(API_URL,{
+
+try{
+
+const resposta =
+await fetch(API_URL,{
 
 method:"POST",
 
 body:JSON.stringify({
 
 tipo:"cadastro",
-item,
-quantidade,
-minimo
+
+item:item,
+
+quantidade:quantidade,
+
+minimo:minimo
 
 })
 
 });
 
-const texto = await resposta.text();
+
+const texto =
+await resposta.text();
+
 
 if(texto === "ITEM_JA_EXISTE"){
 
-toast("Esse item já existe");
+toast(
+"Esse item já existe"
+);
 
 return;
 
 }
 
-toast("Item cadastrado");
+
+if(
+texto === "DADOS_INVALIDOS"
+){
+
+toast(
+"Dados inválidos"
+);
+
+return;
+
+}
+
+
+if(texto !== "OK"){
+
+toast(
+"Não foi possível cadastrar"
+);
+
+return;
+
+}
+
+
+toast(
+"Item cadastrado"
+);
+
 
 document.getElementById("item").value = "";
 
@@ -1182,9 +1364,27 @@ document.getElementById("quantidade").value = "";
 
 document.getElementById("minimo").value = "";
 
+
 carregar();
 
+
+}catch(erro){
+
+console.error(erro);
+
+toast(
+"Erro ao cadastrar item"
+);
+
 }
+
+}
+
+
+/* =========================================================
+   MOVIMENTAÇÃO ANTIGA
+   Mantida para compatibilidade
+   ========================================================= */
 
 async function movimentar(item,acao){
 
@@ -1193,36 +1393,455 @@ prompt("Digite a quantidade:");
 
 if(!quantidade) return;
 
-const resposta = await fetch(API_URL,{
+const numero =
+Number(quantidade);
+
+if(
+!Number.isFinite(numero) ||
+numero <= 0
+){
+
+toast(
+"Quantidade inválida"
+);
+
+return;
+
+}
+
+
+const resposta =
+await fetch(API_URL,{
 
 method:"POST",
 
 body:JSON.stringify({
 
 tipo:"movimentacao",
-item,
-acao,
-quantidade
+
+item:item,
+
+acao:acao,
+
+quantidade:numero
 
 })
 
 });
 
-const texto = await resposta.text();
+
+const texto =
+await resposta.text();
+
 
 if(texto === "ESTOQUE_INSUFICIENTE"){
 
-toast("Estoque insuficiente");
+toast(
+"Estoque insuficiente"
+);
 
 return;
 
 }
 
-toast("Movimentação realizada");
+
+toast(
+"Movimentação realizada"
+);
 
 carregar();
 
 }
+
+
+/* =========================================================
+   ABRIR MODAL DE CÓDIGO DE BARRAS
+   ========================================================= */
+
+function abrirMovimentacao(acao){
+
+const titulo =
+acao === "entrada"
+?
+"📥 Entrada de Estoque"
+:
+"📤 Saída de Estoque";
+
+
+const modal =
+document.createElement("div");
+
+modal.className =
+"modal-overlay";
+
+modal.id =
+"modalMovimentacao";
+
+
+modal.innerHTML = `
+
+<div class="modal">
+
+<h2>${titulo}</h2>
+
+<label>
+Código de barras
+</label>
+
+<input
+id="codigoBarras"
+type="text"
+placeholder="Bipe o código de barras..."
+autocomplete="off"
+>
+
+<div
+id="produtoIdentificado"
+class="produto-identificado"
+>
+</div>
+
+<label>
+Quantidade
+</label>
+
+<input
+id="quantidadeMovimentacao"
+type="number"
+min="1"
+placeholder="Digite somente a quantidade"
+>
+
+
+<div class="modal-acoes">
+
+<button
+class="btn"
+onclick="confirmarMovimentacao('${acao}')"
+>
+Confirmar
+</button>
+
+<button
+class="btn btn-cancelar"
+onclick="fecharMovimentacao()"
+>
+Cancelar
+</button>
+
+</div>
+
+</div>
+
+`;
+
+
+document.body.appendChild(modal);
+
+
+const campo =
+document.getElementById(
+"codigoBarras"
+);
+
+
+campo.focus();
+
+
+campo.addEventListener(
+"keydown",
+function(event){
+
+if(event.key === "Enter"){
+
+event.preventDefault();
+
+identificarCodigo();
+
+}
+
+});
+
+}
+
+
+/* =========================================================
+   IDENTIFICAR CÓDIGO
+   ========================================================= */
+
+async function identificarCodigo(){
+
+const campo =
+document.getElementById(
+"codigoBarras"
+);
+
+if(!campo){
+return;
+}
+
+const codigo =
+campo.value.trim();
+
+
+if(!codigo){
+return;
+}
+
+
+try{
+
+const resposta =
+await fetch(API_URL,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+tipo:"buscar_codigo",
+
+codigo:codigo
+
+})
+
+});
+
+
+const resultado =
+await resposta.json();
+
+
+const area =
+document.getElementById(
+"produtoIdentificado"
+);
+
+
+if(!resultado.sucesso){
+
+area.style.display =
+"block";
+
+area.style.color =
+"#f87171";
+
+area.innerText =
+"❌ Código não cadastrado";
+
+return;
+
+}
+
+
+area.style.display =
+"block";
+
+area.style.color =
+"#4ade80";
+
+area.innerText =
+"✅ Produto identificado: " +
+resultado.item;
+
+
+document
+.getElementById(
+"quantidadeMovimentacao"
+)
+.focus();
+
+
+}catch(erro){
+
+console.error(erro);
+
+toast(
+"Erro ao consultar código"
+);
+
+}
+
+}
+
+
+/* =========================================================
+   CONFIRMAR MOVIMENTAÇÃO
+   ========================================================= */
+
+async function confirmarMovimentacao(acao){
+
+const codigo =
+document
+.getElementById("codigoBarras")
+.value
+.trim();
+
+
+const quantidade =
+Number(
+document
+.getElementById(
+"quantidadeMovimentacao"
+)
+.value
+);
+
+
+if(!codigo){
+
+toast(
+"Bipe ou digite o código"
+);
+
+return;
+
+}
+
+
+if(
+!Number.isFinite(quantidade) ||
+quantidade <= 0
+){
+
+toast(
+"Informe uma quantidade válida"
+);
+
+return;
+
+}
+
+
+try{
+
+const resposta =
+await fetch(API_URL,{
+
+method:"POST",
+
+body:JSON.stringify({
+
+tipo:"movimentacao_codigo",
+
+codigo:codigo,
+
+acao:acao,
+
+quantidade:quantidade
+
+})
+
+});
+
+
+const resultado =
+await resposta.json();
+
+
+if(
+resultado.erro ===
+"ESTOQUE_INSUFICIENTE"
+){
+
+toast(
+"Estoque insuficiente"
+);
+
+return;
+
+}
+
+
+if(
+resultado.erro ===
+"CODIGO_NAO_ENCONTRADO"
+){
+
+toast(
+"Código não encontrado"
+);
+
+return;
+
+}
+
+
+if(
+resultado.erro ===
+"ITEM_NAO_ENCONTRADO"
+){
+
+toast(
+"Item não encontrado no estoque"
+);
+
+return;
+
+}
+
+
+if(!resultado.sucesso){
+
+toast(
+"Não foi possível realizar a operação"
+);
+
+return;
+
+}
+
+
+fecharMovimentacao();
+
+
+toast(
+acao === "entrada"
+?
+"Entrada realizada com sucesso"
+:
+"Saída realizada com sucesso"
+);
+
+
+carregar();
+
+
+}catch(erro){
+
+console.error(erro);
+
+toast(
+"Erro de comunicação com o servidor"
+);
+
+}
+
+}
+
+
+/* =========================================================
+   FECHAR MODAL
+   ========================================================= */
+
+function fecharMovimentacao(){
+
+const modal =
+document.getElementById(
+"modalMovimentacao"
+);
+
+if(modal){
+
+modal.remove();
+
+}
+
+}
+
+
+/* =========================================================
+   PESQUISA
+   ========================================================= */
 
 function filtrarTabela(){
 
@@ -1231,13 +1850,18 @@ document.getElementById("pesquisa")
 .value
 .toLowerCase();
 
+
 const linhas =
-document.querySelectorAll("#tabela tr");
+document.querySelectorAll(
+"#tabela tr"
+);
+
 
 linhas.forEach(linha=>{
 
 const texto =
 linha.innerText.toLowerCase();
+
 
 linha.style.display =
 texto.includes(filtro)
@@ -1250,9 +1874,15 @@ texto.includes(filtro)
 
 }
 
+
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
+
 carregar();
 
 </script>
 
 </body>
 </html>
+```
