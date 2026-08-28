@@ -1555,13 +1555,6 @@ onclick="fecharFiltrosRelatorio()">
 </select>
 </div>
 
-<div class="filtro-grupo">
-<label>Tipo</label>
-<select id="filtroTipo">
-<option value="">Todos os tipos</option>
-</select>
-</div>
-
 </div>
 
 <div class="relatorio-modal-acoes">
@@ -1648,7 +1641,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwAPPUav5oFNI6cJNgo-7-xs0UEw5K3itd2gCn5KfK1EMxCk_JAI5DvLTs_bxjH1RjG/exec";
+"https://script.google.com/macros/s/AKfycbyvTn6N8GVBH3Dd6-PivGMegDU2Jua4VMOf8KKsHGNDk4wxrbxMWz5i8bbp8ZesozJm/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -3241,16 +3234,6 @@ dadosGlobais.forEach(item=>{
  select.appendChild(o);
 });
 
-const tipoSelect=document.getElementById("filtroTipo");
-if(tipoSelect){
- const atual=tipoSelect.value;
- tipoSelect.innerHTML='<option value="">Todos os tipos</option>';
- [...new Set(dadosGlobais.map(x=>x.tipo).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR")).forEach(tipo=>{
-  const o=document.createElement("option"); o.value=tipo; o.textContent=tipo; tipoSelect.appendChild(o);
- });
- if([...tipoSelect.options].some(o=>o.value===atual)) tipoSelect.value=atual;
-}
-
 }
 
 
@@ -3323,7 +3306,6 @@ document.getElementById(
 
 const codigoItem=document.getElementById("filtroItem").value;
 const status=document.getElementById("filtroStatus").value;
-const tipoItem=document.getElementById("filtroTipo").value;
 
 if(
 dataInicial &&
@@ -3363,8 +3345,7 @@ dataFinal,
 setor,
 
 codigoItem,
-status,
-tipoItem
+status
 
 });
 
@@ -3419,8 +3400,6 @@ resultado.filtros.setor
 <strong>${escapeHtml(resultado.filtros.item)}</strong>
 </span>
 <span>🔎 Status: <strong>${escapeHtml(resultado.filtros.status||"Todos os status")}</strong></span>
-<span>🧩 Tipo: <strong>${escapeHtml(resultado.filtros.tipo||"Todos os tipos")}</strong></span>
-
 `;
 
 document.getElementById(
