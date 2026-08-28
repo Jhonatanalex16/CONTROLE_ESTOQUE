@@ -1641,7 +1641,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbw1tPFsXUg6oM6pAH5NPtPf5oXNX8hqEqR7CZUTXmJg9e9qSw-jIm788r6N7bCUXszY/exec";
+"https://script.google.com/macros/s/AKfycbxW0SyTR_uOygv2GWe8DuoLK89cHweQ7YB6-uLapJhJeDROV2qFDZ19ClretVzu2teG/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -2098,7 +2098,7 @@ tabela.innerHTML="";
 equipamentosGlobais.forEach(eq=>{
   tabela.innerHTML+=`
   <tr>
-  <td>${escapeHtml(eq.nome||"-")}</td>
+  <td>${escapeHtml(eq.nome)}</td>
   <td>${escapeHtml(eq.patrimonio||"-")}</td>
   <td>${escapeHtml(eq.numeroSerie||"-")}</td>
   <td>${escapeHtml(eq.marca||"-")}</td>
@@ -2854,7 +2854,7 @@ async function cadastrar(){
  if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
  if(categoria==="CONSUMO" && (!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
  if(categoria==="EQUIPAMENTO" && (!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
- if(categoria==="EQUIPAMENTO" && (!dados.marca||!dados.setor||!dados.localizacao)){toast("Preencha marca, setor e localização","erro");return;}
+ if(categoria==="EQUIPAMENTO" && (!dados.marca||!dados.setor)){toast("Preencha marca e setor","erro");return;}
  try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível cadastrar","erro");return;}toast(categoria==="EQUIPAMENTO"?"Equipamento cadastrado com sucesso!":"Item de estoque cadastrado com sucesso!","sucesso");fecharCadastro();await carregar();}catch(e){console.error(e);toast("Erro ao cadastrar","erro");}
 }
 
@@ -2895,7 +2895,7 @@ const item=lista.find(x=>{
 if(!item){toast(cat==="EQUIPAMENTO"?"Equipamento não encontrado":"Item de estoque não encontrado","erro");return;}
 
 document.getElementById("editCategoria").value=cat;
-document.getElementById("editItem").value=item.item||"";
+document.getElementById("editItem").value=item.nome||item.item||"";
 document.getElementById("editCodigo").value=item.codigo||"";
 document.getElementById("editPatrimonio").value=item.patrimonio||"";
 document.getElementById("editNumeroSerie").value=item.numeroSerie||"";
@@ -2930,11 +2930,9 @@ async function salvarEdicao(){
  const modal=document.getElementById("modalEditarItem");
  const categoria=document.getElementById("editCategoria").value;
  const dados={
-   tipo:categoria==="EQUIPAMENTO"?"equipamento":"editarItem",
-   acao:categoria==="EQUIPAMENTO"?"editar":undefined,
+   tipo:"editarItem",
    categoria,
-   id:categoria==="EQUIPAMENTO"?modal.dataset.identificadorOriginal:undefined,
-   identificadorOriginal:categoria==="CONSUMO"?modal.dataset.identificadorOriginal:undefined,
+   identificadorOriginal:modal.dataset.identificadorOriginal,
    codigo:categoria==="CONSUMO"?document.getElementById("editCodigo").value.trim():"",
    item:document.getElementById("editItem").value.trim(),
    patrimonio:categoria==="EQUIPAMENTO"?document.getElementById("editPatrimonio").value.trim():"",
@@ -2948,8 +2946,8 @@ async function salvarEdicao(){
    observacoes:categoria==="EQUIPAMENTO"?document.getElementById("editObservacoes").value.trim():""
  };
  if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
- if(categoria==="EQUIPAMENTO"&&!dados.numeroSerie){toast("Informe o número de série","erro");return;}
- if(categoria==="EQUIPAMENTO"&&(!dados.marca||!dados.setor||!dados.localizacao)){toast("Preencha marca, setor e localização","erro");return;}
+ if(categoria==="EQUIPAMENTO"&&(!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
+ if(categoria==="EQUIPAMENTO"&&(!dados.marca||!dados.setor)){toast("Preencha marca e setor","erro");return;}
  if(categoria==="CONSUMO"&&(!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
  try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível alterar","erro");return;}fecharEdicao();toast("Informações alteradas com sucesso!","sucesso");await carregar();}catch(e){console.error(e);toast("Erro ao alterar item","erro");}
 }
