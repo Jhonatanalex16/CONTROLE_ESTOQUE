@@ -901,12 +901,6 @@ Estoque
 </button>
 
 <button class="menu-btn"
-onclick="mostrarSecao('equipamentos',event)">
-<i class="fa-solid fa-desktop"></i>
-Equipamentos
-</button>
-
-<button class="menu-btn"
 onclick="mostrarSecao('alertas',event)">
 <i class="fa-solid fa-triangle-exclamation"></i>
 Alertas
@@ -1136,10 +1130,11 @@ CANCELAR
 
 
 <div class="card">
-<h2>➕ Cadastro de item</h2>
-<p style="color:#94a3b8;margin-bottom:20px">Cadastre materiais de consumo controlados por quantidade.</p>
-<div class="grid" style="grid-template-columns:minmax(250px,420px)">
+<h2>➕ Cadastro</h2>
+<p style="color:#94a3b8;margin-bottom:20px">Escolha o tipo de cadastro que deseja realizar.</p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
 <button class="btn" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-boxes-stacked"></i> Cadastrar item de estoque</button>
+<button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-computer"></i> Cadastrar equipamento</button>
 </div>
 </div>
 
@@ -1149,10 +1144,11 @@ CANCELAR
 <input type="hidden" id="categoriaCadastro">
 <div class="grid">
 <input id="item" placeholder="Nome do item">
-<div id="campoCodigoCadastro"><input id="codigo" placeholder="Código de barras"></div>
+<input id="codigo" placeholder="Código de barras">
 <div id="camposEquipamento" style="display:none;contents">
 <input id="patrimonio" placeholder="Número do patrimônio">
 <input id="numeroSerie" placeholder="Número de série">
+<input id="tipo" placeholder="Tipo de equipamento">
 <input id="marca" placeholder="Marca">
 <select id="setorCadastro"><option value="">Selecione o setor</option></select>
 <input id="localizacao" placeholder="Localização física">
@@ -1173,7 +1169,7 @@ CANCELAR
 
 <input type="text"
 id="pesquisa"
-placeholder="Pesquisar item ou código de barras..."
+placeholder="Pesquisar item..."
 onkeyup="filtrarTabela()">
 
 </div>
@@ -1187,7 +1183,14 @@ onkeyup="filtrarTabela()">
 
 <tr>
 <th>Item</th>
-<th>Código de barras</th>
+<th>Categoria</th>
+<th>Código</th>
+<th>Patrimônio</th>
+<th>Nº Série</th>
+<th>Tipo</th>
+<th>Marca</th>
+<th>Setor</th>
+<th>Localização</th>
 <th>Quantidade</th>
 <th>Mínimo</th>
 <th>Status</th>
@@ -1202,48 +1205,6 @@ onkeyup="filtrarTabela()">
 
 </div>
 
-</div>
-
-
-<!-- EQUIPAMENTOS -->
-
-<div id="equipamentos" class="secao">
-
-<div class="card">
-
-<div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap">
-<div>
-<h2>💻 Equipamentos</h2>
-<p style="color:#94a3b8;margin-top:5px">Controle individual de computadores, notebooks, monitores e demais equipamentos patrimoniais.</p>
-</div>
-<button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Cadastrar equipamento</button>
-</div>
-
-<div class="pesquisa" style="margin-top:25px">
-<i class="fa-solid fa-magnifying-glass"></i>
-<input type="text" id="pesquisaEquipamentos" placeholder="Pesquisar por equipamento, patrimônio, número de série, marca, setor ou localização..." onkeyup="filtrarEquipamentos()">
-</div>
-
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>Equipamento</th>
-<th>Patrimônio</th>
-<th>Nº Série</th>
-<th>Marca</th>
-<th>Setor</th>
-<th>Localização</th>
-<th>Status</th>
-<th>Observações</th>
-<th>Ações</th>
-</tr>
-</thead>
-<tbody id="tabelaEquipamentos"></tbody>
-</table>
-</div>
-
-</div>
 </div>
 
 
@@ -1467,22 +1428,19 @@ style="margin-top:25px">
 <button class="btn btn-danger" onclick="fecharEdicao()">✕ Fechar</button>
 </div>
 <div class="grid">
-<select id="editCategoria" style="display:none"><option value="CONSUMO">Item de estoque</option><option value="EQUIPAMENTO">Equipamento</option></select>
+<select id="editCategoria"><option value="CONSUMO">Item de estoque</option><option value="EQUIPAMENTO">Equipamento</option></select>
 <input id="editItem" placeholder="Nome do item">
-<div id="campoEditCodigo"><input id="editCodigo" placeholder="Código de barras"></div>
-<div id="camposEditEquipamento" style="display:none;contents">
+<input id="editCodigo" placeholder="Código de barras">
 <input id="editPatrimonio" placeholder="Número do patrimônio">
 <input id="editNumeroSerie" placeholder="Número de série">
+<input id="editTipo" placeholder="Tipo do equipamento">
 <input id="editMarca" placeholder="Marca">
 <select id="editSetor"><option value="">Selecione o setor</option></select>
 <input id="editLocalizacao" placeholder="Localização física">
-<select id="editStatus"><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select>
-<div class="campo-observacoes"><textarea id="editObservacoes" placeholder="Observações"></textarea></div>
-</div>
-<div id="camposEditConsumo" style="display:none;contents">
 <input id="editQuantidade" type="number" min="0" placeholder="Quantidade">
 <input id="editMinimo" type="number" min="0" placeholder="Estoque mínimo">
-</div>
+<select id="editStatus"><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select>
+<div class="campo-observacoes"><textarea id="editObservacoes" placeholder="Observações"></textarea></div>
 </div>
 <div class="relatorio-modal-acoes">
 <button class="btn btn-secondary" onclick="fecharEdicao()">Cancelar</button>
@@ -1552,6 +1510,13 @@ onclick="fecharFiltrosRelatorio()">
 <option value="Em uso">Em uso</option>
 <option value="Disponível">Disponível</option>
 <option value="Removido">Removido</option>
+</select>
+</div>
+
+<div class="filtro-grupo">
+<label>Tipo</label>
+<select id="filtroTipo">
+<option value="">Todos os tipos</option>
 </select>
 </div>
 
@@ -1641,13 +1606,12 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyh2uFvOY6DA-HL2ziG9BSBczmHF3qxrIb4DCHba3CWRoMx2JHdhBvnpfocRg5Z5YNX/exec";
+"https://script.google.com/macros/s/AKfycbxl1rGTsxezIOkobFazpqDbrnf5iX-NPpV6_OSqVh9cPT0TvjQHQqfRaggNaEus-0cf/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
 
 let dadosGlobais = [];
-let equipamentosGlobais = [];
 let historicoGlobal = [];
 let setoresGlobais = [];
 let itemSelecionado = null;
@@ -1960,7 +1924,6 @@ resultado.mensagem || "Erro ao carregar"
 }
 
 dadosGlobais=resultado.estoque || [];
-equipamentosGlobais=resultado.equipamentos || [];
 
 historicoGlobal=resultado.historico || [];
 
@@ -1969,7 +1932,6 @@ carregarSetores(resultado.setores || []);
 carregarItensRelatorios();
 
 renderizarTudo();
-renderizarEquipamentos();
 
 }catch(e){
 
@@ -1991,9 +1953,14 @@ toast(
 
 function renderizarTudo(){
 
-const tabela=document.getElementById("tabela");
-const alertas=document.getElementById("tabelaAlertas");
-const hist=document.getElementById("tabelaHistorico");
+const tabela=
+document.getElementById("tabela");
+
+const alertas=
+document.getElementById("tabelaAlertas");
+
+const hist=
+document.getElementById("tabelaHistorico");
 
 tabela.innerHTML="";
 alertas.innerHTML="";
@@ -2001,114 +1968,198 @@ hist.innerHTML="";
 
 let total=0;
 let alertasCount=0;
+
 let nomes=[];
 let quantidades=[];
 
 dadosGlobais.forEach(item=>{
 
-const alerta=Number(item.quantidade)<=Number(item.minimo);
+const alerta=
+Number(item.quantidade)<=Number(item.minimo);
+
 if(alerta){
-  alertasCount++;
-  alertas.innerHTML+=`
-  <tr>
-  <td>${escapeHtml(item.item)}</td>
-  <td>${escapeHtml(item.codigo)}</td>
-  <td>${item.quantidade}</td>
-  <td>${item.minimo}</td>
-  </tr>`;
+
+alertasCount++;
+
+alertas.innerHTML+=`
+<tr>
+<td>${escapeHtml(item.item)}</td>
+<td>${escapeHtml(item.codigo)}</td>
+<td>${escapeHtml(item.patrimonio || "-")}</td>
+<td>${escapeHtml(item.setor || "-")}</td>
+<td>${item.quantidade}</td>
+<td>${item.minimo}</td>
+</tr>`;
+
 }
 
-total+=Number(item.quantidade)||0;
+total+=Number(item.quantidade);
+
 nomes.push(item.item);
-quantidades.push(Number(item.quantidade)||0);
+quantidades.push(Number(item.quantidade));
 
 tabela.innerHTML+=`
 <tr class="${alerta?"alerta":""}">
 <td>${escapeHtml(item.item)}</td>
+<td><span class="status-ativo">${escapeHtml(item.categoria || "CONSUMO")}</span></td>
 <td>${escapeHtml(item.codigo)}</td>
+<td>${escapeHtml(item.patrimonio || "-")}</td>
+<td>${escapeHtml(item.numeroSerie || "-")}</td>
+<td>${escapeHtml(item.tipo || "-")}</td>
+<td>${escapeHtml(item.marca || "-")}</td>
+<td>${escapeHtml(item.setor || "-")}</td>
+<td>${escapeHtml(item.localizacao || "-")}</td>
 <td>${item.quantidade}</td>
 <td>${item.minimo}</td>
-<td><span class="status-ativo ${classeStatus("Disponível")}">${alerta?"ALERTA":"OK"}</span></td>
+<td><span class="status-ativo ${classeStatus(item.status)}">${escapeHtml(item.status || "Disponível")}</span></td>
 <td>
 <div class="acoes">
 <button class="entrada" title="Entrada" onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">+</button>
 <button class="saida" title="Saída" onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">−</button>
-<button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(item.codigo)}','CONSUMO')">✏️</button>
+<button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(item.codigo)}')">✏️</button>
 </div>
 </td>
 </tr>`;
+
 });
 
-historicoGlobal.slice().reverse().forEach(x=>{
+
+historicoGlobal
+.slice()
+.reverse()
+.forEach(x=>{
+
 hist.innerHTML+=`
+
 <tr>
+
 <td>${formatarData(x.data)}</td>
+
 <td>${escapeHtml(x.acao)}</td>
+
 <td>${escapeHtml(x.item)}</td>
+
 <td>${escapeHtml(x.codigo)}</td>
+
 <td>${x.quantidade}</td>
-<td>${escapeHtml(x.setor||"-")}</td>
-<td>${escapeHtml(x.usuario||"-")}</td>
-</tr>`;
+
+<td>${escapeHtml(x.setor || "-")}</td>
+
+<td>${escapeHtml(x.usuario || "-")}</td>
+
+</tr>
+
+`;
+
 });
 
-document.getElementById("totalItens").innerText=dadosGlobais.length;
-document.getElementById("itensAlerta").innerText=alertasCount;
-document.getElementById("estoqueTotal").innerText=total;
-document.getElementById("totalMovimentacoes").innerText=historicoGlobal.length;
 
-gerarGraficoEstoque(nomes,quantidades);
-gerarGraficoStatus(alertasCount,dadosGlobais.length-alertasCount);
+document.getElementById("totalItens")
+.innerText=dadosGlobais.length;
 
-let entradas=0, saidas=0;
+document.getElementById("itensAlerta")
+.innerText=alertasCount;
+
+document.getElementById("estoqueTotal")
+.innerText=total;
+
+document.getElementById("totalMovimentacoes")
+.innerText=historicoGlobal.length;
+
+
+/* GRÁFICO 1 */
+
+gerarGraficoEstoque(
+nomes,
+quantidades
+);
+
+
+/* GRÁFICO 2 */
+
+const qtdOk=
+dadosGlobais.length-alertasCount;
+
+gerarGraficoStatus(
+alertasCount,
+qtdOk
+);
+
+
+/* GRÁFICO 3 */
+
+let entradas=0;
+let saidas=0;
+
 historicoGlobal.forEach(x=>{
-  const acao=String(x.acao).toLowerCase();
-  if(acao==="entrada") entradas+=Number(x.quantidade)||0;
-  if(acao==="saida" || acao==="saída") saidas+=Number(x.quantidade)||0;
-});
-gerarGraficoMovimentacoes(entradas,saidas);
 
-const mapaSetores={};
-historicoGlobal.forEach(x=>{
-  const acao=String(x.acao).toLowerCase();
-  if(acao==="saida" || acao==="saída"){
-    const setor=x.setor||"Sem setor";
-    mapaSetores[setor]=(mapaSetores[setor]||0)+(Number(x.quantidade)||0);
-  }
-});
-gerarGraficoSetores(Object.keys(mapaSetores),Object.values(mapaSetores));
+if(String(x.acao).toLowerCase()==="entrada"){
 
-const mapaItens={};
-historicoGlobal.forEach(x=>{
-  const nome=x.item||"Item";
-  mapaItens[nome]=(mapaItens[nome]||0)+(Number(x.quantidade)||0);
-});
-const itensOrdenados=Object.entries(mapaItens).sort((a,b)=>b[1]-a[1]).slice(0,10);
-gerarGraficoItensMovimentados(itensOrdenados.map(x=>x[0]),itensOrdenados.map(x=>x[1]));
+entradas+=Number(x.quantidade)||0;
 
 }
 
+if(String(x.acao).toLowerCase()==="saida"){
 
-function renderizarEquipamentos(){
+saidas+=Number(x.quantidade)||0;
 
-const tabela=document.getElementById("tabelaEquipamentos");
-if(!tabela)return;
-tabela.innerHTML="";
+}
 
-equipamentosGlobais.forEach(eq=>{
-  tabela.innerHTML+=`
-  <tr>
-  <td>${escapeHtml(eq.nome)}</td>
-  <td>${escapeHtml(eq.patrimonio||"-")}</td>
-  <td>${escapeHtml(eq.numeroSerie||"-")}</td>
-  <td>${escapeHtml(eq.marca||"-")}</td>
-  <td>${escapeHtml(eq.setor||"-")}</td>
-  <td>${escapeHtml(eq.localizacao||"-")}</td>
-  <td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td>
-  <td>${escapeHtml(eq.observacoes||"-")}</td>
-  <td><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')">✏️</button></td>
-  </tr>`;
 });
+
+gerarGraficoMovimentacoes(
+entradas,
+saidas
+);
+
+
+/* GRÁFICO 4 */
+
+const mapaSetores={};
+
+historicoGlobal.forEach(x=>{
+
+if(String(x.acao).toLowerCase()==="saida"){
+
+const setor=x.setor || "Sem setor";
+
+mapaSetores[setor]=
+(mapaSetores[setor]||0)+
+(Number(x.quantidade)||0);
+
+}
+
+});
+
+gerarGraficoSetores(
+Object.keys(mapaSetores),
+Object.values(mapaSetores)
+);
+
+
+/* GRÁFICO 5 */
+
+const mapaItens={};
+
+historicoGlobal.forEach(x=>{
+
+const nome=x.item || "Item";
+
+mapaItens[nome]=
+(mapaItens[nome]||0)+
+(Number(x.quantidade)||0);
+
+});
+
+const itensOrdenados=
+Object.entries(mapaItens)
+.sort((a,b)=>b[1]-a[1])
+.slice(0,10);
+
+gerarGraficoItensMovimentados(
+itensOrdenados.map(x=>x[0]),
+itensOrdenados.map(x=>x[1])
+);
 
 }
 
@@ -2836,25 +2887,10 @@ identificarCodigo()
 
 async function cadastrar(){
  const categoria=document.getElementById("categoriaCadastro").value||"CONSUMO";
- const dados={
-   tipo:"cadastro",
-   categoria,
-   item:document.getElementById("item").value.trim(),
-   codigo:categoria==="CONSUMO"?document.getElementById("codigo").value.trim():"",
-   patrimonio:categoria==="EQUIPAMENTO"?(document.getElementById("patrimonio")?.value.trim()||""):"",
-   numeroSerie:categoria==="EQUIPAMENTO"?(document.getElementById("numeroSerie")?.value.trim()||""):"",
-   marca:categoria==="EQUIPAMENTO"?(document.getElementById("marca")?.value.trim()||""):"",
-   setor:categoria==="EQUIPAMENTO"?(document.getElementById("setorCadastro")?.value||""):"",
-   localizacao:categoria==="EQUIPAMENTO"?(document.getElementById("localizacao")?.value.trim()||""):"",
-   quantidade:categoria==="CONSUMO"?(document.getElementById("quantidade")?.value||""):0,
-   minimo:categoria==="CONSUMO"?(document.getElementById("minimo")?.value||""):0,
-   status:categoria==="EQUIPAMENTO"?(document.getElementById("statusCadastro")?.value||"Disponível"):"Disponível",
-   observacoes:categoria==="EQUIPAMENTO"?(document.getElementById("observacoes")?.value.trim()||""):""
- };
- if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
- if(categoria==="CONSUMO" && (!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
- if(categoria==="EQUIPAMENTO" && (!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
- if(categoria==="EQUIPAMENTO" && (!dados.marca||!dados.setor)){toast("Preencha marca e setor","erro");return;}
+ const dados={tipo:"cadastro",categoria,item:document.getElementById("item").value.trim(),codigo:document.getElementById("codigo").value.trim(),patrimonio:document.getElementById("patrimonio")?.value.trim()||"",numeroSerie:document.getElementById("numeroSerie")?.value.trim()||"",tipoItem:document.getElementById("tipo")?.value.trim()||"",marca:document.getElementById("marca")?.value.trim()||"",setor:document.getElementById("setorCadastro")?.value||"",localizacao:document.getElementById("localizacao")?.value.trim()||"",quantidade:document.getElementById("quantidade")?.value||"",minimo:document.getElementById("minimo")?.value||"",status:document.getElementById("statusCadastro")?.value||"Disponível",observacoes:document.getElementById("observacoes")?.value.trim()||""};
+ if(!dados.item||!dados.codigo){toast("Informe o item e o código de barras","erro");return;}
+ if(categoria==="CONSUMO" && (dados.quantidade===""||dados.minimo==="")){toast("Informe quantidade e estoque mínimo","erro");return;}
+ if(categoria==="EQUIPAMENTO" && (!dados.tipoItem||!dados.marca)){toast("Informe o tipo e a marca do equipamento","erro");return;}
  try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível cadastrar","erro");return;}toast(categoria==="EQUIPAMENTO"?"Equipamento cadastrado com sucesso!":"Item de estoque cadastrado com sucesso!","sucesso");fecharCadastro();await carregar();}catch(e){console.error(e);toast("Erro ao cadastrar","erro");}
 }
 
@@ -2862,10 +2898,9 @@ function abrirCadastro(categoria){
  document.getElementById("categoriaCadastro").value=categoria;
  const eq=categoria==="EQUIPAMENTO";
  document.getElementById("tituloCadastro").innerHTML=eq?"💻 Cadastrar equipamento":"📦 Cadastrar item de estoque";
- document.getElementById("descricaoCadastro").textContent=eq?"Cadastre um equipamento patrimonial individualmente.":"Cadastre materiais controlados por quantidade, como toner, etiquetas e cabos.";
+ document.getElementById("descricaoCadastro").textContent=eq?"Cadastre individualmente um equipamento patrimonial.":"Cadastre materiais controlados por quantidade, como toner, etiquetas e cabos.";
  document.getElementById("camposEquipamento").style.display=eq?"contents":"none";
  document.getElementById("camposConsumo").style.display=eq?"none":"contents";
- document.getElementById("campoCodigoCadastro").style.display=eq?"none":"block";
  document.getElementById("modalCadastro").classList.add("ativo");
 }
 function fecharCadastro(){document.getElementById("modalCadastro").classList.remove("ativo");}
@@ -2882,74 +2917,54 @@ function classeStatus(status){
  return "status-disponivel";
 }
 
-function abrirEdicao(identificador,categoria){
-
-const cat=String(categoria||"CONSUMO").toUpperCase();
-const lista=cat==="EQUIPAMENTO"?equipamentosGlobais:dadosGlobais;
-
-const item=lista.find(x=>{
-  if(cat==="EQUIPAMENTO") return String(x.id||"")===String(identificador);
-  return String(x.codigo||"")===String(identificador);
-});
-
-if(!item){toast(cat==="EQUIPAMENTO"?"Equipamento não encontrado":"Item de estoque não encontrado","erro");return;}
-
-document.getElementById("editCategoria").value=cat;
-document.getElementById("editItem").value=item.nome||item.item||"";
-document.getElementById("editCodigo").value=item.codigo||"";
-document.getElementById("editPatrimonio").value=item.patrimonio||"";
-document.getElementById("editNumeroSerie").value=item.numeroSerie||"";
-document.getElementById("editMarca").value=item.marca||"";
-document.getElementById("editSetor").value=item.setor||"";
-document.getElementById("editLocalizacao").value=item.localizacao||"";
-document.getElementById("editQuantidade").value=item.quantidade??0;
-document.getElementById("editMinimo").value=item.minimo??0;
-document.getElementById("editStatus").value=item.status||"Disponível";
-document.getElementById("editObservacoes").value=item.observacoes||"";
-
-atualizarCamposEdicao(cat);
-document.getElementById("modalEditarItem").dataset.identificadorOriginal=(cat==="EQUIPAMENTO"?item.id:item.codigo);
-document.getElementById("modalEditarItem").classList.add("ativo");
+function abrirEdicao(codigo){
+ const item=dadosGlobais.find(x=>String(x.codigo)===String(codigo));
+ if(!item){toast("Item não encontrado","erro");return;}
+ document.getElementById("editCategoria").value=item.categoria||"CONSUMO";
+  document.getElementById("editItem").value=item.item||"";
+ document.getElementById("editCodigo").value=item.codigo||"";
+ document.getElementById("editPatrimonio").value=item.patrimonio||"";
+ document.getElementById("editNumeroSerie").value=item.numeroSerie||"";
+ document.getElementById("editTipo").value=item.tipo||"";
+ document.getElementById("editMarca").value=item.marca||"";
+ document.getElementById("editSetor").value=item.setor||"";
+ document.getElementById("editLocalizacao").value=item.localizacao||"";
+ document.getElementById("editQuantidade").value=item.quantidade??0;
+ document.getElementById("editMinimo").value=item.minimo??0;
+ document.getElementById("editStatus").value=item.status||"Disponível";
+ document.getElementById("editObservacoes").value=item.observacoes||"";
+ document.getElementById("modalEditarItem").dataset.codigoOriginal=item.codigo;
+ document.getElementById("modalEditarItem").classList.add("ativo");
 }
-
-
-function atualizarCamposEdicao(categoria){
- const eq=categoria==="EQUIPAMENTO";
- document.getElementById("campoEditCodigo").style.display=eq?"none":"block";
- document.getElementById("camposEditEquipamento").style.display=eq?"contents":"none";
- document.getElementById("camposEditConsumo").style.display=eq?"none":"contents";
-}
-
-document.getElementById("editCategoria").addEventListener("change",function(){
- atualizarCamposEdicao(this.value);
-});
 
 function fecharEdicao(){document.getElementById("modalEditarItem").classList.remove("ativo");}
 
 async function salvarEdicao(){
  const modal=document.getElementById("modalEditarItem");
- const categoria=document.getElementById("editCategoria").value;
  const dados={
-   tipo:"editarItem",
-   categoria,
-   identificadorOriginal:modal.dataset.identificadorOriginal,
-   codigo:categoria==="CONSUMO"?document.getElementById("editCodigo").value.trim():"",
-   item:document.getElementById("editItem").value.trim(),
-   patrimonio:categoria==="EQUIPAMENTO"?document.getElementById("editPatrimonio").value.trim():"",
-   numeroSerie:categoria==="EQUIPAMENTO"?document.getElementById("editNumeroSerie").value.trim():"",
-   marca:categoria==="EQUIPAMENTO"?document.getElementById("editMarca").value.trim():"",
-   setor:categoria==="EQUIPAMENTO"?document.getElementById("editSetor").value:"",
-   localizacao:categoria==="EQUIPAMENTO"?document.getElementById("editLocalizacao").value.trim():"",
-   quantidade:categoria==="CONSUMO"?document.getElementById("editQuantidade").value:0,
-   minimo:categoria==="CONSUMO"?document.getElementById("editMinimo").value:0,
-   status:categoria==="EQUIPAMENTO"?document.getElementById("editStatus").value:"Disponível",
-   observacoes:categoria==="EQUIPAMENTO"?document.getElementById("editObservacoes").value.trim():""
+  tipo:"editarItem",
+  codigoOriginal:modal.dataset.codigoOriginal,
+  codigo:document.getElementById("editCodigo").value.trim(),
+  item:document.getElementById("editItem").value.trim(),
+  patrimonio:document.getElementById("editPatrimonio").value.trim(),
+  numeroSerie:document.getElementById("editNumeroSerie").value.trim(),
+  tipoItem:document.getElementById("editTipo").value.trim(),
+  marca:document.getElementById("editMarca").value.trim(),
+  setor:document.getElementById("editSetor").value,
+  localizacao:document.getElementById("editLocalizacao").value.trim(),
+  quantidade:document.getElementById("editQuantidade").value,
+  minimo:document.getElementById("editMinimo").value,
+  status:document.getElementById("editStatus").value,
+  observacoes:document.getElementById("editObservacoes").value.trim()
  };
- if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
- if(categoria==="EQUIPAMENTO"&&(!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
- if(categoria==="EQUIPAMENTO"&&(!dados.marca||!dados.setor)){toast("Preencha marca e setor","erro");return;}
- if(categoria==="CONSUMO"&&(!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
- try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível alterar","erro");return;}fecharEdicao();toast("Informações alteradas com sucesso!","sucesso");await carregar();}catch(e){console.error(e);toast("Erro ao alterar item","erro");}
+ if(!dados.item||!dados.codigo){toast("Informe o item e o código de barras","erro");return;}
+  if(dados.categoria==="EQUIPAMENTO"){dados.quantidade=1;dados.minimo=0;if(!dados.tipoItem||!dados.marca){toast("Informe o tipo e a marca do equipamento","erro");return;}}
+  else if(dados.quantidade===""||dados.minimo===""){toast("Informe quantidade e estoque mínimo","erro");return;}
+ try{
+  const resultado=await apiPost(dados);
+  if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível alterar","erro");return;}
+  fecharEdicao();toast("Informações alteradas com sucesso!","sucesso");await carregar();
+ }catch(e){console.error(e);toast("Erro ao alterar item","erro");}
 }
 
 
@@ -2959,14 +2974,22 @@ async function salvarEdicao(){
 
 function filtrarTabela(){
 
-const f=document.getElementById("pesquisa").value.trim().toLowerCase();
-document.querySelectorAll("#tabela tr").forEach(l=>l.style.display=l.innerText.toLowerCase().includes(f)?"":"none");
+const f=
+document.getElementById(
+"pesquisa"
+).value.toLowerCase();
 
-}
+document.querySelectorAll(
+"#tabela tr"
+).forEach(
+l=>l.style.display=
+l.innerText
+.toLowerCase()
+.includes(f)
+?""
+:"none"
+);
 
-function filtrarEquipamentos(){
-const f=document.getElementById("pesquisaEquipamentos").value.trim().toLowerCase();
-document.querySelectorAll("#tabelaEquipamentos tr").forEach(l=>l.style.display=l.innerText.toLowerCase().includes(f)?"":"none");
 }
 
 
@@ -3234,6 +3257,16 @@ dadosGlobais.forEach(item=>{
  select.appendChild(o);
 });
 
+const tipoSelect=document.getElementById("filtroTipo");
+if(tipoSelect){
+ const atual=tipoSelect.value;
+ tipoSelect.innerHTML='<option value="">Todos os tipos</option>';
+ [...new Set(dadosGlobais.map(x=>x.tipo).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR")).forEach(tipo=>{
+  const o=document.createElement("option"); o.value=tipo; o.textContent=tipo; tipoSelect.appendChild(o);
+ });
+ if([...tipoSelect.options].some(o=>o.value===atual)) tipoSelect.value=atual;
+}
+
 }
 
 
@@ -3306,6 +3339,7 @@ document.getElementById(
 
 const codigoItem=document.getElementById("filtroItem").value;
 const status=document.getElementById("filtroStatus").value;
+const tipoItem=document.getElementById("filtroTipo").value;
 
 if(
 dataInicial &&
@@ -3345,7 +3379,8 @@ dataFinal,
 setor,
 
 codigoItem,
-status
+status,
+tipoItem
 
 });
 
@@ -3400,6 +3435,8 @@ resultado.filtros.setor
 <strong>${escapeHtml(resultado.filtros.item)}</strong>
 </span>
 <span>🔎 Status: <strong>${escapeHtml(resultado.filtros.status||"Todos os status")}</strong></span>
+<span>🧩 Tipo: <strong>${escapeHtml(resultado.filtros.tipo||"Todos os tipos")}</strong></span>
+
 `;
 
 document.getElementById(
