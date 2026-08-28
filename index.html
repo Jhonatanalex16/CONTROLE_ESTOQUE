@@ -1130,30 +1130,37 @@ CANCELAR
 
 
 <div class="card">
-<h2>📦 Cadastro de Equipamento / Item</h2>
-<p style="color:#94a3b8;margin-bottom:20px">Cadastre os equipamentos de TI e demais itens controlados pelo estoque.</p>
+<h2>➕ Cadastro</h2>
+<p style="color:#94a3b8;margin-bottom:20px">Escolha o tipo de cadastro que deseja realizar.</p>
+<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+<button class="btn" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-boxes-stacked"></i> Cadastrar item de estoque</button>
+<button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-computer"></i> Cadastrar equipamento</button>
+</div>
+</div>
+
+<div id="modalCadastro" class="relatorio-modal">
+<div class="relatorio-modal-conteudo editar-modal-conteudo">
+<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
+<input type="hidden" id="categoriaCadastro">
 <div class="grid">
 <input id="item" placeholder="Nome do item">
 <input id="codigo" placeholder="Código de barras">
+<div id="camposEquipamento" style="display:none;contents">
 <input id="patrimonio" placeholder="Número do patrimônio">
 <input id="numeroSerie" placeholder="Número de série">
-<input id="tipo" placeholder="Tipo do equipamento">
+<input id="tipo" placeholder="Tipo de equipamento">
 <input id="marca" placeholder="Marca">
 <select id="setorCadastro"><option value="">Selecione o setor</option></select>
 <input id="localizacao" placeholder="Localização física">
+<select id="statusCadastro"><option value="Disponível">Disponível</option><option value="Em uso">Em uso</option><option value="Removido">Removido</option></select>
+<div class="campo-observacoes"><textarea id="observacoes" placeholder="Observações"></textarea></div>
+</div>
+<div id="camposConsumo" style="display:none;contents">
 <input id="quantidade" type="number" min="0" placeholder="Quantidade">
 <input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
-<select id="statusCadastro">
-<option value="Disponível">Disponível</option>
-<option value="Em uso">Em uso</option>
-<option value="Removido">Removido</option>
-</select>
-<div class="campo-observacoes">
-<textarea id="observacoes" placeholder="Observações"></textarea>
 </div>
 <button class="btn" onclick="cadastrar()"><i class="fa-solid fa-plus"></i> Cadastrar</button>
-</div>
-</div>
+</div></div></div>
 
 
 <div class="pesquisa">
@@ -1176,6 +1183,7 @@ onkeyup="filtrarTabela()">
 
 <tr>
 <th>Item</th>
+<th>Categoria</th>
 <th>Código</th>
 <th>Patrimônio</th>
 <th>Nº Série</th>
@@ -1420,6 +1428,7 @@ style="margin-top:25px">
 <button class="btn btn-danger" onclick="fecharEdicao()">✕ Fechar</button>
 </div>
 <div class="grid">
+<select id="editCategoria"><option value="CONSUMO">Item de estoque</option><option value="EQUIPAMENTO">Equipamento</option></select>
 <input id="editItem" placeholder="Nome do item">
 <input id="editCodigo" placeholder="Código de barras">
 <input id="editPatrimonio" placeholder="Número do patrimônio">
@@ -1597,7 +1606,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbypG76oRyeGfoKpH-kLltDsKmKayn3zwi2v3Ofy7vQSfFjCt63fZ20dyvDQzOXNMN7c/exec";
+"https://script.google.com/macros/s/AKfycbxl1rGTsxezIOkobFazpqDbrnf5iX-NPpV6_OSqVh9cPT0TvjQHQqfRaggNaEus-0cf/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -1992,6 +2001,7 @@ quantidades.push(Number(item.quantidade));
 tabela.innerHTML+=`
 <tr class="${alerta?"alerta":""}">
 <td>${escapeHtml(item.item)}</td>
+<td><span class="status-ativo">${escapeHtml(item.categoria || "CONSUMO")}</span></td>
 <td>${escapeHtml(item.codigo)}</td>
 <td>${escapeHtml(item.patrimonio || "-")}</td>
 <td>${escapeHtml(item.numeroSerie || "-")}</td>
@@ -2876,47 +2886,24 @@ identificarCodigo()
 ===================================================== */
 
 async function cadastrar(){
-
- const dados={
-  tipo:"cadastro",
-  item:document.getElementById("item").value.trim(),
-  codigo:document.getElementById("codigo").value.trim(),
-  patrimonio:document.getElementById("patrimonio").value.trim(),
-  numeroSerie:document.getElementById("numeroSerie").value.trim(),
-  tipoItem:document.getElementById("tipo").value.trim(),
-  marca:document.getElementById("marca").value.trim(),
-  setor:document.getElementById("setorCadastro").value,
-  localizacao:document.getElementById("localizacao").value.trim(),
-  quantidade:document.getElementById("quantidade").value,
-  minimo:document.getElementById("minimo").value,
-  status:document.getElementById("statusCadastro").value,
-  observacoes:document.getElementById("observacoes").value.trim()
- };
-
- if(!dados.item||!dados.codigo||!dados.numeroSerie||!dados.tipoItem||!dados.marca||!dados.setor||!dados.localizacao||dados.quantidade===""||dados.minimo===""){
-  toast("Preencha os campos obrigatórios","erro");
-  return;
- }
-
- try{
-  const resultado=await apiPost(dados);
-  if(!resultado.sucesso){
-   toast(resultado.mensagem||"Não foi possível cadastrar","erro");
-   return;
-  }
-  toast("Item cadastrado com sucesso!","sucesso");
-  ["item","codigo","patrimonio","numeroSerie","tipo","marca","localizacao","quantidade","minimo","observacoes"].forEach(id=>{
-   const el=document.getElementById(id);
-   if(el)el.value="";
-  });
-  document.getElementById("setorCadastro").value="";
-  document.getElementById("statusCadastro").value="Disponível";
-  await carregar();
- }catch(e){
-  console.error(e);
-  toast("Erro ao cadastrar item","erro");
- }
+ const categoria=document.getElementById("categoriaCadastro").value||"CONSUMO";
+ const dados={tipo:"cadastro",categoria,item:document.getElementById("item").value.trim(),codigo:document.getElementById("codigo").value.trim(),patrimonio:document.getElementById("patrimonio")?.value.trim()||"",numeroSerie:document.getElementById("numeroSerie")?.value.trim()||"",tipoItem:document.getElementById("tipo")?.value.trim()||"",marca:document.getElementById("marca")?.value.trim()||"",setor:document.getElementById("setorCadastro")?.value||"",localizacao:document.getElementById("localizacao")?.value.trim()||"",quantidade:document.getElementById("quantidade")?.value||"",minimo:document.getElementById("minimo")?.value||"",status:document.getElementById("statusCadastro")?.value||"Disponível",observacoes:document.getElementById("observacoes")?.value.trim()||""};
+ if(!dados.item||!dados.codigo){toast("Informe o item e o código de barras","erro");return;}
+ if(categoria==="CONSUMO" && (dados.quantidade===""||dados.minimo==="")){toast("Informe quantidade e estoque mínimo","erro");return;}
+ if(categoria==="EQUIPAMENTO" && (!dados.tipoItem||!dados.marca)){toast("Informe o tipo e a marca do equipamento","erro");return;}
+ try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível cadastrar","erro");return;}toast(categoria==="EQUIPAMENTO"?"Equipamento cadastrado com sucesso!":"Item de estoque cadastrado com sucesso!","sucesso");fecharCadastro();await carregar();}catch(e){console.error(e);toast("Erro ao cadastrar","erro");}
 }
+
+function abrirCadastro(categoria){
+ document.getElementById("categoriaCadastro").value=categoria;
+ const eq=categoria==="EQUIPAMENTO";
+ document.getElementById("tituloCadastro").innerHTML=eq?"💻 Cadastrar equipamento":"📦 Cadastrar item de estoque";
+ document.getElementById("descricaoCadastro").textContent=eq?"Cadastre individualmente um equipamento patrimonial.":"Cadastre materiais controlados por quantidade, como toner, etiquetas e cabos.";
+ document.getElementById("camposEquipamento").style.display=eq?"contents":"none";
+ document.getElementById("camposConsumo").style.display=eq?"none":"contents";
+ document.getElementById("modalCadastro").classList.add("ativo");
+}
+function fecharCadastro(){document.getElementById("modalCadastro").classList.remove("ativo");}
 
 
 /* =====================================================
@@ -2933,7 +2920,8 @@ function classeStatus(status){
 function abrirEdicao(codigo){
  const item=dadosGlobais.find(x=>String(x.codigo)===String(codigo));
  if(!item){toast("Item não encontrado","erro");return;}
- document.getElementById("editItem").value=item.item||"";
+ document.getElementById("editCategoria").value=item.categoria||"CONSUMO";
+  document.getElementById("editItem").value=item.item||"";
  document.getElementById("editCodigo").value=item.codigo||"";
  document.getElementById("editPatrimonio").value=item.patrimonio||"";
  document.getElementById("editNumeroSerie").value=item.numeroSerie||"";
@@ -2969,7 +2957,9 @@ async function salvarEdicao(){
   status:document.getElementById("editStatus").value,
   observacoes:document.getElementById("editObservacoes").value.trim()
  };
- if(!dados.item||!dados.codigo||!dados.numeroSerie||!dados.tipoItem||!dados.marca||!dados.setor||!dados.localizacao||dados.quantidade===""||dados.minimo===""){toast("Preencha os campos obrigatórios","erro");return;}
+ if(!dados.item||!dados.codigo){toast("Informe o item e o código de barras","erro");return;}
+  if(dados.categoria==="EQUIPAMENTO"){dados.quantidade=1;dados.minimo=0;if(!dados.tipoItem||!dados.marca){toast("Informe o tipo e a marca do equipamento","erro");return;}}
+  else if(dados.quantidade===""||dados.minimo===""){toast("Informe quantidade e estoque mínimo","erro");return;}
  try{
   const resultado=await apiPost(dados);
   if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível alterar","erro");return;}
