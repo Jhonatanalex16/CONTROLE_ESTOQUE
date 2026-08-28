@@ -559,18 +559,6 @@ border-radius:10px;
 font-weight:800
 }
 
-
-/* ATIVOS / EDIÇÃO */
-.status-ativo{padding:7px 11px;border-radius:999px;font-size:12px;font-weight:800}
-.status-em-uso{background:rgba(37,99,235,.18);color:#60a5fa}
-.status-disponivel{background:rgba(22,163,74,.18);color:#4ade80}
-.status-removido{background:rgba(220,38,38,.18);color:#f87171}
-.btn-editar{background:#334155;color:white;padding:10px 13px;border:none;border-radius:11px;font-weight:800;cursor:pointer}
-.btn-editar:hover{background:#475569}
-.editar-modal-conteudo{max-width:950px}
-.campo-observacoes{grid-column:1/-1}
-.campo-observacoes textarea{width:100%;min-height:95px;resize:vertical;background:#0f172a;border:1px solid rgba(255,255,255,.07);padding:16px;border-radius:16px;color:white;font:inherit}
-
 /* RELATORIOS */
 
 .relatorios-grid{
@@ -1130,37 +1118,35 @@ CANCELAR
 
 
 <div class="card">
-<h2>➕ Cadastro</h2>
-<p style="color:#94a3b8;margin-bottom:20px">Escolha o tipo de cadastro que deseja realizar.</p>
-<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
-<button class="btn" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-boxes-stacked"></i> Cadastrar item de estoque</button>
-<button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-computer"></i> Cadastrar equipamento</button>
-</div>
+
+<h2>📦 Novo Item</h2>
+
+<div class="grid">
+
+<input id="item"
+placeholder="Nome do item">
+
+<input id="codigo"
+placeholder="Código de barras">
+
+<input id="quantidade"
+type="number"
+min="0"
+placeholder="Quantidade">
+
+<input id="minimo"
+type="number"
+min="0"
+placeholder="Estoque mínimo">
+
+<button class="btn"
+onclick="cadastrar()">
+Cadastrar
+</button>
+
 </div>
 
-<div id="modalCadastro" class="relatorio-modal">
-<div class="relatorio-modal-conteudo editar-modal-conteudo">
-<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
-<input type="hidden" id="categoriaCadastro">
-<div class="grid">
-<input id="item" placeholder="Nome do item">
-<input id="codigo" placeholder="Código de barras">
-<div id="camposEquipamento" style="display:none;contents">
-<input id="patrimonio" placeholder="Número do patrimônio">
-<input id="numeroSerie" placeholder="Número de série">
-<input id="tipo" placeholder="Tipo de equipamento">
-<input id="marca" placeholder="Marca">
-<select id="setorCadastro"><option value="">Selecione o setor</option></select>
-<input id="localizacao" placeholder="Localização física">
-<select id="statusCadastro"><option value="Disponível">Disponível</option><option value="Em uso">Em uso</option><option value="Removido">Removido</option></select>
-<div class="campo-observacoes"><textarea id="observacoes" placeholder="Observações"></textarea></div>
 </div>
-<div id="camposConsumo" style="display:none;contents">
-<input id="quantidade" type="number" min="0" placeholder="Quantidade">
-<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
-</div>
-<button class="btn" onclick="cadastrar()"><i class="fa-solid fa-plus"></i> Cadastrar</button>
-</div></div></div>
 
 
 <div class="pesquisa">
@@ -1183,14 +1169,7 @@ onkeyup="filtrarTabela()">
 
 <tr>
 <th>Item</th>
-<th>Categoria</th>
 <th>Código</th>
-<th>Patrimônio</th>
-<th>Nº Série</th>
-<th>Tipo</th>
-<th>Marca</th>
-<th>Setor</th>
-<th>Localização</th>
 <th>Quantidade</th>
 <th>Mínimo</th>
 <th>Status</th>
@@ -1224,8 +1203,6 @@ onkeyup="filtrarTabela()">
 <tr>
 <th>Item</th>
 <th>Código</th>
-<th>Patrimônio</th>
-<th>Setor</th>
 <th>Quantidade</th>
 <th>Mínimo</th>
 </tr>
@@ -1420,35 +1397,6 @@ style="margin-top:25px">
 </div>
 
 
-<!-- EDIÇÃO DE ITEM -->
-<div id="modalEditarItem" class="relatorio-modal">
-<div class="relatorio-modal-conteudo editar-modal-conteudo">
-<div class="relatorio-modal-topo">
-<div><h2>✏️ Alterar informações</h2><p style="color:#94a3b8;margin-top:5px">Atualize os dados do equipamento.</p></div>
-<button class="btn btn-danger" onclick="fecharEdicao()">✕ Fechar</button>
-</div>
-<div class="grid">
-<select id="editCategoria"><option value="CONSUMO">Item de estoque</option><option value="EQUIPAMENTO">Equipamento</option></select>
-<input id="editItem" placeholder="Nome do item">
-<input id="editCodigo" placeholder="Código de barras">
-<input id="editPatrimonio" placeholder="Número do patrimônio">
-<input id="editNumeroSerie" placeholder="Número de série">
-<input id="editTipo" placeholder="Tipo do equipamento">
-<input id="editMarca" placeholder="Marca">
-<select id="editSetor"><option value="">Selecione o setor</option></select>
-<input id="editLocalizacao" placeholder="Localização física">
-<input id="editQuantidade" type="number" min="0" placeholder="Quantidade">
-<input id="editMinimo" type="number" min="0" placeholder="Estoque mínimo">
-<select id="editStatus"><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select>
-<div class="campo-observacoes"><textarea id="editObservacoes" placeholder="Observações"></textarea></div>
-</div>
-<div class="relatorio-modal-acoes">
-<button class="btn btn-secondary" onclick="fecharEdicao()">Cancelar</button>
-<button class="btn btn-success" onclick="salvarEdicao()">💾 Salvar alterações</button>
-</div>
-</div>
-</div>
-
 <!-- FILTROS -->
 
 <div id="modalFiltrosRelatorio"
@@ -1500,23 +1448,6 @@ onclick="fecharFiltrosRelatorio()">
 <label>Item</label>
 <select id="filtroItem">
 <option value="">Todos os itens</option>
-</select>
-</div>
-
-<div class="filtro-grupo">
-<label>Status</label>
-<select id="filtroStatus">
-<option value="">Todos os status</option>
-<option value="Em uso">Em uso</option>
-<option value="Disponível">Disponível</option>
-<option value="Removido">Removido</option>
-</select>
-</div>
-
-<div class="filtro-grupo">
-<label>Tipo</label>
-<select id="filtroTipo">
-<option value="">Todos os tipos</option>
 </select>
 </div>
 
@@ -1606,7 +1537,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxl1rGTsxezIOkobFazpqDbrnf5iX-NPpV6_OSqVh9cPT0TvjQHQqfRaggNaEus-0cf/exec";
+"https://script.google.com/macros/s/AKfycbxW0SyTR_uOygv2GWe8DuoLK89cHweQ7YB6-uLapJhJeDROV2qFDZ19ClretVzu2teG/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -1985,8 +1916,6 @@ alertas.innerHTML+=`
 <tr>
 <td>${escapeHtml(item.item)}</td>
 <td>${escapeHtml(item.codigo)}</td>
-<td>${escapeHtml(item.patrimonio || "-")}</td>
-<td>${escapeHtml(item.setor || "-")}</td>
 <td>${item.quantidade}</td>
 <td>${item.minimo}</td>
 </tr>`;
@@ -1999,27 +1928,48 @@ nomes.push(item.item);
 quantidades.push(Number(item.quantidade));
 
 tabela.innerHTML+=`
+
 <tr class="${alerta?"alerta":""}">
+
 <td>${escapeHtml(item.item)}</td>
-<td><span class="status-ativo">${escapeHtml(item.categoria || "CONSUMO")}</span></td>
+
 <td>${escapeHtml(item.codigo)}</td>
-<td>${escapeHtml(item.patrimonio || "-")}</td>
-<td>${escapeHtml(item.numeroSerie || "-")}</td>
-<td>${escapeHtml(item.tipo || "-")}</td>
-<td>${escapeHtml(item.marca || "-")}</td>
-<td>${escapeHtml(item.setor || "-")}</td>
-<td>${escapeHtml(item.localizacao || "-")}</td>
+
 <td>${item.quantidade}</td>
+
 <td>${item.minimo}</td>
-<td><span class="status-ativo ${classeStatus(item.status)}">${escapeHtml(item.status || "Disponível")}</span></td>
+
 <td>
-<div class="acoes">
-<button class="entrada" title="Entrada" onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">+</button>
-<button class="saida" title="Saída" onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">−</button>
-<button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(item.codigo)}')">✏️</button>
-</div>
+<span class="${
+alerta
+?"status-alerta"
+:"status-ok"
+}">
+${alerta?"ALERTA":"OK"}
+</span>
 </td>
-</tr>`;
+
+<td>
+
+<div class="acoes">
+
+<button class="entrada"
+onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">
++
+</button>
+
+<button class="saida"
+onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">
+−
+</button>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
 
 });
 
@@ -2886,85 +2836,106 @@ identificarCodigo()
 ===================================================== */
 
 async function cadastrar(){
- const categoria=document.getElementById("categoriaCadastro").value||"CONSUMO";
- const dados={tipo:"cadastro",categoria,item:document.getElementById("item").value.trim(),codigo:document.getElementById("codigo").value.trim(),patrimonio:document.getElementById("patrimonio")?.value.trim()||"",numeroSerie:document.getElementById("numeroSerie")?.value.trim()||"",tipoItem:document.getElementById("tipo")?.value.trim()||"",marca:document.getElementById("marca")?.value.trim()||"",setor:document.getElementById("setorCadastro")?.value||"",localizacao:document.getElementById("localizacao")?.value.trim()||"",quantidade:document.getElementById("quantidade")?.value||"",minimo:document.getElementById("minimo")?.value||"",status:document.getElementById("statusCadastro")?.value||"Disponível",observacoes:document.getElementById("observacoes")?.value.trim()||""};
- if(!dados.item||!dados.codigo){toast("Informe o item e o código de barras","erro");return;}
- if(categoria==="CONSUMO" && (dados.quantidade===""||dados.minimo==="")){toast("Informe quantidade e estoque mínimo","erro");return;}
- if(categoria==="EQUIPAMENTO" && (!dados.tipoItem||!dados.marca)){toast("Informe o tipo e a marca do equipamento","erro");return;}
- try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível cadastrar","erro");return;}toast(categoria==="EQUIPAMENTO"?"Equipamento cadastrado com sucesso!":"Item de estoque cadastrado com sucesso!","sucesso");fecharCadastro();await carregar();}catch(e){console.error(e);toast("Erro ao cadastrar","erro");}
+
+const item=
+document.getElementById("item")
+.value.trim();
+
+const codigo=
+document.getElementById("codigo")
+.value.trim();
+
+const quantidade=
+document.getElementById("quantidade")
+.value;
+
+const minimo=
+document.getElementById("minimo")
+.value;
+
+if(
+!item ||
+!codigo ||
+quantidade==="" ||
+minimo===""
+){
+
+toast(
+"Preencha todos os campos",
+"erro"
+);
+
+return;
+
 }
 
-function abrirCadastro(categoria){
- document.getElementById("categoriaCadastro").value=categoria;
- const eq=categoria==="EQUIPAMENTO";
- document.getElementById("tituloCadastro").innerHTML=eq?"💻 Cadastrar equipamento":"📦 Cadastrar item de estoque";
- document.getElementById("descricaoCadastro").textContent=eq?"Cadastre individualmente um equipamento patrimonial.":"Cadastre materiais controlados por quantidade, como toner, etiquetas e cabos.";
- document.getElementById("camposEquipamento").style.display=eq?"contents":"none";
- document.getElementById("camposConsumo").style.display=eq?"none":"contents";
- document.getElementById("modalCadastro").classList.add("ativo");
-}
-function fecharCadastro(){document.getElementById("modalCadastro").classList.remove("ativo");}
+if(
+Number(quantidade)<0 ||
+Number(minimo)<0
+){
 
+toast(
+"Quantidade e mínimo não podem ser negativos",
+"erro"
+);
 
-/* =====================================================
-   EDIÇÃO DE ITEM / ATIVO
-===================================================== */
+return;
 
-function classeStatus(status){
- const s=String(status||"Disponível").toLowerCase();
- if(s==="em uso") return "status-em-uso";
- if(s==="removido") return "status-removido";
- return "status-disponivel";
 }
 
-function abrirEdicao(codigo){
- const item=dadosGlobais.find(x=>String(x.codigo)===String(codigo));
- if(!item){toast("Item não encontrado","erro");return;}
- document.getElementById("editCategoria").value=item.categoria||"CONSUMO";
-  document.getElementById("editItem").value=item.item||"";
- document.getElementById("editCodigo").value=item.codigo||"";
- document.getElementById("editPatrimonio").value=item.patrimonio||"";
- document.getElementById("editNumeroSerie").value=item.numeroSerie||"";
- document.getElementById("editTipo").value=item.tipo||"";
- document.getElementById("editMarca").value=item.marca||"";
- document.getElementById("editSetor").value=item.setor||"";
- document.getElementById("editLocalizacao").value=item.localizacao||"";
- document.getElementById("editQuantidade").value=item.quantidade??0;
- document.getElementById("editMinimo").value=item.minimo??0;
- document.getElementById("editStatus").value=item.status||"Disponível";
- document.getElementById("editObservacoes").value=item.observacoes||"";
- document.getElementById("modalEditarItem").dataset.codigoOriginal=item.codigo;
- document.getElementById("modalEditarItem").classList.add("ativo");
+try{
+
+const resultado=
+await apiPost({
+
+tipo:"cadastro",
+
+item,
+codigo,
+quantidade:Number(quantidade),
+minimo:Number(minimo)
+
+});
+
+if(!resultado.sucesso){
+
+toast(
+resultado.mensagem ||
+"Não foi possível cadastrar",
+"erro"
+);
+
+return;
+
 }
 
-function fecharEdicao(){document.getElementById("modalEditarItem").classList.remove("ativo");}
+toast(
+"Item cadastrado com sucesso!",
+"sucesso"
+);
 
-async function salvarEdicao(){
- const modal=document.getElementById("modalEditarItem");
- const dados={
-  tipo:"editarItem",
-  codigoOriginal:modal.dataset.codigoOriginal,
-  codigo:document.getElementById("editCodigo").value.trim(),
-  item:document.getElementById("editItem").value.trim(),
-  patrimonio:document.getElementById("editPatrimonio").value.trim(),
-  numeroSerie:document.getElementById("editNumeroSerie").value.trim(),
-  tipoItem:document.getElementById("editTipo").value.trim(),
-  marca:document.getElementById("editMarca").value.trim(),
-  setor:document.getElementById("editSetor").value,
-  localizacao:document.getElementById("editLocalizacao").value.trim(),
-  quantidade:document.getElementById("editQuantidade").value,
-  minimo:document.getElementById("editMinimo").value,
-  status:document.getElementById("editStatus").value,
-  observacoes:document.getElementById("editObservacoes").value.trim()
- };
- if(!dados.item||!dados.codigo){toast("Informe o item e o código de barras","erro");return;}
-  if(dados.categoria==="EQUIPAMENTO"){dados.quantidade=1;dados.minimo=0;if(!dados.tipoItem||!dados.marca){toast("Informe o tipo e a marca do equipamento","erro");return;}}
-  else if(dados.quantidade===""||dados.minimo===""){toast("Informe quantidade e estoque mínimo","erro");return;}
- try{
-  const resultado=await apiPost(dados);
-  if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível alterar","erro");return;}
-  fecharEdicao();toast("Informações alteradas com sucesso!","sucesso");await carregar();
- }catch(e){console.error(e);toast("Erro ao alterar item","erro");}
+[
+"item",
+"codigo",
+"quantidade",
+"minimo"
+].forEach(
+id=>document.getElementById(id).value=""
+);
+
+await carregar();
+
+}catch(e){
+
+console.error(e);
+
+toast(
+"Erro ao cadastrar item",
+"erro"
+);
+
+}
+
 }
 
 
@@ -3007,8 +2978,7 @@ Array.isArray(setores)
 const selects=[
 
 document.getElementById("setorSaida"),
-document.getElementById("setorCadastro"),
-document.getElementById("editSetor"),
+
 document.getElementById("filtroSetor")
 
 ];
@@ -3020,9 +2990,9 @@ if(!select)return;
 const atual=select.value;
 
 select.innerHTML=
-select.id==="filtroSetor"
-?'<option value="">Todos os setores</option>'
-:'<option value="">Selecione o setor</option>';
+select.id==="setorSaida"
+?'<option value="">Selecione o setor</option>'
+:'<option value="">Todos os setores</option>';
 
 setoresGlobais.forEach(setor=>{
 
@@ -3251,21 +3221,21 @@ select.innerHTML=
 '<option value="">Todos os itens</option>';
 
 dadosGlobais.forEach(item=>{
- const o=document.createElement("option");
- o.value=item.codigo;
- o.textContent=item.item+" ("+item.codigo+")";
- select.appendChild(o);
-});
 
-const tipoSelect=document.getElementById("filtroTipo");
-if(tipoSelect){
- const atual=tipoSelect.value;
- tipoSelect.innerHTML='<option value="">Todos os tipos</option>';
- [...new Set(dadosGlobais.map(x=>x.tipo).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR")).forEach(tipo=>{
-  const o=document.createElement("option"); o.value=tipo; o.textContent=tipo; tipoSelect.appendChild(o);
- });
- if([...tipoSelect.options].some(o=>o.value===atual)) tipoSelect.value=atual;
-}
+const o=
+document.createElement("option");
+
+o.value=item.codigo;
+
+o.textContent=
+item.item+
+" ("+
+item.codigo+
+")";
+
+select.appendChild(o);
+
+});
 
 }
 
@@ -3337,9 +3307,10 @@ document.getElementById(
 "filtroSetor"
 ).value;
 
-const codigoItem=document.getElementById("filtroItem").value;
-const status=document.getElementById("filtroStatus").value;
-const tipoItem=document.getElementById("filtroTipo").value;
+const codigoItem=
+document.getElementById(
+"filtroItem"
+).value;
 
 if(
 dataInicial &&
@@ -3378,9 +3349,7 @@ dataFinal,
 
 setor,
 
-codigoItem,
-status,
-tipoItem
+codigoItem
 
 });
 
@@ -3432,10 +3401,12 @@ resultado.filtros.setor
 
 <span>
 📦 Item:
-<strong>${escapeHtml(resultado.filtros.item)}</strong>
+<strong>
+${escapeHtml(
+resultado.filtros.item
+)}
+</strong>
 </span>
-<span>🔎 Status: <strong>${escapeHtml(resultado.filtros.status||"Todos os status")}</strong></span>
-<span>🧩 Tipo: <strong>${escapeHtml(resultado.filtros.tipo||"Todos os tipos")}</strong></span>
 
 `;
 
