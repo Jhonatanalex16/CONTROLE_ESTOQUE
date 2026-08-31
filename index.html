@@ -1180,29 +1180,6 @@ CANCELAR
 </div>
 </div>
 
-<div id="modalCadastro" class="relatorio-modal">
-<div class="relatorio-modal-conteudo editar-modal-conteudo">
-<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
-<input type="hidden" id="categoriaCadastro">
-<div class="grid">
-<input id="item" placeholder="Nome do item">
-<div id="campoCodigoCadastro"><input id="codigo" placeholder="Código de barras"></div>
-<div id="camposEquipamento" style="display:none;contents">
-<input id="patrimonio" placeholder="Número do patrimônio">
-<input id="numeroSerie" placeholder="Número de série">
-<input id="marca" placeholder="Marca">
-<select id="setorCadastro"><option value="">Selecione o setor</option></select>
-<input id="localizacao" placeholder="Localização física">
-<select id="statusCadastro"><option value="Disponível">Disponível</option><option value="Em uso">Em uso</option><option value="Removido">Removido</option></select>
-<div class="campo-observacoes"><textarea id="observacoes" placeholder="Observações"></textarea></div>
-</div>
-<div id="camposConsumo" style="display:none;contents">
-<input id="quantidade" type="number" min="0" placeholder="Quantidade">
-<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
-</div>
-<button class="btn" onclick="cadastrar()"><i class="fa-solid fa-plus"></i> Cadastrar</button>
-</div></div></div>
-
 
 <div class="pesquisa">
 
@@ -1240,6 +1217,30 @@ onkeyup="filtrarTabela()">
 </div>
 
 </div>
+
+
+<div id="modalCadastro" class="relatorio-modal">
+<div class="relatorio-modal-conteudo editar-modal-conteudo">
+<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
+<input type="hidden" id="categoriaCadastro">
+<div class="grid">
+<input id="item" placeholder="Nome do item">
+<div id="campoCodigoCadastro"><input id="codigo" placeholder="Código de barras"></div>
+<div id="camposEquipamento" style="display:none">
+<input id="patrimonio" placeholder="Número do patrimônio">
+<input id="numeroSerie" placeholder="Número de série">
+<input id="marca" placeholder="Marca">
+<select id="setorCadastro"><option value="">Selecione o setor</option></select>
+<input id="localizacao" placeholder="Localização física">
+<select id="statusCadastro"><option value="Disponível">Disponível</option><option value="Em uso">Em uso</option><option value="Removido">Removido</option></select>
+<div class="campo-observacoes"><textarea id="observacoes" placeholder="Observações"></textarea></div>
+</div>
+<div id="camposConsumo" style="display:none">
+<input id="quantidade" type="number" min="0" placeholder="Quantidade">
+<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
+</div>
+<button class="btn" onclick="cadastrar()"><i class="fa-solid fa-plus"></i> Cadastrar</button>
+</div></div></div>
 
 
 <!-- EQUIPAMENTOS -->
