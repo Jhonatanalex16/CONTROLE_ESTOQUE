@@ -11,6 +11,7 @@
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/@zxing/browser@0.1.5/umd/index.min.js"></script>
 
 <style>
 *{
@@ -348,22 +349,6 @@ background:#dc2626
 
 .btn-secondary{
 background:#334155
-}
-
-/* RESUMO DE EQUIPAMENTOS */
-
-.card-info.equipamento-card{
-position:relative;
-overflow:hidden
-}
-
-.card-info.equipamento-card h3{
-margin-bottom:10px
-}
-
-.card-info.equipamento-card .equipamento-icone{
-font-size:18px;
-margin-right:6px
 }
 
 /* GRAFICOS */
@@ -709,16 +694,6 @@ flex-wrap:wrap;
 margin-top:22px
 }
 
-
-
-/* =====================================================
-   PERMISSÕES POR PERFIL
-===================================================== */
-
-.oculto-permissao{
-  display:none !important;
-}
-
 /* TOAST */
 
 .toast{
@@ -784,6 +759,23 @@ color:#0f172a
 body.light-mode table{
 background:white
 }
+
+
+/* SCANNER / EQUIPAMENTOS */
+.scanner-equipamento{margin-top:20px;padding:20px;border-radius:18px;background:#0f172a;border:1px solid rgba(255,255,255,.06)}
+.scanner-botoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+.equipamento-identificado{display:none;margin-top:18px;padding:20px;border-radius:18px;background:rgba(37,99,235,.08);border:1px solid rgba(56,189,248,.2)}
+.equipamento-identificado.ativo{display:block}
+.equipamento-detalhes{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:15px}
+.equipamento-detalhes div{background:#111827;padding:12px;border-radius:12px}
+.camera-modal{position:fixed;inset:0;background:rgba(2,6,23,.92);backdrop-filter:blur(8px);z-index:11000;display:none;align-items:center;justify-content:center;padding:20px}
+.camera-modal.ativo{display:flex}
+.camera-box{width:100%;max-width:650px;background:#0f172a;border-radius:24px;padding:24px}
+.camera-box video{width:100%;max-height:430px;background:#000;border-radius:18px;object-fit:cover}
+.camera-status{margin-top:12px;padding:12px;border-radius:12px;background:#111827;color:#94a3b8}
+.usuario-tabela{width:100%;margin-top:18px}
+.usuario-tabela td,.usuario-tabela th{padding:12px}
+.badge-perfil{display:inline-block;padding:6px 10px;border-radius:999px;background:#1e293b;font-size:12px;font-weight:800}
 
 /* MOBILE */
 
@@ -910,7 +902,6 @@ ENTRAR
 <div class="usuario-logado">
 Usuário conectado:
 <strong id="nomeUsuarioLogado">---</strong>
-<div id="perfilUsuarioLogado" style="margin-top:5px;font-size:12px;color:#94a3b8"></div>
 </div>
 
 <div class="menu">
@@ -1008,28 +999,15 @@ Sair
 <span id="totalMovimentacoes">0</span>
 </div>
 
-<div class="card-info equipamento-card">
-<h3><span class="equipamento-icone">💻</span>Equipamentos cadastrados</h3>
-<span id="totalEquipamentos">0</span>
 </div>
 
-<div class="card-info equipamento-card">
-<h3><span class="equipamento-icone">🟢</span>Disponíveis</h3>
-<span id="equipamentosDisponiveis">0</span>
-</div>
 
-<div class="card-info equipamento-card">
-<h3><span class="equipamento-icone">🔵</span>Em uso</h3>
-<span id="equipamentosEmUso">0</span>
+<div class="dashboard">
+<div class="card-info"><h3>💻 Equipamentos cadastrados</h3><span id="totalEquipamentos">0</span></div>
+<div class="card-info"><h3>🟢 Em uso</h3><span id="equipamentosEmUso">0</span></div>
+<div class="card-info"><h3>🔵 Disponíveis</h3><span id="equipamentosDisponiveis">0</span></div>
+<div class="card-info"><h3>🔴 Removidos</h3><span id="equipamentosRemovidos">0</span></div>
 </div>
-
-<div class="card-info equipamento-card">
-<h3><span class="equipamento-icone">🔴</span>Removidos</h3>
-<span id="equipamentosRemovidos">0</span>
-</div>
-
-</div>
-
 
 <div class="graficos-dashboard">
 
@@ -1058,6 +1036,8 @@ Sair
 <canvas id="graficoItensMovimentados"></canvas>
 </div>
 
+</div>
+
 <div class="grafico">
 <h2>💻 Equipamentos por Status</h2>
 <canvas id="graficoEquipamentosStatus"></canvas>
@@ -1068,21 +1048,9 @@ Sair
 <canvas id="graficoEquipamentosSetor"></canvas>
 </div>
 
-<div class="grafico">
+<div class="grafico grafico-largo">
 <h2>🏷️ Equipamentos por Marca</h2>
 <canvas id="graficoEquipamentosMarca"></canvas>
-</div>
-
-<div class="grafico">
-<h2>📍 Equipamentos por Localização</h2>
-<canvas id="graficoEquipamentosLocalizacao"></canvas>
-</div>
-
-<div class="grafico">
-<h2>📅 Equipamentos cadastrados ao longo do tempo</h2>
-<canvas id="graficoEquipamentosTempo"></canvas>
-</div>
-
 </div>
 
 </div>
@@ -1102,11 +1070,8 @@ Sair
 placeholder="Bipe o código de barras aqui..."
 autocomplete="off">
 
-<button class="btn"
-onclick="identificarCodigo()">
-<i class="fa-solid fa-barcode"></i>
-Identificar
-</button>
+<button class="btn" onclick="identificarCodigo()"><i class="fa-solid fa-barcode"></i> Identificar</button>
+<button class="btn btn-secondary" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera"></i> Usar câmera</button>
 
 </div>
 
@@ -1161,7 +1126,7 @@ id="quantidadeEntrada"
 min="1"
 placeholder="Quantidade">
 
-<button class="btn btn-success" data-permissao="movimentar_estoque"
+<button class="btn btn-success"
 onclick="confirmarEntrada()">
 CONFIRMAR ENTRADA
 </button>
@@ -1190,7 +1155,7 @@ placeholder="Quantidade">
 <option value="">Selecione o setor</option>
 </select>
 
-<button class="btn btn-danger" data-permissao="movimentar_estoque"
+<button class="btn btn-danger"
 onclick="confirmarSaida()">
 CONFIRMAR SAÍDA
 </button>
@@ -1211,9 +1176,33 @@ CANCELAR
 <h2>➕ Cadastro de item</h2>
 <p style="color:#94a3b8;margin-bottom:20px">Cadastre materiais de consumo controlados por quantidade.</p>
 <div class="grid" style="grid-template-columns:minmax(250px,420px)">
-<button class="btn" data-permissao="cadastrar_item" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-boxes-stacked"></i> Cadastrar item de estoque</button>
+<button class="btn" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-boxes-stacked"></i> Cadastrar item de estoque</button>
 </div>
 </div>
+
+<div id="modalCadastro" class="relatorio-modal">
+<div class="relatorio-modal-conteudo editar-modal-conteudo">
+<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
+<input type="hidden" id="categoriaCadastro">
+<div class="grid">
+<input id="item" placeholder="Nome do item">
+<div id="campoCodigoCadastro"><input id="codigo" placeholder="Código de barras"></div>
+<div id="camposEquipamento" style="display:none;contents">
+<input id="patrimonio" placeholder="Número do patrimônio">
+<input id="numeroSerie" placeholder="Número de série">
+<input id="marca" placeholder="Marca">
+<select id="setorCadastro"><option value="">Selecione o setor</option></select>
+<input id="localizacao" placeholder="Localização física">
+<select id="statusCadastro"><option value="Disponível">Disponível</option><option value="Em uso">Em uso</option><option value="Removido">Removido</option></select>
+<div class="campo-observacoes"><textarea id="observacoes" placeholder="Observações"></textarea></div>
+</div>
+<div id="camposConsumo" style="display:none;contents">
+<input id="quantidade" type="number" min="0" placeholder="Quantidade">
+<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
+</div>
+<button class="btn" onclick="cadastrar()"><i class="fa-solid fa-plus"></i> Cadastrar</button>
+</div></div></div>
+
 
 <div class="pesquisa">
 
@@ -1264,7 +1253,36 @@ onkeyup="filtrarTabela()">
 <h2>💻 Equipamentos</h2>
 <p style="color:#94a3b8;margin-top:5px">Controle individual de computadores, notebooks, monitores e demais equipamentos patrimoniais.</p>
 </div>
-<button class="btn" data-permissao="cadastrar_equipamento" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Cadastrar equipamento</button>
+<button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Cadastrar equipamento</button>
+</div>
+
+<div class="scanner-equipamento">
+<h3>📷 Localizar equipamento por código</h3>
+<p style="color:#94a3b8;margin-top:6px">O número de série usa código de barras. O patrimônio usa QR Code.</p>
+<div class="grid" style="margin-top:14px">
+<input id="codigoLeitorEquipamento" placeholder="Bipe o código de barras do Nº de série..." autocomplete="off">
+<button class="btn" onclick="identificarEquipamento('serie')"><i class="fa-solid fa-barcode"></i> Ler Nº de série</button>
+</div>
+<div class="scanner-botoes">
+<button class="btn btn-secondary" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i> Câmera — Nº de série</button>
+<button class="btn btn-secondary" onclick="abrirCameraScanner('equipamentoPatrimonio')"><i class="fa-solid fa-qrcode"></i> Câmera — Patrimônio</button>
+</div>
+<div id="equipamentoIdentificado" class="equipamento-identificado">
+<h3>✅ Equipamento identificado</h3>
+<div class="equipamento-detalhes">
+<div>Equipamento<br><strong id="eqScanNome">-</strong></div>
+<div>Patrimônio<br><strong id="eqScanPatrimonio">-</strong></div>
+<div>Nº Série<br><strong id="eqScanSerie">-</strong></div>
+<div>Marca<br><strong id="eqScanMarca">-</strong></div>
+<div>Setor<br><strong id="eqScanSetor">-</strong></div>
+<div>Localização<br><strong id="eqScanLocalizacao">-</strong></div>
+<div>Status<br><strong id="eqScanStatus">-</strong></div>
+</div>
+<div class="scanner-botoes">
+<button class="btn" id="btnEqScanEditar">✏️ Editar</button>
+<button class="btn btn-secondary" id="btnEqScanHistorico">🕓 Histórico</button>
+</div>
+</div>
 </div>
 
 <div class="pesquisa" style="margin-top:25px">
@@ -1431,6 +1449,12 @@ onclick="gerarRelatorio('item')">
 </div>
 
 <div class="relatorio-box">
+<h3>💻 Equipamentos</h3>
+<p>Lista os equipamentos com filtros de setor, período e status. Equipamentos removidos aparecem com sua observação.</p>
+<button class="btn" onclick="gerarRelatorio('equipamentos')">👁️ Visualizar Relatório</button>
+</div>
+
+<div class="relatorio-box">
 <h3>📋 Histórico Completo</h3>
 <p>Todas as movimentações registradas.</p>
 <button class="btn"
@@ -1471,7 +1495,7 @@ onclick="ativarLightMode()">
 </div>
 
 
-<div class="card" id="blocoGerenciarSetores">
+<div class="card">
 
 <h2>🏢 Gerenciar Setores</h2>
 
@@ -1486,7 +1510,7 @@ id="novoSetor"
 placeholder="Digite o nome do setor..."
 maxlength="100">
 
-<button class="btn btn-success" data-permissao="gerenciar_setor"
+<button class="btn btn-success"
 onclick="adicionarSetor()">
 ➕ Adicionar Setor
 </button>
@@ -1505,30 +1529,6 @@ style="margin-top:25px">
 </div>
 </div>
 </div>
-
-
-<div id="modalCadastro" class="relatorio-modal">
-<div class="relatorio-modal-conteudo editar-modal-conteudo">
-<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
-<input type="hidden" id="categoriaCadastro">
-<div class="grid">
-<input id="item" placeholder="Nome do item">
-<div id="campoCodigoCadastro"><input id="codigo" placeholder="Código de barras"></div>
-<div id="camposEquipamento" style="display:none;contents">
-<input id="patrimonio" placeholder="Número do patrimônio">
-<input id="numeroSerie" placeholder="Número de série">
-<input id="marca" placeholder="Marca">
-<select id="setorCadastro"><option value="">Selecione o setor</option></select>
-<input id="localizacao" placeholder="Localização física">
-<select id="statusCadastro"><option value="Disponível">Disponível</option><option value="Em uso">Em uso</option><option value="Removido">Removido</option></select>
-<div class="campo-observacoes"><textarea id="observacoes" placeholder="Observações"></textarea></div>
-</div>
-<div id="camposConsumo" style="display:none;contents">
-<input id="quantidade" type="number" min="0" placeholder="Quantidade">
-<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
-</div>
-<button class="btn" onclick="cadastrar()"><i class="fa-solid fa-plus"></i> Cadastrar</button>
-</div></div></div>
 
 
 <!-- EDIÇÃO DE ITEM -->
@@ -1560,6 +1560,22 @@ style="margin-top:25px">
 <button class="btn btn-secondary" onclick="fecharEdicao()">Cancelar</button>
 <button class="btn btn-success" onclick="salvarEdicao()">💾 Salvar alterações</button>
 </div>
+</div>
+</div>
+
+<!-- HISTÓRICO DO EQUIPAMENTO -->
+<div id="modalHistoricoEquipamento" class="relatorio-modal">
+<div class="relatorio-modal-conteudo">
+<div class="relatorio-modal-topo"><div><h2>🕓 Histórico do equipamento</h2><p id="historicoEquipamentoSubtitulo" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharHistoricoEquipamento()">✕ Fechar</button></div>
+<div id="conteudoHistoricoEquipamento"></div>
+</div></div>
+
+<!-- CÂMERA -->
+<div id="cameraScannerModal" class="camera-modal">
+<div class="camera-box">
+<div class="relatorio-modal-topo"><div><h2 id="cameraScannerTitulo">📷 Scanner</h2><p style="color:#94a3b8;margin-top:5px">Aponte a câmera para o código.</p></div><button class="btn btn-danger" onclick="fecharCameraScanner()">✕ Fechar</button></div>
+<video id="cameraScannerVideo" playsinline></video>
+<div id="cameraScannerStatus" class="camera-status">Aguardando câmera...</div>
 </div>
 </div>
 
@@ -1625,6 +1641,11 @@ onclick="fecharFiltrosRelatorio()">
 <option value="Disponível">Disponível</option>
 <option value="Removido">Removido</option>
 </select>
+</div>
+
+<div class="filtro-grupo" id="grupoPesquisaEquipamento">
+<label>Equipamento</label>
+<select id="filtroEquipamento"><option value="">Todos os equipamentos</option></select>
 </div>
 
 </div>
@@ -1713,7 +1734,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycby_-5SDHa8PJiOshck1VKOGuw3WQj8LNMTpVgRHLEpN5nkqrMxaPHBNwjSjdgrhw7Ft/exec";
+"https://script.google.com/macros/s/AKfycbxrJTL4qc3_M3d36NDt9maWp46lqNEvqA0Y0mNJ7MhL5dfi9CQLZ3UiUeSdtA6dS9Gh/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -1721,6 +1742,7 @@ let usuarioAtual = null;
 let dadosGlobais = [];
 let equipamentosGlobais = [];
 let historicoGlobal = [];
+let historicoEquipamentosGlobal = [];
 let setoresGlobais = [];
 let itemSelecionado = null;
 let tipoRelatorioSelecionado = "";
@@ -1733,8 +1755,8 @@ let graficoItensMovimentados = null;
 let graficoEquipamentosStatus = null;
 let graficoEquipamentosSetor = null;
 let graficoEquipamentosMarca = null;
-let graficoEquipamentosLocalizacao = null;
-let graficoEquipamentosTempo = null;
+let scannerControls = null;
+let scannerModo = "";
 
 
 /* =====================================================
@@ -1831,8 +1853,6 @@ document.getElementById("sistema").style.display="block";
 document.getElementById("nomeUsuarioLogado").innerText=
 usuarioAtual.nome || usuarioAtual.usuario;
 
-aplicarPermissoes();
-
 carregar();
 
 }
@@ -1893,90 +1913,6 @@ document.getElementById("loginTela").style.display="flex";
 
 document.getElementById("loginSenha").value="";
 
-}
-
-
-/* =====================================================
-   PERMISSÕES DA INTERFACE
-===================================================== */
-
-function perfilAtual(){
-  return String(
-    usuarioAtual?.perfil || "consulta"
-  ).trim().toLowerCase() === "usuario"
-    ? "consulta"
-    : String(usuarioAtual?.perfil || "consulta").trim().toLowerCase();
-}
-
-function ehAdmin(){
-  return perfilAtual()==="admin";
-}
-
-function ehGestor(){
-  return perfilAtual()==="gestor" || ehAdmin();
-}
-
-function pode(permissao){
-  const p=perfilAtual();
-
-  if(p==="admin") return true;
-
-  const mapa={
-    cadastrar_item:["gestor"],
-    editar_item:["gestor"],
-    movimentar_estoque:["gestor"],
-    cadastrar_equipamento:["gestor"],
-    editar_equipamento:["gestor"],
-    gerenciar_setor:["admin"],
-    relatorio:["admin","gestor","consulta"]
-  };
-
-  return (mapa[permissao]||[]).includes(p);
-}
-
-function aplicarPermissoes(){
-
-  const nomePerfil={
-    admin:"Administrador",
-    gestor:"Gestor de Patrimônio",
-    consulta:"Consulta"
-  };
-
-  const p=perfilAtual();
-  const perfilEl=document.getElementById("perfilUsuarioLogado");
-
-  if(perfilEl){
-    perfilEl.innerText="Perfil: "+(nomePerfil[p]||"Consulta");
-  }
-
-  document.querySelectorAll("[data-permissao]").forEach(el=>{
-    const permissao=el.getAttribute("data-permissao");
-    el.classList.toggle(
-      "oculto-permissao",
-      !pode(permissao)
-    );
-  });
-
-  // Configurações contém gerenciamento administrativo de setores.
-  const configBtn=document.querySelector(
-    '.menu-btn[onclick*="mostrarSecao(\'config\'"]'
-  );
-  if(configBtn){
-    configBtn.classList.toggle("oculto-permissao",!ehAdmin());
-  }
-
-  // Esconde o bloco de gerenciamento de setores para não administradores.
-  const setorBox=document.getElementById("blocoGerenciarSetores");
-  if(setorBox){
-    setorBox.classList.toggle("oculto-permissao",!ehAdmin());
-  }
-
-}
-
-function exigirPermissaoCliente(permissao){
-  if(pode(permissao)) return true;
-  toast("Seu perfil não possui permissão para esta ação.","erro");
-  return false;
 }
 
 
@@ -2124,10 +2060,13 @@ resultado.mensagem || "Erro ao carregar"
 
 dadosGlobais=resultado.estoque || [];
 equipamentosGlobais=resultado.equipamentos || [];
+historicoEquipamentosGlobal=resultado.historicoEquipamentos || [];
 
 historicoGlobal=resultado.historico || [];
 
 carregarSetores(resultado.setores || []);
+renderizarUsuarios(resultado.usuarios || []);
+aplicarPermissoes();
 
 carregarItensRelatorios();
 
@@ -2194,8 +2133,9 @@ tabela.innerHTML+=`
 <td><span class="status-ativo ${classeStatus("Disponível")}">${alerta?"ALERTA":"OK"}</span></td>
 <td>
 <div class="acoes">
-${pode("movimentar_estoque")?`<button class="entrada" title="Entrada" onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">+</button><button class="saida" title="Saída" onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">−</button>`:""}
-${pode("editar_item")?`<button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(item.codigo)}','CONSUMO')">✏️</button>`:""}
+<button class="entrada" title="Entrada" onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">+</button>
+<button class="saida" title="Saída" onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">−</button>
+<button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(item.codigo)}','CONSUMO')">✏️</button>
 </div>
 </td>
 </tr>`;
@@ -2218,105 +2158,6 @@ document.getElementById("totalItens").innerText=dadosGlobais.length;
 document.getElementById("itensAlerta").innerText=alertasCount;
 document.getElementById("estoqueTotal").innerText=total;
 document.getElementById("totalMovimentacoes").innerText=historicoGlobal.length;
-
-/* =====================================================
-   RESUMO DE EQUIPAMENTOS
-===================================================== */
-
-const normalizarStatusEquipamento = status => {
-  const s=String(status||"").trim().toLowerCase();
-  if(s==="em uso" || s==="em uso") return "Em uso";
-  if(s==="removido") return "Removido";
-  return "Disponível";
-};
-
-let equipamentosDisponiveis=0;
-let equipamentosEmUso=0;
-let equipamentosRemovidos=0;
-
-const mapaEquipamentosSetor={};
-const mapaEquipamentosMarca={};
-const mapaEquipamentosLocalizacao={};
-const mapaEquipamentosTempo={};
-
-equipamentosGlobais.forEach(eq=>{
-  const status=normalizarStatusEquipamento(eq.status);
-  if(status==="Disponível") equipamentosDisponiveis++;
-  else if(status==="Em uso") equipamentosEmUso++;
-  else if(status==="Removido") equipamentosRemovidos++;
-
-  const setor=String(eq.setor||"Sem setor").trim() || "Sem setor";
-  const marca=String(eq.marca||"Sem marca").trim() || "Sem marca";
-
-  mapaEquipamentosSetor[setor]=(mapaEquipamentosSetor[setor]||0)+1;
-  mapaEquipamentosMarca[marca]=(mapaEquipamentosMarca[marca]||0)+1;
-
-  const localizacao=String(eq.localizacao||"Sem localização").trim() || "Sem localização";
-  mapaEquipamentosLocalizacao[localizacao]=(mapaEquipamentosLocalizacao[localizacao]||0)+1;
-
-  const dataCadastro=String(eq.dataCadastro||"").trim();
-  if(dataCadastro){
-    const data=new Date(dataCadastro);
-    if(!Number.isNaN(data.getTime())){
-      const chave=data.getFullYear()+"-"+String(data.getMonth()+1).padStart(2,"0");
-      mapaEquipamentosTempo[chave]=(mapaEquipamentosTempo[chave]||0)+1;
-    }else{
-      mapaEquipamentosTempo["Sem data"]=(mapaEquipamentosTempo["Sem data"]||0)+1;
-    }
-  }else{
-    mapaEquipamentosTempo["Sem data"]=(mapaEquipamentosTempo["Sem data"]||0)+1;
-  }
-});
-
-document.getElementById("totalEquipamentos").innerText=equipamentosGlobais.length;
-document.getElementById("equipamentosDisponiveis").innerText=equipamentosDisponiveis;
-document.getElementById("equipamentosEmUso").innerText=equipamentosEmUso;
-document.getElementById("equipamentosRemovidos").innerText=equipamentosRemovidos;
-
-gerarGraficoEquipamentosStatus(
-  equipamentosDisponiveis,
-  equipamentosEmUso,
-  equipamentosRemovidos
-);
-
-const setoresEquipOrdenados=Object.entries(mapaEquipamentosSetor)
-  .sort((a,b)=>b[1]-a[1])
-  .slice(0,10);
-
-gerarGraficoEquipamentosSetor(
-  setoresEquipOrdenados.map(x=>x[0]),
-  setoresEquipOrdenados.map(x=>x[1])
-);
-
-const marcasEquipOrdenadas=Object.entries(mapaEquipamentosMarca)
-  .sort((a,b)=>b[1]-a[1])
-  .slice(0,10);
-
-gerarGraficoEquipamentosMarca(
-  marcasEquipOrdenadas.map(x=>x[0]),
-  marcasEquipOrdenadas.map(x=>x[1])
-);
-
-const localizacoesEquipOrdenadas=Object.entries(mapaEquipamentosLocalizacao)
-  .sort((a,b)=>b[1]-a[1])
-  .slice(0,10);
-
-gerarGraficoEquipamentosLocalizacao(
-  localizacoesEquipOrdenadas.map(x=>x[0]),
-  localizacoesEquipOrdenadas.map(x=>x[1])
-);
-
-const tempoEquipOrdenado=Object.entries(mapaEquipamentosTempo)
-  .sort((a,b)=>{
-    if(a[0]==="Sem data") return 1;
-    if(b[0]==="Sem data") return -1;
-    return a[0].localeCompare(b[0]);
-  });
-
-gerarGraficoEquipamentosTempo(
-  tempoEquipOrdenado.map(x=>x[0]),
-  tempoEquipOrdenado.map(x=>x[1])
-);
 
 gerarGraficoEstoque(nomes,quantidades);
 gerarGraficoStatus(alertasCount,dadosGlobais.length-alertasCount);
@@ -2346,32 +2187,35 @@ historicoGlobal.forEach(x=>{
 });
 const itensOrdenados=Object.entries(mapaItens).sort((a,b)=>b[1]-a[1]).slice(0,10);
 gerarGraficoItensMovimentados(itensOrdenados.map(x=>x[0]),itensOrdenados.map(x=>x[1]));
+aplicarPermissoes();
 
 }
 
 
 function renderizarEquipamentos(){
-
 const tabela=document.getElementById("tabelaEquipamentos");
 if(!tabela)return;
 tabela.innerHTML="";
-
 equipamentosGlobais.forEach(eq=>{
-  tabela.innerHTML+=`
-  <tr>
-  <td>${escapeHtml(eq.nome||eq.item||"-")}</td>
-  <td>${escapeHtml(eq.patrimonio||"-")}</td>
-  <td>${escapeHtml(eq.numeroSerie||"-")}</td>
-  <td>${escapeHtml(eq.marca||"-")}</td>
-  <td>${escapeHtml(eq.setor||"-")}</td>
-  <td>${escapeHtml(eq.localizacao||"-")}</td>
-  <td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td>
-  <td>${escapeHtml(eq.observacoes||"-")}</td>
-  <td>${pode("editar_equipamento")?`<button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.patrimonio||eq.numeroSerie)}','EQUIPAMENTO')">✏️</button>`:""}</td>
-  </tr>`;
+  tabela.innerHTML+=`<tr><td>${escapeHtml(eq.nome)}</td><td>${escapeHtml(eq.patrimonio||"-")}</td><td>${escapeHtml(eq.numeroSerie||"-")}</td><td>${escapeHtml(eq.marca||"-")}</td><td>${escapeHtml(eq.setor||"-")}</td><td>${escapeHtml(eq.localizacao||"-")}</td><td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td><td>${escapeHtml(eq.observacoes||"-")}</td><td><div class="acoes"><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')">✏️</button><button class="btn-editar" title="Histórico" onclick="abrirHistoricoEquipamento('${escapeJs(eq.id)}')">🕓</button></div></td></tr>`;
 });
-
+const uso=equipamentosGlobais.filter(x=>x.status==="Em uso").length;
+const disp=equipamentosGlobais.filter(x=>x.status==="Disponível").length;
+const rem=equipamentosGlobais.filter(x=>x.status==="Removido").length;
+const set=(id,v)=>{const el=document.getElementById(id);if(el)el.innerText=v;};
+set("totalEquipamentos",equipamentosGlobais.length);set("equipamentosEmUso",uso);set("equipamentosDisponiveis",disp);set("equipamentosRemovidos",rem);
+const ms={}; const marcas={};
+equipamentosGlobais.forEach(x=>{const st=x.setor||"Sem setor";ms[st]=(ms[st]||0)+1;const m=x.marca||"Sem marca";marcas[m]=(marcas[m]||0)+1;});
+gerarGraficoEquipamentosStatus(["Em uso","Disponível","Removido"],[uso,disp,rem]);
+gerarGraficoEquipamentosSetor(Object.keys(ms),Object.values(ms));
+gerarGraficoEquipamentosMarca(Object.keys(marcas),Object.values(marcas));
+carregarEquipamentosFiltro();
+aplicarPermissoes();
 }
+
+function gerarGraficoEquipamentosStatus(labels,data){const c=document.getElementById("graficoEquipamentosStatus");if(!c)return;if(graficoEquipamentosStatus)graficoEquipamentosStatus.destroy();graficoEquipamentosStatus=new Chart(c,{type:"doughnut",data:{labels,datasets:[{data,borderWidth:1}]},options:{responsive:true,plugins:{legend:{position:"bottom",labels:{color:"white"}}}}});}
+function gerarGraficoEquipamentosSetor(labels,data){const c=document.getElementById("graficoEquipamentosSetor");if(!c)return;if(graficoEquipamentosSetor)graficoEquipamentosSetor.destroy();graficoEquipamentosSetor=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,scales:{y:{beginAtZero:true,ticks:{color:"white"}},x:{ticks:{color:"white"}}}}});}
+function gerarGraficoEquipamentosMarca(labels,data){const c=document.getElementById("graficoEquipamentosMarca");if(!c)return;if(graficoEquipamentosMarca)graficoEquipamentosMarca.destroy();graficoEquipamentosMarca=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,indexAxis:"y",scales:{x:{beginAtZero:true,ticks:{color:"white"}},y:{ticks:{color:"white"}}}}});}
 
 
 /* =====================================================
@@ -2710,165 +2554,6 @@ color:"white"
 
 
 /* =====================================================
-   GRÁFICOS DE EQUIPAMENTOS
-===================================================== */
-
-function gerarGraficoEquipamentosStatus(disponiveis,emUso,removidos){
-  const c=document.getElementById("graficoEquipamentosStatus");
-  if(!c)return;
-  if(graficoEquipamentosStatus)graficoEquipamentosStatus.destroy();
-
-  graficoEquipamentosStatus=new Chart(c.getContext("2d"),{
-    type:"doughnut",
-    data:{
-      labels:["Disponíveis","Em uso","Removidos"],
-      datasets:[{
-        data:[disponiveis,emUso,removidos],
-        borderWidth:1
-      }]
-    },
-    options:{
-      responsive:true,
-      plugins:{
-        legend:{
-          position:"bottom",
-          labels:{color:"white"}
-        }
-      }
-    }
-  });
-}
-
-function gerarGraficoEquipamentosSetor(labels,data){
-  const c=document.getElementById("graficoEquipamentosSetor");
-  if(!c)return;
-  if(graficoEquipamentosSetor)graficoEquipamentosSetor.destroy();
-
-  graficoEquipamentosSetor=new Chart(c.getContext("2d"),{
-    type:"bar",
-    data:{
-      labels:labels,
-      datasets:[{
-        label:"Equipamentos cadastrados",
-        data:data,
-        borderWidth:1
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{labels:{color:"white"}}
-      },
-      scales:{
-        x:{ticks:{color:"white"}},
-        y:{beginAtZero:true,ticks:{color:"white",precision:0}}
-      }
-    }
-  });
-}
-
-function gerarGraficoEquipamentosMarca(labels,data){
-  const c=document.getElementById("graficoEquipamentosMarca");
-  if(!c)return;
-  if(graficoEquipamentosMarca)graficoEquipamentosMarca.destroy();
-
-  graficoEquipamentosMarca=new Chart(c.getContext("2d"),{
-    type:"bar",
-    data:{
-      labels:labels,
-      datasets:[{
-        label:"Equipamentos",
-        data:data,
-        borderWidth:1
-      }]
-    },
-    options:{
-      indexAxis:"y",
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{labels:{color:"white"}}
-      },
-      scales:{
-        x:{beginAtZero:true,ticks:{color:"white",precision:0}},
-        y:{ticks:{color:"white"}}
-      }
-    }
-  });
-}
-
-
-function gerarGraficoEquipamentosLocalizacao(labels,data){
-  const c=document.getElementById("graficoEquipamentosLocalizacao");
-  if(!c)return;
-  if(graficoEquipamentosLocalizacao)graficoEquipamentosLocalizacao.destroy();
-
-  graficoEquipamentosLocalizacao=new Chart(c.getContext("2d"),{
-    type:"bar",
-    data:{
-      labels:labels,
-      datasets:[{
-        label:"Equipamentos",
-        data:data,
-        borderWidth:1
-      }]
-    },
-    options:{
-      indexAxis:"y",
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{labels:{color:"white"}}
-      },
-      scales:{
-        x:{beginAtZero:true,ticks:{color:"white",precision:0}},
-        y:{ticks:{color:"white"}}
-      }
-    }
-  });
-}
-
-function gerarGraficoEquipamentosTempo(labels,data){
-  const c=document.getElementById("graficoEquipamentosTempo");
-  if(!c)return;
-  if(graficoEquipamentosTempo)graficoEquipamentosTempo.destroy();
-
-  const labelsFormatados=labels.map(label=>{
-    if(label==="Sem data") return label;
-    const [ano,mes]=label.split("-");
-    const nomesMeses=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-    return (nomesMeses[Number(mes)-1]||mes)+"/"+ano;
-  });
-
-  graficoEquipamentosTempo=new Chart(c.getContext("2d"),{
-    type:"line",
-    data:{
-      labels:labelsFormatados,
-      datasets:[{
-        label:"Equipamentos cadastrados",
-        data:data,
-        borderWidth:2,
-        tension:0.25,
-        fill:false
-      }]
-    },
-    options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      plugins:{
-        legend:{labels:{color:"white"}}
-      },
-      scales:{
-        x:{ticks:{color:"white"}},
-        y:{beginAtZero:true,ticks:{color:"white",precision:0}}
-      }
-    }
-  });
-}
-
-
-/* =====================================================
    LEITOR
 ===================================================== */
 
@@ -3132,8 +2817,6 @@ quantidade,
 setor
 ){
 
-if(!exigirPermissaoCliente("movimentar_estoque")) return;
-
 try{
 
 const resultado=
@@ -3253,20 +2936,41 @@ identificarCodigo()
 
 
 /* =====================================================
+   SCANNERS
+===================================================== */
+function identificarEquipamento(tipo){
+ const campo=document.getElementById("codigoLeitorEquipamento"); const codigo=campo.value.trim();
+ if(!codigo){toast("Bipe o código de barras do número de série","erro");return;}
+ mostrarEquipamentoEscaneado(tipo,codigo);
+}
+function mostrarEquipamentoEscaneado(tipo,codigo){
+ const q=normalizarBuscaLocal(codigo);
+ const eq=equipamentosGlobais.find(x=>normalizarBuscaLocal(tipo==="patrimonio"?x.patrimonio:x.numeroSerie)===q);
+ const box=document.getElementById("equipamentoIdentificado");
+ if(!eq){box.classList.remove("ativo");toast("Equipamento não encontrado para este código.","erro");return;}
+ document.getElementById("eqScanNome").innerText=eq.nome||"-";document.getElementById("eqScanPatrimonio").innerText=eq.patrimonio||"-";document.getElementById("eqScanSerie").innerText=eq.numeroSerie||"-";document.getElementById("eqScanMarca").innerText=eq.marca||"-";document.getElementById("eqScanSetor").innerText=eq.setor||"-";document.getElementById("eqScanLocalizacao").innerText=eq.localizacao||"-";document.getElementById("eqScanStatus").innerText=eq.status||"-";
+ document.getElementById("btnEqScanEditar").onclick=()=>abrirEdicao(eq.id,"EQUIPAMENTO"); document.getElementById("btnEqScanHistorico").onclick=()=>abrirHistoricoEquipamento(eq.id); box.classList.add("ativo"); toast("Equipamento identificado com sucesso!","sucesso");
+}
+function abrirCameraScanner(modo){
+ scannerModo=modo; const modal=document.getElementById("cameraScannerModal"); const titulo=document.getElementById("cameraScannerTitulo"); const status=document.getElementById("cameraScannerStatus");
+ titulo.innerText=modo==="estoque"?"📦 Scanner de estoque":modo==="equipamentoPatrimonio"?"💻 Scanner de patrimônio (QR Code)":"💻 Scanner de número de série"; modal.classList.add("ativo");
+ status.innerText="Iniciando câmera...";
+ try{ const reader=new ZXing.BrowserMultiFormatReader(); const retorno=reader.decodeFromVideoDevice(undefined,"cameraScannerVideo",(result,err)=>{if(result){const texto=result.getText();processarResultadoCamera(texto);}}); Promise.resolve(retorno).then(c=>{scannerControls=c;}); }catch(e){console.error(e);status.innerText="Não foi possível iniciar a câmera. Verifique a permissão do navegador.";}
+}
+function processarResultadoCamera(texto){
+ if(scannerModo==="estoque"){document.getElementById("codigoLeitor").value=texto;fecharCameraScanner();identificarCodigo();return;}
+ document.getElementById("codigoLeitorEquipamento").value=texto; mostrarEquipamentoEscaneado(scannerModo==="equipamentoPatrimonio"?"patrimonio":"serie",texto); fecharCameraScanner();
+}
+function fecharCameraScanner(){try{if(scannerControls&&typeof scannerControls.stop==="function")scannerControls.stop();}catch(e){} scannerControls=null;document.getElementById("cameraScannerModal").classList.remove("ativo");}
+
+document.getElementById("codigoLeitorEquipamento")?.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();identificarEquipamento("serie");}});
+
+/* =====================================================
    CADASTRO
 ===================================================== */
 
-function garantirModalCadastroNoBody(){
- const modal=document.getElementById("modalCadastro");
- if(modal && modal.parentElement!==document.body){
-   document.body.appendChild(modal);
- }
- return modal;
-}
-
 async function cadastrar(){
  const categoria=document.getElementById("categoriaCadastro").value||"CONSUMO";
- if(!exigirPermissaoCliente(categoria==="EQUIPAMENTO"?"cadastrar_equipamento":"cadastrar_item")) return;
  const dados={
    tipo:"cadastro",
    categoria,
@@ -3285,30 +2989,21 @@ async function cadastrar(){
  if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
  if(categoria==="CONSUMO" && (!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
  if(categoria==="EQUIPAMENTO" && (!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
- if(categoria==="EQUIPAMENTO" && (!dados.marca||!dados.setor||!dados.localizacao)){toast("Preencha marca, setor e localização","erro");return;}
+ if(categoria==="EQUIPAMENTO" && (!dados.marca||!dados.setor)){toast("Preencha marca e setor","erro");return;}
  try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível cadastrar","erro");return;}toast(categoria==="EQUIPAMENTO"?"Equipamento cadastrado com sucesso!":"Item de estoque cadastrado com sucesso!","sucesso");fecharCadastro();await carregar();}catch(e){console.error(e);toast("Erro ao cadastrar","erro");}
 }
 
 function abrirCadastro(categoria){
- const eq=String(categoria||"CONSUMO").toUpperCase()==="EQUIPAMENTO";
- if(!exigirPermissaoCliente(eq?"cadastrar_equipamento":"cadastrar_item")) return;
- const modal=garantirModalCadastroNoBody();
- if(!modal){
-   toast("Formulário de cadastro não encontrado","erro");
-   return;
- }
- document.getElementById("categoriaCadastro").value=eq?"EQUIPAMENTO":"CONSUMO";
+ document.getElementById("categoriaCadastro").value=categoria;
+ const eq=categoria==="EQUIPAMENTO";
  document.getElementById("tituloCadastro").innerHTML=eq?"💻 Cadastrar equipamento":"📦 Cadastrar item de estoque";
  document.getElementById("descricaoCadastro").textContent=eq?"Cadastre um equipamento patrimonial individualmente.":"Cadastre materiais controlados por quantidade, como toner, etiquetas e cabos.";
  document.getElementById("camposEquipamento").style.display=eq?"contents":"none";
  document.getElementById("camposConsumo").style.display=eq?"none":"contents";
  document.getElementById("campoCodigoCadastro").style.display=eq?"none":"block";
- modal.classList.add("ativo");
+ document.getElementById("modalCadastro").classList.add("ativo");
 }
-function fecharCadastro(){
- const modal=garantirModalCadastroNoBody();
- if(modal) modal.classList.remove("ativo");
-}
+function fecharCadastro(){document.getElementById("modalCadastro").classList.remove("ativo");}
 
 
 /* =====================================================
@@ -3325,18 +3020,17 @@ function classeStatus(status){
 function abrirEdicao(identificador,categoria){
 
 const cat=String(categoria||"CONSUMO").toUpperCase();
-if(!exigirPermissaoCliente(cat==="EQUIPAMENTO"?"editar_equipamento":"editar_item")) return;
 const lista=cat==="EQUIPAMENTO"?equipamentosGlobais:dadosGlobais;
 
 const item=lista.find(x=>{
-  if(cat==="EQUIPAMENTO") return String(x.patrimonio||"")===String(identificador) || String(x.numeroSerie||"")===String(identificador);
+  if(cat==="EQUIPAMENTO") return String(x.id||"")===String(identificador);
   return String(x.codigo||"")===String(identificador);
 });
 
 if(!item){toast(cat==="EQUIPAMENTO"?"Equipamento não encontrado":"Item de estoque não encontrado","erro");return;}
 
 document.getElementById("editCategoria").value=cat;
-document.getElementById("editItem").value=item.item||"";
+document.getElementById("editItem").value=item.nome||item.item||"";
 document.getElementById("editCodigo").value=item.codigo||"";
 document.getElementById("editPatrimonio").value=item.patrimonio||"";
 document.getElementById("editNumeroSerie").value=item.numeroSerie||"";
@@ -3349,7 +3043,7 @@ document.getElementById("editStatus").value=item.status||"Disponível";
 document.getElementById("editObservacoes").value=item.observacoes||"";
 
 atualizarCamposEdicao(cat);
-document.getElementById("modalEditarItem").dataset.identificadorOriginal=(cat==="EQUIPAMENTO"?(item.patrimonio||item.numeroSerie):item.codigo);
+document.getElementById("modalEditarItem").dataset.identificadorOriginal=(cat==="EQUIPAMENTO"?item.id:item.codigo);
 document.getElementById("modalEditarItem").classList.add("ativo");
 }
 
@@ -3388,7 +3082,7 @@ async function salvarEdicao(){
  };
  if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
  if(categoria==="EQUIPAMENTO"&&(!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
- if(categoria==="EQUIPAMENTO"&&(!dados.marca||!dados.setor||!dados.localizacao)){toast("Preencha marca, setor e localização","erro");return;}
+ if(categoria==="EQUIPAMENTO"&&(!dados.marca||!dados.setor)){toast("Preencha marca e setor","erro");return;}
  if(categoria==="CONSUMO"&&(!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
  try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível alterar","erro");return;}fecharEdicao();toast("Informações alteradas com sucesso!","sucesso");await carregar();}catch(e){console.error(e);toast("Erro ao alterar item","erro");}
 }
@@ -3405,9 +3099,10 @@ document.querySelectorAll("#tabela tr").forEach(l=>l.style.display=l.innerText.t
 
 }
 
+function normalizarBuscaLocal(v){return String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();}
 function filtrarEquipamentos(){
-const f=document.getElementById("pesquisaEquipamentos").value.trim().toLowerCase();
-document.querySelectorAll("#tabelaEquipamentos tr").forEach(l=>l.style.display=l.innerText.toLowerCase().includes(f)?"":"none");
+const f=normalizarBuscaLocal(document.getElementById("pesquisaEquipamentos").value);
+document.querySelectorAll("#tabelaEquipamentos tr").forEach((l,i)=>{const eq=equipamentosGlobais[i]; const alvo=normalizarBuscaLocal(eq?[eq.nome,eq.patrimonio,eq.numeroSerie,eq.marca,eq.setor,eq.localizacao,eq.status,eq.observacoes].join(" "):l.innerText); l.style.display=!f||alvo.includes(f)?"":"none";});
 }
 
 
@@ -3532,8 +3227,6 @@ lista.appendChild(div);
 
 async function adicionarSetor(){
 
-if(!exigirPermissaoCliente("gerenciar_setor")) return;
-
 const campo=
 document.getElementById(
 "novoSetor"
@@ -3603,8 +3296,6 @@ toast(
 
 
 async function excluirSetor(setor){
-
-if(!exigirPermissaoCliente("gerenciar_setor")) return;
 
 if(
 !confirm(
@@ -3682,6 +3373,27 @@ dadosGlobais.forEach(item=>{
 }
 
 
+function carregarEquipamentosFiltro(){
+ const select=document.getElementById("filtroEquipamento"); if(!select)return; const atual=select.value; select.innerHTML='<option value="">Todos os equipamentos</option>'; equipamentosGlobais.forEach(eq=>{const o=document.createElement("option");o.value=eq.id;o.textContent=(eq.nome||"Equipamento")+" — "+(eq.patrimonio||eq.numeroSerie||"");select.appendChild(o);}); if([...select.options].some(o=>o.value===atual))select.value=atual;
+}
+
+async function abrirHistoricoEquipamento(id){
+ const eq=equipamentosGlobais.find(x=>String(x.id)===String(id)); if(!eq)return;
+ let dados=historicoEquipamentosGlobal.filter(x=>String(x.id)===String(id));
+ if(!dados.length){try{const r=await apiPost({tipo:"historicoEquipamento",identificador:id});if(r.sucesso)dados=r.dados||[];}catch(e){}}
+ document.getElementById("historicoEquipamentoSubtitulo").innerText=(eq.nome||"Equipamento")+" — Patrimônio: "+(eq.patrimonio||"-");
+ const c=document.getElementById("conteudoHistoricoEquipamento");
+ if(!dados.length){c.innerHTML='<p>Nenhum histórico registrado.</p>';}else{c.innerHTML='<div class="table-container"><table class="relatorio-preview-table"><thead><tr><th>Data</th><th>Ação</th><th>Setor</th><th>Localização</th><th>Status</th><th>Usuário</th><th>Observação</th></tr></thead><tbody>'+dados.slice().reverse().map(x=>`<tr><td>${formatarData(x.data)}</td><td>${escapeHtml(x.acao)}</td><td>${escapeHtml((x.setorAnterior||"-")+" → "+(x.setorNovo||"-"))}</td><td>${escapeHtml((x.localizacaoAnterior||"-")+" → "+(x.localizacaoNova||"-"))}</td><td>${escapeHtml((x.statusAnterior||"-")+" → "+(x.statusNovo||"-"))}</td><td>${escapeHtml(x.usuario||"-")}</td><td>${escapeHtml(x.observacao||"-")}</td></tr>`).join('')+'</tbody></table></div>';}
+ document.getElementById("modalHistoricoEquipamento").classList.add("ativo");
+}
+function fecharHistoricoEquipamento(){document.getElementById("modalHistoricoEquipamento").classList.remove("ativo");}
+
+async function criarUsuario(){
+ const dados={tipo:"usuarios",acao:"criar",usuario:document.getElementById("novoUsuarioLogin").value.trim(),nome:document.getElementById("novoUsuarioNome").value.trim(),senha:document.getElementById("novoUsuarioSenha").value,perfil:document.getElementById("novoUsuarioPerfil").value};
+ if(!dados.usuario||!dados.nome||!dados.senha){toast("Preencha usuário, nome e senha","erro");return;} try{const r=await apiPost(dados);if(!r.sucesso){toast(r.mensagem||"Não foi possível criar usuário","erro");return;}toast("Usuário criado com sucesso!","sucesso");document.getElementById("novoUsuarioLogin").value="";document.getElementById("novoUsuarioNome").value="";document.getElementById("novoUsuarioSenha").value="";await carregar();}catch(e){toast("Erro ao criar usuário","erro");}}
+async function alterarStatusUsuario(login,ativo){try{const r=await apiPost({tipo:"usuarios",acao:"status",usuario:login,ativo:ativo?"SIM":"NÃO"});if(!r.sucesso){toast(r.mensagem||"Não foi possível alterar o usuário","erro");return;}await carregar();}catch(e){toast("Erro ao alterar usuário","erro");}}
+function renderizarUsuarios(usuarios){const tbody=document.getElementById("tabelaUsuarios");if(!tbody)return;tbody.innerHTML="";(usuarios||[]).forEach(u=>{tbody.innerHTML+=`<tr><td>${escapeHtml(u.usuario)}</td><td>${escapeHtml(u.nome)}</td><td><span class="badge-perfil">${escapeHtml(u.perfil==="admin"?"Administrador":u.perfil==="gestor_operacional"?"Gestor Operacional":"Consulta")}</span></td><td>${escapeHtml(u.ativo)}</td><td><button class="btn-editar" onclick="alterarStatusUsuario('${escapeJs(u.usuario)}','${u.ativo!=="SIM"}')">${u.ativo==="SIM"?"Desativar":"Ativar"}</button></td></tr>`;});}
+
 /* =====================================================
    RELATÓRIOS
 ===================================================== */
@@ -3704,7 +3416,8 @@ resumo_setor:"📊 Resumo por Setor",
 
 item:"📦 Movimentações por Item",
 
-historico:"📋 Histórico Completo"
+historico:"📋 Histórico Completo",
+equipamentos:"💻 Equipamentos"
 
 };
 
@@ -3751,6 +3464,7 @@ document.getElementById(
 
 const codigoItem=document.getElementById("filtroItem").value;
 const status=document.getElementById("filtroStatus").value;
+const pesquisaEquipamento=document.getElementById("filtroEquipamento")?.value || "";
 
 if(
 dataInicial &&
@@ -3845,6 +3559,7 @@ resultado.filtros.setor
 <strong>${escapeHtml(resultado.filtros.item)}</strong>
 </span>
 <span>🔎 Status: <strong>${escapeHtml(resultado.filtros.status||"Todos os status")}</strong></span>
+<span>💻 Equipamento: <strong>${escapeHtml(resultado.filtros.equipamento||"Todos os equipamentos")}</strong></span>
 `;
 
 document.getElementById(
@@ -4093,6 +3808,19 @@ return String(v??"")
 }
 
 
+function aplicarPermissoes(){
+ const perfil=normalizarPerfilLocal(usuarioAtual?.perfil);
+ const admin=perfil==="admin", gestor=perfil==="gestor_operacional";
+ const consulta=perfil==="consulta";
+ const esconder=(sel,cond)=>document.querySelectorAll(sel).forEach(e=>e.style.display=cond?"none":"");
+ esconder("#cardUsuarios,#cardBackup",!admin);
+ esconder("#config .btn-success",consulta);
+ esconder("#modalCadastro .btn:not(.btn-danger)",consulta);
+ esconder(".entrada,.saida,.btn-editar",consulta);
+ if(consulta){const c=document.getElementById("config");if(c)c.querySelectorAll(".btn-excluir-setor").forEach(x=>x.style.display="none");}
+}
+function normalizarPerfilLocal(p){const x=String(p||"").toLowerCase().trim();return x==="administrador"?"admin":x==="gestor operacional"||x==="gestor"?"gestor_operacional":x||"consulta";}
+
 /* ENTER SETOR */
 
 document.getElementById(
@@ -4114,7 +3842,6 @@ adicionarSetor();
 
 /* INICIALIZAÇÃO */
 
-garantirModalCadastroNoBody();
 verificarSessao();
 
 </script>
