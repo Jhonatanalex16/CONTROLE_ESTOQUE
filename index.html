@@ -350,6 +350,22 @@ background:#dc2626
 background:#334155
 }
 
+/* RESUMO DE EQUIPAMENTOS */
+
+.card-info.equipamento-card{
+position:relative;
+overflow:hidden
+}
+
+.card-info.equipamento-card h3{
+margin-bottom:10px
+}
+
+.card-info.equipamento-card .equipamento-icone{
+font-size:18px;
+margin-right:6px
+}
+
 /* GRAFICOS */
 
 .graficos-dashboard{
@@ -992,6 +1008,26 @@ Sair
 <span id="totalMovimentacoes">0</span>
 </div>
 
+<div class="card-info equipamento-card">
+<h3><span class="equipamento-icone">💻</span>Equipamentos cadastrados</h3>
+<span id="totalEquipamentos">0</span>
+</div>
+
+<div class="card-info equipamento-card">
+<h3><span class="equipamento-icone">🟢</span>Disponíveis</h3>
+<span id="equipamentosDisponiveis">0</span>
+</div>
+
+<div class="card-info equipamento-card">
+<h3><span class="equipamento-icone">🔵</span>Em uso</h3>
+<span id="equipamentosEmUso">0</span>
+</div>
+
+<div class="card-info equipamento-card">
+<h3><span class="equipamento-icone">🔴</span>Removidos</h3>
+<span id="equipamentosRemovidos">0</span>
+</div>
+
 </div>
 
 
@@ -1020,6 +1056,31 @@ Sair
 <div class="grafico">
 <h2>📊 Itens Mais Movimentados</h2>
 <canvas id="graficoItensMovimentados"></canvas>
+</div>
+
+<div class="grafico">
+<h2>💻 Equipamentos por Status</h2>
+<canvas id="graficoEquipamentosStatus"></canvas>
+</div>
+
+<div class="grafico">
+<h2>🏢 Equipamentos por Setor</h2>
+<canvas id="graficoEquipamentosSetor"></canvas>
+</div>
+
+<div class="grafico">
+<h2>🏷️ Equipamentos por Marca</h2>
+<canvas id="graficoEquipamentosMarca"></canvas>
+</div>
+
+<div class="grafico">
+<h2>📍 Equipamentos por Localização</h2>
+<canvas id="graficoEquipamentosLocalizacao"></canvas>
+</div>
+
+<div class="grafico">
+<h2>📅 Equipamentos cadastrados ao longo do tempo</h2>
+<canvas id="graficoEquipamentosTempo"></canvas>
 </div>
 
 </div>
@@ -1669,6 +1730,11 @@ let graficoStatus = null;
 let graficoMovimentacoes = null;
 let graficoSetores = null;
 let graficoItensMovimentados = null;
+let graficoEquipamentosStatus = null;
+let graficoEquipamentosSetor = null;
+let graficoEquipamentosMarca = null;
+let graficoEquipamentosLocalizacao = null;
+let graficoEquipamentosTempo = null;
 
 
 /* =====================================================
@@ -2153,6 +2219,105 @@ document.getElementById("itensAlerta").innerText=alertasCount;
 document.getElementById("estoqueTotal").innerText=total;
 document.getElementById("totalMovimentacoes").innerText=historicoGlobal.length;
 
+/* =====================================================
+   RESUMO DE EQUIPAMENTOS
+===================================================== */
+
+const normalizarStatusEquipamento = status => {
+  const s=String(status||"").trim().toLowerCase();
+  if(s==="em uso" || s==="em uso") return "Em uso";
+  if(s==="removido") return "Removido";
+  return "Disponível";
+};
+
+let equipamentosDisponiveis=0;
+let equipamentosEmUso=0;
+let equipamentosRemovidos=0;
+
+const mapaEquipamentosSetor={};
+const mapaEquipamentosMarca={};
+const mapaEquipamentosLocalizacao={};
+const mapaEquipamentosTempo={};
+
+equipamentosGlobais.forEach(eq=>{
+  const status=normalizarStatusEquipamento(eq.status);
+  if(status==="Disponível") equipamentosDisponiveis++;
+  else if(status==="Em uso") equipamentosEmUso++;
+  else if(status==="Removido") equipamentosRemovidos++;
+
+  const setor=String(eq.setor||"Sem setor").trim() || "Sem setor";
+  const marca=String(eq.marca||"Sem marca").trim() || "Sem marca";
+
+  mapaEquipamentosSetor[setor]=(mapaEquipamentosSetor[setor]||0)+1;
+  mapaEquipamentosMarca[marca]=(mapaEquipamentosMarca[marca]||0)+1;
+
+  const localizacao=String(eq.localizacao||"Sem localização").trim() || "Sem localização";
+  mapaEquipamentosLocalizacao[localizacao]=(mapaEquipamentosLocalizacao[localizacao]||0)+1;
+
+  const dataCadastro=String(eq.dataCadastro||"").trim();
+  if(dataCadastro){
+    const data=new Date(dataCadastro);
+    if(!Number.isNaN(data.getTime())){
+      const chave=data.getFullYear()+"-"+String(data.getMonth()+1).padStart(2,"0");
+      mapaEquipamentosTempo[chave]=(mapaEquipamentosTempo[chave]||0)+1;
+    }else{
+      mapaEquipamentosTempo["Sem data"]=(mapaEquipamentosTempo["Sem data"]||0)+1;
+    }
+  }else{
+    mapaEquipamentosTempo["Sem data"]=(mapaEquipamentosTempo["Sem data"]||0)+1;
+  }
+});
+
+document.getElementById("totalEquipamentos").innerText=equipamentosGlobais.length;
+document.getElementById("equipamentosDisponiveis").innerText=equipamentosDisponiveis;
+document.getElementById("equipamentosEmUso").innerText=equipamentosEmUso;
+document.getElementById("equipamentosRemovidos").innerText=equipamentosRemovidos;
+
+gerarGraficoEquipamentosStatus(
+  equipamentosDisponiveis,
+  equipamentosEmUso,
+  equipamentosRemovidos
+);
+
+const setoresEquipOrdenados=Object.entries(mapaEquipamentosSetor)
+  .sort((a,b)=>b[1]-a[1])
+  .slice(0,10);
+
+gerarGraficoEquipamentosSetor(
+  setoresEquipOrdenados.map(x=>x[0]),
+  setoresEquipOrdenados.map(x=>x[1])
+);
+
+const marcasEquipOrdenadas=Object.entries(mapaEquipamentosMarca)
+  .sort((a,b)=>b[1]-a[1])
+  .slice(0,10);
+
+gerarGraficoEquipamentosMarca(
+  marcasEquipOrdenadas.map(x=>x[0]),
+  marcasEquipOrdenadas.map(x=>x[1])
+);
+
+const localizacoesEquipOrdenadas=Object.entries(mapaEquipamentosLocalizacao)
+  .sort((a,b)=>b[1]-a[1])
+  .slice(0,10);
+
+gerarGraficoEquipamentosLocalizacao(
+  localizacoesEquipOrdenadas.map(x=>x[0]),
+  localizacoesEquipOrdenadas.map(x=>x[1])
+);
+
+const tempoEquipOrdenado=Object.entries(mapaEquipamentosTempo)
+  .sort((a,b)=>{
+    if(a[0]==="Sem data") return 1;
+    if(b[0]==="Sem data") return -1;
+    return a[0].localeCompare(b[0]);
+  });
+
+gerarGraficoEquipamentosTempo(
+  tempoEquipOrdenado.map(x=>x[0]),
+  tempoEquipOrdenado.map(x=>x[1])
+);
+
 gerarGraficoEstoque(nomes,quantidades);
 gerarGraficoStatus(alertasCount,dadosGlobais.length-alertasCount);
 
@@ -2194,7 +2359,7 @@ tabela.innerHTML="";
 equipamentosGlobais.forEach(eq=>{
   tabela.innerHTML+=`
   <tr>
-  <td>${escapeHtml(eq.item)}</td>
+  <td>${escapeHtml(eq.nome||eq.item||"-")}</td>
   <td>${escapeHtml(eq.patrimonio||"-")}</td>
   <td>${escapeHtml(eq.numeroSerie||"-")}</td>
   <td>${escapeHtml(eq.marca||"-")}</td>
@@ -2541,6 +2706,165 @@ color:"white"
 
 });
 
+}
+
+
+/* =====================================================
+   GRÁFICOS DE EQUIPAMENTOS
+===================================================== */
+
+function gerarGraficoEquipamentosStatus(disponiveis,emUso,removidos){
+  const c=document.getElementById("graficoEquipamentosStatus");
+  if(!c)return;
+  if(graficoEquipamentosStatus)graficoEquipamentosStatus.destroy();
+
+  graficoEquipamentosStatus=new Chart(c.getContext("2d"),{
+    type:"doughnut",
+    data:{
+      labels:["Disponíveis","Em uso","Removidos"],
+      datasets:[{
+        data:[disponiveis,emUso,removidos],
+        borderWidth:1
+      }]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{
+          position:"bottom",
+          labels:{color:"white"}
+        }
+      }
+    }
+  });
+}
+
+function gerarGraficoEquipamentosSetor(labels,data){
+  const c=document.getElementById("graficoEquipamentosSetor");
+  if(!c)return;
+  if(graficoEquipamentosSetor)graficoEquipamentosSetor.destroy();
+
+  graficoEquipamentosSetor=new Chart(c.getContext("2d"),{
+    type:"bar",
+    data:{
+      labels:labels,
+      datasets:[{
+        label:"Equipamentos cadastrados",
+        data:data,
+        borderWidth:1
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:"white"}}
+      },
+      scales:{
+        x:{ticks:{color:"white"}},
+        y:{beginAtZero:true,ticks:{color:"white",precision:0}}
+      }
+    }
+  });
+}
+
+function gerarGraficoEquipamentosMarca(labels,data){
+  const c=document.getElementById("graficoEquipamentosMarca");
+  if(!c)return;
+  if(graficoEquipamentosMarca)graficoEquipamentosMarca.destroy();
+
+  graficoEquipamentosMarca=new Chart(c.getContext("2d"),{
+    type:"bar",
+    data:{
+      labels:labels,
+      datasets:[{
+        label:"Equipamentos",
+        data:data,
+        borderWidth:1
+      }]
+    },
+    options:{
+      indexAxis:"y",
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:"white"}}
+      },
+      scales:{
+        x:{beginAtZero:true,ticks:{color:"white",precision:0}},
+        y:{ticks:{color:"white"}}
+      }
+    }
+  });
+}
+
+
+function gerarGraficoEquipamentosLocalizacao(labels,data){
+  const c=document.getElementById("graficoEquipamentosLocalizacao");
+  if(!c)return;
+  if(graficoEquipamentosLocalizacao)graficoEquipamentosLocalizacao.destroy();
+
+  graficoEquipamentosLocalizacao=new Chart(c.getContext("2d"),{
+    type:"bar",
+    data:{
+      labels:labels,
+      datasets:[{
+        label:"Equipamentos",
+        data:data,
+        borderWidth:1
+      }]
+    },
+    options:{
+      indexAxis:"y",
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:"white"}}
+      },
+      scales:{
+        x:{beginAtZero:true,ticks:{color:"white",precision:0}},
+        y:{ticks:{color:"white"}}
+      }
+    }
+  });
+}
+
+function gerarGraficoEquipamentosTempo(labels,data){
+  const c=document.getElementById("graficoEquipamentosTempo");
+  if(!c)return;
+  if(graficoEquipamentosTempo)graficoEquipamentosTempo.destroy();
+
+  const labelsFormatados=labels.map(label=>{
+    if(label==="Sem data") return label;
+    const [ano,mes]=label.split("-");
+    const nomesMeses=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+    return (nomesMeses[Number(mes)-1]||mes)+"/"+ano;
+  });
+
+  graficoEquipamentosTempo=new Chart(c.getContext("2d"),{
+    type:"line",
+    data:{
+      labels:labelsFormatados,
+      datasets:[{
+        label:"Equipamentos cadastrados",
+        data:data,
+        borderWidth:2,
+        tension:0.25,
+        fill:false
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{labels:{color:"white"}}
+      },
+      scales:{
+        x:{ticks:{color:"white"}},
+        y:{beginAtZero:true,ticks:{color:"white",precision:0}}
+      }
+    }
+  });
 }
 
 
