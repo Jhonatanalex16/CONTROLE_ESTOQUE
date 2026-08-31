@@ -1026,15 +1026,15 @@ Dashboard
 </button>
 
 <button class="menu-btn"
-onclick="mostrarSecao('estoque',event)">
-<i class="fa-solid fa-box"></i>
-Estoque
-</button>
-
-<button class="menu-btn"
 onclick="mostrarSecao('cadastros',event)">
 <i class="fa-solid fa-plus-circle"></i>
 Cadastros
+</button>
+
+<button class="menu-btn"
+onclick="mostrarSecao('estoque',event)">
+<i class="fa-solid fa-box"></i>
+Estoque
 </button>
 
 <button class="menu-btn"
@@ -1447,14 +1447,16 @@ Cadastrar equipamento
 <h2>💻 Equipamentos</h2>
 
 <p style="color:#94a3b8;margin-bottom:20px">
-Consulte equipamentos pelo número de patrimônio, número de série ou nome.
+Consulte equipamentos por qualquer informação cadastrada.
 </p>
 
 <div class="busca-equipamento">
 
 <input id="pesquisaEquipamento"
-placeholder="Pesquisar patrimônio, número de série ou equipamento..."
-onkeyup="filtrarEquipamentos()">
+type="search"
+autocomplete="off"
+placeholder="Pesquisar equipamento, patrimônio, série, marca, setor, localização, status ou observação..."
+oninput="filtrarEquipamentos()">
 
 <button class="btn" onclick="limparPesquisaEquipamento()">
 <i class="fa-solid fa-rotate-left"></i>
@@ -1560,6 +1562,15 @@ onclick="gerarRelatorio('item')">
 <p>Todas as movimentações registradas.</p>
 <button class="btn"
 onclick="gerarRelatorio('historico')">
+👁️ Visualizar Relatório
+</button>
+</div>
+
+<div class="relatorio-box">
+<h3>💻 Equipamentos</h3>
+<p>Lista os equipamentos patrimoniais com patrimônio, série, setor, localização e status.</p>
+<button class="btn"
+onclick="gerarRelatorio('equipamentos')">
 👁️ Visualizar Relatório
 </button>
 </div>
@@ -1795,10 +1806,20 @@ onclick="fecharFiltrosRelatorio()">
 </select>
 </div>
 
-<div class="filtro-grupo">
+<div class="filtro-grupo" id="grupoFiltroItem">
 <label>Item</label>
 <select id="filtroItem">
 <option value="">Todos os itens</option>
+</select>
+</div>
+
+<div class="filtro-grupo" id="grupoFiltroStatus" style="display:none">
+<label>Status do equipamento</label>
+<select id="filtroStatusEquipamento">
+<option value="">Todos os status</option>
+<option value="Em uso">Em uso</option>
+<option value="Disponível">Disponível</option>
+<option value="Removido">Removido</option>
 </select>
 </div>
 
@@ -1888,7 +1909,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyRD1vT8d3JRhoIU_SgSyfoOFneaIDfS1mNpy1GfQEp49g66oZkkUWQbH9_62-6z90F/exec";
+"https://script.google.com/macros/s/AKfycbw0RR2YvlGaiTNVDQJwDEIQlJFeKfioYUfXgqXGU9DDSLOHfKEQEgduG4pj6qHtZ1tP/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -3226,7 +3247,6 @@ try{
 const resultado=await apiPost({
 
 tipo:"cadastro",
-categoria:"item",
 item,
 codigo,
 quantidade:Number(quantidade),
@@ -3333,56 +3353,23 @@ document.getElementById("modalEquipamento").classList.add("ativo");
 
 }
 
-function valorCampoEquipamento(id,usarTextoSelect=false){
-
-const el=document.getElementById(id);
-
-if(!el) return "";
-
-let valor=String(el.value ?? "").trim();
-
-/*
-   Alguns navegadores/versões antigas do HTML podem manter o texto
-   visível do SELECT mesmo quando o value fica vazio.
-   Para evitar o falso "Preencha todos os campos", usamos o texto
-   da opção selecionada como segunda tentativa.
-*/
-if(!valor && usarTextoSelect && el.selectedIndex>=0){
-  valor=String(el.options[el.selectedIndex]?.textContent || "").trim();
-  if(/^(selecione|todos os setores)$/i.test(valor)) valor="";
-}
-
-return valor;
-}
-
 async function salvarEquipamento(){
 
-const id=valorCampoEquipamento("equipamentoId");
-const nome=valorCampoEquipamento("equipamentoNome");
-const patrimonio=valorCampoEquipamento("equipamentoPatrimonio");
-const numeroSerie=valorCampoEquipamento("equipamentoSerie");
-const marca=valorCampoEquipamento("equipamentoMarca");
-const setor=valorCampoEquipamento("equipamentoSetor",true);
-const localizacao=valorCampoEquipamento("equipamentoLocalizacao");
-const status=valorCampoEquipamento("equipamentoStatus",true) || "Disponível";
-const observacoes=valorCampoEquipamento("equipamentoObservacoes");
+const id=document.getElementById("equipamentoId").value;
+const nome=document.getElementById("equipamentoNome").value.trim();
+const patrimonio=document.getElementById("equipamentoPatrimonio").value.trim();
+const numeroSerie=document.getElementById("equipamentoSerie").value.trim();
+const marca=document.getElementById("equipamentoMarca").value.trim();
+const setor=document.getElementById("equipamentoSetor").value.trim();
+const localizacao=document.getElementById("equipamentoLocalizacao").value.trim();
+const status=document.getElementById("equipamentoStatus").value;
+const observacoes=document.getElementById("equipamentoObservacoes").value.trim();
 
-const camposObrigatorios={
-  "Nome do equipamento":nome,
-  "Número de série":numeroSerie,
-  "Marca":marca,
-  "Setor":setor,
-  "Localização":localizacao,
-  "Status":status
-};
+if(!nome || !numeroSerie || !marca || !setor || !localizacao || !status){
 
-const campoVazio=Object.keys(camposObrigatorios).find(
-  nomeCampo=>!camposObrigatorios[nomeCampo]
-);
+toast("Preencha todos os campos obrigatórios","erro");
+return;
 
-if(campoVazio){
-  toast("Preencha o campo obrigatório: "+campoVazio,"erro");
-  return;
 }
 
 try{
@@ -3464,7 +3451,16 @@ classe="badge-removido";
 tabela.innerHTML+=`
 
 <tr data-equipamento="${escapeHtml(
-(equipamento.nome+" "+equipamento.patrimonio+" "+equipamento.numeroSerie).toLowerCase()
+[
+  equipamento.nome,
+  equipamento.patrimonio,
+  equipamento.numeroSerie,
+  equipamento.marca,
+  equipamento.setor,
+  equipamento.localizacao,
+  equipamento.status,
+  equipamento.observacoes
+].filter(Boolean).join(" ").toLowerCase()
 )}">
 
 <td>${escapeHtml(equipamento.nome)}</td>
@@ -3495,22 +3491,61 @@ onclick="abrirEdicaoEquipamento('${escapeJs(equipamento.id)}')">
 
 }
 
+function normalizarTextoPesquisaEquipamento(valor){
+
+return String(valor || "")
+.toLowerCase()
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g, "")
+.trim();
+
+}
+
 function filtrarEquipamentos(){
 
-const filtro=document.getElementById(
-"pesquisaEquipamento"
-).value.toLowerCase().trim();
+const campo=document.getElementById("pesquisaEquipamento");
+if(!campo)return;
+
+const filtro=normalizarTextoPesquisaEquipamento(campo.value);
+
+let visiveis=0;
 
 document.querySelectorAll(
 "#tabelaEquipamentos tr[data-equipamento]"
 ).forEach(linha=>{
 
-linha.style.display=
-linha.dataset.equipamento.includes(filtro)
-?""
-:"none";
+const texto=normalizarTextoPesquisaEquipamento(
+linha.dataset.equipamento
+);
+
+const encontrado=
+!filtro || texto.includes(filtro);
+
+linha.style.display=encontrado ? "" : "none";
+
+if(encontrado)visiveis++;
 
 });
+
+const tabela=document.getElementById("tabelaEquipamentos");
+if(!tabela)return;
+
+let mensagem=tabela.querySelector(".sem-resultado-pesquisa");
+
+if(filtro && visiveis===0){
+
+if(!mensagem){
+mensagem=document.createElement("tr");
+mensagem.className="sem-resultado-pesquisa";
+mensagem.innerHTML=`<td colspan="8" style="text-align:center;color:#94a3b8;padding:25px">Nenhum equipamento encontrado para "${escapeHtml(filtro)}".</td>`;
+tabela.appendChild(mensagem);
+}
+
+}else if(mensagem){
+
+mensagem.remove();
+
+}
 
 }
 
@@ -3844,7 +3879,9 @@ resumo_setor:"📊 Resumo por Setor",
 
 item:"📦 Movimentações por Item",
 
-historico:"📋 Histórico Completo"
+historico:"📋 Histórico Completo",
+
+equipamentos:"💻 Equipamentos"
 
 };
 
@@ -3852,6 +3889,46 @@ document.getElementById(
 "filtroRelatorioTitulo"
 ).innerText=
 "🔎 Filtros — "+nomes[tipo];
+
+const grupoStatus=
+document.getElementById("grupoFiltroStatus");
+
+const grupoItem=
+document.getElementById("grupoFiltroItem");
+
+const dataInicial=
+document.getElementById("dataInicial");
+const dataFinal=
+document.getElementById("dataFinal");
+
+if(tipo==="equipamentos"){
+
+grupoStatus.style.display="block";
+
+if(grupoItem)
+  grupoItem.style.display="none";
+
+if(dataInicial)
+  dataInicial.title="Data inicial do cadastro";
+
+if(dataFinal)
+  dataFinal.title="Data final do cadastro";
+
+}else{
+
+if(grupoStatus)
+  grupoStatus.style.display="none";
+
+if(grupoItem)
+  grupoItem.style.display="block";
+
+}
+
+const statusSelect=
+document.getElementById("filtroStatusEquipamento");
+
+if(statusSelect)
+  statusSelect.value="";
 
 document.getElementById(
 "modalFiltrosRelatorio"
@@ -3894,6 +3971,11 @@ document.getElementById(
 "filtroItem"
 ).value;
 
+const statusEquipamento=
+document.getElementById(
+"filtroStatusEquipamento"
+)?.value || "";
+
 if(
 dataInicial &&
 dataFinal &&
@@ -3931,7 +4013,9 @@ dataFinal,
 
 setor,
 
-codigoItem
+codigoItem,
+
+statusEquipamento
 
 });
 
@@ -3959,9 +4043,7 @@ document.getElementById(
 ).innerText=
 resultado.titulo;
 
-document.getElementById(
-"previewFiltros"
-).innerHTML=`
+let filtrosHtml=`
 
 <span>
 📅 Período:
@@ -3981,6 +4063,11 @@ resultado.filtros.setor
 </strong>
 </span>
 
+`;
+
+if(tipo!=="equipamentos"){
+
+filtrosHtml+=`
 <span>
 📦 Item:
 <strong>
@@ -3989,8 +4076,27 @@ resultado.filtros.item
 )}
 </strong>
 </span>
-
 `;
+
+}else{
+
+filtrosHtml+=`
+<span>
+💻 Status:
+<strong>
+${escapeHtml(
+resultado.filtros.status
+)}
+</strong>
+</span>
+`;
+
+}
+
+document.getElementById(
+"previewFiltros"
+).innerHTML=
+filtrosHtml;
 
 document.getElementById(
 "previewConteudo"
