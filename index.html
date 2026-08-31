@@ -3,12 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 
 <title>CONTROLE DE ESTOQUE</title>
-<!-- VERSAO_CORRIGIDA_2026-08-31 -->
 
 <link rel="icon" href="./icone.png">
 <link rel="stylesheet"
@@ -1147,30 +1143,6 @@ CANCELAR
 </div>
 </div>
 
-<div id="modalCadastro" class="relatorio-modal">
-<div class="relatorio-modal-conteudo editar-modal-conteudo">
-<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
-<input type="hidden" id="categoriaCadastro">
-<div class="grid">
-<input id="item" placeholder="Nome do item">
-<div id="campoCodigoCadastro"><input id="codigo" placeholder="Código de barras"></div>
-<div id="camposEquipamento" style="display:none;">
-<input id="patrimonio" placeholder="Número do patrimônio (opcional)">
-<input id="numeroSerie" placeholder="Número de série (opcional)">
-<input id="marca" placeholder="Marca *">
-<select id="setorCadastro"><option value="">Selecione o setor *</option></select>
-<input id="localizacao" placeholder="Localização física *">
-<select id="statusCadastro"><option value="Disponível">Disponível</option><option value="Em uso">Em uso</option><option value="Removido">Removido</option></select>
-<div class="campo-observacoes"><textarea id="observacoes" placeholder="Observações"></textarea></div>
-</div>
-<div id="camposConsumo" style="display:none;">
-<input id="quantidade" type="number" min="0" placeholder="Quantidade">
-<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
-</div>
-<button class="btn" onclick="cadastrar()"><i class="fa-solid fa-plus"></i> Cadastrar</button>
-</div></div></div>
-
-
 <div class="pesquisa">
 
 <i class="fa-solid fa-magnifying-glass"></i>
@@ -1463,6 +1435,30 @@ style="margin-top:25px">
 </div>
 
 
+<div id="modalCadastro" class="relatorio-modal">
+<div class="relatorio-modal-conteudo editar-modal-conteudo">
+<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
+<input type="hidden" id="categoriaCadastro">
+<div class="grid">
+<input id="item" placeholder="Nome do item">
+<div id="campoCodigoCadastro"><input id="codigo" placeholder="Código de barras"></div>
+<div id="camposEquipamento" style="display:none;contents">
+<input id="patrimonio" placeholder="Número do patrimônio">
+<input id="numeroSerie" placeholder="Número de série">
+<input id="marca" placeholder="Marca">
+<select id="setorCadastro"><option value="">Selecione o setor</option></select>
+<input id="localizacao" placeholder="Localização física">
+<select id="statusCadastro"><option value="Disponível">Disponível</option><option value="Em uso">Em uso</option><option value="Removido">Removido</option></select>
+<div class="campo-observacoes"><textarea id="observacoes" placeholder="Observações"></textarea></div>
+</div>
+<div id="camposConsumo" style="display:none;contents">
+<input id="quantidade" type="number" min="0" placeholder="Quantidade">
+<input id="minimo" type="number" min="0" placeholder="Estoque mínimo">
+</div>
+<button class="btn" onclick="cadastrar()"><i class="fa-solid fa-plus"></i> Cadastrar</button>
+</div></div></div>
+
+
 <!-- EDIÇÃO DE ITEM -->
 <div id="modalEditarItem" class="relatorio-modal">
 <div class="relatorio-modal-conteudo editar-modal-conteudo">
@@ -1474,7 +1470,7 @@ style="margin-top:25px">
 <select id="editCategoria" style="display:none"><option value="CONSUMO">Item de estoque</option><option value="EQUIPAMENTO">Equipamento</option></select>
 <input id="editItem" placeholder="Nome do item">
 <div id="campoEditCodigo"><input id="editCodigo" placeholder="Código de barras"></div>
-<div id="camposEditEquipamento" style="display:none;">
+<div id="camposEditEquipamento" style="display:none;contents">
 <input id="editPatrimonio" placeholder="Número do patrimônio">
 <input id="editNumeroSerie" placeholder="Número de série">
 <input id="editMarca" placeholder="Marca">
@@ -1483,7 +1479,7 @@ style="margin-top:25px">
 <select id="editStatus"><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select>
 <div class="campo-observacoes"><textarea id="editObservacoes" placeholder="Observações"></textarea></div>
 </div>
-<div id="camposEditConsumo" style="display:none;">
+<div id="camposEditConsumo" style="display:none;contents">
 <input id="editQuantidade" type="number" min="0" placeholder="Quantidade">
 <input id="editMinimo" type="number" min="0" placeholder="Estoque mínimo">
 </div>
@@ -1645,7 +1641,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyh-fC5Ff93zZU0WZuNz4jxtO30CxNebrfTeDU9Lo714qRzJrZRN3tXCBX-70YZDnqB/exec";
+"https://script.google.com/macros/s/AKfycbwXUStsM1N8H8bOCMh9vlj4K79YgGSPrghCkYqniprvxDIis3jeL3bDGeBhWhDvDjQy/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -2102,7 +2098,7 @@ tabela.innerHTML="";
 equipamentosGlobais.forEach(eq=>{
   tabela.innerHTML+=`
   <tr>
-  <td>${escapeHtml(eq.nome||"-")}</td>
+  <td>${escapeHtml(eq.item)}</td>
   <td>${escapeHtml(eq.patrimonio||"-")}</td>
   <td>${escapeHtml(eq.numeroSerie||"-")}</td>
   <td>${escapeHtml(eq.marca||"-")}</td>
@@ -2110,7 +2106,7 @@ equipamentosGlobais.forEach(eq=>{
   <td>${escapeHtml(eq.localizacao||"-")}</td>
   <td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td>
   <td>${escapeHtml(eq.observacoes||"-")}</td>
-  <td><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')">✏️</button></td>
+  <td><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.patrimonio||eq.numeroSerie)}','EQUIPAMENTO')">✏️</button></td>
   </tr>`;
 });
 
@@ -2838,15 +2834,20 @@ identificarCodigo()
    CADASTRO
 ===================================================== */
 
-async function cadastrar(){
- const categoria=(document.getElementById("categoriaCadastro").value||"CONSUMO").toUpperCase();
- const nome=document.getElementById("item").value.trim();
+function garantirModalCadastroNoBody(){
+ const modal=document.getElementById("modalCadastro");
+ if(modal && modal.parentElement!==document.body){
+   document.body.appendChild(modal);
+ }
+ return modal;
+}
 
+async function cadastrar(){
+ const categoria=document.getElementById("categoriaCadastro").value||"CONSUMO";
  const dados={
    tipo:"cadastro",
    categoria,
-   item:categoria==="CONSUMO"?nome:"",
-   nome:categoria==="EQUIPAMENTO"?nome:"",
+   item:document.getElementById("item").value.trim(),
    codigo:categoria==="CONSUMO"?document.getElementById("codigo").value.trim():"",
    patrimonio:categoria==="EQUIPAMENTO"?(document.getElementById("patrimonio")?.value.trim()||""):"",
    numeroSerie:categoria==="EQUIPAMENTO"?(document.getElementById("numeroSerie")?.value.trim()||""):"",
@@ -2858,77 +2859,32 @@ async function cadastrar(){
    status:categoria==="EQUIPAMENTO"?(document.getElementById("statusCadastro")?.value||"Disponível"):"Disponível",
    observacoes:categoria==="EQUIPAMENTO"?(document.getElementById("observacoes")?.value.trim()||""):""
  };
-
- if(!nome){
-   toast("Informe o nome do item/equipamento","erro");
-   return;
- }
-
- if(categoria==="CONSUMO"){
-   if(!dados.codigo){
-     toast("Informe o código de barras","erro");
-     return;
-   }
-   if(dados.quantidade==="" || dados.quantidade===null || Number.isNaN(Number(dados.quantidade)) || Number(dados.quantidade)<0){
-     toast("Informe uma quantidade válida","erro");
-     return;
-   }
-   if(dados.minimo==="" || dados.minimo===null || Number.isNaN(Number(dados.minimo)) || Number(dados.minimo)<0){
-     toast("Informe um estoque mínimo válido","erro");
-     return;
-   }
- }
-
- if(categoria==="EQUIPAMENTO"){
-   const faltantes=[];
-   if(!dados.patrimonio && !dados.numeroSerie) faltantes.push("patrimônio ou número de série");
-   if(!dados.marca) faltantes.push("marca");
-   if(!dados.setor) faltantes.push("setor");
-   if(!dados.localizacao) faltantes.push("localização");
-   if(faltantes.length){
-     toast("Preencha: "+faltantes.join(", "),"erro");
-     return;
-   }
- }
-
- try{
-   const resultado=await apiPost(dados);
-   if(!resultado.sucesso){
-     toast(resultado.mensagem||"Não foi possível cadastrar","erro");
-     return;
-   }
-   toast(categoria==="EQUIPAMENTO"?"Equipamento cadastrado com sucesso!":"Item de estoque cadastrado com sucesso!","sucesso");
-   limparFormularioCadastro();
-   fecharCadastro();
-   await carregar();
- }catch(e){
-   console.error(e);
-   toast("Erro ao cadastrar","erro");
- }
-}
-
-function limparFormularioCadastro(){
- ["item","codigo","patrimonio","numeroSerie","marca","localizacao","quantidade","minimo","observacoes"].forEach(id=>{
-   const el=document.getElementById(id);
-   if(el) el.value="";
- });
- const setor=document.getElementById("setorCadastro");
- if(setor) setor.value="";
- const status=document.getElementById("statusCadastro");
- if(status) status.value="Disponível";
+ if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
+ if(categoria==="CONSUMO" && (!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
+ if(categoria==="EQUIPAMENTO" && (!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
+ if(categoria==="EQUIPAMENTO" && (!dados.marca||!dados.setor||!dados.localizacao)){toast("Preencha marca, setor e localização","erro");return;}
+ try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível cadastrar","erro");return;}toast(categoria==="EQUIPAMENTO"?"Equipamento cadastrado com sucesso!":"Item de estoque cadastrado com sucesso!","sucesso");fecharCadastro();await carregar();}catch(e){console.error(e);toast("Erro ao cadastrar","erro");}
 }
 
 function abrirCadastro(categoria){
- document.getElementById("categoriaCadastro").value=categoria;
- const eq=categoria==="EQUIPAMENTO";
+ const modal=garantirModalCadastroNoBody();
+ if(!modal){
+   toast("Formulário de cadastro não encontrado","erro");
+   return;
+ }
+ const eq=String(categoria||"CONSUMO").toUpperCase()==="EQUIPAMENTO";
+ document.getElementById("categoriaCadastro").value=eq?"EQUIPAMENTO":"CONSUMO";
  document.getElementById("tituloCadastro").innerHTML=eq?"💻 Cadastrar equipamento":"📦 Cadastrar item de estoque";
  document.getElementById("descricaoCadastro").textContent=eq?"Cadastre um equipamento patrimonial individualmente.":"Cadastre materiais controlados por quantidade, como toner, etiquetas e cabos.";
  document.getElementById("camposEquipamento").style.display=eq?"contents":"none";
  document.getElementById("camposConsumo").style.display=eq?"none":"contents";
  document.getElementById("campoCodigoCadastro").style.display=eq?"none":"block";
- document.getElementById("modalCadastro").classList.add("ativo");
+ modal.classList.add("ativo");
 }
-function fecharCadastro(){document.getElementById("modalCadastro").classList.remove("ativo");}
+function fecharCadastro(){
+ const modal=garantirModalCadastroNoBody();
+ if(modal) modal.classList.remove("ativo");
+}
 
 
 /* =====================================================
@@ -2948,14 +2904,14 @@ const cat=String(categoria||"CONSUMO").toUpperCase();
 const lista=cat==="EQUIPAMENTO"?equipamentosGlobais:dadosGlobais;
 
 const item=lista.find(x=>{
-  if(cat==="EQUIPAMENTO") return String(x.id||"")===String(identificador);
+  if(cat==="EQUIPAMENTO") return String(x.patrimonio||"")===String(identificador) || String(x.numeroSerie||"")===String(identificador);
   return String(x.codigo||"")===String(identificador);
 });
 
 if(!item){toast(cat==="EQUIPAMENTO"?"Equipamento não encontrado":"Item de estoque não encontrado","erro");return;}
 
 document.getElementById("editCategoria").value=cat;
-document.getElementById("editItem").value=item.nome||item.item||"";
+document.getElementById("editItem").value=item.item||"";
 document.getElementById("editCodigo").value=item.codigo||"";
 document.getElementById("editPatrimonio").value=item.patrimonio||"";
 document.getElementById("editNumeroSerie").value=item.numeroSerie||"";
@@ -2968,7 +2924,7 @@ document.getElementById("editStatus").value=item.status||"Disponível";
 document.getElementById("editObservacoes").value=item.observacoes||"";
 
 atualizarCamposEdicao(cat);
-document.getElementById("modalEditarItem").dataset.identificadorOriginal=(cat==="EQUIPAMENTO"?item.id:item.codigo);
+document.getElementById("modalEditarItem").dataset.identificadorOriginal=(cat==="EQUIPAMENTO"?(item.patrimonio||item.numeroSerie):item.codigo);
 document.getElementById("modalEditarItem").classList.add("ativo");
 }
 
@@ -2990,11 +2946,9 @@ async function salvarEdicao(){
  const modal=document.getElementById("modalEditarItem");
  const categoria=document.getElementById("editCategoria").value;
  const dados={
-   tipo:categoria==="EQUIPAMENTO"?"equipamento":"editarItem",
-   acao:categoria==="EQUIPAMENTO"?"editar":undefined,
+   tipo:"editarItem",
    categoria,
-   id:categoria==="EQUIPAMENTO"?modal.dataset.identificadorOriginal:undefined,
-   identificadorOriginal:categoria==="CONSUMO"?modal.dataset.identificadorOriginal:undefined,
+   identificadorOriginal:modal.dataset.identificadorOriginal,
    codigo:categoria==="CONSUMO"?document.getElementById("editCodigo").value.trim():"",
    item:document.getElementById("editItem").value.trim(),
    patrimonio:categoria==="EQUIPAMENTO"?document.getElementById("editPatrimonio").value.trim():"",
@@ -3731,6 +3685,7 @@ adicionarSetor();
 
 /* INICIALIZAÇÃO */
 
+garantirModalCadastroNoBody();
 verificarSessao();
 
 </script>
