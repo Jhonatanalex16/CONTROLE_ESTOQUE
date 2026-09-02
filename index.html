@@ -247,11 +247,11 @@ color:#4ade80
 }
 
 .secao{
-display:none
+display:none !important;
 }
 
 .secao.ativa{
-display:block
+display:block !important;
 }
 
 /* CARDS */
@@ -2254,24 +2254,41 @@ document.getElementById("loginSenha").value="";
 ===================================================== */
 
 function mostrarSecao(id,event){
+  const secoes=document.querySelectorAll(".secao");
+  const alvo=document.getElementById(id);
+  if(!alvo){ console.warn("Seção não encontrada:",id); return; }
 
-document.querySelectorAll(".secao")
-.forEach(x=>x.classList.remove("ativa"));
+  secoes.forEach(sec=>{
+    sec.classList.remove("ativa");
+    sec.style.display="none";
+  });
 
-document.getElementById(id)
-.classList.add("ativa");
+  alvo.classList.add("ativa");
+  alvo.style.display="block";
 
-document.querySelectorAll(".menu-btn")
-.forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".menu-btn").forEach(btn=>btn.classList.remove("active"));
+  const botao=event && event.currentTarget ? event.currentTarget : document.querySelector('.menu-btn[onclick*="mostrarSecao(\''+id+'\'"]');
+  if(botao) botao.classList.add("active");
 
-if(event){
-
-event.currentTarget.classList.add("active");
-
+  if(id==="estoque" || id==="alertas" || id==="historico") renderizarTudo();
+  if(id==="equipamentos") renderizarEquipamentos();
+  if(id==="relatorios") { try{ carregarItensRelatorios(); }catch(e){ console.warn(e); } }
 }
 
+
+// Garante que a navegação comece com apenas o Dashboard visível.
+function inicializarNavegacao(){
+  document.querySelectorAll(".secao").forEach(sec=>{
+    const ativa=sec.id==="dashboard";
+    sec.classList.toggle("ativa",ativa);
+    sec.style.display=ativa?"block":"none";
+  });
+  document.querySelectorAll(".menu-btn").forEach(btn=>btn.classList.remove("active"));
+  const dash=document.querySelector('.menu-btn[onclick*="mostrarSecao(\'dashboard\'"]');
+  if(dash) dash.classList.add("active");
 }
 
+document.addEventListener("DOMContentLoaded", inicializarNavegacao);
 
 /* =====================================================
    TEMA
