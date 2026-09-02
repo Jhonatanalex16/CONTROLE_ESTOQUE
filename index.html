@@ -3191,6 +3191,7 @@ async function cadastrar(){
    tipo:"cadastro",
    categoria,
    item:document.getElementById("item").value.trim(),
+   nome:categoria==="EQUIPAMENTO"?document.getElementById("item").value.trim():"",
    codigo:categoria==="CONSUMO"?document.getElementById("codigo").value.trim():"",
    patrimonio:categoria==="EQUIPAMENTO"?(document.getElementById("patrimonio")?.value.trim()||""):"",
    numeroSerie:categoria==="EQUIPAMENTO"?(document.getElementById("numeroSerie")?.value.trim()||""):"",
@@ -3205,13 +3206,14 @@ async function cadastrar(){
  if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
  if(categoria==="CONSUMO" && (!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
  if(categoria==="EQUIPAMENTO" && (!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
- if(categoria==="EQUIPAMENTO" && (!dados.marca||!dados.setor)){toast("Preencha marca e setor","erro");return;}
+ if(categoria==="EQUIPAMENTO" && (!dados.nome||!dados.numeroSerie||!dados.marca||!dados.setor||!dados.localizacao||!dados.status)){toast("Preencha nome, número de série, marca, setor, localização e status","erro");return;}
  try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível cadastrar","erro");return;}toast(categoria==="EQUIPAMENTO"?"Equipamento cadastrado com sucesso!":"Item de estoque cadastrado com sucesso!","sucesso");fecharCadastro();await carregar();}catch(e){console.error(e);toast("Erro ao cadastrar","erro");}
 }
 
 function abrirCadastro(categoria){
- document.getElementById("categoriaCadastro").value=categoria;
- const eq=categoria==="EQUIPAMENTO";
+ const cat=String(categoria||"").toUpperCase();
+ document.getElementById("categoriaCadastro").value=cat;
+ const eq=cat==="EQUIPAMENTO";
  document.getElementById("tituloCadastro").innerHTML=eq?"💻 Cadastrar equipamento":"📦 Cadastrar item de estoque";
  document.getElementById("descricaoCadastro").textContent=eq?"Cadastre um equipamento patrimonial individualmente.":"Cadastre materiais controlados por quantidade, como toner, etiquetas e cabos.";
  document.getElementById("camposEquipamento").style.display=eq?"contents":"none";
@@ -3286,6 +3288,7 @@ async function salvarEdicao(){
    identificadorOriginal:modal.dataset.identificadorOriginal,
    codigo:categoria==="CONSUMO"?document.getElementById("editCodigo").value.trim():"",
    item:document.getElementById("editItem").value.trim(),
+   nome:categoria==="EQUIPAMENTO"?document.getElementById("editItem").value.trim():"",
    patrimonio:categoria==="EQUIPAMENTO"?document.getElementById("editPatrimonio").value.trim():"",
    numeroSerie:categoria==="EQUIPAMENTO"?document.getElementById("editNumeroSerie").value.trim():"",
    marca:categoria==="EQUIPAMENTO"?document.getElementById("editMarca").value.trim():"",
@@ -3298,7 +3301,7 @@ async function salvarEdicao(){
  };
  if(!dados.item){toast("Informe o nome do item/equipamento","erro");return;}
  if(categoria==="EQUIPAMENTO"&&(!dados.patrimonio&&!dados.numeroSerie)){toast("Informe o número do patrimônio ou o número de série","erro");return;}
- if(categoria==="EQUIPAMENTO"&&(!dados.marca||!dados.setor)){toast("Preencha marca e setor","erro");return;}
+ if(categoria==="EQUIPAMENTO"&&(!dados.nome||!dados.numeroSerie||!dados.marca||!dados.setor||!dados.localizacao||!dados.status)){toast("Preencha nome, número de série, marca, setor, localização e status","erro");return;}
  if(categoria==="CONSUMO"&&(!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
  try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível alterar","erro");return;}fecharEdicao();toast("Informações alteradas com sucesso!","sucesso");await carregar();}catch(e){console.error(e);toast("Erro ao alterar item","erro");}
 }
