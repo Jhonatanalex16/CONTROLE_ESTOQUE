@@ -773,6 +773,9 @@ background:white
 .camera-box{width:100%;max-width:650px;background:#0f172a;border-radius:24px;padding:24px}
 .camera-box video{width:100%;max-height:430px;background:#000;border-radius:18px;object-fit:cover}
 .camera-status{margin-top:12px;padding:12px;border-radius:12px;background:#111827;color:#94a3b8}
+.camera-scanner-ajuda{margin-top:12px;padding:14px;border-radius:14px;background:rgba(245,158,11,.10);border:1px solid rgba(245,158,11,.25);color:#e2e8f0}
+.camera-scanner-ajuda p{margin:7px 0 12px;color:#cbd5e1;line-height:1.5}
+.camera-scanner-ajuda .btn{margin-top:2px}
 .usuario-tabela{width:100%;margin-top:18px}
 .usuario-tabela td,.usuario-tabela th{padding:12px}
 .badge-perfil{display:inline-block;padding:6px 10px;border-radius:999px;background:#1e293b;font-size:12px;font-weight:800}
@@ -1575,8 +1578,13 @@ style="margin-top:25px">
 <div id="cameraScannerModal" class="camera-modal">
 <div class="camera-box">
 <div class="relatorio-modal-topo"><div><h2 id="cameraScannerTitulo">📷 Scanner</h2><p style="color:#94a3b8;margin-top:5px">Aponte a câmera para o código.</p></div><button class="btn btn-danger" onclick="fecharCameraScanner()">✕ Fechar</button></div>
-<video id="cameraScannerVideo" playsinline></video>
+<video id="cameraScannerVideo" playsinline muted autoplay></video>
 <div id="cameraScannerStatus" class="camera-status">Aguardando câmera...</div>
+<div id="cameraScannerAjuda" class="camera-scanner-ajuda" style="display:none">
+<strong>📷 Permissão da câmera</strong>
+<p id="cameraScannerAjudaTexto">Permita o acesso à câmera quando o navegador solicitar.</p>
+<button type="button" class="btn btn-secondary" onclick="solicitarCameraNovamente()">🔄 Tentar novamente</button>
+</div>
 </div>
 </div>
 
@@ -1758,6 +1766,10 @@ let graficoEquipamentosSetor = null;
 let graficoEquipamentosMarca = null;
 let scannerControls = null;
 let scannerModo = "";
+let scannerIniciando = false;
+let scannerLendo = false;
+let scannerReader = null;
+let scannerStream = null;
 
 
 /* =====================================================
@@ -2952,17 +2964,177 @@ function mostrarEquipamentoEscaneado(tipo,codigo){
  document.getElementById("eqScanNome").innerText=eq.nome||"-";document.getElementById("eqScanPatrimonio").innerText=eq.patrimonio||"-";document.getElementById("eqScanSerie").innerText=eq.numeroSerie||"-";document.getElementById("eqScanMarca").innerText=eq.marca||"-";document.getElementById("eqScanSetor").innerText=eq.setor||"-";document.getElementById("eqScanLocalizacao").innerText=eq.localizacao||"-";document.getElementById("eqScanStatus").innerText=eq.status||"-";
  document.getElementById("btnEqScanEditar").onclick=()=>abrirEdicao(eq.id,"EQUIPAMENTO"); document.getElementById("btnEqScanHistorico").onclick=()=>abrirHistoricoEquipamento(eq.id); box.classList.add("ativo"); toast("Equipamento identificado com sucesso!","sucesso");
 }
-function abrirCameraScanner(modo){
- scannerModo=modo; const modal=document.getElementById("cameraScannerModal"); const titulo=document.getElementById("cameraScannerTitulo"); const status=document.getElementById("cameraScannerStatus");
- titulo.innerText=modo==="estoque"?"📦 Scanner de estoque":modo==="equipamentoPatrimonio"?"💻 Scanner de patrimônio (QR Code)":"💻 Scanner de número de série"; modal.classList.add("ativo");
- status.innerText="Iniciando câmera...";
- try{ const reader=new ZXing.BrowserMultiFormatReader(); const retorno=reader.decodeFromVideoDevice(undefined,"cameraScannerVideo",(result,err)=>{if(result){const texto=result.getText();processarResultadoCamera(texto);}}); Promise.resolve(retorno).then(c=>{scannerControls=c;}); }catch(e){console.error(e);status.innerText="Não foi possível iniciar a câmera. Verifique a permissão do navegador.";}
+async function abrirCameraScanner(modo){
+ scannerModo=modo;
+ const modal=document.getElementById("cameraScannerModal");
+ const titulo=document.getElementById("cameraScannerTitulo");
+ const status=document.getElementById("cameraScannerStatus");
+ const ajuda=document.getElementById("cameraScannerAjuda");
+ const ajudaTexto=document.getElementById("cameraScannerAjudaTexto");
+ const video=document.getElementById("cameraScannerVideo");
+
+ if(scannerIniciando)return;
+ scannerIniciando=true;
+ scannerLendo=false;
+
+ titulo.innerText=modo==="estoque"?"📦 Scanner de estoque":modo==="equipamentoPatrimonio"?"💻 Scanner de patrimônio (QR Code)":"💻 Scanner de número de série";
+ status.innerText="Solicitando acesso à câmera...";
+ ajuda.style.display="none";
+ modal.classList.add("ativo");
+
+ try{
+   if(!window.isSecureContext){
+     throw new Error("SECURE_CONTEXT");
+   }
+   if(!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia!=="function"){
+     throw new Error("NO_CAMERA_API");
+   }
+
+   /*
+      Primeiro pedimos a permissão explicitamente.
+      Isso evita que o ZXing tente abrir a câmera sem que o navegador
+      tenha recebido uma solicitação clara de acesso.
+   */
+   scannerStream=await navigator.mediaDevices.getUserMedia({
+     video:{
+       facingMode:{ideal:"environment"},
+       width:{ideal:1280},
+       height:{ideal:720}
+     },
+     audio:false
+   });
+
+   status.innerText="Câmera autorizada. Preparando leitor...";
+
+   /* Após obter a permissão, descobrimos as câmeras disponíveis. */
+   let cameraId=undefined;
+   try{
+     const dispositivos=await navigator.mediaDevices.enumerateDevices();
+     const cameras=dispositivos.filter(d=>d.kind==="videoinput");
+     if(cameras.length){
+       const traseira=cameras.find(c=>/back|rear|environment|traseira|trás/i.test(c.label));
+       cameraId=(traseira||cameras[0]).deviceId||undefined;
+     }
+   }catch(e){
+     console.warn("Não foi possível listar as câmeras:",e);
+   }
+
+   /* A prévia usada apenas para pedir a permissão não fica aberta em paralelo. */
+   scannerStream.getTracks().forEach(track=>track.stop());
+   scannerStream=null;
+   video.srcObject=null;
+
+   if(!window.ZXing || !ZXing.BrowserMultiFormatReader){
+     throw new Error("ZXING_UNAVAILABLE");
+   }
+
+   scannerReader=new ZXing.BrowserMultiFormatReader();
+   scannerLendo=true;
+   status.innerText="Câmera ativa. Aponte para o código...";
+
+   const controles=await scannerReader.decodeFromVideoDevice(
+     cameraId,
+     "cameraScannerVideo",
+     (resultado,erro)=>{
+       if(!scannerLendo)return;
+       if(resultado){
+         scannerLendo=false;
+         const texto=resultado.getText();
+         processarResultadoCamera(texto);
+       }
+     }
+   );
+
+   scannerControls=controles;
+
+ }catch(e){
+   console.error("Erro ao iniciar câmera:",e);
+   scannerLendo=false;
+   try{
+     if(scannerStream)scannerStream.getTracks().forEach(track=>track.stop());
+   }catch(_e){}
+   scannerStream=null;
+
+   let mensagem="Não foi possível acessar a câmera.";
+   let ajudaMsg="Permita o acesso à câmera nas configurações do navegador e toque em Tentar novamente.";
+
+   if(e && e.message==="SECURE_CONTEXT"){
+     mensagem="A câmera precisa de uma conexão segura (HTTPS).";
+     ajudaMsg="Abra o sistema pelo endereço HTTPS da Netlify. Não use o arquivo HTML diretamente pelo computador. ";
+   }else if(e && e.message==="NO_CAMERA_API"){
+     mensagem="Este navegador não disponibilizou acesso à câmera.";
+     ajudaMsg="Atualize o navegador ou tente abrir o sistema no Chrome ou Edge.";
+   }else if(e && e.message==="ZXING_UNAVAILABLE"){
+     mensagem="O leitor de códigos não foi carregado.";
+     ajudaMsg="Recarregue a página e tente novamente. Verifique também a conexão com a internet.";
+   }else if(e && (e.name==="NotAllowedError" || e.name==="PermissionDeniedError")){
+     mensagem="A permissão da câmera foi negada.";
+     ajudaMsg="No celular, permita a câmera para este site nas permissões do navegador. Depois volte ao sistema e toque em Tentar novamente.";
+   }else if(e && (e.name==="NotFoundError" || e.name==="DevicesNotFoundError")){
+     mensagem="Nenhuma câmera foi encontrada.";
+     ajudaMsg="Verifique se o celular/computador possui câmera disponível e tente novamente.";
+   }else if(e && e.name==="NotReadableError"){
+     mensagem="A câmera está sendo usada por outro aplicativo.";
+     ajudaMsg="Feche outros aplicativos ou abas que estejam usando a câmera e tente novamente.";
+   }else if(e && e.name==="SecurityError"){
+     mensagem="O navegador bloqueou o acesso à câmera.";
+     ajudaMsg="Verifique a permissão da câmera para este site nas configurações do navegador.";
+   }
+
+   status.innerText=mensagem;
+   ajudaTexto.innerText=ajudaMsg;
+   ajuda.style.display="block";
+ }finally{
+   scannerIniciando=false;
+ }
 }
+
+async function solicitarCameraNovamente(){
+ await abrirCameraScanner(scannerModo);
+}
+
 function processarResultadoCamera(texto){
- if(scannerModo==="estoque"){document.getElementById("codigoLeitor").value=texto;fecharCameraScanner();identificarCodigo();return;}
- document.getElementById("codigoLeitorEquipamento").value=texto; mostrarEquipamentoEscaneado(scannerModo==="equipamentoPatrimonio"?"patrimonio":"serie",texto); fecharCameraScanner();
+ const codigo=String(texto||"").trim();
+ if(!codigo)return;
+
+ if(scannerModo==="estoque"){
+   document.getElementById("codigoLeitor").value=codigo;
+   fecharCameraScanner();
+   identificarCodigo();
+   return;
+ }
+
+ document.getElementById("codigoLeitorEquipamento").value=codigo;
+ const tipo=scannerModo==="equipamentoPatrimonio"?"patrimonio":"serie";
+ fecharCameraScanner();
+ mostrarEquipamentoEscaneado(tipo,codigo);
 }
-function fecharCameraScanner(){try{if(scannerControls&&typeof scannerControls.stop==="function")scannerControls.stop();}catch(e){} scannerControls=null;document.getElementById("cameraScannerModal").classList.remove("ativo");}
+
+function fecharCameraScanner(){
+ scannerLendo=false;
+ try{
+   if(scannerControls&&typeof scannerControls.stop==="function")scannerControls.stop();
+ }catch(e){console.warn("Erro ao parar o leitor:",e);}
+ scannerControls=null;
+
+ try{
+   if(scannerStream)scannerStream.getTracks().forEach(track=>track.stop());
+ }catch(e){console.warn("Erro ao parar a câmera:",e);}
+ scannerStream=null;
+
+ try{
+   const video=document.getElementById("cameraScannerVideo");
+   if(video){video.pause();video.srcObject=null;}
+ }catch(e){}
+
+ if(scannerReader&&typeof scannerReader.reset==="function"){
+   try{scannerReader.reset();}catch(e){}
+ }
+ scannerReader=null;
+
+ const modal=document.getElementById("cameraScannerModal");
+ if(modal)modal.classList.remove("ativo");
+}
 
 document.getElementById("codigoLeitorEquipamento")?.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();identificarEquipamento("serie");}});
 
