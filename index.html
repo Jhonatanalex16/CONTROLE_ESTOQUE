@@ -1770,6 +1770,7 @@ let scannerIniciando = false;
 let scannerLendo = false;
 let scannerReader = null;
 let scannerStream = null;
+let scannerNativeLoop = null;
 
 
 /* =====================================================
@@ -2991,9 +2992,9 @@ async function abrirCameraScanner(modo){
    }
 
    /*
-      Primeiro pedimos a permissão explicitamente.
-      Isso evita que o ZXing tente abrir a câmera sem que o navegador
-      tenha recebido uma solicitação clara de acesso.
+      IMPORTANTE: a câmera é aberta diretamente neste clique do usuário.
+      Depois usamos o leitor nativo do navegador quando disponível.
+      Isso evita depender exclusivamente do carregamento do ZXing.
    */
    scannerStream=await navigator.mediaDevices.getUserMedia({
      video:{
@@ -3004,52 +3005,93 @@ async function abrirCameraScanner(modo){
      audio:false
    });
 
-   status.innerText="Câmera autorizada. Preparando leitor...";
+   video.srcObject=scannerStream;
+   video.setAttribute("playsinline","");
+   video.muted=true;
+   await video.play();
+   status.innerText="Câmera ativa. Aponte para o código...";
 
-   /* Após obter a permissão, descobrimos as câmeras disponíveis. */
-   let cameraId=undefined;
-   try{
-     const dispositivos=await navigator.mediaDevices.enumerateDevices();
-     const cameras=dispositivos.filter(d=>d.kind==="videoinput");
-     if(cameras.length){
-       const traseira=cameras.find(c=>/back|rear|environment|traseira|trás/i.test(c.label));
-       cameraId=(traseira||cameras[0]).deviceId||undefined;
+   /*
+      Chrome/Android e vários navegadores modernos possuem BarcodeDetector.
+      Ele lê QR Code e códigos de barras sem depender do script externo.
+   */
+   if("BarcodeDetector" in window){
+     let formatos=[];
+     try{
+       const suportados=await BarcodeDetector.getSupportedFormats();
+       const desejados=modo==="equipamentoPatrimonio"
+         ? ["qr_code"]
+         : ["code_128","code_39","code_93","codabar","ean_13","ean_8","upc_a","upc_e","itf","qr_code","data_matrix"];
+       formatos=desejados.filter(f=>suportados.includes(f));
+     }catch(e){
+       console.warn("Não foi possível consultar formatos do BarcodeDetector:",e);
      }
-   }catch(e){
-     console.warn("Não foi possível listar as câmeras:",e);
+
+     let detector=null;
+     try{
+       detector=formatos.length?new BarcodeDetector({formats:formatos}):new BarcodeDetector();
+     }catch(e){
+       console.warn("BarcodeDetector não pôde ser inicializado:",e);
+       detector=null;
+     }
+
+     if(detector){
+       scannerLendo=true;
+       let processando=false;
+       const procurar=async()=>{
+         if(!scannerLendo)return;
+         try{
+           if(video.readyState>=2 && !video.paused){
+             const resultados=await detector.detect(video);
+             if(resultados && resultados.length && !processando){
+               processando=true;
+               scannerLendo=false;
+               processarResultadoCamera(resultados[0].rawValue||"");
+               return;
+             }
+           }
+         }catch(e){
+           /* Alguns aparelhos falham em uma leitura isolada; continuamos tentando. */
+           console.debug("Leitura da câmera:",e);
+         }
+         if(scannerLendo)scannerNativeLoop=requestAnimationFrame(procurar);
+       };
+       scannerNativeLoop=requestAnimationFrame(procurar);
+       return;
+     }
    }
 
-   /* A prévia usada apenas para pedir a permissão não fica aberta em paralelo. */
-   scannerStream.getTracks().forEach(track=>track.stop());
-   scannerStream=null;
-   video.srcObject=null;
-
+   /* Fallback: ZXing, caso o navegador não possua BarcodeDetector. */
    if(!window.ZXing || !ZXing.BrowserMultiFormatReader){
      throw new Error("ZXING_UNAVAILABLE");
    }
+
+   /* O stream aberto acima é encerrado antes do ZXing assumir o vídeo. */
+   scannerStream.getTracks().forEach(track=>track.stop());
+   scannerStream=null;
+   video.srcObject=null;
 
    scannerReader=new ZXing.BrowserMultiFormatReader();
    scannerLendo=true;
    status.innerText="Câmera ativa. Aponte para o código...";
 
    const controles=await scannerReader.decodeFromVideoDevice(
-     cameraId,
+     undefined,
      "cameraScannerVideo",
      (resultado,erro)=>{
        if(!scannerLendo)return;
        if(resultado){
          scannerLendo=false;
-         const texto=resultado.getText();
-         processarResultadoCamera(texto);
+         processarResultadoCamera(resultado.getText());
        }
      }
    );
-
    scannerControls=controles;
 
  }catch(e){
    console.error("Erro ao iniciar câmera:",e);
    scannerLendo=false;
+   if(scannerNativeLoop){cancelAnimationFrame(scannerNativeLoop);scannerNativeLoop=null;}
    try{
      if(scannerStream)scannerStream.getTracks().forEach(track=>track.stop());
    }catch(_e){}
@@ -3060,16 +3102,16 @@ async function abrirCameraScanner(modo){
 
    if(e && e.message==="SECURE_CONTEXT"){
      mensagem="A câmera precisa de uma conexão segura (HTTPS).";
-     ajudaMsg="Abra o sistema pelo endereço HTTPS da Netlify. Não use o arquivo HTML diretamente pelo computador. ";
+     ajudaMsg="Abra o sistema pelo endereço HTTPS da Netlify. Não use o arquivo HTML diretamente.";
    }else if(e && e.message==="NO_CAMERA_API"){
      mensagem="Este navegador não disponibilizou acesso à câmera.";
      ajudaMsg="Atualize o navegador ou tente abrir o sistema no Chrome ou Edge.";
    }else if(e && e.message==="ZXING_UNAVAILABLE"){
-     mensagem="O leitor de códigos não foi carregado.";
-     ajudaMsg="Recarregue a página e tente novamente. Verifique também a conexão com a internet.";
+     mensagem="A câmera foi autorizada, mas o leitor de códigos não está disponível neste navegador.";
+     ajudaMsg="No celular, use o Chrome atualizado. Se continuar, feche e abra o navegador e toque em Tentar novamente.";
    }else if(e && (e.name==="NotAllowedError" || e.name==="PermissionDeniedError")){
      mensagem="A permissão da câmera foi negada.";
-     ajudaMsg="No celular, permita a câmera para este site nas permissões do navegador. Depois volte ao sistema e toque em Tentar novamente.";
+     ajudaMsg="No celular, toque no ícone de cadeado/configurações do site, permita a câmera e depois toque em Tentar novamente.";
    }else if(e && (e.name==="NotFoundError" || e.name==="DevicesNotFoundError")){
      mensagem="Nenhuma câmera foi encontrada.";
      ajudaMsg="Verifique se o celular/computador possui câmera disponível e tente novamente.";
@@ -3112,6 +3154,7 @@ function processarResultadoCamera(texto){
 
 function fecharCameraScanner(){
  scannerLendo=false;
+ if(scannerNativeLoop){cancelAnimationFrame(scannerNativeLoop);scannerNativeLoop=null;}
  try{
    if(scannerControls&&typeof scannerControls.stop==="function")scannerControls.stop();
  }catch(e){console.warn("Erro ao parar o leitor:",e);}
