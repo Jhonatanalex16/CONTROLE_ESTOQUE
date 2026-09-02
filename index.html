@@ -905,6 +905,7 @@ ENTRAR
 <div class="usuario-logado">
 Usuário conectado:
 <strong id="nomeUsuarioLogado">---</strong>
+<span id="perfilUsuarioLogado" style="display:block;margin-top:5px;color:#94a3b8;font-size:12px">Perfil: ---</span>
 </div>
 
 <div class="menu">
@@ -1054,6 +1055,16 @@ Sair
 <div class="grafico grafico-largo">
 <h2>🏷️ Equipamentos por Marca</h2>
 <canvas id="graficoEquipamentosMarca"></canvas>
+</div>
+
+<div class="grafico">
+<h2>📍 Equipamentos por Localização</h2>
+<canvas id="graficoEquipamentosLocalizacao"></canvas>
+</div>
+
+<div class="grafico">
+<h2>📅 Cadastros de Equipamentos por Mês</h2>
+<canvas id="graficoEquipamentosTempo"></canvas>
 </div>
 
 </div>
@@ -1262,14 +1273,13 @@ onkeyup="filtrarTabela()">
 
 <div class="scanner-equipamento">
 <h3>📷 Localizar equipamento por código</h3>
-<p style="color:#94a3b8;margin-top:6px">O número de série usa código de barras. O patrimônio usa QR Code.</p>
+<p style="color:#94a3b8;margin-top:6px">A câmera lê apenas códigos de barras. Use o código de barras do número de série para localizar o equipamento.</p>
 <div class="grid" style="margin-top:14px">
 <input id="codigoLeitorEquipamento" placeholder="Bipe o código de barras do Nº de série..." autocomplete="off">
 <button class="btn" onclick="identificarEquipamento('serie')"><i class="fa-solid fa-barcode"></i> Ler Nº de série</button>
 </div>
 <div class="scanner-botoes">
 <button class="btn btn-secondary" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i> Câmera — Nº de série</button>
-<button class="btn btn-secondary" onclick="abrirCameraScanner('equipamentoPatrimonio')"><i class="fa-solid fa-qrcode"></i> Câmera — Patrimônio</button>
 </div>
 <div id="equipamentoIdentificado" class="equipamento-identificado">
 <h3>✅ Equipamento identificado</h3>
@@ -1499,7 +1509,7 @@ onclick="ativarLightMode()">
 </div>
 
 
-<div class="card">
+<div id="blocoGerenciarSetores" class="card">
 
 <h2>🏢 Gerenciar Setores</h2>
 
@@ -1521,10 +1531,27 @@ onclick="adicionarSetor()">
 
 </div>
 
-<div id="listaSetores"
-style="margin-top:25px">
+<div id="listaSetores" style="margin-top:25px"></div>
+
 </div>
 
+<div id="cardUsuarios" class="card">
+<h2>👥 Usuários e Perfis</h2>
+<p style="color:#94a3b8;margin-bottom:20px">Crie usuários e defina o nível de acesso ao sistema.</p>
+<div class="grid">
+<input id="novoUsuarioLogin" placeholder="Usuário de acesso" maxlength="50">
+<input id="novoUsuarioNome" placeholder="Nome completo" maxlength="100">
+<input id="novoUsuarioSenha" type="password" placeholder="Senha" maxlength="100">
+<select id="novoUsuarioPerfil"><option value="gestor_operacional">Gestor Operacional</option><option value="consulta">Consulta</option><option value="admin">Administrador</option></select>
+<button class="btn btn-success" onclick="criarUsuario()">➕ Criar usuário</button>
+</div>
+<div class="table-container" style="margin-top:20px"><table class="usuario-tabela"><thead><tr><th>Usuário</th><th>Nome</th><th>Perfil</th><th>Ativo</th><th>Ação</th></tr></thead><tbody id="tabelaUsuarios"></tbody></table></div>
+</div>
+
+<div id="cardBackup" class="card">
+<h2>💾 Backup</h2>
+<p style="color:#94a3b8;margin-bottom:20px">Cria uma cópia da planilha atual no Google Drive.</p>
+<button class="btn" onclick="criarBackupSistema()">💾 Criar backup agora</button>
 </div>
 
 </div>
@@ -1577,7 +1604,7 @@ style="margin-top:25px">
 <!-- CÂMERA -->
 <div id="cameraScannerModal" class="camera-modal">
 <div class="camera-box">
-<div class="relatorio-modal-topo"><div><h2 id="cameraScannerTitulo">📷 Scanner</h2><p style="color:#94a3b8;margin-top:5px">Aponte a câmera para o código.</p></div><button class="btn btn-danger" onclick="fecharCameraScanner()">✕ Fechar</button></div>
+<div class="relatorio-modal-topo"><div><h2 id="cameraScannerTitulo">📷 Scanner</h2><p style="color:#94a3b8;margin-top:5px">Aponte a câmera para um código de barras.</p></div><button class="btn btn-danger" onclick="fecharCameraScanner()">✕ Fechar</button></div>
 <video id="cameraScannerVideo" playsinline muted autoplay></video>
 <div id="cameraScannerStatus" class="camera-status">Aguardando câmera...</div>
 <div id="cameraScannerAjuda" class="camera-scanner-ajuda" style="display:none">
@@ -1743,7 +1770,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxrJTL4qc3_M3d36NDt9maWp46lqNEvqA0Y0mNJ7MhL5dfi9CQLZ3UiUeSdtA6dS9Gh/exec";
+"https://script.google.com/macros/s/AKfycbymbivaDbph5hmBzCDLe88mBak9f0pWd5L-bjiliF0R9bxtChUsJBbf3mqdR__96U3-/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -1764,6 +1791,8 @@ let graficoItensMovimentados = null;
 let graficoEquipamentosStatus = null;
 let graficoEquipamentosSetor = null;
 let graficoEquipamentosMarca = null;
+let graficoEquipamentosLocalizacao = null;
+let graficoEquipamentosTempo = null;
 let scannerControls = null;
 let scannerModo = "";
 let scannerIniciando = false;
@@ -2218,11 +2247,20 @@ const disp=equipamentosGlobais.filter(x=>x.status==="Disponível").length;
 const rem=equipamentosGlobais.filter(x=>x.status==="Removido").length;
 const set=(id,v)=>{const el=document.getElementById(id);if(el)el.innerText=v;};
 set("totalEquipamentos",equipamentosGlobais.length);set("equipamentosEmUso",uso);set("equipamentosDisponiveis",disp);set("equipamentosRemovidos",rem);
-const ms={}; const marcas={};
-equipamentosGlobais.forEach(x=>{const st=x.setor||"Sem setor";ms[st]=(ms[st]||0)+1;const m=x.marca||"Sem marca";marcas[m]=(marcas[m]||0)+1;});
+const setores={}; const marcas={}; const locais={}; const meses={};
+equipamentosGlobais.forEach(x=>{
+ const st=x.setor||"Sem setor"; setores[st]=(setores[st]||0)+1;
+ const m=x.marca||"Sem marca"; marcas[m]=(marcas[m]||0)+1;
+ const l=x.localizacao||"Sem localização"; locais[l]=(locais[l]||0)+1;
+ const d=x.dataCadastro?new Date(x.dataCadastro):null;
+ if(d && !isNaN(d.getTime())){const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");meses[k]=(meses[k]||0)+1;}
+});
 gerarGraficoEquipamentosStatus(["Em uso","Disponível","Removido"],[uso,disp,rem]);
-gerarGraficoEquipamentosSetor(Object.keys(ms),Object.values(ms));
+gerarGraficoEquipamentosSetor(Object.keys(setores),Object.values(setores));
 gerarGraficoEquipamentosMarca(Object.keys(marcas),Object.values(marcas));
+gerarGraficoEquipamentosLocalizacao(Object.keys(locais),Object.values(locais));
+const tempoOrdenado=Object.entries(meses).sort((a,b)=>a[0].localeCompare(b[0]));
+gerarGraficoEquipamentosTempo(tempoOrdenado.map(x=>x[0]),tempoOrdenado.map(x=>x[1]));
 carregarEquipamentosFiltro();
 aplicarPermissoes();
 }
@@ -2230,6 +2268,20 @@ aplicarPermissoes();
 function gerarGraficoEquipamentosStatus(labels,data){const c=document.getElementById("graficoEquipamentosStatus");if(!c)return;if(graficoEquipamentosStatus)graficoEquipamentosStatus.destroy();graficoEquipamentosStatus=new Chart(c,{type:"doughnut",data:{labels,datasets:[{data,borderWidth:1}]},options:{responsive:true,plugins:{legend:{position:"bottom",labels:{color:"white"}}}}});}
 function gerarGraficoEquipamentosSetor(labels,data){const c=document.getElementById("graficoEquipamentosSetor");if(!c)return;if(graficoEquipamentosSetor)graficoEquipamentosSetor.destroy();graficoEquipamentosSetor=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,scales:{y:{beginAtZero:true,ticks:{color:"white"}},x:{ticks:{color:"white"}}}}});}
 function gerarGraficoEquipamentosMarca(labels,data){const c=document.getElementById("graficoEquipamentosMarca");if(!c)return;if(graficoEquipamentosMarca)graficoEquipamentosMarca.destroy();graficoEquipamentosMarca=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,indexAxis:"y",scales:{x:{beginAtZero:true,ticks:{color:"white"}},y:{ticks:{color:"white"}}}}});}
+
+
+function gerarGraficoEquipamentosLocalizacao(labels,data){
+ const c=document.getElementById("graficoEquipamentosLocalizacao"); if(!c)return;
+ if(graficoEquipamentosLocalizacao)graficoEquipamentosLocalizacao.destroy();
+ graficoEquipamentosLocalizacao=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,indexAxis:"y",plugins:{legend:{labels:{color:"white"}}},scales:{x:{beginAtZero:true,ticks:{color:"white",precision:0}},y:{ticks:{color:"white"}}}}});
+}
+function gerarGraficoEquipamentosTempo(labels,data){
+ const c=document.getElementById("graficoEquipamentosTempo"); if(!c)return;
+ if(graficoEquipamentosTempo)graficoEquipamentosTempo.destroy();
+ const nomes=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+ const fmt=labels.map(x=>{const [a,m]=x.split("-");return (nomes[Number(m)-1]||m)+"/"+a;});
+ graficoEquipamentosTempo=new Chart(c,{type:"line",data:{labels:fmt,datasets:[{label:"Cadastros",data,borderWidth:2,tension:.25,fill:false}]},options:{responsive:true,plugins:{legend:{labels:{color:"white"}}},scales:{x:{ticks:{color:"white"}},y:{beginAtZero:true,ticks:{color:"white",precision:0}}}}});
+}
 
 
 /* =====================================================
@@ -2952,21 +3004,24 @@ identificarCodigo()
 /* =====================================================
    SCANNERS
 ===================================================== */
-function identificarEquipamento(tipo){
+function identificarEquipamento(){
  const campo=document.getElementById("codigoLeitorEquipamento"); const codigo=campo.value.trim();
  if(!codigo){toast("Bipe o código de barras do número de série","erro");return;}
- mostrarEquipamentoEscaneado(tipo,codigo);
+ mostrarEquipamentoEscaneado("serie",codigo);
 }
 function mostrarEquipamentoEscaneado(tipo,codigo){
+ // Scanner de equipamento sempre consulta o número de série.
  const q=normalizarBuscaLocal(codigo);
- const eq=equipamentosGlobais.find(x=>normalizarBuscaLocal(tipo==="patrimonio"?x.patrimonio:x.numeroSerie)===q);
+ const eq=equipamentosGlobais.find(x=>normalizarBuscaLocal(x.numeroSerie)===q);
  const box=document.getElementById("equipamentoIdentificado");
  if(!eq){box.classList.remove("ativo");toast("Equipamento não encontrado para este código.","erro");return;}
  document.getElementById("eqScanNome").innerText=eq.nome||"-";document.getElementById("eqScanPatrimonio").innerText=eq.patrimonio||"-";document.getElementById("eqScanSerie").innerText=eq.numeroSerie||"-";document.getElementById("eqScanMarca").innerText=eq.marca||"-";document.getElementById("eqScanSetor").innerText=eq.setor||"-";document.getElementById("eqScanLocalizacao").innerText=eq.localizacao||"-";document.getElementById("eqScanStatus").innerText=eq.status||"-";
  document.getElementById("btnEqScanEditar").onclick=()=>abrirEdicao(eq.id,"EQUIPAMENTO"); document.getElementById("btnEqScanHistorico").onclick=()=>abrirHistoricoEquipamento(eq.id); box.classList.add("ativo"); toast("Equipamento identificado com sucesso!","sucesso");
 }
 async function abrirCameraScanner(modo){
- scannerModo=modo;
+ // Os únicos modos permitidos são estoque e número de série de equipamento.
+ scannerModo=(modo==="estoque")?"estoque":"equipamentoSerie";
+ modo=scannerModo;
  const modal=document.getElementById("cameraScannerModal");
  const titulo=document.getElementById("cameraScannerTitulo");
  const status=document.getElementById("cameraScannerStatus");
@@ -2978,7 +3033,7 @@ async function abrirCameraScanner(modo){
  scannerIniciando=true;
  scannerLendo=false;
 
- titulo.innerText=modo==="estoque"?"📦 Scanner de estoque":modo==="equipamentoPatrimonio"?"💻 Scanner de patrimônio (QR Code)":"💻 Scanner de número de série";
+ titulo.innerText=modo==="estoque"?"📦 Scanner de código de barras — estoque":"💻 Scanner de código de barras — número de série";
  status.innerText="Solicitando acesso à câmera...";
  ajuda.style.display="none";
  modal.classList.add("ativo");
@@ -3013,15 +3068,13 @@ async function abrirCameraScanner(modo){
 
    /*
       Chrome/Android e vários navegadores modernos possuem BarcodeDetector.
-      Ele lê QR Code e códigos de barras sem depender do script externo.
+      Aqui são aceitos somente formatos de código de barras.
    */
    if("BarcodeDetector" in window){
      let formatos=[];
      try{
        const suportados=await BarcodeDetector.getSupportedFormats();
-       const desejados=modo==="equipamentoPatrimonio"
-         ? ["qr_code"]
-         : ["code_128","code_39","code_93","codabar","ean_13","ean_8","upc_a","upc_e","itf","qr_code","data_matrix"];
+       const desejados=["code_128","code_39","code_93","codabar","ean_13","ean_8","upc_a","upc_e","itf"];
        formatos=desejados.filter(f=>suportados.includes(f));
      }catch(e){
        console.warn("Não foi possível consultar formatos do BarcodeDetector:",e);
@@ -3029,7 +3082,7 @@ async function abrirCameraScanner(modo){
 
      let detector=null;
      try{
-       detector=formatos.length?new BarcodeDetector({formats:formatos}):new BarcodeDetector();
+       detector=formatos.length?new BarcodeDetector({formats:formatos}):null;
      }catch(e){
        console.warn("BarcodeDetector não pôde ser inicializado:",e);
        detector=null;
@@ -3071,7 +3124,21 @@ async function abrirCameraScanner(modo){
    scannerStream=null;
    video.srcObject=null;
 
-   scannerReader=new ZXing.BrowserMultiFormatReader();
+   const hints = new Map();
+   if(window.ZXing && ZXing.DecodeHintType && ZXing.BarcodeFormat){
+     hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,[
+       ZXing.BarcodeFormat.CODE_128,
+       ZXing.BarcodeFormat.CODE_39,
+       ZXing.BarcodeFormat.CODE_93,
+       ZXing.BarcodeFormat.CODABAR,
+       ZXing.BarcodeFormat.EAN_13,
+       ZXing.BarcodeFormat.EAN_8,
+       ZXing.BarcodeFormat.UPC_A,
+       ZXing.BarcodeFormat.UPC_E,
+       ZXing.BarcodeFormat.ITF
+     ]);
+   }
+   scannerReader=new ZXing.BrowserMultiFormatReader(hints);
    scannerLendo=true;
    status.innerText="Câmera ativa. Aponte para o código...";
 
@@ -3138,6 +3205,13 @@ async function solicitarCameraNovamente(){
 function processarResultadoCamera(texto){
  const codigo=String(texto||"").trim();
  if(!codigo)return;
+ // Um resultado em formato de URL/texto longo não é aceito pelo sistema.
+ if(/^(https?:\/\/|www\.)/i.test(codigo) || codigo.length>120){
+   const status=document.getElementById("cameraScannerStatus");
+   if(status)status.innerText="Código não compatível. Aponte para um código de barras.";
+   scannerLendo=true;
+   return;
+ }
 
  if(scannerModo==="estoque"){
    document.getElementById("codigoLeitor").value=codigo;
@@ -3147,9 +3221,8 @@ function processarResultadoCamera(texto){
  }
 
  document.getElementById("codigoLeitorEquipamento").value=codigo;
- const tipo=scannerModo==="equipamentoPatrimonio"?"patrimonio":"serie";
  fecharCameraScanner();
- mostrarEquipamentoEscaneado(tipo,codigo);
+ mostrarEquipamentoEscaneado("serie",codigo);
 }
 
 function fecharCameraScanner(){
@@ -3179,7 +3252,7 @@ function fecharCameraScanner(){
  if(modal)modal.classList.remove("ativo");
 }
 
-document.getElementById("codigoLeitorEquipamento")?.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();identificarEquipamento("serie");}});
+document.getElementById("codigoLeitorEquipamento")?.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();identificarEquipamento();}});
 
 /* =====================================================
    CADASTRO
@@ -3188,7 +3261,7 @@ document.getElementById("codigoLeitorEquipamento")?.addEventListener("keydown",e
 async function cadastrar(){
  const categoria=document.getElementById("categoriaCadastro").value||"CONSUMO";
  const dados={
-   tipo:"cadastro",
+   tipo:categoria==="EQUIPAMENTO"?"equipamento":"cadastro",
    categoria,
    item:document.getElementById("item").value.trim(),
    nome:categoria==="EQUIPAMENTO"?document.getElementById("item").value.trim():"",
@@ -3611,6 +3684,10 @@ async function criarUsuario(){
  const dados={tipo:"usuarios",acao:"criar",usuario:document.getElementById("novoUsuarioLogin").value.trim(),nome:document.getElementById("novoUsuarioNome").value.trim(),senha:document.getElementById("novoUsuarioSenha").value,perfil:document.getElementById("novoUsuarioPerfil").value};
  if(!dados.usuario||!dados.nome||!dados.senha){toast("Preencha usuário, nome e senha","erro");return;} try{const r=await apiPost(dados);if(!r.sucesso){toast(r.mensagem||"Não foi possível criar usuário","erro");return;}toast("Usuário criado com sucesso!","sucesso");document.getElementById("novoUsuarioLogin").value="";document.getElementById("novoUsuarioNome").value="";document.getElementById("novoUsuarioSenha").value="";await carregar();}catch(e){toast("Erro ao criar usuário","erro");}}
 async function alterarStatusUsuario(login,ativo){try{const r=await apiPost({tipo:"usuarios",acao:"status",usuario:login,ativo:ativo?"SIM":"NÃO"});if(!r.sucesso){toast(r.mensagem||"Não foi possível alterar o usuário","erro");return;}await carregar();}catch(e){toast("Erro ao alterar usuário","erro");}}
+async function criarBackupSistema(){
+ try{const r=await apiPost({tipo:"backup"});if(!r.sucesso){toast(r.mensagem||"Não foi possível criar o backup","erro");return;}toast("Backup criado com sucesso!","sucesso");}
+ catch(e){toast("Erro ao criar backup","erro");}
+}
 function renderizarUsuarios(usuarios){const tbody=document.getElementById("tabelaUsuarios");if(!tbody)return;tbody.innerHTML="";(usuarios||[]).forEach(u=>{tbody.innerHTML+=`<tr><td>${escapeHtml(u.usuario)}</td><td>${escapeHtml(u.nome)}</td><td><span class="badge-perfil">${escapeHtml(u.perfil==="admin"?"Administrador":u.perfil==="gestor_operacional"?"Gestor Operacional":"Consulta")}</span></td><td>${escapeHtml(u.ativo)}</td><td><button class="btn-editar" onclick="alterarStatusUsuario('${escapeJs(u.usuario)}','${u.ativo!=="SIM"}')">${u.ativo==="SIM"?"Desativar":"Ativar"}</button></td></tr>`;});}
 
 /* =====================================================
@@ -3723,7 +3800,8 @@ dataFinal,
 setor,
 
 codigoItem,
-status
+status,
+equipamento:pesquisaEquipamento
 
 });
 
@@ -4029,14 +4107,17 @@ return String(v??"")
 
 function aplicarPermissoes(){
  const perfil=normalizarPerfilLocal(usuarioAtual?.perfil);
- const admin=perfil==="admin", gestor=perfil==="gestor_operacional";
- const consulta=perfil==="consulta";
+ const admin=perfil==="admin", consulta=perfil==="consulta";
+ const nome={admin:"Administrador",gestor_operacional:"Gestor Operacional",consulta:"Consulta"};
+ const pe=document.getElementById("perfilUsuarioLogado"); if(pe)pe.innerText="Perfil: "+(nome[perfil]||"Consulta");
  const esconder=(sel,cond)=>document.querySelectorAll(sel).forEach(e=>e.style.display=cond?"none":"");
  esconder("#cardUsuarios,#cardBackup",!admin);
- esconder("#config .btn-success",consulta);
- esconder("#modalCadastro .btn:not(.btn-danger)",consulta);
+ esconder("#blocoGerenciarSetores",!admin);
  esconder(".entrada,.saida,.btn-editar",consulta);
- if(consulta){const c=document.getElementById("config");if(c)c.querySelectorAll(".btn-excluir-setor").forEach(x=>x.style.display="none");}
+ esconder("#modalCadastro .btn:not(.btn-danger)",consulta);
+ const menuConfig=document.querySelector('.menu-btn[onclick*="mostrarSecao(\'config\'"]');
+ if(menuConfig)menuConfig.style.display=admin?"":"";
+ if(consulta){document.querySelectorAll(".btn-success").forEach(e=>e.style.display="none");}
 }
 function normalizarPerfilLocal(p){const x=String(p||"").toLowerCase().trim();return x==="administrador"?"admin":x==="gestor operacional"||x==="gestor"?"gestor_operacional":x||"consulta";}
 
