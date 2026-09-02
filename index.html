@@ -848,19 +848,14 @@ align-items:flex-start
 }
 
 }
-</style>
 
-<style id="graficos-profissionais">
-.graficos-dashboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
-.grafico{position:relative;min-height:330px;padding:20px!important;overflow:hidden}
-.grafico.grafico-largo{grid-column:1/-1;min-height:380px}
-.grafico h2{margin:0 0 14px!important;font-size:16px!important;font-weight:700;letter-spacing:.1px}
-.grafico canvas{display:block;width:100%!important;height:255px!important}
-.grafico.grafico-largo canvas{height:300px!important}
-@media(max-width:900px){.graficos-dashboard{grid-template-columns:1fr}.grafico.grafico-largo{grid-column:auto}.grafico{min-height:310px}.grafico.grafico-largo{min-height:350px}}
-@media(max-width:560px){.grafico{padding:15px!important;min-height:285px}.grafico canvas,.grafico.grafico-largo canvas{height:235px!important}.grafico.grafico-largo{min-height:300px}}
-</style>
+/* Ícones PNG — identidade visual sem emojis */
+.emoji-img{width:1.05em;height:1.05em;object-fit:contain;vertical-align:-0.16em;display:inline-block;margin-right:.28em;image-rendering:auto;}
+h1 .emoji-img,h2 .emoji-img,h3 .emoji-img,.login-logo .emoji-img{width:1.08em;height:1.08em;vertical-align:-.18em;}
+.btn .emoji-img,.btn-editar .emoji-img{width:1em;height:1em;vertical-align:-.12em;margin-right:.25em;}
+.card-info h3 .emoji-img{width:1.05em;height:1.05em;}
 
+</style>
 </head>
 
 <body>
@@ -871,7 +866,7 @@ align-items:flex-start
 
 <div class="login-box">
 
-<div class="login-logo">⚡ T.I-HEDA</div>
+<div class="login-logo"><img src=./assets/icons/bolt.png class=emoji-img alt= aria-hidden=true> T.I-HEDA</div>
 
 <div class="login-subtitulo">
 SISTEMA DE CONTROLE DE ESTOQUE
@@ -910,13 +905,14 @@ ENTRAR
 <div class="sidebar">
 
 <div class="logo">
-<h1>⚡ T.I-HEDA</h1>
+<h1><img src=./assets/icons/bolt.png class=emoji-img alt= aria-hidden=true> T.I-HEDA</h1>
 <p>SISTEMA DE ESTOQUE</p>
 </div>
 
 <div class="usuario-logado">
 Usuário conectado:
 <strong id="nomeUsuarioLogado">---</strong>
+<span id="perfilUsuarioLogado" style="display:block;margin-top:5px;color:#94a3b8;font-size:12px">Perfil: ---</span>
 </div>
 
 <div class="menu">
@@ -978,11 +974,11 @@ Sair
 <div class="topo">
 
 <div>
-<h2>⚡ Controle de <span>Estoque</span></h2>
+<h2><img src=./assets/icons/bolt.png class=emoji-img alt= aria-hidden=true> Controle de <span>Estoque</span></h2>
 </div>
 
 <div class="status-online">
-🟢 Sistema Online
+<img src=./assets/icons/online.png class=emoji-img alt= aria-hidden=true> Sistema Online
 </div>
 
 </div>
@@ -1018,54 +1014,64 @@ Sair
 
 
 <div class="dashboard">
-<div class="card-info"><h3>💻 Equipamentos cadastrados</h3><span id="totalEquipamentos">0</span></div>
-<div class="card-info"><h3>🟢 Em uso</h3><span id="equipamentosEmUso">0</span></div>
-<div class="card-info"><h3>🔵 Disponíveis</h3><span id="equipamentosDisponiveis">0</span></div>
-<div class="card-info"><h3>🔴 Removidos</h3><span id="equipamentosRemovidos">0</span></div>
+<div class="card-info"><h3><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Equipamentos cadastrados</h3><span id="totalEquipamentos">0</span></div>
+<div class="card-info"><h3><img src=./assets/icons/online.png class=emoji-img alt= aria-hidden=true> Em uso</h3><span id="equipamentosEmUso">0</span></div>
+<div class="card-info"><h3><img src=./assets/icons/online.png class=emoji-img alt= aria-hidden=true> Disponíveis</h3><span id="equipamentosDisponiveis">0</span></div>
+<div class="card-info"><h3><img src=./assets/icons/alert.png class=emoji-img alt= aria-hidden=true> Removidos</h3><span id="equipamentosRemovidos">0</span></div>
 </div>
 
 <div class="graficos-dashboard">
 
 <div class="grafico grafico-largo">
-<h2>📦 Estoque por Item</h2>
+<h2><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Estoque por Item</h2>
 <canvas id="graficoEstoque"></canvas>
 </div>
 
 <div class="grafico">
-<h2>⚠️ Itens em Alerta × OK</h2>
+<h2><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true> Itens em Alerta × OK</h2>
 <canvas id="graficoStatus"></canvas>
 </div>
 
 <div class="grafico">
-<h2>📥 Entradas × 📤 Saídas</h2>
+<h2><img src=./assets/icons/download.png class=emoji-img alt= aria-hidden=true> Entradas × <img src=./assets/icons/upload.png class=emoji-img alt= aria-hidden=true> Saídas</h2>
 <canvas id="graficoMovimentacoes"></canvas>
 </div>
 
 <div class="grafico">
-<h2>🏢 Saídas por Setor</h2>
+<h2><img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true> Saídas por Setor</h2>
 <canvas id="graficoSetores"></canvas>
 </div>
 
 <div class="grafico">
-<h2>📊 Itens Mais Movimentados</h2>
+<h2><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Itens Mais Movimentados</h2>
 <canvas id="graficoItensMovimentados"></canvas>
 </div>
 
 </div>
 
 <div class="grafico">
-<h2>💻 Equipamentos por Status</h2>
+<h2><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Equipamentos por Status</h2>
 <canvas id="graficoEquipamentosStatus"></canvas>
 </div>
 
 <div class="grafico">
-<h2>🏢 Equipamentos por Setor</h2>
+<h2><img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true> Equipamentos por Setor</h2>
 <canvas id="graficoEquipamentosSetor"></canvas>
 </div>
 
 <div class="grafico grafico-largo">
-<h2>🏷️ Equipamentos por Marca</h2>
+<h2><img src=./assets/icons/tag.png class=emoji-img alt= aria-hidden=true> Equipamentos por Marca</h2>
 <canvas id="graficoEquipamentosMarca"></canvas>
+</div>
+
+<div class="grafico">
+<h2><img src=./assets/icons/location.png class=emoji-img alt= aria-hidden=true> Equipamentos por Localização</h2>
+<canvas id="graficoEquipamentosLocalizacao"></canvas>
+</div>
+
+<div class="grafico">
+<h2><img src=./assets/icons/calendar.png class=emoji-img alt= aria-hidden=true> Cadastros de Equipamentos por Mês</h2>
+<canvas id="graficoEquipamentosTempo"></canvas>
 </div>
 
 </div>
@@ -1077,7 +1083,7 @@ Sair
 
 <div class="card">
 
-<h2>📷 Leitor de Código de Barras</h2>
+<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitor de Código de Barras</h2>
 
 <div class="grid">
 
@@ -1096,7 +1102,7 @@ class="leitor-status"></div>
 <div id="itemIdentificado"
 class="item-identificado">
 
-<h3>✅ Item identificado</h3>
+<h3><img src=./assets/icons/check.png class=emoji-img alt= aria-hidden=true> Item identificado</h3>
 
 <strong id="nomeItemLeitor">---</strong>
 
@@ -1120,19 +1126,19 @@ class="acoes-leitor">
 
 <button class="btn btn-success"
 onclick="selecionarAcao('entrada')">
-🟢 ADICIONAR ENTRADA
+<img src=./assets/icons/online.png class=emoji-img alt= aria-hidden=true> ADICIONAR ENTRADA
 </button>
 
 <button class="btn btn-danger"
 onclick="selecionarAcao('saida')">
-🔴 DAR SAÍDA
+<img src=./assets/icons/alert.png class=emoji-img alt= aria-hidden=true> DAR SAÍDA
 </button>
 
 </div>
 
 <div id="boxEntrada" class="acao-box">
 
-<h3>🟢 Entrada de Estoque</h3>
+<h3><img src=./assets/icons/online.png class=emoji-img alt= aria-hidden=true> Entrada de Estoque</h3>
 
 <div class="grid">
 
@@ -1157,7 +1163,7 @@ CANCELAR
 
 <div id="boxSaida" class="acao-box">
 
-<h3>🔴 Saída de Estoque</h3>
+<h3><img src=./assets/icons/alert.png class=emoji-img alt= aria-hidden=true> Saída de Estoque</h3>
 
 <div class="grid">
 
@@ -1188,7 +1194,7 @@ CANCELAR
 
 
 <div class="card">
-<h2>➕ Cadastro de item</h2>
+<h2><img src=./assets/icons/plus.png class=emoji-img alt= aria-hidden=true> Cadastro de item</h2>
 <p style="color:#94a3b8;margin-bottom:20px">Cadastre materiais de consumo controlados por quantidade.</p>
 <div class="grid" style="grid-template-columns:minmax(250px,420px)">
 <button class="btn" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-boxes-stacked"></i> Cadastrar item de estoque</button>
@@ -1236,7 +1242,7 @@ onkeyup="filtrarTabela()">
 
 <div id="modalCadastro" class="relatorio-modal">
 <div class="relatorio-modal-conteudo editar-modal-conteudo">
-<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro">📦 Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()">✕ Fechar</button></div>
+<div class="relatorio-modal-topo"><div><h2 id="tituloCadastro"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Cadastrar item de estoque</h2><p id="descricaoCadastro" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharCadastro()"><img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Fechar</button></div>
 <input type="hidden" id="categoriaCadastro">
 <div class="grid">
 <input id="item" placeholder="Nome do item">
@@ -1266,14 +1272,14 @@ onkeyup="filtrarTabela()">
 
 <div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap">
 <div>
-<h2>💻 Equipamentos</h2>
+<h2><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Equipamentos</h2>
 <p style="color:#94a3b8;margin-top:5px">Controle individual de computadores, notebooks, monitores e demais equipamentos patrimoniais.</p>
 </div>
 <button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Cadastrar equipamento</button>
 </div>
 
 <div class="scanner-equipamento">
-<h3>📷 Localizar equipamento por código</h3>
+<h3><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Localizar equipamento por código</h3>
 <p style="color:#94a3b8;margin-top:6px">A câmera lê apenas códigos de barras. Use o código de barras do número de série para localizar o equipamento.</p>
 <div class="grid" style="margin-top:14px">
 <input id="codigoLeitorEquipamento" placeholder="Bipe o código de barras do Nº de série..." autocomplete="off">
@@ -1283,7 +1289,7 @@ onkeyup="filtrarTabela()">
 <button class="btn btn-secondary" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i> Câmera — Nº de série</button>
 </div>
 <div id="equipamentoIdentificado" class="equipamento-identificado">
-<h3>✅ Equipamento identificado</h3>
+<h3><img src=./assets/icons/check.png class=emoji-img alt= aria-hidden=true> Equipamento identificado</h3>
 <div class="equipamento-detalhes">
 <div>Equipamento<br><strong id="eqScanNome">-</strong></div>
 <div>Patrimônio<br><strong id="eqScanPatrimonio">-</strong></div>
@@ -1294,8 +1300,8 @@ onkeyup="filtrarTabela()">
 <div>Status<br><strong id="eqScanStatus">-</strong></div>
 </div>
 <div class="scanner-botoes">
-<button class="btn" id="btnEqScanEditar">✏️ Editar</button>
-<button class="btn btn-secondary" id="btnEqScanHistorico">🕓 Histórico</button>
+<button class="btn" id="btnEqScanEditar"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true> Editar</button>
+<button class="btn btn-secondary" id="btnEqScanHistorico"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true> Histórico</button>
 </div>
 </div>
 </div>
@@ -1334,7 +1340,7 @@ onkeyup="filtrarTabela()">
 
 <div class="card">
 
-<h2>⚠ Alertas</h2>
+<h2><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true> Alertas</h2>
 
 <div class="table-container">
 
@@ -1368,7 +1374,7 @@ onkeyup="filtrarTabela()">
 
 <div class="card">
 
-<h2>🕓 Histórico</h2>
+<h2><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true> Histórico</h2>
 
 <div class="table-container">
 
@@ -1405,76 +1411,76 @@ onkeyup="filtrarTabela()">
 
 <div class="card">
 
-<h2>📊 Relatórios</h2>
+<h2><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Relatórios</h2>
 
 <div class="relatorios-grid">
 
 <div class="relatorio-box">
-<h3>📦 Estoque Atual</h3>
+<h3><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Estoque Atual</h3>
 <p>Lista todos os itens, quantidades, mínimos e status atuais.</p>
 <button class="btn"
 onclick="gerarRelatorio('estoque')">
-👁️ Visualizar Relatório
+<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
 </button>
 </div>
 
 <div class="relatorio-box">
-<h3>⚠️ Itens em Alerta</h3>
+<h3><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true> Itens em Alerta</h3>
 <p>Lista os produtos abaixo ou no estoque mínimo.</p>
 <button class="btn"
 onclick="gerarRelatorio('alertas')">
-👁️ Visualizar Relatório
+<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
 </button>
 </div>
 
 <div class="relatorio-box">
-<h3>📤 Saídas</h3>
+<h3><img src=./assets/icons/upload.png class=emoji-img alt= aria-hidden=true> Saídas</h3>
 <p>Lista as retiradas realizadas no período.</p>
 <button class="btn"
 onclick="gerarRelatorio('saidas')">
-👁️ Visualizar Relatório
+<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
 </button>
 </div>
 
 <div class="relatorio-box">
-<h3>🏢 Por Setor</h3>
+<h3><img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true> Por Setor</h3>
 <p>Mostra tudo que foi destinado para determinado setor.</p>
 <button class="btn"
 onclick="gerarRelatorio('setor')">
-👁️ Visualizar Relatório
+<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
 </button>
 </div>
 
 <div class="relatorio-box">
-<h3>📊 Resumo por Setor</h3>
+<h3><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Resumo por Setor</h3>
 <p>Mostra o total de itens destinados a cada setor.</p>
 <button class="btn"
 onclick="gerarRelatorio('resumo_setor')">
-👁️ Visualizar Relatório
+<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
 </button>
 </div>
 
 <div class="relatorio-box">
-<h3>📦 Movimentações por Item</h3>
+<h3><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Movimentações por Item</h3>
 <p>Mostra entradas e saídas de um item específico.</p>
 <button class="btn"
 onclick="gerarRelatorio('item')">
-👁️ Visualizar Relatório
+<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
 </button>
 </div>
 
 <div class="relatorio-box">
-<h3>💻 Equipamentos</h3>
+<h3><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Equipamentos</h3>
 <p>Lista os equipamentos com filtros de setor, período e status. Equipamentos removidos aparecem com sua observação.</p>
-<button class="btn" onclick="gerarRelatorio('equipamentos')">👁️ Visualizar Relatório</button>
+<button class="btn" onclick="gerarRelatorio('equipamentos')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório</button>
 </div>
 
 <div class="relatorio-box">
-<h3>📋 Histórico Completo</h3>
+<h3><img src=./assets/icons/clipboard.png class=emoji-img alt= aria-hidden=true> Histórico Completo</h3>
 <p>Todas as movimentações registradas.</p>
 <button class="btn"
 onclick="gerarRelatorio('historico')">
-👁️ Visualizar Relatório
+<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
 </button>
 </div>
 
@@ -1491,18 +1497,18 @@ onclick="gerarRelatorio('historico')">
 
 <div class="card">
 
-<h2>⚙ Configurações</h2>
+<h2><img src=./assets/icons/gear.png class=emoji-img alt= aria-hidden=true> Configurações</h2>
 
 <div style="display:flex;gap:15px;flex-wrap:wrap">
 
 <button class="btn"
 onclick="ativarDarkMode()">
-🌙 Tema Escuro
+<img src=./assets/icons/moon.png class=emoji-img alt= aria-hidden=true> Tema Escuro
 </button>
 
 <button class="btn"
 onclick="ativarLightMode()">
-☀ Tema Claro
+<img src=./assets/icons/sun.png class=emoji-img alt= aria-hidden=true> Tema Claro
 </button>
 
 </div>
@@ -1510,9 +1516,9 @@ onclick="ativarLightMode()">
 </div>
 
 
-<div class="card">
+<div id="blocoGerenciarSetores" class="card">
 
-<h2>🏢 Gerenciar Setores</h2>
+<h2><img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true> Gerenciar Setores</h2>
 
 <p style="color:#94a3b8;margin-bottom:20px">
 Cadastre e gerencie os setores utilizados nas saídas.
@@ -1527,15 +1533,32 @@ maxlength="100">
 
 <button class="btn btn-success"
 onclick="adicionarSetor()">
-➕ Adicionar Setor
+<img src=./assets/icons/plus.png class=emoji-img alt= aria-hidden=true> Adicionar Setor
 </button>
 
 </div>
 
-<div id="listaSetores"
-style="margin-top:25px">
+<div id="listaSetores" style="margin-top:25px"></div>
+
 </div>
 
+<div id="cardUsuarios" class="card">
+<h2><img src=./assets/icons/users.png class=emoji-img alt= aria-hidden=true> Usuários e Perfis</h2>
+<p style="color:#94a3b8;margin-bottom:20px">Crie usuários e defina o nível de acesso ao sistema.</p>
+<div class="grid">
+<input id="novoUsuarioLogin" placeholder="Usuário de acesso" maxlength="50">
+<input id="novoUsuarioNome" placeholder="Nome completo" maxlength="100">
+<input id="novoUsuarioSenha" type="password" placeholder="Senha" maxlength="100">
+<select id="novoUsuarioPerfil"><option value="gestor_operacional">Gestor Operacional</option><option value="consulta">Consulta</option><option value="admin">Administrador</option></select>
+<button class="btn btn-success" onclick="criarUsuario()"><img src=./assets/icons/plus.png class=emoji-img alt= aria-hidden=true> Criar usuário</button>
+</div>
+<div class="table-container" style="margin-top:20px"><table class="usuario-tabela"><thead><tr><th>Usuário</th><th>Nome</th><th>Perfil</th><th>Ativo</th><th>Ação</th></tr></thead><tbody id="tabelaUsuarios"></tbody></table></div>
+</div>
+
+<div id="cardBackup" class="card">
+<h2><img src=./assets/icons/save.png class=emoji-img alt= aria-hidden=true> Backup</h2>
+<p style="color:#94a3b8;margin-bottom:20px">Cria uma cópia da planilha atual no Google Drive.</p>
+<button class="btn" onclick="criarBackupSistema()"><img src=./assets/icons/save.png class=emoji-img alt= aria-hidden=true> Criar backup agora</button>
 </div>
 
 </div>
@@ -1550,8 +1573,8 @@ style="margin-top:25px">
 <div id="modalEditarItem" class="relatorio-modal">
 <div class="relatorio-modal-conteudo editar-modal-conteudo">
 <div class="relatorio-modal-topo">
-<div><h2>✏️ Alterar informações</h2><p style="color:#94a3b8;margin-top:5px">Atualize os dados do equipamento.</p></div>
-<button class="btn btn-danger" onclick="fecharEdicao()">✕ Fechar</button>
+<div><h2><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true> Alterar informações</h2><p style="color:#94a3b8;margin-top:5px">Atualize os dados do equipamento.</p></div>
+<button class="btn btn-danger" onclick="fecharEdicao()"><img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Fechar</button>
 </div>
 <div class="grid">
 <select id="editCategoria" style="display:none"><option value="CONSUMO">Item de estoque</option><option value="EQUIPAMENTO">Equipamento</option></select>
@@ -1573,7 +1596,7 @@ style="margin-top:25px">
 </div>
 <div class="relatorio-modal-acoes">
 <button class="btn btn-secondary" onclick="fecharEdicao()">Cancelar</button>
-<button class="btn btn-success" onclick="salvarEdicao()">💾 Salvar alterações</button>
+<button class="btn btn-success" onclick="salvarEdicao()"><img src=./assets/icons/save.png class=emoji-img alt= aria-hidden=true> Salvar alterações</button>
 </div>
 </div>
 </div>
@@ -1581,20 +1604,20 @@ style="margin-top:25px">
 <!-- HISTÓRICO DO EQUIPAMENTO -->
 <div id="modalHistoricoEquipamento" class="relatorio-modal">
 <div class="relatorio-modal-conteudo">
-<div class="relatorio-modal-topo"><div><h2>🕓 Histórico do equipamento</h2><p id="historicoEquipamentoSubtitulo" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharHistoricoEquipamento()">✕ Fechar</button></div>
+<div class="relatorio-modal-topo"><div><h2><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true> Histórico do equipamento</h2><p id="historicoEquipamentoSubtitulo" style="color:#94a3b8;margin-top:5px"></p></div><button class="btn btn-danger" onclick="fecharHistoricoEquipamento()"><img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Fechar</button></div>
 <div id="conteudoHistoricoEquipamento"></div>
 </div></div>
 
 <!-- CÂMERA -->
 <div id="cameraScannerModal" class="camera-modal">
 <div class="camera-box">
-<div class="relatorio-modal-topo"><div><h2 id="cameraScannerTitulo">📷 Scanner</h2><p style="color:#94a3b8;margin-top:5px">Aponte a câmera para um código de barras.</p></div><button class="btn btn-danger" onclick="fecharCameraScanner()">✕ Fechar</button></div>
+<div class="relatorio-modal-topo"><div><h2 id="cameraScannerTitulo"><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Scanner</h2><p style="color:#94a3b8;margin-top:5px">Aponte a câmera para um código de barras.</p></div><button class="btn btn-danger" onclick="fecharCameraScanner()"><img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Fechar</button></div>
 <video id="cameraScannerVideo" playsinline muted autoplay></video>
 <div id="cameraScannerStatus" class="camera-status">Aguardando câmera...</div>
 <div id="cameraScannerAjuda" class="camera-scanner-ajuda" style="display:none">
-<strong>📷 Permissão da câmera</strong>
+<strong><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Permissão da câmera</strong>
 <p id="cameraScannerAjudaTexto">Permita o acesso à câmera quando o navegador solicitar.</p>
-<button type="button" class="btn btn-secondary" onclick="solicitarCameraNovamente()">🔄 Tentar novamente</button>
+<button type="button" class="btn btn-secondary" onclick="solicitarCameraNovamente()"><img src=./assets/icons/refresh.png class=emoji-img alt= aria-hidden=true> Tentar novamente</button>
 </div>
 </div>
 </div>
@@ -1611,7 +1634,7 @@ class="relatorio-modal">
 <div>
 
 <h2 id="filtroRelatorioTitulo">
-🔎 Filtros do Relatório
+<img src=./assets/icons/search.png class=emoji-img alt= aria-hidden=true> Filtros do Relatório
 </h2>
 
 <p style="color:#94a3b8;margin-top:5px">
@@ -1622,7 +1645,7 @@ Selecione os filtros antes de gerar.
 
 <button class="btn btn-danger"
 onclick="fecharFiltrosRelatorio()">
-✕ Fechar
+<img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Fechar
 </button>
 
 </div>
@@ -1679,7 +1702,7 @@ Cancelar
 
 <button class="btn"
 onclick="confirmarGerarRelatorio()">
-📊 Gerar Relatório
+<img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Gerar Relatório
 </button>
 
 </div>
@@ -1700,7 +1723,7 @@ class="relatorio-modal">
 <div>
 
 <h2 id="previewTitulo">
-📊 Relatório
+<img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Relatório
 </h2>
 
 <p id="previewSubtitulo"
@@ -1712,7 +1735,7 @@ Pré-visualização
 
 <button class="btn btn-danger"
 onclick="fecharPreVisualizacao()">
-✕ Fechar
+<img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Fechar
 </button>
 
 </div>
@@ -1728,17 +1751,17 @@ class="relatorio-filtros-aplicados">
 
 <button class="btn btn-success"
 onclick="imprimirPreVisualizacao()">
-🖨️ Imprimir
+<img src=./assets/icons/printer.png class=emoji-img alt= aria-hidden=true> Imprimir
 </button>
 
 <button class="btn"
 onclick="baixarPDFPreVisualizacao()">
-📄 Gerar PDF
+<img src=./assets/icons/pdf.png class=emoji-img alt= aria-hidden=true> Gerar PDF
 </button>
 
 <button class="btn btn-danger"
 onclick="fecharPreVisualizacao()">
-✕ Fechar
+<img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Fechar
 </button>
 
 </div>
@@ -1775,6 +1798,8 @@ let graficoItensMovimentados = null;
 let graficoEquipamentosStatus = null;
 let graficoEquipamentosSetor = null;
 let graficoEquipamentosMarca = null;
+let graficoEquipamentosLocalizacao = null;
+let graficoEquipamentosTempo = null;
 let scannerControls = null;
 let scannerModo = "";
 let scannerIniciando = false;
@@ -2160,7 +2185,7 @@ tabela.innerHTML+=`
 <div class="acoes">
 <button class="entrada" title="Entrada" onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">+</button>
 <button class="saida" title="Saída" onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">−</button>
-<button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(item.codigo)}','CONSUMO')">✏️</button>
+<button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(item.codigo)}','CONSUMO')"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true></button>
 </div>
 </td>
 </tr>`;
@@ -2222,58 +2247,384 @@ const tabela=document.getElementById("tabelaEquipamentos");
 if(!tabela)return;
 tabela.innerHTML="";
 equipamentosGlobais.forEach(eq=>{
-  tabela.innerHTML+=`<tr><td>${escapeHtml(eq.nome)}</td><td>${escapeHtml(eq.patrimonio||"-")}</td><td>${escapeHtml(eq.numeroSerie||"-")}</td><td>${escapeHtml(eq.marca||"-")}</td><td>${escapeHtml(eq.setor||"-")}</td><td>${escapeHtml(eq.localizacao||"-")}</td><td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td><td>${escapeHtml(eq.observacoes||"-")}</td><td><div class="acoes"><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')">✏️</button><button class="btn-editar" title="Histórico" onclick="abrirHistoricoEquipamento('${escapeJs(eq.id)}')">🕓</button></div></td></tr>`;
+  tabela.innerHTML+=`<tr><td>${escapeHtml(eq.nome)}</td><td>${escapeHtml(eq.patrimonio||"-")}</td><td>${escapeHtml(eq.numeroSerie||"-")}</td><td>${escapeHtml(eq.marca||"-")}</td><td>${escapeHtml(eq.setor||"-")}</td><td>${escapeHtml(eq.localizacao||"-")}</td><td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td><td>${escapeHtml(eq.observacoes||"-")}</td><td><div class="acoes"><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true></button><button class="btn-editar" title="Histórico" onclick="abrirHistoricoEquipamento('${escapeJs(eq.id)}')"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true></button></div></td></tr>`;
 });
 const uso=equipamentosGlobais.filter(x=>x.status==="Em uso").length;
 const disp=equipamentosGlobais.filter(x=>x.status==="Disponível").length;
 const rem=equipamentosGlobais.filter(x=>x.status==="Removido").length;
 const set=(id,v)=>{const el=document.getElementById(id);if(el)el.innerText=v;};
 set("totalEquipamentos",equipamentosGlobais.length);set("equipamentosEmUso",uso);set("equipamentosDisponiveis",disp);set("equipamentosRemovidos",rem);
-const ms={}; const marcas={};
-equipamentosGlobais.forEach(x=>{const st=x.setor||"Sem setor";ms[st]=(ms[st]||0)+1;const m=x.marca||"Sem marca";marcas[m]=(marcas[m]||0)+1;});
+const setores={}; const marcas={}; const locais={}; const meses={};
+equipamentosGlobais.forEach(x=>{
+ const st=x.setor||"Sem setor"; setores[st]=(setores[st]||0)+1;
+ const m=x.marca||"Sem marca"; marcas[m]=(marcas[m]||0)+1;
+ const l=x.localizacao||"Sem localização"; locais[l]=(locais[l]||0)+1;
+ const d=x.dataCadastro?new Date(x.dataCadastro):null;
+ if(d && !isNaN(d.getTime())){const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");meses[k]=(meses[k]||0)+1;}
+});
 gerarGraficoEquipamentosStatus(["Em uso","Disponível","Removido"],[uso,disp,rem]);
-gerarGraficoEquipamentosSetor(Object.keys(ms),Object.values(ms));
+gerarGraficoEquipamentosSetor(Object.keys(setores),Object.values(setores));
 gerarGraficoEquipamentosMarca(Object.keys(marcas),Object.values(marcas));
+gerarGraficoEquipamentosLocalizacao(Object.keys(locais),Object.values(locais));
+const tempoOrdenado=Object.entries(meses).sort((a,b)=>a[0].localeCompare(b[0]));
+gerarGraficoEquipamentosTempo(tempoOrdenado.map(x=>x[0]),tempoOrdenado.map(x=>x[1]));
 carregarEquipamentosFiltro();
 aplicarPermissoes();
 }
 
-function destruirGrafico(ref){try{if(ref)ref.destroy();}catch(e){console.warn(e);}}
-function opcoesGraficoBase(){return {responsive:true,maintainAspectRatio:false,animation:{duration:500},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:18,font:{size:12}}},tooltip:{padding:10,displayColors:true}},interaction:{intersect:false,mode:'index'}};}
-function gerarGraficoEquipamentosStatus(labels,data){const c=document.getElementById('graficoEquipamentosStatus');if(!c)return;destruirGrafico(graficoEquipamentosStatus);graficoEquipamentosStatus=new Chart(c,{type:'doughnut',data:{labels,datasets:[{data,borderWidth:3,hoverOffset:6}]},options:{...opcoesGraficoBase(),cutout:'68%',interaction:{intersect:true,mode:'nearest'},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:18}},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}`}}}}});}
-function gerarGraficoEquipamentosSetor(labels,data){const c=document.getElementById('graficoEquipamentosSetor');if(!c)return;destruirGrafico(graficoEquipamentosSetor);graficoEquipamentosSetor=new Chart(c,{type:'bar',data:{labels,datasets:[{label:'Equipamentos',data,borderWidth:0,borderRadius:7,maxBarThickness:42}]},options:{...opcoesGraficoBase(),indexAxis:'y',scales:{x:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}},y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.x} equipamento(s)`}}}}});}
-function gerarGraficoEquipamentosMarca(labels,data){const c=document.getElementById('graficoEquipamentosMarca');if(!c)return;destruirGrafico(graficoEquipamentosMarca);graficoEquipamentosMarca=new Chart(c,{type:'bar',data:{labels,datasets:[{label:'Equipamentos',data,borderWidth:0,borderRadius:7,maxBarThickness:34}]},options:{...opcoesGraficoBase(),indexAxis:'y',scales:{x:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}},y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.x} equipamento(s)`}}}}});}
+function gerarGraficoEquipamentosStatus(labels,data){const c=document.getElementById("graficoEquipamentosStatus");if(!c)return;if(graficoEquipamentosStatus)graficoEquipamentosStatus.destroy();graficoEquipamentosStatus=new Chart(c,{type:"doughnut",data:{labels,datasets:[{data,borderWidth:1}]},options:{responsive:true,plugins:{legend:{position:"bottom",labels:{color:"white"}}}}});}
+function gerarGraficoEquipamentosSetor(labels,data){const c=document.getElementById("graficoEquipamentosSetor");if(!c)return;if(graficoEquipamentosSetor)graficoEquipamentosSetor.destroy();graficoEquipamentosSetor=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,scales:{y:{beginAtZero:true,ticks:{color:"white"}},x:{ticks:{color:"white"}}}}});}
+function gerarGraficoEquipamentosMarca(labels,data){const c=document.getElementById("graficoEquipamentosMarca");if(!c)return;if(graficoEquipamentosMarca)graficoEquipamentosMarca.destroy();graficoEquipamentosMarca=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,indexAxis:"y",scales:{x:{beginAtZero:true,ticks:{color:"white"}},y:{ticks:{color:"white"}}}}});}
+
+
+function gerarGraficoEquipamentosLocalizacao(labels,data){
+ const c=document.getElementById("graficoEquipamentosLocalizacao"); if(!c)return;
+ if(graficoEquipamentosLocalizacao)graficoEquipamentosLocalizacao.destroy();
+ graficoEquipamentosLocalizacao=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,indexAxis:"y",plugins:{legend:{labels:{color:"white"}}},scales:{x:{beginAtZero:true,ticks:{color:"white",precision:0}},y:{ticks:{color:"white"}}}}});
+}
+function gerarGraficoEquipamentosTempo(labels,data){
+ const c=document.getElementById("graficoEquipamentosTempo"); if(!c)return;
+ if(graficoEquipamentosTempo)graficoEquipamentosTempo.destroy();
+ const nomes=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+ const fmt=labels.map(x=>{const [a,m]=x.split("-");return (nomes[Number(m)-1]||m)+"/"+a;});
+ graficoEquipamentosTempo=new Chart(c,{type:"line",data:{labels:fmt,datasets:[{label:"Cadastros",data,borderWidth:2,tension:.25,fill:false}]},options:{responsive:true,plugins:{legend:{labels:{color:"white"}}},scales:{x:{ticks:{color:"white"}},y:{beginAtZero:true,ticks:{color:"white",precision:0}}}}});
+}
 
 
 /* =====================================================
    GRÁFICO 1
 ===================================================== */
 
-function gerarGraficoEstoque(labels,data){const c=document.getElementById('graficoEstoque');if(!c)return;destruirGrafico(graficoEstoque);graficoEstoque=new Chart(c,{type:'bar',data:{labels,datasets:[{label:'Quantidade em estoque',data,borderWidth:0,borderRadius:7,maxBarThickness:34}]},options:{...opcoesGraficoBase(),indexAxis:'y',scales:{x:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}},y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.x} unidade(s)`}}}}});}
+function gerarGraficoEstoque(labels,data){
+
+const c=
+document.getElementById("graficoEstoque");
+
+if(!c)return;
+
+if(graficoEstoque)
+graficoEstoque.destroy();
+
+graficoEstoque=new Chart(
+c.getContext("2d"),
+{
+
+type:"bar",
+
+data:{
+labels:labels,
+datasets:[{
+label:"Quantidade em estoque",
+data:data,
+borderWidth:1
+}]
+},
+
+options:{
+responsive:true,
+maintainAspectRatio:false,
+
+plugins:{
+legend:{
+labels:{color:"white"}
+}
+},
+
+scales:{
+x:{
+ticks:{
+color:"white"
+}
+},
+
+y:{
+beginAtZero:true,
+ticks:{
+color:"white"
+}
+}
+}
+
+}
+
+});
+
+}
+
 
 /* =====================================================
    GRÁFICO 2
 ===================================================== */
 
-function gerarGraficoStatus(alertas,ok){const c=document.getElementById('graficoStatus');if(!c)return;destruirGrafico(graficoStatus);graficoStatus=new Chart(c,{type:'doughnut',data:{labels:['Em alerta','OK'],datasets:[{data:[alertas,ok],borderWidth:3,hoverOffset:6}]},options:{...opcoesGraficoBase(),cutout:'68%',interaction:{intersect:true,mode:'nearest'},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:18}},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}`}}}}});}
+function gerarGraficoStatus(alertas,ok){
+
+const c=
+document.getElementById("graficoStatus");
+
+if(!c)return;
+
+if(graficoStatus)
+graficoStatus.destroy();
+
+graficoStatus=new Chart(
+c.getContext("2d"),
+{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+"Em alerta",
+"OK"
+],
+
+datasets:[{
+data:[
+alertas,
+ok
+],
+borderWidth:1
+}]
+
+},
+
+options:{
+responsive:true,
+
+plugins:{
+legend:{
+position:"bottom",
+labels:{
+color:"white"
+}
+}
+}
+
+}
+
+});
+
+}
+
 
 /* =====================================================
    GRÁFICO 3
 ===================================================== */
 
-function gerarGraficoMovimentacoes(entradas,saidas){const c=document.getElementById('graficoMovimentacoes');if(!c)return;destruirGrafico(graficoMovimentacoes);graficoMovimentacoes=new Chart(c,{type:'bar',data:{labels:['Entradas','Saídas'],datasets:[{label:'Quantidade',data:[entradas,saidas],borderWidth:0,borderRadius:8,maxBarThickness:55}]},options:{...opcoesGraficoBase(),scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.y} unidade(s)`}}}}});}
+function gerarGraficoMovimentacoes(
+entradas,
+saidas
+){
+
+const c=
+document.getElementById(
+"graficoMovimentacoes"
+);
+
+if(!c)return;
+
+if(graficoMovimentacoes)
+graficoMovimentacoes.destroy();
+
+graficoMovimentacoes=new Chart(
+c.getContext("2d"),
+{
+
+type:"bar",
+
+data:{
+
+labels:[
+"Entradas",
+"Saídas"
+],
+
+datasets:[{
+
+label:"Quantidade",
+data:[
+entradas,
+saidas
+],
+
+borderWidth:1
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+legend:{
+labels:{
+color:"white"
+}
+}
+},
+
+scales:{
+
+x:{
+ticks:{
+color:"white"
+}
+},
+
+y:{
+beginAtZero:true,
+ticks:{
+color:"white"
+}
+}
+
+}
+
+}
+
+});
+
+}
+
 
 /* =====================================================
    GRÁFICO 4
 ===================================================== */
 
-function gerarGraficoSetores(labels,data){const c=document.getElementById('graficoSetores');if(!c)return;destruirGrafico(graficoSetores);graficoSetores=new Chart(c,{type:'doughnut',data:{labels,datasets:[{label:'Saídas',data,borderWidth:3,hoverOffset:6}]},options:{...opcoesGraficoBase(),cutout:'62%',interaction:{intersect:true,mode:'nearest'},plugins:{legend:{position:'right',labels:{usePointStyle:true,padding:14,boxWidth:10}},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed} unidade(s)`}}}}});}
+function gerarGraficoSetores(
+labels,
+data
+){
+
+const c=
+document.getElementById(
+"graficoSetores"
+);
+
+if(!c)return;
+
+if(graficoSetores)
+graficoSetores.destroy();
+
+graficoSetores=new Chart(
+c.getContext("2d"),
+{
+
+type:"pie",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+label:"Saídas",
+data:data,
+borderWidth:1
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+legend:{
+position:"bottom",
+labels:{
+color:"white"
+}
+}
+}
+
+}
+
+});
+
+}
+
 
 /* =====================================================
    GRÁFICO 5
 ===================================================== */
 
-function gerarGraficoItensMovimentados(labels,data){const c=document.getElementById('graficoItensMovimentados');if(!c)return;destruirGrafico(graficoItensMovimentados);graficoItensMovimentados=new Chart(c,{type:'bar',data:{labels,datasets:[{label:'Quantidade movimentada',data,borderWidth:0,borderRadius:7,maxBarThickness:30}]},options:{...opcoesGraficoBase(),indexAxis:'y',scales:{x:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}},y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.x} unidade(s)`}}}}});}
+function gerarGraficoItensMovimentados(
+labels,
+data
+){
+
+const c=
+document.getElementById(
+"graficoItensMovimentados"
+);
+
+if(!c)return;
+
+if(graficoItensMovimentados)
+graficoItensMovimentados.destroy();
+
+graficoItensMovimentados=new Chart(
+c.getContext("2d"),
+{
+
+type:"bar",
+
+data:{
+
+labels:labels,
+
+datasets:[{
+
+label:"Quantidade movimentada",
+data:data,
+borderWidth:1
+
+}]
+
+},
+
+options:{
+
+indexAxis:"y",
+
+responsive:true,
+
+plugins:{
+legend:{
+labels:{
+color:"white"
+}
+}
+},
+
+scales:{
+
+x:{
+beginAtZero:true,
+ticks:{
+color:"white"
+}
+},
+
+y:{
+ticks:{
+color:"white"
+}
+}
+
+}
+
+}
+
+});
+
+}
+
 
 /* =====================================================
    LEITOR
@@ -2343,7 +2694,7 @@ status.className=
 "leitor-status erro";
 
 status.innerText=
-"❌ Código não encontrado no estoque.";
+"<img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Código não encontrado no estoque.";
 
 return;
 
@@ -2383,7 +2734,7 @@ status.className=
 "leitor-status sucesso";
 
 status.innerText=
-"✅ Item identificado com sucesso.";
+"<img src=./assets/icons/check.png class=emoji-img alt= aria-hidden=true> Item identificado com sucesso.";
 
 }
 
@@ -2689,7 +3040,7 @@ async function abrirCameraScanner(modo){
  scannerIniciando=true;
  scannerLendo=false;
 
- titulo.innerText=modo==="estoque"?"📦 Scanner de código de barras — estoque":"💻 Scanner de código de barras — número de série";
+ titulo.innerHTML=modo==="estoque"?"<img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Scanner de código de barras — estoque":"<img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Scanner de código de barras — número de série";
  status.innerText="Solicitando acesso à câmera...";
  ajuda.style.display="none";
  modal.classList.add("ativo");
@@ -2943,7 +3294,7 @@ function abrirCadastro(categoria){
  const cat=String(categoria||"").toUpperCase();
  document.getElementById("categoriaCadastro").value=cat;
  const eq=cat==="EQUIPAMENTO";
- document.getElementById("tituloCadastro").innerHTML=eq?"💻 Cadastrar equipamento":"📦 Cadastrar item de estoque";
+ document.getElementById("tituloCadastro").innerHTML=eq?"<img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Cadastrar equipamento":"<img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Cadastrar item de estoque";
  document.getElementById("descricaoCadastro").textContent=eq?"Cadastre um equipamento patrimonial individualmente.":"Cadastre materiais controlados por quantidade, como toner, etiquetas e cabos.";
  document.getElementById("camposEquipamento").style.display=eq?"contents":"none";
  document.getElementById("camposConsumo").style.display=eq?"none":"contents";
@@ -3150,7 +3501,7 @@ document.createElement("div");
 nome.className="setor-nome";
 
 nome.innerHTML=
-"🏢 "+escapeHtml(setor);
+"<img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true> "+escapeHtml(setor);
 
 const botao=
 document.createElement("button");
@@ -3158,7 +3509,7 @@ document.createElement("button");
 botao.className=
 "btn-excluir-setor";
 
-botao.innerHTML="🗑️ Excluir";
+botao.innerHTML="<img src=./assets/icons/trash.png class=emoji-img alt= aria-hidden=true> Excluir";
 
 botao.onclick=
 ()=>excluirSetor(setor);
@@ -3340,6 +3691,10 @@ async function criarUsuario(){
  const dados={tipo:"usuarios",acao:"criar",usuario:document.getElementById("novoUsuarioLogin").value.trim(),nome:document.getElementById("novoUsuarioNome").value.trim(),senha:document.getElementById("novoUsuarioSenha").value,perfil:document.getElementById("novoUsuarioPerfil").value};
  if(!dados.usuario||!dados.nome||!dados.senha){toast("Preencha usuário, nome e senha","erro");return;} try{const r=await apiPost(dados);if(!r.sucesso){toast(r.mensagem||"Não foi possível criar usuário","erro");return;}toast("Usuário criado com sucesso!","sucesso");document.getElementById("novoUsuarioLogin").value="";document.getElementById("novoUsuarioNome").value="";document.getElementById("novoUsuarioSenha").value="";await carregar();}catch(e){toast("Erro ao criar usuário","erro");}}
 async function alterarStatusUsuario(login,ativo){try{const r=await apiPost({tipo:"usuarios",acao:"status",usuario:login,ativo:ativo?"SIM":"NÃO"});if(!r.sucesso){toast(r.mensagem||"Não foi possível alterar o usuário","erro");return;}await carregar();}catch(e){toast("Erro ao alterar usuário","erro");}}
+async function criarBackupSistema(){
+ try{const r=await apiPost({tipo:"backup"});if(!r.sucesso){toast(r.mensagem||"Não foi possível criar o backup","erro");return;}toast("Backup criado com sucesso!","sucesso");}
+ catch(e){toast("Erro ao criar backup","erro");}
+}
 function renderizarUsuarios(usuarios){const tbody=document.getElementById("tabelaUsuarios");if(!tbody)return;tbody.innerHTML="";(usuarios||[]).forEach(u=>{tbody.innerHTML+=`<tr><td>${escapeHtml(u.usuario)}</td><td>${escapeHtml(u.nome)}</td><td><span class="badge-perfil">${escapeHtml(u.perfil==="admin"?"Administrador":u.perfil==="gestor_operacional"?"Gestor Operacional":"Consulta")}</span></td><td>${escapeHtml(u.ativo)}</td><td><button class="btn-editar" onclick="alterarStatusUsuario('${escapeJs(u.usuario)}','${u.ativo!=="SIM"}')">${u.ativo==="SIM"?"Desativar":"Ativar"}</button></td></tr>`;});}
 
 /* =====================================================
@@ -3352,27 +3707,27 @@ tipoRelatorioSelecionado=tipo;
 
 const nomes={
 
-estoque:"📦 Estoque Atual",
+estoque:"<img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Estoque Atual",
 
-alertas:"⚠️ Itens em Alerta",
+alertas:"<img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true> Itens em Alerta",
 
-saidas:"📤 Saídas",
+saidas:"<img src=./assets/icons/upload.png class=emoji-img alt= aria-hidden=true> Saídas",
 
-setor:"🏢 Por Setor",
+setor:"<img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true> Por Setor",
 
-resumo_setor:"📊 Resumo por Setor",
+resumo_setor:"<img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Resumo por Setor",
 
-item:"📦 Movimentações por Item",
+item:"<img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Movimentações por Item",
 
-historico:"📋 Histórico Completo",
-equipamentos:"💻 Equipamentos"
+historico:"<img src=./assets/icons/clipboard.png class=emoji-img alt= aria-hidden=true> Histórico Completo",
+equipamentos:"<img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Equipamentos"
 
 };
 
 document.getElementById(
 "filtroRelatorioTitulo"
 ).innerText=
-"🔎 Filtros — "+nomes[tipo];
+"<img src=./assets/icons/search.png class=emoji-img alt= aria-hidden=true> Filtros — "+nomes[tipo];
 
 document.getElementById(
 "modalFiltrosRelatorio"
@@ -3452,7 +3807,8 @@ dataFinal,
 setor,
 
 codigoItem,
-status
+status,
+equipamento:pesquisaEquipamento
 
 });
 
@@ -3485,7 +3841,7 @@ document.getElementById(
 ).innerHTML=`
 
 <span>
-📅 Período:
+<img src=./assets/icons/calendar.png class=emoji-img alt= aria-hidden=true> Período:
 <strong>
 ${escapeHtml(
 resultado.filtros.periodo
@@ -3494,7 +3850,7 @@ resultado.filtros.periodo
 </span>
 
 <span>
-🏢 Setor:
+<img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true> Setor:
 <strong>
 ${escapeHtml(
 resultado.filtros.setor
@@ -3503,11 +3859,11 @@ resultado.filtros.setor
 </span>
 
 <span>
-📦 Item:
+<img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Item:
 <strong>${escapeHtml(resultado.filtros.item)}</strong>
 </span>
-<span>🔎 Status: <strong>${escapeHtml(resultado.filtros.status||"Todos os status")}</strong></span>
-<span>💻 Equipamento: <strong>${escapeHtml(resultado.filtros.equipamento||"Todos os equipamentos")}</strong></span>
+<span><img src=./assets/icons/search.png class=emoji-img alt= aria-hidden=true> Status: <strong>${escapeHtml(resultado.filtros.status||"Todos os status")}</strong></span>
+<span><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Equipamento: <strong>${escapeHtml(resultado.filtros.equipamento||"Todos os equipamentos")}</strong></span>
 `;
 
 document.getElementById(
@@ -3758,14 +4114,17 @@ return String(v??"")
 
 function aplicarPermissoes(){
  const perfil=normalizarPerfilLocal(usuarioAtual?.perfil);
- const admin=perfil==="admin", gestor=perfil==="gestor_operacional";
- const consulta=perfil==="consulta";
+ const admin=perfil==="admin", consulta=perfil==="consulta";
+ const nome={admin:"Administrador",gestor_operacional:"Gestor Operacional",consulta:"Consulta"};
+ const pe=document.getElementById("perfilUsuarioLogado"); if(pe)pe.innerText="Perfil: "+(nome[perfil]||"Consulta");
  const esconder=(sel,cond)=>document.querySelectorAll(sel).forEach(e=>e.style.display=cond?"none":"");
  esconder("#cardUsuarios,#cardBackup",!admin);
- esconder("#config .btn-success",consulta);
- esconder("#modalCadastro .btn:not(.btn-danger)",consulta);
+ esconder("#blocoGerenciarSetores",!admin);
  esconder(".entrada,.saida,.btn-editar",consulta);
- if(consulta){const c=document.getElementById("config");if(c)c.querySelectorAll(".btn-excluir-setor").forEach(x=>x.style.display="none");}
+ esconder("#modalCadastro .btn:not(.btn-danger)",consulta);
+ const menuConfig=document.querySelector('.menu-btn[onclick*="mostrarSecao(\'config\'"]');
+ if(menuConfig)menuConfig.style.display=admin?"":"";
+ if(consulta){document.querySelectorAll(".btn-success").forEach(e=>e.style.display="none");}
 }
 function normalizarPerfilLocal(p){const x=String(p||"").toLowerCase().trim();return x==="administrador"?"admin":x==="gestor operacional"||x==="gestor"?"gestor_operacional":x||"consulta";}
 
