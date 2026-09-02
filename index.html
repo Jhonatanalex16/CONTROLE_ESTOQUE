@@ -849,6 +849,18 @@ align-items:flex-start
 
 }
 </style>
+
+<style id="graficos-profissionais">
+.graficos-dashboard{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:stretch}
+.grafico{position:relative;min-height:330px;padding:20px!important;overflow:hidden}
+.grafico.grafico-largo{grid-column:1/-1;min-height:380px}
+.grafico h2{margin:0 0 14px!important;font-size:16px!important;font-weight:700;letter-spacing:.1px}
+.grafico canvas{display:block;width:100%!important;height:255px!important}
+.grafico.grafico-largo canvas{height:300px!important}
+@media(max-width:900px){.graficos-dashboard{grid-template-columns:1fr}.grafico.grafico-largo{grid-column:auto}.grafico{min-height:310px}.grafico.grafico-largo{min-height:350px}}
+@media(max-width:560px){.grafico{padding:15px!important;min-height:285px}.grafico canvas,.grafico.grafico-largo canvas{height:235px!important}.grafico.grafico-largo{min-height:300px}}
+</style>
+
 </head>
 
 <body>
@@ -905,7 +917,6 @@ ENTRAR
 <div class="usuario-logado">
 Usuário conectado:
 <strong id="nomeUsuarioLogado">---</strong>
-<span id="perfilUsuarioLogado" style="display:block;margin-top:5px;color:#94a3b8;font-size:12px">Perfil: ---</span>
 </div>
 
 <div class="menu">
@@ -1055,16 +1066,6 @@ Sair
 <div class="grafico grafico-largo">
 <h2>🏷️ Equipamentos por Marca</h2>
 <canvas id="graficoEquipamentosMarca"></canvas>
-</div>
-
-<div class="grafico">
-<h2>📍 Equipamentos por Localização</h2>
-<canvas id="graficoEquipamentosLocalizacao"></canvas>
-</div>
-
-<div class="grafico">
-<h2>📅 Cadastros de Equipamentos por Mês</h2>
-<canvas id="graficoEquipamentosTempo"></canvas>
 </div>
 
 </div>
@@ -1509,7 +1510,7 @@ onclick="ativarLightMode()">
 </div>
 
 
-<div id="blocoGerenciarSetores" class="card">
+<div class="card">
 
 <h2>🏢 Gerenciar Setores</h2>
 
@@ -1531,27 +1532,10 @@ onclick="adicionarSetor()">
 
 </div>
 
-<div id="listaSetores" style="margin-top:25px"></div>
-
+<div id="listaSetores"
+style="margin-top:25px">
 </div>
 
-<div id="cardUsuarios" class="card">
-<h2>👥 Usuários e Perfis</h2>
-<p style="color:#94a3b8;margin-bottom:20px">Crie usuários e defina o nível de acesso ao sistema.</p>
-<div class="grid">
-<input id="novoUsuarioLogin" placeholder="Usuário de acesso" maxlength="50">
-<input id="novoUsuarioNome" placeholder="Nome completo" maxlength="100">
-<input id="novoUsuarioSenha" type="password" placeholder="Senha" maxlength="100">
-<select id="novoUsuarioPerfil"><option value="gestor_operacional">Gestor Operacional</option><option value="consulta">Consulta</option><option value="admin">Administrador</option></select>
-<button class="btn btn-success" onclick="criarUsuario()">➕ Criar usuário</button>
-</div>
-<div class="table-container" style="margin-top:20px"><table class="usuario-tabela"><thead><tr><th>Usuário</th><th>Nome</th><th>Perfil</th><th>Ativo</th><th>Ação</th></tr></thead><tbody id="tabelaUsuarios"></tbody></table></div>
-</div>
-
-<div id="cardBackup" class="card">
-<h2>💾 Backup</h2>
-<p style="color:#94a3b8;margin-bottom:20px">Cria uma cópia da planilha atual no Google Drive.</p>
-<button class="btn" onclick="criarBackupSistema()">💾 Criar backup agora</button>
 </div>
 
 </div>
@@ -1791,8 +1775,6 @@ let graficoItensMovimentados = null;
 let graficoEquipamentosStatus = null;
 let graficoEquipamentosSetor = null;
 let graficoEquipamentosMarca = null;
-let graficoEquipamentosLocalizacao = null;
-let graficoEquipamentosTempo = null;
 let scannerControls = null;
 let scannerModo = "";
 let scannerIniciando = false;
@@ -2247,377 +2229,51 @@ const disp=equipamentosGlobais.filter(x=>x.status==="Disponível").length;
 const rem=equipamentosGlobais.filter(x=>x.status==="Removido").length;
 const set=(id,v)=>{const el=document.getElementById(id);if(el)el.innerText=v;};
 set("totalEquipamentos",equipamentosGlobais.length);set("equipamentosEmUso",uso);set("equipamentosDisponiveis",disp);set("equipamentosRemovidos",rem);
-const setores={}; const marcas={}; const locais={}; const meses={};
-equipamentosGlobais.forEach(x=>{
- const st=x.setor||"Sem setor"; setores[st]=(setores[st]||0)+1;
- const m=x.marca||"Sem marca"; marcas[m]=(marcas[m]||0)+1;
- const l=x.localizacao||"Sem localização"; locais[l]=(locais[l]||0)+1;
- const d=x.dataCadastro?new Date(x.dataCadastro):null;
- if(d && !isNaN(d.getTime())){const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0");meses[k]=(meses[k]||0)+1;}
-});
+const ms={}; const marcas={};
+equipamentosGlobais.forEach(x=>{const st=x.setor||"Sem setor";ms[st]=(ms[st]||0)+1;const m=x.marca||"Sem marca";marcas[m]=(marcas[m]||0)+1;});
 gerarGraficoEquipamentosStatus(["Em uso","Disponível","Removido"],[uso,disp,rem]);
-gerarGraficoEquipamentosSetor(Object.keys(setores),Object.values(setores));
+gerarGraficoEquipamentosSetor(Object.keys(ms),Object.values(ms));
 gerarGraficoEquipamentosMarca(Object.keys(marcas),Object.values(marcas));
-gerarGraficoEquipamentosLocalizacao(Object.keys(locais),Object.values(locais));
-const tempoOrdenado=Object.entries(meses).sort((a,b)=>a[0].localeCompare(b[0]));
-gerarGraficoEquipamentosTempo(tempoOrdenado.map(x=>x[0]),tempoOrdenado.map(x=>x[1]));
 carregarEquipamentosFiltro();
 aplicarPermissoes();
 }
 
-function gerarGraficoEquipamentosStatus(labels,data){const c=document.getElementById("graficoEquipamentosStatus");if(!c)return;if(graficoEquipamentosStatus)graficoEquipamentosStatus.destroy();graficoEquipamentosStatus=new Chart(c,{type:"doughnut",data:{labels,datasets:[{data,borderWidth:1}]},options:{responsive:true,plugins:{legend:{position:"bottom",labels:{color:"white"}}}}});}
-function gerarGraficoEquipamentosSetor(labels,data){const c=document.getElementById("graficoEquipamentosSetor");if(!c)return;if(graficoEquipamentosSetor)graficoEquipamentosSetor.destroy();graficoEquipamentosSetor=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,scales:{y:{beginAtZero:true,ticks:{color:"white"}},x:{ticks:{color:"white"}}}}});}
-function gerarGraficoEquipamentosMarca(labels,data){const c=document.getElementById("graficoEquipamentosMarca");if(!c)return;if(graficoEquipamentosMarca)graficoEquipamentosMarca.destroy();graficoEquipamentosMarca=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,indexAxis:"y",scales:{x:{beginAtZero:true,ticks:{color:"white"}},y:{ticks:{color:"white"}}}}});}
-
-
-function gerarGraficoEquipamentosLocalizacao(labels,data){
- const c=document.getElementById("graficoEquipamentosLocalizacao"); if(!c)return;
- if(graficoEquipamentosLocalizacao)graficoEquipamentosLocalizacao.destroy();
- graficoEquipamentosLocalizacao=new Chart(c,{type:"bar",data:{labels,datasets:[{label:"Equipamentos",data,borderWidth:1}]},options:{responsive:true,indexAxis:"y",plugins:{legend:{labels:{color:"white"}}},scales:{x:{beginAtZero:true,ticks:{color:"white",precision:0}},y:{ticks:{color:"white"}}}}});
-}
-function gerarGraficoEquipamentosTempo(labels,data){
- const c=document.getElementById("graficoEquipamentosTempo"); if(!c)return;
- if(graficoEquipamentosTempo)graficoEquipamentosTempo.destroy();
- const nomes=["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
- const fmt=labels.map(x=>{const [a,m]=x.split("-");return (nomes[Number(m)-1]||m)+"/"+a;});
- graficoEquipamentosTempo=new Chart(c,{type:"line",data:{labels:fmt,datasets:[{label:"Cadastros",data,borderWidth:2,tension:.25,fill:false}]},options:{responsive:true,plugins:{legend:{labels:{color:"white"}}},scales:{x:{ticks:{color:"white"}},y:{beginAtZero:true,ticks:{color:"white",precision:0}}}}});
-}
+function destruirGrafico(ref){try{if(ref)ref.destroy();}catch(e){console.warn(e);}}
+function opcoesGraficoBase(){return {responsive:true,maintainAspectRatio:false,animation:{duration:500},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:18,font:{size:12}}},tooltip:{padding:10,displayColors:true}},interaction:{intersect:false,mode:'index'}};}
+function gerarGraficoEquipamentosStatus(labels,data){const c=document.getElementById('graficoEquipamentosStatus');if(!c)return;destruirGrafico(graficoEquipamentosStatus);graficoEquipamentosStatus=new Chart(c,{type:'doughnut',data:{labels,datasets:[{data,borderWidth:3,hoverOffset:6}]},options:{...opcoesGraficoBase(),cutout:'68%',interaction:{intersect:true,mode:'nearest'},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:18}},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}`}}}}});}
+function gerarGraficoEquipamentosSetor(labels,data){const c=document.getElementById('graficoEquipamentosSetor');if(!c)return;destruirGrafico(graficoEquipamentosSetor);graficoEquipamentosSetor=new Chart(c,{type:'bar',data:{labels,datasets:[{label:'Equipamentos',data,borderWidth:0,borderRadius:7,maxBarThickness:42}]},options:{...opcoesGraficoBase(),indexAxis:'y',scales:{x:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}},y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.x} equipamento(s)`}}}}});}
+function gerarGraficoEquipamentosMarca(labels,data){const c=document.getElementById('graficoEquipamentosMarca');if(!c)return;destruirGrafico(graficoEquipamentosMarca);graficoEquipamentosMarca=new Chart(c,{type:'bar',data:{labels,datasets:[{label:'Equipamentos',data,borderWidth:0,borderRadius:7,maxBarThickness:34}]},options:{...opcoesGraficoBase(),indexAxis:'y',scales:{x:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}},y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.x} equipamento(s)`}}}}});}
 
 
 /* =====================================================
    GRÁFICO 1
 ===================================================== */
 
-function gerarGraficoEstoque(labels,data){
-
-const c=
-document.getElementById("graficoEstoque");
-
-if(!c)return;
-
-if(graficoEstoque)
-graficoEstoque.destroy();
-
-graficoEstoque=new Chart(
-c.getContext("2d"),
-{
-
-type:"bar",
-
-data:{
-labels:labels,
-datasets:[{
-label:"Quantidade em estoque",
-data:data,
-borderWidth:1
-}]
-},
-
-options:{
-responsive:true,
-maintainAspectRatio:false,
-
-plugins:{
-legend:{
-labels:{color:"white"}
-}
-},
-
-scales:{
-x:{
-ticks:{
-color:"white"
-}
-},
-
-y:{
-beginAtZero:true,
-ticks:{
-color:"white"
-}
-}
-}
-
-}
-
-});
-
-}
-
+function gerarGraficoEstoque(labels,data){const c=document.getElementById('graficoEstoque');if(!c)return;destruirGrafico(graficoEstoque);graficoEstoque=new Chart(c,{type:'bar',data:{labels,datasets:[{label:'Quantidade em estoque',data,borderWidth:0,borderRadius:7,maxBarThickness:34}]},options:{...opcoesGraficoBase(),indexAxis:'y',scales:{x:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}},y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.x} unidade(s)`}}}}});}
 
 /* =====================================================
    GRÁFICO 2
 ===================================================== */
 
-function gerarGraficoStatus(alertas,ok){
-
-const c=
-document.getElementById("graficoStatus");
-
-if(!c)return;
-
-if(graficoStatus)
-graficoStatus.destroy();
-
-graficoStatus=new Chart(
-c.getContext("2d"),
-{
-
-type:"doughnut",
-
-data:{
-
-labels:[
-"Em alerta",
-"OK"
-],
-
-datasets:[{
-data:[
-alertas,
-ok
-],
-borderWidth:1
-}]
-
-},
-
-options:{
-responsive:true,
-
-plugins:{
-legend:{
-position:"bottom",
-labels:{
-color:"white"
-}
-}
-}
-
-}
-
-});
-
-}
-
+function gerarGraficoStatus(alertas,ok){const c=document.getElementById('graficoStatus');if(!c)return;destruirGrafico(graficoStatus);graficoStatus=new Chart(c,{type:'doughnut',data:{labels:['Em alerta','OK'],datasets:[{data:[alertas,ok],borderWidth:3,hoverOffset:6}]},options:{...opcoesGraficoBase(),cutout:'68%',interaction:{intersect:true,mode:'nearest'},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,padding:18}},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}`}}}}});}
 
 /* =====================================================
    GRÁFICO 3
 ===================================================== */
 
-function gerarGraficoMovimentacoes(
-entradas,
-saidas
-){
-
-const c=
-document.getElementById(
-"graficoMovimentacoes"
-);
-
-if(!c)return;
-
-if(graficoMovimentacoes)
-graficoMovimentacoes.destroy();
-
-graficoMovimentacoes=new Chart(
-c.getContext("2d"),
-{
-
-type:"bar",
-
-data:{
-
-labels:[
-"Entradas",
-"Saídas"
-],
-
-datasets:[{
-
-label:"Quantidade",
-data:[
-entradas,
-saidas
-],
-
-borderWidth:1
-
-}]
-
-},
-
-options:{
-
-responsive:true,
-
-plugins:{
-legend:{
-labels:{
-color:"white"
-}
-}
-},
-
-scales:{
-
-x:{
-ticks:{
-color:"white"
-}
-},
-
-y:{
-beginAtZero:true,
-ticks:{
-color:"white"
-}
-}
-
-}
-
-}
-
-});
-
-}
-
+function gerarGraficoMovimentacoes(entradas,saidas){const c=document.getElementById('graficoMovimentacoes');if(!c)return;destruirGrafico(graficoMovimentacoes);graficoMovimentacoes=new Chart(c,{type:'bar',data:{labels:['Entradas','Saídas'],datasets:[{label:'Quantidade',data:[entradas,saidas],borderWidth:0,borderRadius:8,maxBarThickness:55}]},options:{...opcoesGraficoBase(),scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.y} unidade(s)`}}}}});}
 
 /* =====================================================
    GRÁFICO 4
 ===================================================== */
 
-function gerarGraficoSetores(
-labels,
-data
-){
-
-const c=
-document.getElementById(
-"graficoSetores"
-);
-
-if(!c)return;
-
-if(graficoSetores)
-graficoSetores.destroy();
-
-graficoSetores=new Chart(
-c.getContext("2d"),
-{
-
-type:"pie",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Saídas",
-data:data,
-borderWidth:1
-
-}]
-
-},
-
-options:{
-
-responsive:true,
-
-plugins:{
-legend:{
-position:"bottom",
-labels:{
-color:"white"
-}
-}
-}
-
-}
-
-});
-
-}
-
+function gerarGraficoSetores(labels,data){const c=document.getElementById('graficoSetores');if(!c)return;destruirGrafico(graficoSetores);graficoSetores=new Chart(c,{type:'doughnut',data:{labels,datasets:[{label:'Saídas',data,borderWidth:3,hoverOffset:6}]},options:{...opcoesGraficoBase(),cutout:'62%',interaction:{intersect:true,mode:'nearest'},plugins:{legend:{position:'right',labels:{usePointStyle:true,padding:14,boxWidth:10}},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed} unidade(s)`}}}}});}
 
 /* =====================================================
    GRÁFICO 5
 ===================================================== */
 
-function gerarGraficoItensMovimentados(
-labels,
-data
-){
-
-const c=
-document.getElementById(
-"graficoItensMovimentados"
-);
-
-if(!c)return;
-
-if(graficoItensMovimentados)
-graficoItensMovimentados.destroy();
-
-graficoItensMovimentados=new Chart(
-c.getContext("2d"),
-{
-
-type:"bar",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Quantidade movimentada",
-data:data,
-borderWidth:1
-
-}]
-
-},
-
-options:{
-
-indexAxis:"y",
-
-responsive:true,
-
-plugins:{
-legend:{
-labels:{
-color:"white"
-}
-}
-},
-
-scales:{
-
-x:{
-beginAtZero:true,
-ticks:{
-color:"white"
-}
-},
-
-y:{
-ticks:{
-color:"white"
-}
-}
-
-}
-
-}
-
-});
-
-}
-
+function gerarGraficoItensMovimentados(labels,data){const c=document.getElementById('graficoItensMovimentados');if(!c)return;destruirGrafico(graficoItensMovimentados);graficoItensMovimentados=new Chart(c,{type:'bar',data:{labels,datasets:[{label:'Quantidade movimentada',data,borderWidth:0,borderRadius:7,maxBarThickness:30}]},options:{...opcoesGraficoBase(),indexAxis:'y',scales:{x:{beginAtZero:true,grid:{drawBorder:false},ticks:{precision:0}},y:{grid:{display:false}}},plugins:{legend:{display:false},tooltip:{padding:10,callbacks:{label:ctx=>` ${ctx.parsed.x} unidade(s)`}}}}});}
 
 /* =====================================================
    LEITOR
@@ -3684,10 +3340,6 @@ async function criarUsuario(){
  const dados={tipo:"usuarios",acao:"criar",usuario:document.getElementById("novoUsuarioLogin").value.trim(),nome:document.getElementById("novoUsuarioNome").value.trim(),senha:document.getElementById("novoUsuarioSenha").value,perfil:document.getElementById("novoUsuarioPerfil").value};
  if(!dados.usuario||!dados.nome||!dados.senha){toast("Preencha usuário, nome e senha","erro");return;} try{const r=await apiPost(dados);if(!r.sucesso){toast(r.mensagem||"Não foi possível criar usuário","erro");return;}toast("Usuário criado com sucesso!","sucesso");document.getElementById("novoUsuarioLogin").value="";document.getElementById("novoUsuarioNome").value="";document.getElementById("novoUsuarioSenha").value="";await carregar();}catch(e){toast("Erro ao criar usuário","erro");}}
 async function alterarStatusUsuario(login,ativo){try{const r=await apiPost({tipo:"usuarios",acao:"status",usuario:login,ativo:ativo?"SIM":"NÃO"});if(!r.sucesso){toast(r.mensagem||"Não foi possível alterar o usuário","erro");return;}await carregar();}catch(e){toast("Erro ao alterar usuário","erro");}}
-async function criarBackupSistema(){
- try{const r=await apiPost({tipo:"backup"});if(!r.sucesso){toast(r.mensagem||"Não foi possível criar o backup","erro");return;}toast("Backup criado com sucesso!","sucesso");}
- catch(e){toast("Erro ao criar backup","erro");}
-}
 function renderizarUsuarios(usuarios){const tbody=document.getElementById("tabelaUsuarios");if(!tbody)return;tbody.innerHTML="";(usuarios||[]).forEach(u=>{tbody.innerHTML+=`<tr><td>${escapeHtml(u.usuario)}</td><td>${escapeHtml(u.nome)}</td><td><span class="badge-perfil">${escapeHtml(u.perfil==="admin"?"Administrador":u.perfil==="gestor_operacional"?"Gestor Operacional":"Consulta")}</span></td><td>${escapeHtml(u.ativo)}</td><td><button class="btn-editar" onclick="alterarStatusUsuario('${escapeJs(u.usuario)}','${u.ativo!=="SIM"}')">${u.ativo==="SIM"?"Desativar":"Ativar"}</button></td></tr>`;});}
 
 /* =====================================================
@@ -3800,8 +3452,7 @@ dataFinal,
 setor,
 
 codigoItem,
-status,
-equipamento:pesquisaEquipamento
+status
 
 });
 
@@ -4107,17 +3758,14 @@ return String(v??"")
 
 function aplicarPermissoes(){
  const perfil=normalizarPerfilLocal(usuarioAtual?.perfil);
- const admin=perfil==="admin", consulta=perfil==="consulta";
- const nome={admin:"Administrador",gestor_operacional:"Gestor Operacional",consulta:"Consulta"};
- const pe=document.getElementById("perfilUsuarioLogado"); if(pe)pe.innerText="Perfil: "+(nome[perfil]||"Consulta");
+ const admin=perfil==="admin", gestor=perfil==="gestor_operacional";
+ const consulta=perfil==="consulta";
  const esconder=(sel,cond)=>document.querySelectorAll(sel).forEach(e=>e.style.display=cond?"none":"");
  esconder("#cardUsuarios,#cardBackup",!admin);
- esconder("#blocoGerenciarSetores",!admin);
- esconder(".entrada,.saida,.btn-editar",consulta);
+ esconder("#config .btn-success",consulta);
  esconder("#modalCadastro .btn:not(.btn-danger)",consulta);
- const menuConfig=document.querySelector('.menu-btn[onclick*="mostrarSecao(\'config\'"]');
- if(menuConfig)menuConfig.style.display=admin?"":"";
- if(consulta){document.querySelectorAll(".btn-success").forEach(e=>e.style.display="none");}
+ esconder(".entrada,.saida,.btn-editar",consulta);
+ if(consulta){const c=document.getElementById("config");if(c)c.querySelectorAll(".btn-excluir-setor").forEach(x=>x.style.display="none");}
 }
 function normalizarPerfilLocal(p){const x=String(p||"").toLowerCase().trim();return x==="administrador"?"admin":x==="gestor operacional"||x==="gestor"?"gestor_operacional":x||"consulta";}
 
