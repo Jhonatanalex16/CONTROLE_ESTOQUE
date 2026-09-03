@@ -1519,6 +1519,12 @@ body.light-mode .grafico h2{color:#1e293b !important}
 .btn i{font-size:14px}
 .btn .emoji-img{width:16px!important;height:16px!important;margin:0!important;vertical-align:middle!important}
 
+/* Exclusão de item do estoque — ação destrutiva separada da edição */
+.btn-excluir-item{background:linear-gradient(145deg,#4b1d26,#32151c)!important;color:#fda4af!important;border-color:rgba(248,113,113,.25)!important}
+.btn-excluir-item:hover{background:linear-gradient(145deg,#7f1d2d,#4c1620)!important;color:#fff1f2!important;border-color:rgba(248,113,113,.55)!important;box-shadow:0 8px 17px rgba(127,29,29,.24)!important}
+body.light-mode .btn-excluir-item{background:#fff1f2!important;color:#dc2626!important;border-color:#fecaca!important}
+body.light-mode .btn-excluir-item:hover{background:#fee2e2!important;color:#b91c1c!important}
+
 /* Hierarquia das ações */
 .btn:not(.btn-success):not(.btn-danger):not(.btn-secondary){
   background:linear-gradient(135deg,#2563eb 0%,#0891b2 100%)!important;
@@ -2663,7 +2669,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbypU8Q0QgVSCyl712mvS7vEypgn0dRanWfFtMwuHp7JotqvEWMUL4Lls1bP7nenx0rD/exec";
+"https://script.google.com/macros/s/AKfycbzemXNQ-e7mbYpl8Iqgxg5DznSPp08P1tOzkQr-OgMNJGKT__BQmfEnpDNFYJoo4olA/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -3160,6 +3166,7 @@ tabela.innerHTML+=`
 <button class="entrada" title="Entrada" onclick="movimentacaoManual('${escapeJs(item.codigo)}','entrada')">+</button>
 <button class="saida" title="Saída" onclick="movimentacaoManual('${escapeJs(item.codigo)}','saida')">−</button>
 <button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(item.codigo)}','CONSUMO')"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true></button>
+<button class="btn-editar btn-excluir-item" title="Excluir item do estoque" onclick="excluirItemEstoque('${escapeJs(item.codigo)}')"><i class="fa-solid fa-trash"></i></button>
 </div>
 </td>
 </tr>`;
@@ -4371,6 +4378,45 @@ async function salvarEdicao(){
  if(categoria==="EQUIPAMENTO"&&(!dados.nome||!dados.numeroSerie||!dados.marca||!dados.setor||!dados.localizacao||!dados.status)){toast("Preencha nome, número de série, marca, setor, localização e status","erro");return;}
  if(categoria==="CONSUMO"&&(!dados.codigo||dados.quantidade===""||dados.minimo==="")){toast("Informe código de barras, quantidade e estoque mínimo","erro");return;}
  try{const resultado=await apiPost(dados);if(!resultado.sucesso){toast(resultado.mensagem||"Não foi possível alterar","erro");return;}fecharEdicao();toast("Informações alteradas com sucesso!","sucesso");await carregar();}catch(e){console.error(e);toast("Erro ao alterar item","erro");}
+}
+
+
+async function excluirItemEstoque(codigo){
+  const item = dadosGlobais.find(x=>String(x.codigo||"")===String(codigo||""));
+  if(!item){
+    toast("Item de estoque não encontrado","erro");
+    return;
+  }
+
+  const confirmar = window.confirm(
+    "Excluir item do estoque?\n\n" +
+    "Item: " + (item.item || "-") + "\n" +
+    "Código: " + (item.codigo || "-") + "\n" +
+    "Quantidade atual: " + (item.quantidade ?? 0) + "\n\n" +
+    "O item será removido do estoque atual.\n" +
+    "O histórico anterior será preservado e a exclusão será registrada."
+  );
+
+  if(!confirmar) return;
+
+  try{
+    const resultado = await apiPost({
+      tipo:"excluirItemEstoque",
+      codigo:String(codigo),
+      identificadorOriginal:String(codigo)
+    });
+
+    if(!resultado.sucesso){
+      toast(resultado.mensagem || "Não foi possível excluir o item","erro");
+      return;
+    }
+
+    toast("Item removido do estoque. Histórico preservado.","sucesso");
+    await carregar();
+  }catch(e){
+    console.error(e);
+    toast("Erro ao excluir item do estoque","erro");
+  }
 }
 
 
