@@ -1716,6 +1716,12 @@ onkeyup="filtrarTabela()">
 <div><label>Item / código</label><input id="histBusca" placeholder="Pesquisar..." oninput="aplicarFiltrosHistorico()"></div>
 <div class="acoes-filtro"><button class="btn btn-secondary" onclick="limparFiltrosHistorico()"><img src=./assets/icons/refresh.png class=emoji-img alt= aria-hidden=true> Limpar</button><button class="btn" onclick="gerarRelatorio('historico')"><img src=./assets/icons/pdf.png class=emoji-img alt= aria-hidden=true> Relatório</button></div>
 </div>
+<div class="historico-abas" style="display:flex;gap:10px;flex-wrap:wrap;margin:20px 0;">
+<button type="button" id="abaHistoricoEstoque" class="btn" onclick="mostrarHistoricoTipo('estoque')">📦 Histórico de Estoque</button>
+<button type="button" id="abaHistoricoEquipamentos" class="btn btn-secondary" onclick="mostrarHistoricoTipo('equipamentos')">🖥️ Histórico de Equipamentos</button>
+</div>
+
+<div id="historicoEstoquePainel">
 <div class="tabela-cabecalho"><div class="sub" id="historicoResultadoResumo">Exibindo todas as movimentações</div></div>
 <div class="table-container">
 <table>
@@ -1724,6 +1730,17 @@ onkeyup="filtrarTabela()">
 </table>
 </div>
 <div class="paginacao-historico"><span id="historicoPaginaInfo">Página 1</span><div class="botoes"><button id="histAnterior" onclick="mudarPaginaHistorico(-1)">‹ Anterior</button><button id="histProxima" onclick="mudarPaginaHistorico(1)">Próxima ›</button></div></div>
+</div>
+
+<div id="historicoEquipamentosPainel" style="display:none;">
+<div class="tabela-cabecalho"><div><div class="sub">Histórico patrimonial separado da movimentação de estoque.</div></div></div>
+<div class="table-container">
+<table>
+<thead><tr><th>Data</th><th>Ação</th><th>Equipamento</th><th>Patrimônio</th><th>Nº Série</th><th>Setor</th><th>Localização</th><th>Status</th><th>Usuário</th><th>Observação</th></tr></thead>
+<tbody id="tabelaHistoricoEquipamentos"></tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 
@@ -2101,7 +2118,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwZn69-zDby9y3iUZOJrGQ6X6y8n6FkSb0cv2EcoH6fJhMugTmn6jx4vWvt9m4gQOUG/exec";
+"https://script.google.com/macros/s/AKfycbzsPLdxMfgY70k8FiJzERHhfFsZ6uekEDx11Kv9I6z1qzbdH1vcc7qGTDeOP5zhjD4g/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -2452,6 +2469,7 @@ resultado.mensagem || "Erro ao carregar"
 dadosGlobais=resultado.estoque || [];
 equipamentosGlobais=resultado.equipamentos || [];
 historicoEquipamentosGlobal=resultado.historicoEquipamentos || [];
+renderizarHistoricoEquipamentos();
 
 historicoGlobal=resultado.historico || [];
 
@@ -2516,6 +2534,31 @@ function filtrarEquipamentos(){
  tabela.innerHTML=lista.length?lista.map(eq=>`<tr><td><strong>${escapeHtml(eq.nome)}</strong></td><td>${escapeHtml(eq.patrimonio||"-")}</td><td>${escapeHtml(eq.numeroSerie||"-")}</td><td>${escapeHtml(eq.marca||"-")}</td><td>${escapeHtml(eq.setor||"-")}</td><td>${escapeHtml(eq.localizacao||"-")}</td><td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td><td>${escapeHtml(eq.observacoes||"-")}</td><td><div class="acoes"><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true></button><button class="btn-editar" title="Histórico" onclick="abrirHistoricoEquipamento('${escapeJs(eq.id)}')"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true></button></div></td></tr>`).join(''):'<tr><td colspan="9" class="linha-vazia">Nenhum equipamento encontrado.</td></tr>';
 }
 function preencherFiltroSetorEquipamento(){const s=document.getElementById("filtroSetorEquipamento");if(!s)return;const atual=s.value;const arr=[...new Set(equipamentosGlobais.map(x=>String(x.setor||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR"));s.innerHTML='<option value="">Todos os setores</option>'+arr.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('');if(arr.includes(atual))s.value=atual;}
+
+function mostrarHistoricoTipo(tipo){
+ const estoque=document.getElementById("historicoEstoquePainel");
+ const equipamentos=document.getElementById("historicoEquipamentosPainel");
+ const btnEstoque=document.getElementById("abaHistoricoEstoque");
+ const btnEquip=document.getElementById("abaHistoricoEquipamentos");
+ const mostrarEquipamentos=tipo==="equipamentos";
+ if(estoque)estoque.style.display=mostrarEquipamentos?"none":"block";
+ if(equipamentos)equipamentos.style.display=mostrarEquipamentos?"block":"none";
+ if(btnEstoque){btnEstoque.classList.toggle("btn-secondary",mostrarEquipamentos);}
+ if(btnEquip){btnEquip.classList.toggle("btn-secondary",!mostrarEquipamentos);}
+ if(mostrarEquipamentos)renderizarHistoricoEquipamentos();
+}
+
+function renderizarHistoricoEquipamentos(){
+ const tbody=document.getElementById("tabelaHistoricoEquipamentos");
+ if(!tbody)return;
+ const dados=(historicoEquipamentosGlobal||[]).slice().sort((a,b)=>new Date(b.data||0)-new Date(a.data||0));
+ tbody.innerHTML=dados.length?dados.map(x=>{
+   const setor=((x.setorAnterior||"-")+" → "+(x.setorNovo||"-"));
+   const local=((x.localizacaoAnterior||"-")+" → "+(x.localizacaoNova||"-"));
+   const status=((x.statusAnterior||"-")+" → "+(x.statusNovo||"-"));
+   return `<tr><td>${formatarData(x.data)}</td><td><strong>${escapeHtml(x.acao||"-")}</strong></td><td>${escapeHtml(x.equipamento||x.nome||"-")}</td><td>${escapeHtml(x.patrimonio||"-")}</td><td>${escapeHtml(x.numeroSerie||"-")}</td><td>${escapeHtml(setor)}</td><td>${escapeHtml(local)}</td><td>${escapeHtml(status)}</td><td>${escapeHtml(x.usuario||"-")}</td><td>${escapeHtml(x.observacao||"-")}</td></tr>`;
+ }).join(""):'<tr><td colspan="10" class="linha-vazia">Nenhum histórico de equipamento registrado.</td></tr>';
+}
 
 function renderizarTudo(){
 
