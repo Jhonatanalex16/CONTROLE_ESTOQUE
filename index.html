@@ -1681,6 +1681,174 @@ body.light-mode .btn-excluir-setor{background:#fef2f2!important;color:#dc2626!im
 }
 </style>
 
+
+<style id="tih-design-v6">
+/* =========================================================
+   T.I-HEDA V6 — DESIGN CORPORATIVO UNIFICADO
+   Apenas camada visual; não altera funções ou IDs.
+========================================================= */
+:root{
+  --ui-bg:#030b18;
+  --ui-panel:#081426;
+  --ui-panel-2:#0b192d;
+  --ui-border:rgba(96,165,250,.14);
+  --ui-border-strong:rgba(96,165,250,.25);
+  --ui-text:#e7edf7;
+  --ui-muted:#8190a8;
+  --ui-blue:#2563eb;
+  --ui-cyan:#06b6d4;
+  --ui-green:#16a34a;
+  --ui-red:#dc2626;
+  --ui-amber:#d97706;
+}
+
+body{background:radial-gradient(circle at 72% 0%,rgba(37,99,235,.07),transparent 34%),#030b18!important;color:var(--ui-text)}
+.layout{background:linear-gradient(90deg,#020817 0%,#030b18 72%,#040c18 100%)}
+
+/* SIDEBAR — referência da imagem */
+.sidebar{
+  width:282px!important;
+  padding:22px 18px!important;
+  background:linear-gradient(180deg,#061121 0%,#071321 60%,#050e1c 100%)!important;
+  border-right:1px solid rgba(96,165,250,.11)!important;
+  box-shadow:14px 0 40px rgba(0,0,0,.18);
+}
+.logo{padding:4px 10px 18px;margin-bottom:8px!important;border-bottom:1px solid rgba(148,163,184,.08)}
+.logo h1{font-size:25px!important;display:flex;align-items:center;gap:8px;letter-spacing:-.5px}
+.logo h1 .emoji-img{width:29px!important;height:29px!important}
+.logo p{font-size:10px!important;letter-spacing:1.1px;text-transform:uppercase;margin:7px 0 0 38px!important;color:#71819a!important}
+.usuario-logado{
+  margin:14px 0 17px!important;padding:13px 14px!important;border-radius:12px!important;
+  background:linear-gradient(145deg,rgba(15,30,52,.92),rgba(8,20,36,.82))!important;
+  border:1px solid rgba(96,165,250,.08)!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.14);
+}
+.usuario-logado strong{font-size:14px;color:#f1f5f9!important;margin-top:5px!important}
+.menu{gap:6px!important}
+.menu button{
+  min-height:46px!important;padding:11px 13px!important;border-radius:9px!important;
+  background:transparent!important;border:1px solid transparent!important;
+  color:#9eabc0!important;font-size:13px!important;font-weight:750!important;
+  box-shadow:none!important;transform:none!important;position:relative;
+}
+.menu button i{width:22px;text-align:center;color:#70809a;font-size:15px;transition:.18s}
+.menu button:hover{background:rgba(37,99,235,.07)!important;color:#dbeafe!important;transform:none!important}
+.menu button:hover i{color:#60a5fa}
+.menu-btn.active{
+  background:linear-gradient(90deg,rgba(37,99,235,.25),rgba(6,182,212,.07))!important;
+  color:#eaf2ff!important;border-color:rgba(59,130,246,.13)!important;
+  box-shadow:inset 3px 0 0 #2563eb,0 8px 18px rgba(0,0,0,.10)!important;
+}
+.menu-btn.active i{color:#60a5fa!important}
+.btn-sair{margin-top:14px!important;color:#f87171!important;background:rgba(127,29,29,.10)!important;border-color:rgba(248,113,113,.08)!important}
+.btn-sair i{color:#ef4444!important}
+
+/* ÁREA PRINCIPAL / CABEÇALHO */
+.main{margin-left:282px!important;padding:28px 32px 38px!important;max-width:none}
+.topo{margin-bottom:24px!important;padding:0 0 18px!important;border-bottom:1px solid rgba(148,163,184,.08);min-height:64px}
+.topo h2{font-size:25px!important;letter-spacing:-.4px!important}
+.topo h2 .emoji-img{width:25px!important;height:25px!important}
+.topo span{color:#3b82f6!important}
+.status-online{padding:9px 13px!important;border-radius:9px!important;background:rgba(15,30,50,.72)!important;border:1px solid rgba(74,222,128,.10)!important;font-size:11px!important;color:#4ade80!important}
+
+/* TÍTULOS E PAINÉIS */
+.card,.grafico,.card-info,.indicador-mini{
+  background:linear-gradient(145deg,rgba(9,22,39,.97),rgba(6,16,29,.94))!important;
+  border:1px solid var(--ui-border)!important;
+  box-shadow:0 10px 30px rgba(0,0,0,.16)!important;
+}
+.card{border-radius:16px!important;padding:22px!important;margin-bottom:18px!important}
+.card h2{font-size:18px!important;margin-bottom:17px!important;color:#e7edf7!important}
+.card-info{border-radius:14px!important;padding:18px!important}
+.card-info h3{font-size:11px!important;text-transform:uppercase;letter-spacing:.7px;color:#8493aa!important}
+.card-info span{font-size:29px!important;color:#60a5fa!important}
+.indicador-mini{border-radius:13px!important;padding:14px 16px!important}
+.indicador-mini .valor{font-size:24px!important}
+
+/* FORMULÁRIOS */
+input,select,textarea{
+  background:#071426!important;border:1px solid rgba(148,163,184,.13)!important;
+  border-radius:10px!important;color:#e5edf8!important;
+}
+input,select{padding:13px 14px!important}
+textarea{padding:13px 14px!important}
+input:hover,select:hover,textarea:hover{border-color:rgba(96,165,250,.20)!important}
+input:focus,select:focus,textarea:focus{border-color:#2563eb!important;box-shadow:0 0 0 3px rgba(37,99,235,.10)!important}
+
+/* BOTÕES — hierarquia da referência */
+.btn{border-radius:9px!important;min-height:42px!important;padding:10px 14px!important;font-size:12px!important}
+.btn:not(.btn-success):not(.btn-danger):not(.btn-secondary){background:linear-gradient(135deg,#1d5fe9,#087fa9)!important}
+.btn-success{background:linear-gradient(135deg,#13763a,#16a34a)!important}
+.btn-danger{background:linear-gradient(135deg,#991b1b,#dc2626)!important}
+.btn-secondary{background:linear-gradient(135deg,#253449,#3a4b61)!important}
+
+/* BUSCA */
+.pesquisa{background:#071426;border:1px solid var(--ui-border);border-radius:11px;padding:0;box-shadow:none!important;overflow:hidden}
+.pesquisa input{background:transparent!important;border:0!important;border-radius:0!important;padding-left:47px!important}
+.pesquisa i{top:16px!important;left:16px!important;color:#71819a!important}
+
+/* TABELAS — visual de sistema corporativo */
+.table-container{border-radius:13px!important;border:1px solid var(--ui-border)!important;background:#061120!important;box-shadow:0 8px 25px rgba(0,0,0,.12)}
+table{background:transparent!important}
+th{background:#0a182b!important;color:#8d9ab0!important;padding:14px 15px!important;font-size:10px!important;letter-spacing:.8px!important;border-bottom:1px solid rgba(96,165,250,.10)!important}
+td{padding:14px 15px!important;color:#d5deeb!important;border-bottom:1px solid rgba(148,163,184,.055)!important;font-size:12px!important}
+tbody tr:hover{background:rgba(37,99,235,.045)!important}
+
+/* GRÁFICOS */
+.grafico{border-radius:15px!important;padding:19px!important;min-height:330px!important}
+.grafico h2{font-size:15px!important;color:#dce6f4!important}
+.grafico-largo{height:330px!important}
+
+/* FILTROS */
+.barra-filtros-profissional{border-radius:13px!important;background:#071426!important;border-color:var(--ui-border)!important;padding:13px!important}
+.barra-filtros-profissional label{font-size:10px!important;color:#7f8da3!important}
+
+/* ALERTAS */
+.alerta-resumo .alerta-card{border-radius:13px!important}
+.alerta-card{background:linear-gradient(145deg,rgba(18,28,42,.95),rgba(9,19,31,.95))!important}
+
+/* RELATÓRIOS */
+.relatorios-pagina{padding:0!important;overflow:hidden}
+.relatorio-hero{border-radius:0!important;border:0!important;border-bottom:1px solid var(--ui-border)!important;background:linear-gradient(120deg,rgba(29,78,216,.13),rgba(6,182,212,.04))!important}
+.relatorio-box{border-radius:14px!important;background:linear-gradient(145deg,#09182a,#071322)!important;border-color:var(--ui-border)!important;box-shadow:0 8px 22px rgba(0,0,0,.12)!important}
+.relatorio-box:hover{transform:translateY(-3px);border-color:rgba(96,165,250,.28)!important}
+.btn-relatorio{border-radius:9px!important}
+
+/* MODAIS — mesma linguagem visual */
+.relatorio-modal-conteudo,.editar-modal-conteudo{
+  border-radius:17px!important;background:linear-gradient(145deg,#0a192c,#071322)!important;
+  border:1px solid rgba(96,165,250,.20)!important;box-shadow:0 30px 90px rgba(0,0,0,.55)!important;
+}
+.relatorio-modal-topo{border-bottom-color:rgba(148,163,184,.08)!important}
+
+/* PAGINAÇÃO */
+.paginacao-historico button{background:#0a182b!important;border-color:var(--ui-border)!important;color:#b8c4d4!important;border-radius:8px!important}
+.paginacao-historico button:hover:not(:disabled){background:rgba(37,99,235,.15)!important}
+
+/* LIGHT MODE continua funcional */
+body.light-mode{background:#eef3f8!important;color:#172033!important}
+body.light-mode .sidebar{background:#f8fafc!important;border-right-color:#dbe3ed!important}
+body.light-mode .menu button{color:#64748b!important}
+body.light-mode .menu-btn.active{background:linear-gradient(90deg,#e8f0ff,#f1fbff)!important;color:#1d4ed8!important;border-color:#dbeafe!important;box-shadow:inset 3px 0 #2563eb!important}
+body.light-mode .usuario-logado,body.light-mode .card,body.light-mode .grafico,body.light-mode .card-info,body.light-mode .indicador-mini{background:#fff!important;border-color:#dce4ed!important}
+body.light-mode input,body.light-mode select,body.light-mode textarea{background:#fff!important;color:#172033!important;border-color:#d5dee9!important}
+body.light-mode .table-container{background:#fff!important;border-color:#dce4ed!important}
+body.light-mode th{background:#f1f5f9!important;color:#64748b!important}
+body.light-mode td{color:#334155!important;border-bottom-color:#e8edf3!important}
+
+@media(max-width:900px){
+  .sidebar{width:230px!important}.main{margin-left:230px!important;padding:22px!important}
+}
+@media(max-width:700px){
+  .sidebar{position:relative!important;width:100%!important;height:auto!important;padding:12px!important;border-right:0;border-bottom:1px solid var(--ui-border)!important}
+  .layout{display:block}.main{margin-left:0!important;padding:16px!important}
+  .logo{border-bottom:0;padding-bottom:8px}.logo p{margin-left:0!important}.usuario-logado{margin:6px 0 10px!important}
+  .menu{display:grid!important;grid-template-columns:repeat(2,1fr);gap:5px!important}.menu button{min-height:42px!important}
+  .btn-sair{margin-top:0!important}.topo{align-items:flex-start!important;gap:12px;flex-wrap:wrap}
+}
+@media(max-width:460px){.menu{grid-template-columns:1fr}.topo h2{font-size:20px!important}.card{padding:16px!important}.dashboard{grid-template-columns:1fr!important}.painel-indicadores{grid-template-columns:1fr!important}}
+</style>
+
 </head>
 
 <body>
@@ -2669,7 +2837,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzemXNQ-e7mbYpl8Iqgxg5DznSPp08P1tOzkQr-OgMNJGKT__BQmfEnpDNFYJoo4olA/exec";
+"https://script.google.com/macros/s/AKfycbzHRMnNHKgFG5d_WEWePw2oFv2wARAU_X_IQF3QrNQwUJJ1uNdt8-p2lUwrKr1s9aKX/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
