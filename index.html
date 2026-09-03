@@ -891,6 +891,27 @@ h1 .emoji-img,h2 .emoji-img,h3 .emoji-img,.login-logo .emoji-img{width:1.08em;he
 body.light-mode .indicador-mini,body.light-mode .barra-filtros-profissional,body.light-mode .alerta-resumo .alerta-card,body.light-mode .config-bloco{background:#fff}
 @media(max-width:700px){.barra-filtros-profissional{grid-template-columns:1fr}.painel-indicadores{grid-template-columns:1fr 1fr}.alerta-resumo{grid-template-columns:1fr 1fr}}
 
+
+/* =====================================================
+   CENTRAL DE RELATÓRIOS — VISUAL CORPORATIVO
+===================================================== */
+.relatorios-pagina{overflow:hidden}
+.relatorio-hero{position:relative;display:flex;align-items:center;gap:16px;padding:22px 24px;border:1px solid var(--line-strong);border-radius:20px;background:linear-gradient(120deg,rgba(37,99,235,.16),rgba(6,182,212,.08) 55%,rgba(15,23,42,.55));overflow:hidden;margin-bottom:16px}
+.relatorio-hero:after{content:"";position:absolute;width:220px;height:220px;right:-90px;top:-100px;border-radius:50%;background:rgba(56,189,248,.09);pointer-events:none}
+.relatorio-hero-icone{width:52px;height:52px;flex:0 0 52px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,#2563eb,#0891b2);box-shadow:0 12px 28px rgba(37,99,235,.24)}
+.relatorio-hero-icone .emoji-img{width:27px;height:27px;margin:0;filter:brightness(0) invert(1)}
+.relatorio-hero-texto{min-width:0}.relatorio-kicker{font-size:10px;font-weight:900;letter-spacing:1.4px;color:#38bdf8;margin-bottom:3px}.relatorio-hero-texto h2{margin:0;font-size:23px;letter-spacing:-.3px}.relatorio-hero-texto p{margin:5px 0 0;color:var(--muted);font-size:13px;line-height:1.45}.relatorio-hero-status{margin-left:auto;white-space:nowrap;font-size:11px;font-weight:900;color:#86efac;padding:8px 11px;border:1px solid rgba(34,197,94,.18);border-radius:999px;background:rgba(34,197,94,.07)}.relatorio-status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.10);margin-right:6px}
+.relatorio-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 0 14px;padding:0 2px}.relatorio-toolbar strong{display:block;font-size:15px}.relatorio-toolbar span{display:block;color:var(--muted);font-size:11px;margin-top:3px}.relatorio-toolbar-badge{display:flex;align-items:center;gap:5px;padding:8px 11px;border:1px solid var(--line);border-radius:10px;color:#cbd5e1;font-size:11px;font-weight:800;background:var(--surface-2)}.relatorio-toolbar-badge .emoji-img{width:15px;height:15px;margin:0}
+.relatorios-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.relatorio-box{position:relative;min-height:225px;padding:17px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(155deg,rgba(17,29,49,.94),rgba(9,17,30,.92));box-shadow:0 9px 25px rgba(0,0,0,.10);display:flex;flex-direction:column;overflow:hidden;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}.relatorio-box:before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:linear-gradient(90deg,#2563eb,#38bdf8);opacity:.75}.relatorio-box:hover{transform:translateY(-3px);border-color:rgba(56,189,248,.25);box-shadow:0 16px 34px rgba(0,0,0,.18)}.relatorio-box-topo{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:13px}.relatorio-icone{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:rgba(37,99,235,.12);border:1px solid rgba(56,189,248,.10)}.relatorio-icone .emoji-img{width:20px;height:20px;margin:0}.relatorio-tag{font-size:8px;font-weight:900;letter-spacing:.65px;color:#8fa3bb;border:1px solid var(--line);border-radius:999px;padding:5px 7px}.relatorio-box h3{font-size:15px;margin:0 0 7px;color:var(--text)}.relatorio-box p{font-size:12px;color:var(--muted);line-height:1.5;margin:0;flex:1}.relatorio-box-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:15px;padding-top:12px;border-top:1px solid rgba(148,163,184,.08)}.relatorio-box-footer>span{font-size:9px;text-transform:uppercase;letter-spacing:.45px;color:#64748b;font-weight:800}.btn-relatorio{min-height:37px!important;padding:9px 11px!important;border-radius:10px!important;font-size:11px!important;box-shadow:0 6px 15px rgba(37,99,235,.12)!important}.btn-relatorio .emoji-img{width:15px;height:15px;margin-right:4px;vertical-align:-3px}
+.relatorio-card-alerta:before{background:#f59e0b}.relatorio-card-alerta .relatorio-icone{background:rgba(245,158,11,.10)}.relatorio-card-saida:before{background:#ef4444}.relatorio-card-setor:before,.relatorio-card-resumo:before{background:#8b5cf6}.relatorio-card-equipamento:before{background:#06b6d4}.relatorio-card-historico:before{background:#64748b}
+body.light-mode .relatorio-hero{background:linear-gradient(120deg,#f1f7ff,#f7fbff)}body.light-mode .relatorio-box{background:linear-gradient(155deg,#fff,#f8fafc);box-shadow:0 8px 22px rgba(15,23,42,.06)}body.light-mode .relatorio-toolbar-badge{background:#fff;color:#475569}
+@media(max-width:1100px){.relatorios-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.relatorio-hero{align-items:flex-start;padding:18px}.relatorio-hero-status{display:none}.relatorio-toolbar{align-items:flex-start;flex-direction:column}.relatorios-grid{grid-template-columns:1fr}.relatorio-box{min-height:205px}}
+
+/* BOTÕES — ACABAMENTO CORPORATIVO */
+.btn{font-weight:800;letter-spacing:.05px;border:1px solid rgba(255,255,255,.07);cursor:pointer}.btn:active{transform:translateY(0) scale(.98)!important}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important;box-shadow:none!important}.btn i{font-size:13px}.acoes{gap:6px!important}.btn-editar{min-width:38px;min-height:38px;padding:9px 10px!important;border:1px solid rgba(148,163,184,.12)!important;background:linear-gradient(145deg,#26364d,#18263a)!important;box-shadow:0 5px 12px rgba(0,0,0,.10)}.btn-editar:hover{transform:translateY(-1px);border-color:rgba(56,189,248,.25)!important;box-shadow:0 8px 17px rgba(0,0,0,.16);background:linear-gradient(145deg,#30445f,#1d3048)!important}
+body.light-mode .btn-editar{background:#f1f5f9!important;color:#1e293b;border-color:#dbe2ea!important}
+
 /* =====================================================
    CAMADA VISUAL PROFISSIONAL — preserva funcionalidades
 ===================================================== */
@@ -1751,84 +1772,73 @@ onkeyup="filtrarTabela()">
 
 <div id="relatorios" class="secao">
 
-<div class="card">
-<div class="relatorio-intro"><strong><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Central de Relatórios</strong><p>Escolha um relatório, aplique os filtros necessários e visualize ou gere o PDF oficial do sistema.</p></div>
+<div class="card relatorios-pagina">
+  <div class="relatorio-hero">
+    <div class="relatorio-hero-icone"><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true></div>
+    <div class="relatorio-hero-texto">
+      <div class="relatorio-kicker">CENTRAL ADMINISTRATIVA</div>
+      <h2>Relatórios do Sistema</h2>
+      <p>Gere documentos oficiais de estoque, movimentações, setores e equipamentos com filtros personalizados.</p>
+    </div>
+    <div class="relatorio-hero-status"><span class="relatorio-status-dot"></span> Sistema pronto</div>
+  </div>
 
-<h2><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Relatórios</h2>
+  <div class="relatorio-toolbar">
+    <div><strong>Relatórios disponíveis</strong><span>8 modelos para consulta e impressão</span></div>
+    <div class="relatorio-toolbar-badge"><img src=./assets/icons/pdf.png class=emoji-img alt= aria-hidden=true> PDF oficial</div>
+  </div>
 
-<div class="relatorios-grid">
+  <div class="relatorios-grid">
 
-<div class="relatorio-box">
-<h3><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Estoque Atual</h3>
-<p>Lista todos os itens, quantidades, mínimos e status atuais.</p>
-<button class="btn"
-onclick="gerarRelatorio('estoque')">
-<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
-</button>
-</div>
+    <div class="relatorio-box relatorio-card-estoque">
+      <div class="relatorio-box-topo"><div class="relatorio-icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div><span class="relatorio-tag">ESTOQUE</span></div>
+      <h3>Estoque Atual</h3><p>Itens cadastrados, quantidades, estoque mínimo e situação atual.</p>
+      <div class="relatorio-box-footer"><span>Consulta geral</span><button class="btn btn-relatorio" onclick="gerarRelatorio('estoque')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Abrir relatório</button></div>
+    </div>
 
-<div class="relatorio-box">
-<h3><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true> Itens em Alerta</h3>
-<p>Lista os produtos abaixo ou no estoque mínimo.</p>
-<button class="btn"
-onclick="gerarRelatorio('alertas')">
-<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
-</button>
-</div>
+    <div class="relatorio-box relatorio-card-alerta">
+      <div class="relatorio-box-topo"><div class="relatorio-icone"><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true></div><span class="relatorio-tag">ATENÇÃO</span></div>
+      <h3>Itens em Alerta</h3><p>Produtos abaixo ou no limite do estoque mínimo.</p>
+      <div class="relatorio-box-footer"><span>Controle de risco</span><button class="btn btn-relatorio" onclick="gerarRelatorio('alertas')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Abrir relatório</button></div>
+    </div>
 
-<div class="relatorio-box">
-<h3><img src=./assets/icons/upload.png class=emoji-img alt= aria-hidden=true> Saídas</h3>
-<p>Lista as retiradas realizadas no período.</p>
-<button class="btn"
-onclick="gerarRelatorio('saidas')">
-<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
-</button>
-</div>
+    <div class="relatorio-box relatorio-card-saida">
+      <div class="relatorio-box-topo"><div class="relatorio-icone"><img src=./assets/icons/upload.png class=emoji-img alt= aria-hidden=true></div><span class="relatorio-tag">MOVIMENTAÇÃO</span></div>
+      <h3>Saídas</h3><p>Retiradas realizadas, quantidades, setores e usuários responsáveis.</p>
+      <div class="relatorio-box-footer"><span>Período personalizado</span><button class="btn btn-relatorio" onclick="gerarRelatorio('saidas')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Abrir relatório</button></div>
+    </div>
 
-<div class="relatorio-box">
-<h3><img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true> Por Setor</h3>
-<p>Mostra tudo que foi destinado para determinado setor.</p>
-<button class="btn"
-onclick="gerarRelatorio('setor')">
-<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
-</button>
-</div>
+    <div class="relatorio-box relatorio-card-setor">
+      <div class="relatorio-box-topo"><div class="relatorio-icone"><img src=./assets/icons/building.png class=emoji-img alt= aria-hidden=true></div><span class="relatorio-tag">SETORES</span></div>
+      <h3>Por Setor</h3><p>Itens destinados a um setor específico e sua distribuição.</p>
+      <div class="relatorio-box-footer"><span>Distribuição</span><button class="btn btn-relatorio" onclick="gerarRelatorio('setor')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Abrir relatório</button></div>
+    </div>
 
-<div class="relatorio-box">
-<h3><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Resumo por Setor</h3>
-<p>Mostra o total de itens destinados a cada setor.</p>
-<button class="btn"
-onclick="gerarRelatorio('resumo_setor')">
-<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
-</button>
-</div>
+    <div class="relatorio-box relatorio-card-resumo">
+      <div class="relatorio-box-topo"><div class="relatorio-icone"><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true></div><span class="relatorio-tag">GESTÃO</span></div>
+      <h3>Resumo por Setor</h3><p>Visão consolidada da quantidade de itens destinada a cada setor.</p>
+      <div class="relatorio-box-footer"><span>Visão gerencial</span><button class="btn btn-relatorio" onclick="gerarRelatorio('resumo_setor')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Abrir relatório</button></div>
+    </div>
 
-<div class="relatorio-box">
-<h3><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Movimentações por Item</h3>
-<p>Mostra entradas e saídas de um item específico.</p>
-<button class="btn"
-onclick="gerarRelatorio('item')">
-<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
-</button>
-</div>
+    <div class="relatorio-box relatorio-card-item">
+      <div class="relatorio-box-topo"><div class="relatorio-icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div><span class="relatorio-tag">ITEM</span></div>
+      <h3>Movimentações por Item</h3><p>Entradas e saídas de um item específico ao longo do período.</p>
+      <div class="relatorio-box-footer"><span>Rastreamento</span><button class="btn btn-relatorio" onclick="gerarRelatorio('item')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Abrir relatório</button></div>
+    </div>
 
-<div class="relatorio-box">
-<h3><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Equipamentos</h3>
-<p>Lista os equipamentos com filtros de setor, período e status. Equipamentos removidos aparecem com sua observação.</p>
-<button class="btn" onclick="gerarRelatorio('equipamentos')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório</button>
-</div>
+    <div class="relatorio-box relatorio-card-equipamento">
+      <div class="relatorio-box-topo"><div class="relatorio-icone"><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true></div><span class="relatorio-tag">PATRIMÔNIO</span></div>
+      <h3>Equipamentos</h3><p>Equipamentos por setor, status, período, patrimônio e demais informações.</p>
+      <div class="relatorio-box-footer"><span>Controle patrimonial</span><button class="btn btn-relatorio" onclick="gerarRelatorio('equipamentos')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Abrir relatório</button></div>
+    </div>
 
-<div class="relatorio-box">
-<h3><img src=./assets/icons/clipboard.png class=emoji-img alt= aria-hidden=true> Histórico Completo</h3>
-<p>Todas as movimentações registradas.</p>
-<button class="btn"
-onclick="gerarRelatorio('historico')">
-<img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Visualizar Relatório
-</button>
-</div>
+    <div class="relatorio-box relatorio-card-historico">
+      <div class="relatorio-box-topo"><div class="relatorio-icone"><img src=./assets/icons/clipboard.png class=emoji-img alt= aria-hidden=true></div><span class="relatorio-tag">AUDITORIA</span></div>
+      <h3>Histórico Completo</h3><p>Registro das movimentações e alterações realizadas no sistema.</p>
+      <div class="relatorio-box-footer"><span>Rastreabilidade</span><button class="btn btn-relatorio" onclick="gerarRelatorio('historico')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true> Abrir relatório</button></div>
+    </div>
 
-</div>
-
+  </div>
 </div>
 
 </div>
@@ -2123,7 +2133,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbw2b-xUFa1o7_yfZtYsOZwvxHHCg2Ze92rM298rHZEaF0GGnALXhLwHDisV8LWFouiR/exec";
+"https://script.google.com/macros/s/AKfycbz32g7NNthsCYpATwjpRKeT6lEh5H3iK6szYr8WeQOqj3wFPiXlT81zHl5MvuQNVDHv/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
