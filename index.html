@@ -1849,9 +1849,292 @@ body.light-mode td{color:#334155!important;border-bottom-color:#e8edf3!important
 @media(max-width:460px){.menu{grid-template-columns:1fr}.topo h2{font-size:20px!important}.card{padding:16px!important}.dashboard{grid-template-columns:1fr!important}.painel-indicadores{grid-template-columns:1fr!important}}
 </style>
 
+
+<style id="tih-design-v7">
+/* =========================================================
+   T.I-HEDA V7 — DESIGN CORPORATIVO UNIFICADO
+   Mesma linguagem visual em todas as abas e ações.
+   Camada visual + modal de exclusão; IDs e funções preservados.
+========================================================= */
+:root{
+  --v7-bg:#020a16;
+  --v7-panel:#071426;
+  --v7-panel2:#0a192d;
+  --v7-border:rgba(96,165,250,.14);
+  --v7-border-hover:rgba(96,165,250,.28);
+  --v7-text:#e7edf7;
+  --v7-muted:#7f8da5;
+  --v7-blue:#2563eb;
+  --v7-cyan:#06b6d4;
+  --v7-green:#16a34a;
+  --v7-red:#dc2626;
+  --v7-amber:#d97706;
+  --v7-radius:16px;
+}
+
+body{background:radial-gradient(circle at 75% -10%,rgba(37,99,235,.11),transparent 32%),linear-gradient(180deg,#020a16,#030b18)!important;color:var(--v7-text)}
+
+/* SIDEBAR — linguagem do modelo */
+.sidebar{
+  width:280px!important;padding:22px 18px!important;
+  background:linear-gradient(180deg,rgba(4,14,28,.98),rgba(3,11,23,.98))!important;
+  border-right:1px solid rgba(96,165,250,.12)!important;
+  box-shadow:18px 0 50px rgba(0,0,0,.18)!important;
+}
+.logo{padding:5px 10px 15px!important;margin-bottom:12px!important}
+.logo h1{font-size:27px!important;letter-spacing:.4px!important}
+.logo p{font-size:11px!important;text-transform:uppercase;letter-spacing:.8px!important;color:#71819a!important}
+.usuario-logado{
+  margin:0 2px 20px!important;padding:13px 14px!important;border-radius:13px!important;
+  background:linear-gradient(145deg,rgba(15,32,55,.88),rgba(7,20,37,.88))!important;
+  border:1px solid rgba(96,165,250,.09)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.13)!important;
+}
+.menu{gap:6px!important}
+.menu button{
+  min-height:44px!important;padding:12px 13px!important;border-radius:11px!important;
+  background:transparent!important;border:1px solid transparent!important;
+  color:#94a3b8!important;font-size:13px!important;font-weight:750!important;
+  transition:background .18s,border-color .18s,color .18s,transform .18s,box-shadow .18s!important;
+}
+.menu button:hover{background:rgba(37,99,235,.09)!important;border-color:rgba(96,165,250,.10)!important;color:#dbeafe!important;transform:translateX(2px)!important}
+.menu-btn.active{
+  background:linear-gradient(90deg,rgba(37,99,235,.25),rgba(6,182,212,.08))!important;
+  border-color:rgba(59,130,246,.24)!important;color:#eff6ff!important;
+  box-shadow:inset 3px 0 0 #2563eb,0 8px 22px rgba(37,99,235,.10)!important;
+}
+.btn-sair{background:rgba(127,29,29,.12)!important;color:#f87171!important;border-color:rgba(248,113,113,.08)!important}
+.btn-sair:hover{background:rgba(220,38,38,.18)!important;color:#fecaca!important;border-color:rgba(248,113,113,.2)!important}
+
+.main{margin-left:280px!important;padding:27px 30px 40px!important}
+.topo{margin-bottom:22px!important;padding-bottom:18px;border-bottom:1px solid rgba(96,165,250,.08)}
+.topo h2{font-size:26px!important;letter-spacing:-.3px!important}
+.status-online{padding:10px 14px!important;border-radius:11px!important;background:rgba(22,163,74,.08)!important;border:1px solid rgba(74,222,128,.13)!important;font-size:12px!important}
+
+/* CARDS / PAINÉIS */
+.card,.grafico{
+  background:linear-gradient(145deg,rgba(8,20,38,.94),rgba(5,15,29,.94))!important;
+  border:1px solid var(--v7-border)!important;
+  border-radius:var(--v7-radius)!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.12)!important;
+}
+.card{padding:22px!important;margin-bottom:20px!important}
+.card h2{font-size:18px!important;margin-bottom:17px!important;letter-spacing:-.1px}
+.card h3{letter-spacing:-.05px}
+.grafico{padding:20px!important;min-height:330px!important}
+.grafico h2{font-size:15px!important;margin-bottom:15px!important;color:#dbe5f4!important}
+
+.card-info{
+  background:linear-gradient(145deg,rgba(10,25,46,.94),rgba(6,17,32,.94))!important;
+  border:1px solid var(--v7-border)!important;border-radius:15px!important;padding:19px!important;
+  box-shadow:0 9px 25px rgba(0,0,0,.10)!important;
+}
+.card-info:hover{transform:translateY(-2px)!important;border-color:var(--v7-border-hover)!important}
+.card-info h3{font-size:11px!important;text-transform:uppercase;letter-spacing:.55px;color:#7f8da5!important}
+.card-info span{font-size:30px!important;color:#38bdf8!important}
+
+/* INDICADORES */
+.indicador-mini{
+  padding:14px 16px!important;border-radius:13px!important;
+  background:linear-gradient(145deg,rgba(9,24,44,.94),rgba(5,16,31,.94))!important;
+  border:1px solid var(--v7-border)!important;
+  box-shadow:0 7px 20px rgba(0,0,0,.08)!important;
+}
+.indicador-mini .valor{font-size:23px!important}
+.indicador-mini .icone{width:39px!important;height:39px!important;border-radius:11px!important}
+
+/* INPUTS / SELECTS — mesmo padrão em todas as abas */
+input,select,textarea{
+  background:#071426!important;border:1px solid rgba(96,165,250,.13)!important;
+  border-radius:11px!important;padding:12px 13px!important;color:#e5edf8!important;
+  font-size:13px!important;min-height:42px!important;transition:.18s ease!important;
+}
+input::placeholder,textarea::placeholder{color:#66758d!important}
+input:hover,select:hover,textarea:hover{border-color:rgba(96,165,250,.22)!important}
+input:focus,select:focus,textarea:focus{border-color:#2563eb!important;box-shadow:0 0 0 3px rgba(37,99,235,.12)!important}
+
+/* BOTÕES — todos seguem a mesma dinâmica */
+.btn{
+  min-height:41px!important;padding:10px 14px!important;border-radius:10px!important;
+  font-size:12px!important;font-weight:850!important;letter-spacing:.15px!important;
+  border:1px solid rgba(147,197,253,.13)!important;
+  box-shadow:0 7px 17px rgba(2,6,23,.15),inset 0 1px 0 rgba(255,255,255,.10)!important;
+  transition:transform .17s ease,box-shadow .17s ease,filter .17s ease,border-color .17s ease!important;
+}
+.btn:hover{transform:translateY(-2px)!important;box-shadow:0 11px 23px rgba(2,6,23,.22),inset 0 1px 0 rgba(255,255,255,.14)!important;filter:none!important}
+.btn:active{transform:translateY(0) scale(.985)!important}
+.btn:not(.btn-success):not(.btn-danger):not(.btn-secondary):not(.btn-excluir-item){background:linear-gradient(135deg,#2563eb,#0891b2)!important}
+.btn-success{background:linear-gradient(135deg,#15803d,#22c55e)!important}
+.btn-danger{background:linear-gradient(135deg,#b91c1c,#ef4444)!important}
+.btn-secondary{background:linear-gradient(135deg,#26364b,#475569)!important}
+.btn .emoji-img{width:15px!important;height:15px!important;margin:0!important}
+
+/* BARRAS DE FILTRO */
+.barra-filtros-profissional,.filtros-equipamentos,.filtros-alertas{
+  background:linear-gradient(145deg,rgba(8,22,40,.78),rgba(5,15,29,.72))!important;
+  border:1px solid var(--v7-border)!important;border-radius:13px!important;padding:12px!important;
+}
+.barra-filtros-profissional label{font-size:10px!important;letter-spacing:.6px!important;color:#7888a0!important}
+.barra-filtros-profissional .btn,.acoes-filtro .btn{min-height:38px!important;border-radius:9px!important;padding:9px 12px!important}
+
+/* TABELAS — mesmo padrão */
+.table-container{border-radius:13px!important;border:1px solid rgba(96,165,250,.10)!important;overflow:hidden!important;background:#061221!important}
+table{background:transparent!important}
+th{
+  background:linear-gradient(180deg,#0c1d34,#09182b)!important;
+  color:#91a1ba!important;padding:13px 14px!important;
+  font-size:10px!important;text-transform:uppercase;letter-spacing:.5px!important;
+  border-bottom:1px solid rgba(96,165,250,.12)!important;
+}
+td{padding:13px 14px!important;border-bottom:1px solid rgba(96,165,250,.07)!important;color:#d7e0ed!important;font-size:12px!important}
+tbody tr{transition:background .16s ease!important}
+tbody tr:hover{background:rgba(37,99,235,.055)!important}
+
+/* AÇÕES DE TABELA */
+.acoes{gap:6px!important}
+.acoes .entrada,.acoes .saida,.acoes .btn-editar,.acoes .btn-excluir-item{
+  width:35px!important;min-width:35px!important;height:35px!important;min-height:35px!important;
+  padding:0!important;border-radius:9px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  font-size:0!important;box-shadow:0 5px 13px rgba(2,6,23,.13)!important;
+}
+.acoes .entrada{background:rgba(22,163,74,.10)!important;color:#4ade80!important;border:1px solid rgba(74,222,128,.20)!important}
+.acoes .saida{background:rgba(220,38,38,.10)!important;color:#f87171!important;border:1px solid rgba(248,113,113,.20)!important}
+.acoes .btn-editar{background:rgba(37,99,235,.11)!important;color:#60a5fa!important;border:1px solid rgba(96,165,250,.22)!important}
+.acoes .btn-excluir-item{background:rgba(220,38,38,.08)!important;color:#fb7185!important;border:1px solid rgba(248,113,113,.18)!important}
+.acoes .entrada::before{content:'↓';font-size:18px;font-weight:900}
+.acoes .saida::before{content:'↑';font-size:18px;font-weight:900}
+.acoes .btn-editar .emoji-img,.acoes .btn-excluir-item i{width:15px!important;height:15px!important;font-size:14px!important}
+.acoes .entrada:hover,.acoes .saida:hover,.acoes .btn-editar:hover,.acoes .btn-excluir-item:hover{transform:translateY(-2px)!important}
+
+/* STATUS */
+.status-ok,.status-alerta,.badge-entrada,.badge-saida,.badge-alerta,.badge-ok{border-radius:999px!important;padding:5px 9px!important;font-size:10px!important;letter-spacing:.25px!important}
+
+/* LEITOR / SCANNER */
+.scanner-equipamento,.leitor-status,.item-identificado,.equipamento-identificado,.acao-box{
+  border-radius:13px!important;border:1px solid rgba(96,165,250,.11)!important;background:rgba(4,15,29,.64)!important;
+}
+.acoes-leitor{gap:8px!important}
+
+/* RELATÓRIOS — mantém a identidade, mas usa a mesma hierarquia */
+.relatorios-pagina{padding:20px!important}
+.relatorio-box{
+  border-radius:14px!important;border:1px solid var(--v7-border)!important;
+  background:linear-gradient(145deg,rgba(9,24,44,.92),rgba(5,16,30,.92))!important;
+  box-shadow:0 8px 22px rgba(0,0,0,.09)!important;transition:.18s ease!important;
+}
+.relatorio-box:hover{transform:translateY(-3px)!important;border-color:var(--v7-border-hover)!important;box-shadow:0 14px 28px rgba(0,0,0,.15)!important}
+.btn-relatorio{min-height:37px!important;border-radius:9px!important;padding:8px 11px!important;font-size:10px!important}
+
+/* PAGINAÇÃO */
+.paginacao-historico button{border-radius:9px!important;min-width:35px!important;min-height:35px!important}
+
+/* MODAIS EXISTENTES */
+.modal-overlay,.modal,.modal-conteudo,.modal-content{border-radius:16px!important}
+
+/* MODAL NOVO DE EXCLUSÃO */
+#modalExclusaoEstoque{
+  position:fixed;inset:0;z-index:100000;display:none;align-items:center;justify-content:center;
+  padding:22px;background:rgba(1,7,15,.76);backdrop-filter:blur(8px);
+}
+#modalExclusaoEstoque.ativo{display:flex}
+.exclusao-dialog{
+  width:min(560px,100%);background:linear-gradient(145deg,#09192d,#061222);
+  border:1px solid rgba(96,165,250,.22);border-radius:18px;overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,.45);animation:exclusaoEntrada .18s ease-out;
+}
+@keyframes exclusaoEntrada{from{opacity:0;transform:translateY(8px) scale(.985)}to{opacity:1;transform:none}}
+.exclusao-topo{padding:22px 22px 10px;display:flex;gap:14px;align-items:center}
+.exclusao-icone{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:rgba(220,38,38,.11);border:1px solid rgba(248,113,113,.38);color:#f87171;font-size:20px;box-shadow:0 0 24px rgba(220,38,38,.12)}
+.exclusao-titulo{font-size:19px;font-weight:900;color:#f8fafc}
+.exclusao-subtitulo{font-size:12px;color:#8fa0b8;margin-top:4px;line-height:1.5}
+.exclusao-fechar{margin-left:auto;width:34px;height:34px;border-radius:9px;background:transparent;border:1px solid rgba(148,163,184,.14);color:#94a3b8;cursor:pointer;font-size:18px}
+.exclusao-fechar:hover{background:rgba(148,163,184,.08);color:#fff}
+.exclusao-corpo{padding:10px 22px 20px}
+.exclusao-item-card{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;padding:15px;border-radius:13px;border:1px solid rgba(96,165,250,.12);background:rgba(4,15,29,.72)}
+.exclusao-item-icone{width:52px;height:52px;border-radius:12px;display:grid;place-items:center;background:rgba(37,99,235,.10);border:1px solid rgba(96,165,250,.15)}
+.exclusao-item-icone img{width:25px;height:25px}
+.exclusao-item-nome{font-size:15px;font-weight:850;color:#f1f5f9}
+.exclusao-meta{display:flex;flex-wrap:wrap;gap:12px;margin-top:7px}
+.exclusao-meta span{font-size:11px;color:#7f90a8}.exclusao-meta strong{color:#dce6f4}
+.exclusao-alerta{margin-top:13px;padding:12px 14px;border-radius:11px;background:rgba(217,119,6,.09);border:1px solid rgba(245,158,11,.23);color:#fcd34d;font-size:11px;line-height:1.55}
+.exclusao-alerta strong{display:block;font-size:12px;margin-bottom:3px;color:#fbbf24}
+.exclusao-rodape{display:flex;justify-content:flex-end;gap:9px;padding:16px 22px 20px;border-top:1px solid rgba(96,165,250,.08)}
+.exclusao-btn{min-height:40px;padding:9px 14px;border-radius:10px;font-size:12px;font-weight:850;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.exclusao-btn-cancelar{background:#152338;border:1px solid rgba(148,163,184,.16);color:#cbd5e1}.exclusao-btn-cancelar:hover{background:#1b2d45}
+.exclusao-btn-confirmar{background:linear-gradient(135deg,#b91c1c,#ef4444);border:1px solid rgba(248,113,113,.35);color:#fff;box-shadow:0 8px 18px rgba(220,38,38,.18)}
+.exclusao-btn-confirmar:hover{filter:brightness(1.06);transform:translateY(-1px)}
+.exclusao-permissao{text-align:center;padding:0 22px 16px;color:#65758d;font-size:10px}
+
+/* LIGHT MODE */
+body.light-mode{background:#eef3f9!important;color:#172033!important}
+body.light-mode .sidebar{background:linear-gradient(180deg,#fff,#f6f9fd)!important;border-right-color:#dbe4ef!important}
+body.light-mode .menu button{color:#53647a!important}
+body.light-mode .menu button:hover{background:#edf5ff!important;color:#1e4f92!important}
+body.light-mode .menu-btn.active{background:linear-gradient(90deg,#e7f0ff,#eefcff)!important;color:#1753a4!important;border-color:#c7dbf5!important}
+body.light-mode .card,body.light-mode .grafico,body.light-mode .card-info,body.light-mode .indicador-mini{background:linear-gradient(145deg,#fff,#f7fafd)!important;border-color:#dbe4ef!important;box-shadow:0 8px 22px rgba(15,23,42,.06)!important}
+body.light-mode input,body.light-mode select,body.light-mode textarea{background:#fff!important;color:#172033!important;border-color:#d6e0ec!important}
+body.light-mode .table-container{background:#fff!important;border-color:#dbe4ef!important}
+body.light-mode th{background:#eef4fa!important;color:#50627a!important}
+body.light-mode td{color:#334155!important;border-bottom-color:#e8eef5!important}
+body.light-mode tbody tr:hover{background:#f4f8fd!important}
+body.light-mode #modalExclusaoEstoque{background:rgba(15,23,42,.42)}
+body.light-mode .exclusao-dialog{background:linear-gradient(145deg,#fff,#f7faff);border-color:#d3dfec}
+body.light-mode .exclusao-titulo{color:#172033}.light-mode .exclusao-subtitulo{color:#66758a}
+body.light-mode .exclusao-item-card{background:#f7faff;border-color:#dbe4ef}.light-mode .exclusao-item-nome{color:#172033}
+body.light-mode .exclusao-btn-cancelar{background:#eef2f7;color:#334155;border-color:#d7e0ea}
+
+@media(max-width:1000px){
+  .sidebar{width:235px!important}.main{margin-left:235px!important;padding:22px!important}
+}
+@media(max-width:700px){
+  .sidebar{position:relative!important;width:100%!important;height:auto!important;border-right:0!important;border-bottom:1px solid rgba(96,165,250,.12)!important}
+  .menu{display:grid!important;grid-template-columns:repeat(2,1fr);gap:6px!important}
+  .main{margin-left:0!important;padding:16px!important}
+  .topo{align-items:flex-start;gap:12px;flex-direction:column}
+  .acoes .entrada,.acoes .saida,.acoes .btn-editar,.acoes .btn-excluir-item{width:34px!important;min-width:34px!important;height:34px!important;min-height:34px!important}
+  .exclusao-rodape{flex-direction:column-reverse}.exclusao-btn{width:100%;justify-content:center}
+}
+</style>
+
 </head>
 
 <body>
+
+<div id="modalExclusaoEstoque" aria-hidden="true">
+  <div class="exclusao-dialog" role="dialog" aria-modal="true" aria-labelledby="exclusaoTitulo">
+    <div class="exclusao-topo">
+      <div class="exclusao-icone"><i class="fa-solid fa-trash"></i></div>
+      <div>
+        <div class="exclusao-titulo" id="exclusaoTitulo">Excluir item do estoque</div>
+        <div class="exclusao-subtitulo">Esta ação remove o cadastro do estoque atual.</div>
+      </div>
+      <button class="exclusao-fechar" type="button" onclick="cancelarExclusaoEstoque()" aria-label="Fechar">×</button>
+    </div>
+    <div class="exclusao-corpo">
+      <div class="exclusao-item-card">
+        <div class="exclusao-item-icone"><img src="./assets/icons/package.png" alt=""></div>
+        <div>
+          <div class="exclusao-item-nome" id="exclusaoItemNome">---</div>
+          <div class="exclusao-meta">
+            <span>Código: <strong id="exclusaoItemCodigo">---</strong></span>
+            <span>Quantidade: <strong id="exclusaoItemQuantidade">0</strong></span>
+            <span>Mínimo: <strong id="exclusaoItemMinimo">0</strong></span>
+          </div>
+        </div>
+      </div>
+      <div class="exclusao-alerta">
+        <strong><i class="fa-solid fa-triangle-exclamation"></i> Atenção</strong>
+        O item será removido permanentemente do estoque atual. Todas as movimentações anteriores continuarão preservadas no histórico e a exclusão será registrada.
+      </div>
+    </div>
+    <div class="exclusao-permissao"><i class="fa-solid fa-lock"></i> Apenas usuários com permissão de alteração podem realizar esta ação.</div>
+    <div class="exclusao-rodape">
+      <button class="exclusao-btn exclusao-btn-cancelar" type="button" onclick="cancelarExclusaoEstoque()"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+      <button class="exclusao-btn exclusao-btn-confirmar" type="button" onclick="confirmarExclusaoEstoque()"><i class="fa-solid fa-trash"></i> Excluir item</button>
+    </div>
+  </div>
+</div>
+
 
 <!-- ================= LOGIN ================= -->
 
@@ -2837,7 +3120,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzHRMnNHKgFG5d_WEWePw2oFv2wARAU_X_IQF3QrNQwUJJ1uNdt8-p2lUwrKr1s9aKX/exec";
+"https://script.google.com/macros/s/AKfycbxSEo5fy7LT24gqU7W6s36z2IUVD43xxIzZn2DIgJ1KhVMjGS9_XPYE72_QMZedHb2d/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -4549,42 +4832,56 @@ async function salvarEdicao(){
 }
 
 
-async function excluirItemEstoque(codigo){
-  const item = dadosGlobais.find(x=>String(x.codigo||"")===String(codigo||""));
-  if(!item){
-    toast("Item de estoque não encontrado","erro");
-    return;
-  }
+let itemExclusaoEstoquePendente = null;
 
-  const confirmar = window.confirm(
-    "Excluir item do estoque?\n\n" +
-    "Item: " + (item.item || "-") + "\n" +
-    "Código: " + (item.codigo || "-") + "\n" +
-    "Quantidade atual: " + (item.quantidade ?? 0) + "\n\n" +
-    "O item será removido do estoque atual.\n" +
-    "O histórico anterior será preservado e a exclusão será registrada."
-  );
+function abrirModalExclusaoEstoque(item){
+  itemExclusaoEstoquePendente = item;
+  document.getElementById("exclusaoItemNome").textContent = item.item || "Item sem nome";
+  document.getElementById("exclusaoItemCodigo").textContent = item.codigo || "-";
+  document.getElementById("exclusaoItemQuantidade").textContent = Number(item.quantidade || 0).toLocaleString("pt-BR");
+  document.getElementById("exclusaoItemMinimo").textContent = Number(item.minimo || 0).toLocaleString("pt-BR");
+  const modal=document.getElementById("modalExclusaoEstoque");
+  modal.classList.add("ativo");
+  modal.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
 
-  if(!confirmar) return;
+function cancelarExclusaoEstoque(){
+  itemExclusaoEstoquePendente=null;
+  const modal=document.getElementById("modalExclusaoEstoque");
+  if(modal){modal.classList.remove("ativo");modal.setAttribute("aria-hidden","true");}
+  document.body.style.overflow="";
+}
 
+async function confirmarExclusaoEstoque(){
+  const item=itemExclusaoEstoquePendente;
+  if(!item) return;
+  cancelarExclusaoEstoque();
   try{
-    const resultado = await apiPost({
+    const resultado=await apiPost({
       tipo:"excluirItemEstoque",
-      codigo:String(codigo),
-      identificadorOriginal:String(codigo)
+      codigo:String(item.codigo || ""),
+      identificadorOriginal:String(item.codigo || "")
     });
-
     if(!resultado.sucesso){
       toast(resultado.mensagem || "Não foi possível excluir o item","erro");
       return;
     }
-
     toast("Item removido do estoque. Histórico preservado.","sucesso");
     await carregar();
   }catch(e){
     console.error(e);
     toast("Erro ao excluir item do estoque","erro");
   }
+}
+
+async function excluirItemEstoque(codigo){
+  const item=dadosGlobais.find(x=>String(x.codigo||"")===String(codigo||""));
+  if(!item){
+    toast("Item de estoque não encontrado","erro");
+    return;
+  }
+  abrirModalExclusaoEstoque(item);
 }
 
 
@@ -5468,6 +5765,8 @@ verificarSessao();
     graficoEquipamentosTempo=new Chart(c,{type:'line',data:{labels,datasets:[{label:'Cadastros',data,borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,.10)',borderWidth:2,fill:true,tension:.35,pointRadius:3,pointHoverRadius:5,pointBackgroundColor:'#38bdf8'}]},options:o});
   };
 })();
+
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){cancelarExclusaoEstoque();}});
 
 </script>
 
