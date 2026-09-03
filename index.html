@@ -1,107 +1,3 @@
-Analisei e encontrei o problema. Era uma incompatibilidade entre o HTML e o Code.gs.
-
-O Code.gs já estava retornando um objeto JSON com sucesso: true, mas o HTML estava esperando receber simplesmente "OK". Por isso o fluxo da movimentação ficava inconsistente. Além disso, deixei o registro do histórico mais seguro e explícito.
-
-Corrigi
-✅ Entrada registra no HISTORICO
-✅ Saída registra no HISTORICO
-✅ Data/hora registrada
-✅ Item e código registrados
-✅ Quantidade registrada
-✅ Setor registrado
-✅ Usuário registrado
-✅ SpreadsheetApp.flush() após gravação
-✅ HTML agora interpreta corretamente a resposta JSON
-✅ Após movimentação, o sistema recarrega os dados e atualiza o Histórico
-✅ Mensagem de sucesso confirma que o histórico foi registrado
-✅ Mantive todo o restante do sistema
-
-O código também passou na verificação de sintaxe.
-
-📦 Versão corrigida
-
-Baixar TIHEDA — Histórico Corrigido
-
-Ou separadamente:
-
-📄 index.html corrigido
-
-⚙️ Code.gs corrigido
-
-⚠️ Importante no Google Apps Script
-
-Depois de colocar o novo Code.gs, você precisa implantar uma nova versão do Web App para que a alteração entre em funcionamento.
-
-No Apps Script:
-
-Implantar → Gerenciar implantações → Editar → Nova versão → Implantar
-
-Depois mantenha a URL da implantação que corresponde ao API_URL do HTML.
-
-A partir daí, faça uma entrada ou saída de teste. Ela deverá aparecer imediatamente na aba HISTORICO da planilha e também na aba Histórico do sistema.
-
-index.html
-HTML
-chat voce tirou tudo que ja tinha atulizado antes
-
-Sim — na última correção eu acabei usando uma versão mais antiga dos códigos como base, e isso pode ter feito você perder várias atualizações que já tínhamos colocado antes.
-
-Foi um erro meu. Não devemos continuar com aquele pacote TIHEDA_HISTORICO_CORRIGIDO como base.
-
-O correto agora é:
-
-✅ manter todas as atualizações da versão profissional mais recente
-✅ manter Dashboard, Estoque, Cadastros, Equipamentos, Alertas, Histórico, Relatórios e Configurações
-✅ manter os gráficos e indicadores
-✅ manter scanner de código de barras
-✅ manter equipamentos sem “Tipo de equipamento”
-✅ manter usuários/perfis/permissões
-✅ manter histórico de equipamentos
-✅ manter filtros e relatórios
-✅ corrigir somente o problema do Histórico de movimentações
-❌ não voltar para código antigo
-❌ não remover funcionalidades já implementadas
-
-Vou considerar como base correta a versão TIHEDA_FINAL_PROFISSIONAL, e não a versão antiga que usei na última correção.
-
-Se você quiser, 
-posso pegar essa versão profissional e corrigir o Histórico sem alterar absolutamente o restante.
-
-sim
-
-Sim. Fiz agora em cima da versão profissional, sem voltar para aquela versão antiga.
-
-O que foi alterado
-Mantive todas as funcionalidades existentes.
-Mantive Dashboard, gráficos, Estoque, Equipamentos, Alertas, Histórico, Relatórios e Configurações.
-Mantive login, perfis e permissões.
-Mantive scanner/câmera.
-Mantive equipamentos sem “Tipo de equipamento”.
-Corrigi somente o registro do histórico de movimentações.
-A movimentação agora registra:
-Data
-Entrada/Saída
-Item
-Código
-Quantidade
-Setor
-Usuário
-O sistema força a gravação da alteração na planilha antes de concluir a operação.
-A interface confirma que a movimentação e o histórico foram registrados.
-
-O código profissional já tinha a estrutura de histórico e a leitura da aba HISTORICO; a correção foi feita especificamente na rotina de movimentação.
-
-Arquivos corrigidos
-
-Baixar pacote completo — TIHEDA_RECUPERADO.zip
-
-Ou separadamente:
-
-index.html
-Code.gs
-
-⚠️ Importante: coloque o index.html no Netlify e publique o Code.gs como nova versão da implantação do Apps Script. Depois faça uma entrada/saída de teste.
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -351,11 +247,11 @@ color:#4ade80
 }
 
 .secao{
-display:none
+display:none !important;
 }
 
 .secao.ativa{
-display:block
+display:block !important;
 }
 
 /* CARDS */
@@ -961,6 +857,40 @@ h1 .emoji-img,h2 .emoji-img,h3 .emoji-img,.login-logo .emoji-img{width:1.08em;he
 
 
 
+
+/* =====================================================
+   MELHORIAS DE PROFISSIONALISMO — DASHBOARD / ESTOQUE / ALERTAS / HISTÓRICO / EQUIPAMENTOS / RELATÓRIOS / CONFIG
+===================================================== */
+.painel-indicadores{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:0 0 18px}
+.indicador-mini{padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(145deg,rgba(15,23,42,.78),rgba(10,18,32,.72));display:flex;align-items:center;justify-content:space-between;gap:12px}
+.indicador-mini .rotulo{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:800}
+.indicador-mini .valor{font-size:25px;font-weight:900;color:var(--text);margin-top:4px}
+.indicador-mini .icone{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(56,189,248,.10);border:1px solid rgba(56,189,248,.12)}
+.indicador-mini .icone img{width:21px;height:21px}
+.barra-filtros-profissional{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;padding:14px;border:1px solid var(--line);background:rgba(15,23,42,.55);border-radius:16px;margin-bottom:16px}
+.barra-filtros-profissional .acoes-filtro{display:flex;gap:8px;align-items:end;flex-wrap:wrap}
+.barra-filtros-profissional label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:800;margin:0 0 6px}
+.badge-entrada,.badge-saida,.badge-alerta,.badge-ok{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.3px}
+.badge-entrada{background:rgba(34,197,94,.12);color:#4ade80}.badge-saida{background:rgba(239,68,68,.12);color:#f87171}.badge-alerta{background:rgba(245,158,11,.14);color:#fbbf24}.badge-ok{background:rgba(34,197,94,.10);color:#4ade80}
+.linha-vazia{text-align:center!important;padding:34px!important;color:var(--muted);font-weight:700}
+.alerta-resumo{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:16px}
+.alerta-resumo .alerta-card{padding:18px;border-radius:17px;border:1px solid rgba(245,158,11,.18);background:linear-gradient(145deg,rgba(120,53,15,.16),rgba(15,23,42,.55))}
+.alerta-resumo .alerta-card.critico{border-color:rgba(239,68,68,.20);background:linear-gradient(145deg,rgba(127,29,29,.18),rgba(15,23,42,.55))}
+.alerta-card .numero{font-size:27px;font-weight:900}.alerta-card small{display:block;color:var(--muted);margin-top:4px}
+.alerta-acoes{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.eq-resumo{margin-bottom:16px}
+.tabela-cabecalho{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.tabela-cabecalho .sub{color:var(--muted);font-size:13px}
+.relatorio-intro{padding:18px;border-radius:17px;background:linear-gradient(120deg,rgba(37,99,235,.12),rgba(6,182,212,.07));border:1px solid rgba(56,189,248,.13);margin-bottom:18px}
+.relatorio-intro strong{font-size:16px}.relatorio-intro p{color:var(--muted);margin-top:5px;font-size:13px}
+.config-grid-profissional{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.config-bloco{background:rgba(15,23,42,.45);border:1px solid var(--line);border-radius:17px;padding:18px}
+.config-bloco h3{font-size:15px;margin-bottom:7px}.config-bloco p{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:14px}
+.paginacao-historico{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:14px;color:var(--muted);font-size:12px}
+.paginacao-historico .botoes{display:flex;gap:7px}.paginacao-historico button{border:1px solid var(--line);background:var(--surface-2);color:var(--text);border-radius:9px;padding:8px 11px;cursor:pointer;font-weight:800}.paginacao-historico button:disabled{opacity:.4;cursor:not-allowed}
+body.light-mode .indicador-mini,body.light-mode .barra-filtros-profissional,body.light-mode .alerta-resumo .alerta-card,body.light-mode .config-bloco{background:#fff}
+@media(max-width:700px){.barra-filtros-profissional{grid-template-columns:1fr}.painel-indicadores{grid-template-columns:1fr 1fr}.alerta-resumo{grid-template-columns:1fr 1fr}}
+
 /* =====================================================
    CAMADA VISUAL PROFISSIONAL — preserva funcionalidades
 ===================================================== */
@@ -1464,9 +1394,18 @@ Sair
 </div>
 
 
+</div>
+
 <!-- ESTOQUE -->
 
 <div id="estoque" class="secao">
+
+<div class="painel-indicadores">
+<div class="indicador-mini"><div><div class="rotulo">Itens cadastrados</div><div class="valor" id="estoqueIndicadorItens">0</div></div><div class="icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Unidades em estoque</div><div class="valor" id="estoqueIndicadorTotal">0</div></div><div class="icone"><img src=./assets/icons/clipboard.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Itens em alerta</div><div class="valor" id="estoqueIndicadorAlertas">0</div></div><div class="icone"><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Movimentações</div><div class="valor" id="estoqueIndicadorMov">0</div></div><div class="icone"><img src=./assets/icons/refresh.png class=emoji-img alt= aria-hidden=true></div></div>
+</div>
 
 <div class="card">
 
@@ -1655,6 +1594,13 @@ onkeyup="filtrarTabela()">
 
 <div id="equipamentos" class="secao">
 
+<div class="painel-indicadores eq-resumo">
+<div class="indicador-mini"><div><div class="rotulo">Patrimônio total</div><div class="valor" id="eqIndicadorTotal">0</div></div><div class="icone"><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Em uso</div><div class="valor" id="eqIndicadorUso">0</div></div><div class="icone"><img src=./assets/icons/online.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Disponíveis</div><div class="valor" id="eqIndicadorDisp">0</div></div><div class="icone"><img src=./assets/icons/check.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Removidos</div><div class="valor" id="eqIndicadorRem">0</div></div><div class="icone"><img src=./assets/icons/alert.png class=emoji-img alt= aria-hidden=true></div></div>
+</div>
+
 <div class="card">
 
 <div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap">
@@ -1693,7 +1639,13 @@ onkeyup="filtrarTabela()">
 </div>
 </div>
 
-<div class="pesquisa" style="margin-top:25px">
+<div class="barra-filtros-profissional" style="margin-top:22px">
+<div><label>Status</label><select id="filtroStatusEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos</option><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select></div>
+<div><label>Setor</label><select id="filtroSetorEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos os setores</option></select></div>
+<div><label>Localização</label><input id="filtroLocalEquipamento" placeholder="Filtrar localização..." oninput="filtrarEquipamentos()"></div>
+</div>
+
+<div class="pesquisa" style="margin-top:0">
 <i class="fa-solid fa-magnifying-glass"></i>
 <input type="text" id="pesquisaEquipamentos" placeholder="Pesquisar por equipamento, patrimônio, número de série, marca, setor ou localização..." onkeyup="filtrarEquipamentos()">
 </div>
@@ -1726,77 +1678,61 @@ onkeyup="filtrarTabela()">
 <div id="alertas" class="secao">
 
 <div class="card">
-
-<h2><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true> Alertas</h2>
-
+<h2><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true> Central de Alertas</h2>
+<p style="color:#94a3b8;margin:-8px 0 18px">Itens que exigem atenção por estarem no estoque mínimo ou abaixo dele.</p>
+<div class="alerta-resumo">
+<div class="alerta-card critico"><div class="numero" id="alertasCriticos">0</div><small>Críticos — abaixo do mínimo</small></div>
+<div class="alerta-card"><div class="numero" id="alertasMinimo">0</div><small>No limite — estoque igual ao mínimo</small></div>
+<div class="alerta-card"><div class="numero" id="alertasUnidades">0</div><small>Unidades nos itens em alerta</small></div>
+</div>
+<div class="alerta-acoes"><button class="btn btn-secondary" onclick="mostrarSecao('estoque')"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true> Ir para Estoque</button><button class="btn" onclick="gerarRelatorio('alertas')"><img src=./assets/icons/pdf.png class=emoji-img alt= aria-hidden=true> Relatório de alertas</button></div>
 <div class="table-container">
-
 <table>
-
-<thead>
-<tr>
-<th>Item</th>
-<th>Código</th>
-<th>Patrimônio</th>
-<th>Setor</th>
-<th>Quantidade</th>
-<th>Mínimo</th>
-</tr>
-</thead>
-
+<thead><tr><th>Item</th><th>Código</th><th>Quantidade</th><th>Mínimo</th><th>Diferença</th><th>Status</th><th>Ação</th></tr></thead>
 <tbody id="tabelaAlertas"></tbody>
-
 </table>
-
 </div>
-
 </div>
-
 </div>
-
 
 <!-- HISTÓRICO -->
 
 <div id="historico" class="secao">
 
 <div class="card">
-
-<h2><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true> Histórico</h2>
-
+<div class="tabela-cabecalho"><div><h2 style="margin-bottom:4px"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true> Histórico de Movimentações</h2><div class="sub">Rastreabilidade de entradas, saídas, setor e usuário responsável.</div></div></div>
+<div class="painel-indicadores">
+<div class="indicador-mini"><div><div class="rotulo">Movimentações</div><div class="valor" id="histIndicadorTotal">0</div></div><div class="icone"><img src=./assets/icons/refresh.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Entradas</div><div class="valor" id="histIndicadorEntradas">0</div></div><div class="icone"><img src=./assets/icons/download.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Saídas</div><div class="valor" id="histIndicadorSaidas">0</div></div><div class="icone"><img src=./assets/icons/upload.png class=emoji-img alt= aria-hidden=true></div></div>
+<div class="indicador-mini"><div><div class="rotulo">Unidades movimentadas</div><div class="valor" id="histIndicadorUnidades">0</div></div><div class="icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div></div>
+</div>
+<div class="barra-filtros-profissional">
+<div><label>Data inicial</label><input type="date" id="histDataInicial" onchange="aplicarFiltrosHistorico()"></div>
+<div><label>Data final</label><input type="date" id="histDataFinal" onchange="aplicarFiltrosHistorico()"></div>
+<div><label>Operação</label><select id="histAcao" onchange="aplicarFiltrosHistorico()"><option value="">Todas</option><option value="entrada">Entradas</option><option value="saida">Saídas</option></select></div>
+<div><label>Setor</label><select id="histSetor" onchange="aplicarFiltrosHistorico()"><option value="">Todos os setores</option></select></div>
+<div><label>Usuário</label><input id="histUsuario" placeholder="Filtrar usuário..." oninput="aplicarFiltrosHistorico()"></div>
+<div><label>Item / código</label><input id="histBusca" placeholder="Pesquisar..." oninput="aplicarFiltrosHistorico()"></div>
+<div class="acoes-filtro"><button class="btn btn-secondary" onclick="limparFiltrosHistorico()"><img src=./assets/icons/refresh.png class=emoji-img alt= aria-hidden=true> Limpar</button><button class="btn" onclick="gerarRelatorio('historico')"><img src=./assets/icons/pdf.png class=emoji-img alt= aria-hidden=true> Relatório</button></div>
+</div>
+<div class="tabela-cabecalho"><div class="sub" id="historicoResultadoResumo">Exibindo todas as movimentações</div></div>
 <div class="table-container">
-
 <table>
-
-<thead>
-
-<tr>
-<th>Data</th>
-<th>Ação</th>
-<th>Item</th>
-<th>Código</th>
-<th>Quantidade</th>
-<th>Setor</th>
-<th>Usuário</th>
-</tr>
-
-</thead>
-
+<thead><tr><th>Data</th><th>Operação</th><th>Item</th><th>Código</th><th>Quantidade</th><th>Setor</th><th>Usuário</th></tr></thead>
 <tbody id="tabelaHistorico"></tbody>
-
 </table>
-
 </div>
-
+<div class="paginacao-historico"><span id="historicoPaginaInfo">Página 1</span><div class="botoes"><button id="histAnterior" onclick="mudarPaginaHistorico(-1)">‹ Anterior</button><button id="histProxima" onclick="mudarPaginaHistorico(1)">Próxima ›</button></div></div>
 </div>
-
 </div>
-
 
 <!-- RELATÓRIOS -->
 
 <div id="relatorios" class="secao">
 
 <div class="card">
+<div class="relatorio-intro"><strong><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Central de Relatórios</strong><p>Escolha um relatório, aplique os filtros necessários e visualize ou gere o PDF oficial do sistema.</p></div>
 
 <h2><img src=./assets/icons/chart.png class=emoji-img alt= aria-hidden=true> Relatórios</h2>
 
@@ -1883,6 +1819,7 @@ onclick="gerarRelatorio('historico')">
 <div id="config" class="secao">
 
 <div class="card">
+<div class="relatorio-intro"><strong><img src=./assets/icons/gear.png class=emoji-img alt= aria-hidden=true> Administração do sistema</strong><p>Preferências, setores, usuários e segurança. Os recursos administrativos respeitam o perfil de acesso.</p></div>
 
 <h2><img src=./assets/icons/gear.png class=emoji-img alt= aria-hidden=true> Configurações</h2>
 
@@ -2164,7 +2101,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwyvZyjWepXLySo6TXG29wh5Og5EnYH2KoiMgj3owgvz0Idy2e4MYfS4O15lB8Oawfx/exec";
+"https://script.google.com/macros/s/AKfycbwZn69-zDby9y3iUZOJrGQ6X6y8n6FkSb0cv2EcoH6fJhMugTmn6jx4vWvt9m4gQOUG/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -2358,24 +2295,41 @@ document.getElementById("loginSenha").value="";
 ===================================================== */
 
 function mostrarSecao(id,event){
+  const secoes=document.querySelectorAll(".secao");
+  const alvo=document.getElementById(id);
+  if(!alvo){ console.warn("Seção não encontrada:",id); return; }
 
-document.querySelectorAll(".secao")
-.forEach(x=>x.classList.remove("ativa"));
+  secoes.forEach(sec=>{
+    sec.classList.remove("ativa");
+    sec.style.display="none";
+  });
 
-document.getElementById(id)
-.classList.add("ativa");
+  alvo.classList.add("ativa");
+  alvo.style.display="block";
 
-document.querySelectorAll(".menu-btn")
-.forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".menu-btn").forEach(btn=>btn.classList.remove("active"));
+  const botao=event && event.currentTarget ? event.currentTarget : document.querySelector('.menu-btn[onclick*="mostrarSecao(\''+id+'\'"]');
+  if(botao) botao.classList.add("active");
 
-if(event){
-
-event.currentTarget.classList.add("active");
-
+  if(id==="estoque" || id==="alertas" || id==="historico") { renderizarTudo(); if(id==="historico") aplicarFiltrosHistorico(); }
+  if(id==="equipamentos") { renderizarEquipamentos(); filtrarEquipamentos(); }
+  if(id==="relatorios") { try{ carregarItensRelatorios(); }catch(e){ console.warn(e); } }
 }
 
+
+// Garante que a navegação comece com apenas o Dashboard visível.
+function inicializarNavegacao(){
+  document.querySelectorAll(".secao").forEach(sec=>{
+    const ativa=sec.id==="dashboard";
+    sec.classList.toggle("ativa",ativa);
+    sec.style.display=ativa?"block":"none";
+  });
+  document.querySelectorAll(".menu-btn").forEach(btn=>btn.classList.remove("active"));
+  const dash=document.querySelector('.menu-btn[onclick*="mostrarSecao(\'dashboard\'"]');
+  if(dash) dash.classList.add("active");
 }
 
+document.addEventListener("DOMContentLoaded", inicializarNavegacao);
 
 /* =====================================================
    TEMA
@@ -2528,15 +2482,47 @@ toast(
    RENDERIZAÇÃO
 ===================================================== */
 
+
+let historicoFiltradoGlobal=[];
+let historicoPaginaAtual=1;
+const HISTORICO_POR_PAGINA=25;
+
+function normalizarTextoHistorico(v){return String(v||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();}
+function preencherFiltroSetorHistorico(){
+ const s=document.getElementById("histSetor"); if(!s)return; const atual=s.value; const setores=[...new Set(historicoGlobal.map(x=>String(x.setor||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR")); s.innerHTML='<option value="">Todos os setores</option>'+setores.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join(""); if(setores.includes(atual))s.value=atual;
+}
+function aplicarFiltrosHistorico(){
+ preencherFiltroSetorHistorico();
+ const ini=document.getElementById("histDataInicial")?.value||"", fim=document.getElementById("histDataFinal")?.value||"", acao=normalizarTextoHistorico(document.getElementById("histAcao")?.value||""), setor=normalizarTextoHistorico(document.getElementById("histSetor")?.value||""), usuario=normalizarTextoHistorico(document.getElementById("histUsuario")?.value||""), busca=normalizarTextoHistorico(document.getElementById("histBusca")?.value||"");
+ historicoFiltradoGlobal=historicoGlobal.filter(x=>{
+   const d=x.data?new Date(x.data):null; const dia=d&&!isNaN(d.getTime())?d.toISOString().slice(0,10):"";
+   const a=normalizarTextoHistorico(x.acao); const st=normalizarTextoHistorico(x.setor); const us=normalizarTextoHistorico(x.usuario); const texto=normalizarTextoHistorico((x.item||"")+" "+(x.codigo||""));
+   return (!ini||dia>=ini)&&(!fim||dia<=fim)&&(!acao||(acao==="saida"?a==="saida"||a==="saida de estoque":a===acao))&&(!setor||st===setor)&&(!usuario||us.includes(usuario))&&(!busca||texto.includes(busca));
+ });
+ historicoFiltradoGlobal.sort((a,b)=>new Date(b.data||0)-new Date(a.data||0)); historicoPaginaAtual=1; renderizarHistoricoFiltrado();
+}
+function renderizarHistoricoFiltrado(){
+ const tbody=document.getElementById("tabelaHistorico"); if(!tbody)return; const total=historicoFiltradoGlobal.length; const ini=(historicoPaginaAtual-1)*HISTORICO_POR_PAGINA; const fim=Math.min(ini+HISTORICO_POR_PAGINA,total); const pagina=historicoFiltradoGlobal.slice(ini,fim); tbody.innerHTML=pagina.length?pagina.map(x=>{const ac=normalizarTextoHistorico(x.acao);const entrada=ac.includes("entrada");return `<tr><td>${formatarData(x.data)}</td><td><span class="${entrada?'badge-entrada':'badge-saida'}">${escapeHtml(x.acao||'-')}</span></td><td><strong>${escapeHtml(x.item||'-')}</strong></td><td>${escapeHtml(x.codigo||'-')}</td><td><strong>${escapeHtml(x.quantidade)}</strong></td><td>${escapeHtml(x.setor||'-')}</td><td>${escapeHtml(x.usuario||'-')}</td></tr>`}).join(''):'<tr><td colspan="7" class="linha-vazia">Nenhuma movimentação encontrada para os filtros selecionados.</td></tr>';
+ const pag=Math.max(1,Math.ceil(total/HISTORICO_POR_PAGINA)); const info=document.getElementById("historicoPaginaInfo"); if(info)info.innerText=`Página ${Math.min(historicoPaginaAtual,pag)} de ${pag} • ${total} registro(s)`; const ant=document.getElementById("histAnterior"),pro=document.getElementById("histProxima"); if(ant)ant.disabled=historicoPaginaAtual<=1;if(pro)pro.disabled=historicoPaginaAtual>=pag;
+ const resumo=document.getElementById("historicoResultadoResumo");if(resumo)resumo.innerText=total===historicoGlobal.length?`Exibindo todas as ${total} movimentações`:`Exibindo ${total} movimentação(ões) após aplicar os filtros`;
+ const entradas=historicoFiltradoGlobal.filter(x=>normalizarTextoHistorico(x.acao).includes("entrada")); const saidas=historicoFiltradoGlobal.filter(x=>normalizarTextoHistorico(x.acao).includes("saida")); const unidades=historicoFiltradoGlobal.reduce((s,x)=>s+(Number(x.quantidade)||0),0); setTexto("histIndicadorTotal",total);setTexto("histIndicadorEntradas",entradas.length);setTexto("histIndicadorSaidas",saidas.length);setTexto("histIndicadorUnidades",unidades);
+}
+function mudarPaginaHistorico(delta){const total=Math.max(1,Math.ceil(historicoFiltradoGlobal.length/HISTORICO_POR_PAGINA));historicoPaginaAtual=Math.max(1,Math.min(total,historicoPaginaAtual+delta));renderizarHistoricoFiltrado();}
+function limparFiltrosHistorico(){["histDataInicial","histDataFinal","histUsuario","histBusca"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});const a=document.getElementById("histAcao"),s=document.getElementById("histSetor");if(a)a.value="";if(s)s.value="";aplicarFiltrosHistorico();}
+function setTexto(id,v){const e=document.getElementById(id);if(e)e.innerText=v;}
+function filtrarEquipamentos(){
+ const q=normalizarTextoHistorico(document.getElementById("pesquisaEquipamentos")?.value||""), status=normalizarTextoHistorico(document.getElementById("filtroStatusEquipamento")?.value||""), setor=normalizarTextoHistorico(document.getElementById("filtroSetorEquipamento")?.value||""), local=normalizarTextoHistorico(document.getElementById("filtroLocalEquipamento")?.value||"");
+ const tabela=document.getElementById("tabelaEquipamentos");if(!tabela)return; const lista=equipamentosGlobais.filter(x=>{const texto=normalizarTextoHistorico([x.nome,x.patrimonio,x.numeroSerie,x.marca,x.setor,x.localizacao,x.status,x.observacoes].join(" "));return(!q||texto.includes(q))&&(!status||normalizarTextoHistorico(x.status)===status)&&(!setor||normalizarTextoHistorico(x.setor)===setor)&&(!local||normalizarTextoHistorico(x.localizacao).includes(local));});
+ tabela.innerHTML=lista.length?lista.map(eq=>`<tr><td><strong>${escapeHtml(eq.nome)}</strong></td><td>${escapeHtml(eq.patrimonio||"-")}</td><td>${escapeHtml(eq.numeroSerie||"-")}</td><td>${escapeHtml(eq.marca||"-")}</td><td>${escapeHtml(eq.setor||"-")}</td><td>${escapeHtml(eq.localizacao||"-")}</td><td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td><td>${escapeHtml(eq.observacoes||"-")}</td><td><div class="acoes"><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true></button><button class="btn-editar" title="Histórico" onclick="abrirHistoricoEquipamento('${escapeJs(eq.id)}')"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true></button></div></td></tr>`).join(''):'<tr><td colspan="9" class="linha-vazia">Nenhum equipamento encontrado.</td></tr>';
+}
+function preencherFiltroSetorEquipamento(){const s=document.getElementById("filtroSetorEquipamento");if(!s)return;const atual=s.value;const arr=[...new Set(equipamentosGlobais.map(x=>String(x.setor||"").trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"pt-BR"));s.innerHTML='<option value="">Todos os setores</option>'+arr.map(x=>`<option value="${escapeHtml(x)}">${escapeHtml(x)}</option>`).join('');if(arr.includes(atual))s.value=atual;}
+
 function renderizarTudo(){
 
 const tabela=document.getElementById("tabela");
 const alertas=document.getElementById("tabelaAlertas");
-const hist=document.getElementById("tabelaHistorico");
-
-tabela.innerHTML="";
-alertas.innerHTML="";
-hist.innerHTML="";
+if(tabela)tabela.innerHTML="";
+if(alertas)alertas.innerHTML="";
 
 let total=0;
 let alertasCount=0;
@@ -2548,13 +2534,8 @@ dadosGlobais.forEach(item=>{
 const alerta=Number(item.quantidade)<=Number(item.minimo);
 if(alerta){
   alertasCount++;
-  alertas.innerHTML+=`
-  <tr>
-  <td>${escapeHtml(item.item)}</td>
-  <td>${escapeHtml(item.codigo)}</td>
-  <td>${item.quantidade}</td>
-  <td>${item.minimo}</td>
-  </tr>`;
+  const critico=Number(item.quantidade)<Number(item.minimo);
+  if(alertas)alertas.innerHTML+=`<tr><td><strong>${escapeHtml(item.item)}</strong></td><td>${escapeHtml(item.codigo)}</td><td>${item.quantidade}</td><td>${item.minimo}</td><td>${Number(item.quantidade)-Number(item.minimo)}</td><td><span class="${critico?'badge-alerta':'badge-ok'}">${critico?'Abaixo do mínimo':'No limite'}</span></td><td><button class="btn-editar" title="Abrir item no estoque" onclick="document.getElementById('pesquisa').value='${escapeJs(item.item)}';filtrarTabela();mostrarSecao('estoque')"><img src=./assets/icons/eye.png class=emoji-img alt= aria-hidden=true></button></td></tr>`;
 }
 
 total+=Number(item.quantidade)||0;
@@ -2578,23 +2559,16 @@ tabela.innerHTML+=`
 </tr>`;
 });
 
-historicoGlobal.slice().reverse().forEach(x=>{
-hist.innerHTML+=`
-<tr>
-<td>${formatarData(x.data)}</td>
-<td>${escapeHtml(x.acao)}</td>
-<td>${escapeHtml(x.item)}</td>
-<td>${escapeHtml(x.codigo)}</td>
-<td>${x.quantidade}</td>
-<td>${escapeHtml(x.setor||"-")}</td>
-<td>${escapeHtml(x.usuario||"-")}</td>
-</tr>`;
-});
+historicoFiltradoGlobal=historicoGlobal.slice().sort((a,b)=>new Date(b.data||0)-new Date(a.data||0));
 
 document.getElementById("totalItens").innerText=dadosGlobais.length;
 document.getElementById("itensAlerta").innerText=alertasCount;
 document.getElementById("estoqueTotal").innerText=total;
 document.getElementById("totalMovimentacoes").innerText=historicoGlobal.length;
+setTexto("estoqueIndicadorItens",dadosGlobais.length);setTexto("estoqueIndicadorTotal",total);setTexto("estoqueIndicadorAlertas",alertasCount);setTexto("estoqueIndicadorMov",historicoGlobal.length);
+const criticos=dadosGlobais.filter(x=>Number(x.quantidade)<Number(x.minimo));const noLimite=dadosGlobais.filter(x=>Number(x.quantidade)===Number(x.minimo));setTexto("alertasCriticos",criticos.length);setTexto("alertasMinimo",noLimite.length);setTexto("alertasUnidades",dadosGlobais.filter(x=>Number(x.quantidade)<=Number(x.minimo)).reduce((a,x)=>a+(Number(x.quantidade)||0),0));
+setTexto("histIndicadorTotal",historicoGlobal.length);setTexto("histIndicadorEntradas",historicoGlobal.filter(x=>normalizarTextoHistorico(x.acao).includes("entrada")).length);setTexto("histIndicadorSaidas",historicoGlobal.filter(x=>normalizarTextoHistorico(x.acao).includes("saida")).length);setTexto("histIndicadorUnidades",historicoGlobal.reduce((a,x)=>a+(Number(x.quantidade)||0),0));
+preencherFiltroSetorHistorico();preencherFiltroSetorEquipamento();renderizarHistoricoFiltrado();
 
 gerarGraficoEstoque(nomes,quantidades);
 gerarGraficoStatus(alertasCount,dadosGlobais.length-alertasCount);
@@ -2633,14 +2607,11 @@ function renderizarEquipamentos(){
 const tabela=document.getElementById("tabelaEquipamentos");
 if(!tabela)return;
 tabela.innerHTML="";
-equipamentosGlobais.forEach(eq=>{
-  tabela.innerHTML+=`<tr><td>${escapeHtml(eq.nome)}</td><td>${escapeHtml(eq.patrimonio||"-")}</td><td>${escapeHtml(eq.numeroSerie||"-")}</td><td>${escapeHtml(eq.marca||"-")}</td><td>${escapeHtml(eq.setor||"-")}</td><td>${escapeHtml(eq.localizacao||"-")}</td><td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td><td>${escapeHtml(eq.observacoes||"-")}</td><td><div class="acoes"><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true></button><button class="btn-editar" title="Histórico" onclick="abrirHistoricoEquipamento('${escapeJs(eq.id)}')"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true></button></div></td></tr>`;
-});
 const uso=equipamentosGlobais.filter(x=>x.status==="Em uso").length;
 const disp=equipamentosGlobais.filter(x=>x.status==="Disponível").length;
 const rem=equipamentosGlobais.filter(x=>x.status==="Removido").length;
 const set=(id,v)=>{const el=document.getElementById(id);if(el)el.innerText=v;};
-set("totalEquipamentos",equipamentosGlobais.length);set("equipamentosEmUso",uso);set("equipamentosDisponiveis",disp);set("equipamentosRemovidos",rem);
+set("totalEquipamentos",equipamentosGlobais.length);set("equipamentosEmUso",uso);set("equipamentosDisponiveis",disp);set("equipamentosRemovidos",rem);set("eqIndicadorTotal",equipamentosGlobais.length);set("eqIndicadorUso",uso);set("eqIndicadorDisp",disp);set("eqIndicadorRem",rem);preencherFiltroSetorEquipamento();filtrarEquipamentos();
 const setores={}; const marcas={}; const locais={}; const meses={};
 equipamentosGlobais.forEach(x=>{
  const st=x.setor||"Sem setor"; setores[st]=(setores[st]||0)+1;
@@ -3103,7 +3074,7 @@ document.getElementById(
 status.className=
 "leitor-status erro";
 
-status.innerText=
+status.innerHTML=
 "<img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Código não encontrado no estoque.";
 
 return;
@@ -3143,7 +3114,7 @@ document.getElementById(
 status.className=
 "leitor-status sucesso";
 
-status.innerText=
+status.innerHTML=
 "<img src=./assets/icons/check.png class=emoji-img alt= aria-hidden=true> Item identificado com sucesso.";
 
 }
@@ -3328,8 +3299,8 @@ return;
 
 toast(
 acao==="entrada"
-?"Entrada realizada e histórico registrado!"
-:"Saída realizada e histórico registrado!",
+?"Entrada realizada com sucesso!"
+:"Saída realizada com sucesso!",
 "sucesso"
 );
 
@@ -3808,11 +3779,6 @@ document.querySelectorAll("#tabela tr").forEach(l=>l.style.display=l.innerText.t
 
 }
 
-function normalizarBuscaLocal(v){return String(v??"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();}
-function filtrarEquipamentos(){
-const f=normalizarBuscaLocal(document.getElementById("pesquisaEquipamentos").value);
-document.querySelectorAll("#tabelaEquipamentos tr").forEach((l,i)=>{const eq=equipamentosGlobais[i]; const alvo=normalizarBuscaLocal(eq?[eq.nome,eq.patrimonio,eq.numeroSerie,eq.marca,eq.setor,eq.localizacao,eq.status,eq.observacoes].join(" "):l.innerText); l.style.display=!f||alvo.includes(f)?"":"none";});
-}
 
 
 /* =====================================================
@@ -4685,5 +4651,3 @@ verificarSessao();
 
 </body>
 </html>
-index.html
-HTML
