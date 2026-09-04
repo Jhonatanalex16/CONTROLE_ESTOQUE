@@ -1039,16 +1039,6 @@ background:white
 }
 
 
-/* PESQUISA UNIFICADA — PADRÃO T.I-HEDA V15
-   O campo superior é a pesquisa oficial de cada aba. */
-.head-search-box{position:relative;display:flex;align-items:center;gap:8px}
-.head-search-box input{min-width:0;flex:1}
-.head-camera{width:38px;height:38px;flex:0 0 38px;border:1px solid rgba(56,189,248,.22);border-radius:9px;background:#07182b;color:#38bdf8;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;box-shadow:inset 0 0 0 1px rgba(37,99,235,.05)}
-.head-camera:hover{border-color:#38bdf8;background:#0b223b;color:#7dd3fc;transform:translateY(-1px);box-shadow:0 0 16px rgba(56,189,248,.16)}
-.head-camera i{font-size:15px}
-.scanner-compatibilidade{display:none!important}
-#pesquisa,#pesquisaEquipamentos{display:none!important}
-
 /* SCANNER / EQUIPAMENTOS */
 .scanner-equipamento{margin-top:20px;padding:20px;border-radius:18px;background:#0f172a;border:1px solid rgba(255,255,255,.06)}
 .scanner-botoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
@@ -2849,6 +2839,252 @@ html,body{width:100%;min-width:0;overflow-x:hidden!important;background:#050d16!
 }
 </style>
 
+
+<style id="tih-v15-padrao-final">
+/* =========================================================
+   T.I-HEDA V15 — PADRÃO VISUAL FINAL PARA TODAS AS ABAS
+   Mantém IDs, funções e estrutura; apenas uniformiza apresentação.
+   ========================================================= */
+:root{
+  --ref-bg:#050d16;
+  --ref-panel:#071522;
+  --ref-panel-2:#081a29;
+  --ref-input:#06131f;
+  --ref-line:#17344a;
+  --ref-line-soft:#12283a;
+  --ref-text:#e7eef5;
+  --ref-muted:#7f95a9;
+  --ref-blue:#2563eb;
+  --ref-cyan:#119bc5;
+  --ref-green:#16a66a;
+  --ref-red:#e34b57;
+  --ref-amber:#e0a43b;
+}
+
+#sistema,
+#sistema .layout,
+#sistema .main{background:var(--ref-bg)!important;color:var(--ref-text)!important;}
+#sistema .main{min-height:100vh!important;}
+
+/* Cabeçalho de TODAS as páginas */
+#sistema .page-section-head{
+  min-height:108px!important;
+  padding:26px 4px 20px!important;
+  margin:0!important;
+  border-bottom:1px solid var(--ref-line-soft)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px!important;
+  box-sizing:border-box!important;
+}
+#sistema .page-section-head h2{
+  margin:0!important;
+  font-size:27px!important;
+  line-height:1.15!important;
+  font-weight:800!important;
+  color:#eef5fa!important;
+  letter-spacing:-.3px!important;
+}
+#sistema .page-section-head h2 span{color:#8fa4b7!important;}
+#sistema .page-section-head p{
+  margin:8px 0 0!important;
+  color:#668096!important;
+  font-size:13px!important;
+}
+#sistema .page-head-search{display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important;}
+#sistema .head-search-box{width:310px!important;height:56px!important;}
+#sistema .head-search-box input{height:56px!important;border-radius:8px!important;background:var(--ref-input)!important;border:1px solid var(--ref-line)!important;color:#e7eef5!important;}
+#sistema .head-search-box input::placeholder{color:#657c91!important;}
+#sistema .head-camera{
+  width:42px!important;height:42px!important;flex:0 0 42px!important;
+  padding:0!important;border-radius:7px!important;
+  background:var(--ref-input)!important;border:1px solid var(--ref-line)!important;
+  color:#a5b7c7!important;display:grid!important;place-items:center!important;
+  font-size:16px!important;box-shadow:none!important;transform:none!important;
+}
+#sistema .head-camera:hover{background:#0a1b2b!important;border-color:#235879!important;color:#36a9e5!important;}
+#sistema .head-filter,
+#sistema .page-head-status{
+  height:56px!important;box-sizing:border-box!important;border-radius:8px!important;
+  background:var(--ref-input)!important;border:1px solid var(--ref-line)!important;
+  color:#a9b8c6!important;font-size:13px!important;font-weight:700!important;
+}
+#sistema .head-filter{padding:0 18px!important;}
+#sistema .page-head-status{display:inline-flex!important;align-items:center!important;padding:0 16px!important;gap:8px!important;}
+
+/* Barra de ações igual ao Estoque */
+#sistema .page-action-bar{
+  min-height:84px!important;padding:0 4px!important;margin:0!important;
+  border-bottom:1px solid var(--ref-line-soft)!important;
+  display:flex!important;align-items:center!important;gap:14px!important;
+}
+#sistema .page-action-bar .btn{
+  height:56px!important;min-height:56px!important;min-width:150px!important;
+  border-radius:7px!important;padding:0 21px!important;
+  font-size:14px!important;font-weight:750!important;box-shadow:none!important;
+}
+#sistema .page-action-bar .action-primary{background:#1769e8!important;border-color:#2477ed!important;}
+#sistema .page-action-bar .action-success{background:#087f9c!important;border-color:#0b91b4!important;color:#43e6a2!important;}
+#sistema .page-action-bar .action-danger{background:#126fa6!important;border-color:#e34b57!important;color:#ff6470!important;}
+#sistema .page-action-bar .action-neutral{background:#087fa9!important;border-color:#168fba!important;color:#dce9f1!important;}
+#sistema .page-action-bar .action-refresh{margin-left:auto!important;}
+
+/* Cards e indicadores */
+#sistema .painel-indicadores{margin:16px 0!important;gap:12px!important;}
+#sistema .indicador-mini{
+  min-height:96px!important;padding:18px!important;border-radius:8px!important;
+  background:#06131f!important;border:1px solid var(--ref-line)!important;
+  box-shadow:none!important;
+}
+#sistema .indicador-mini .rotulo{font-size:11px!important;text-transform:uppercase!important;letter-spacing:.45px!important;color:#6e8498!important;}
+#sistema .indicador-mini .valor{font-size:27px!important;margin-top:9px!important;color:#eef5fa!important;font-weight:800!important;}
+#sistema .indicador-mini .icone{width:40px!important;height:40px!important;border-radius:8px!important;background:#082338!important;border:1px solid #14506e!important;color:#19a5da!important;}
+
+#sistema .card{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;
+  border-radius:8px!important;box-shadow:none!important;margin:16px 0!important;padding:20px!important;
+}
+#sistema .card h2{font-size:17px!important;color:#edf4f9!important;margin:0 0 12px!important;}
+#sistema .card p{color:#718aa0!important;}
+#sistema input,#sistema select,#sistema textarea{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;
+  border-radius:7px!important;color:#e8f0f6!important;box-shadow:none!important;
+}
+#sistema input:focus,#sistema select:focus,#sistema textarea:focus{border-color:#1b6fa7!important;box-shadow:0 0 0 2px rgba(27,111,167,.08)!important;}
+#sistema .btn{border-radius:7px!important;box-shadow:none!important;}
+
+/* ESTOQUE */
+#sistema #estoque .scanner-integrado{
+  margin:0!important;padding:0!important;background:transparent!important;border:0!important;
+}
+#sistema #estoque #cardLeitorCodigo,
+#sistema #estoque .scanner-integrado.ativo{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;
+}
+#sistema #estoque .scanner-integrado-info{color:#70879b!important;}
+#sistema #estoque .table-container{margin-top:14px!important;}
+
+/* EQUIPAMENTOS — mesma composição do Estoque */
+#sistema #equipamentos > .card{padding:20px!important;}
+#sistema #equipamentos .eq-resumo{margin-top:16px!important;}
+#sistema #equipamentos .scanner-equipamento{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;
+  padding:18px!important;margin-top:14px!important;
+}
+#sistema #equipamentos .scanner-equipamento h2{font-size:17px!important;margin-bottom:7px!important;}
+#sistema #equipamentos .scanner-equipamento p{margin:0!important;color:#718aa0!important;}
+#sistema #equipamentos .equipamento-identificado{border-color:#17445f!important;background:#071824!important;}
+
+/* Filtros internos */
+#sistema .barra-filtros-profissional{
+  display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  gap:10px!important;padding:14px!important;margin:14px 0!important;
+  background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;
+}
+#sistema .barra-filtros-profissional label{display:block!important;margin-bottom:6px!important;color:#72889b!important;font-size:10px!important;text-transform:uppercase!important;letter-spacing:.4px!important;}
+#sistema .barra-filtros-profissional .acoes-filtro{display:flex!important;align-items:flex-end!important;gap:8px!important;}
+
+/* ALERTAS */
+#sistema #alertas .alerta-resumo{margin:14px 0!important;gap:10px!important;}
+#sistema #alertas .alerta-card{
+  min-height:92px!important;padding:17px!important;border-radius:8px!important;
+  background:#06131f!important;border:1px solid var(--ref-line)!important;box-shadow:none!important;
+}
+#sistema #alertas .alerta-card .numero{font-size:26px!important;font-weight:800!important;color:#eaf2f7!important;}
+#sistema #alertas .alerta-card.critico{border-color:rgba(227,75,87,.42)!important;}
+#sistema #alertas .alerta-card small{color:#73899d!important;}
+#sistema #alertas .alerta-acoes{display:flex!important;gap:10px!important;margin:14px 0!important;}
+
+/* HISTÓRICO */
+#sistema #historico .tabela-cabecalho{padding:0!important;margin-bottom:12px!important;border:0!important;background:transparent!important;}
+#sistema #historico .tabela-cabecalho .sub{color:#71889c!important;font-size:13px!important;}
+#sistema #historico .historico-abas{display:flex!important;gap:8px!important;padding-bottom:12px!important;border-bottom:1px solid var(--ref-line-soft)!important;}
+#sistema #historico .historico-abas .btn{height:42px!important;min-height:42px!important;padding:0 15px!important;font-size:12px!important;}
+#sistema #historico .paginacao-historico{margin-top:14px!important;}
+
+/* TABELAS — mesmo padrão em todas as abas */
+#sistema .table-container{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;
+  overflow:auto!important;box-shadow:none!important;
+}
+#sistema table{border-collapse:collapse!important;background:transparent!important;}
+#sistema th{
+  background:#081824!important;color:#7290a6!important;border-bottom:1px solid var(--ref-line)!important;
+  font-size:10px!important;text-transform:uppercase!important;letter-spacing:.35px!important;padding:15px 14px!important;
+}
+#sistema td{color:#c7d5df!important;border-bottom:1px solid #102638!important;padding:15px 14px!important;font-size:12px!important;}
+#sistema tbody tr:hover{background:#071a29!important;}
+
+/* RELATÓRIOS */
+#sistema #relatorios .relatorios-pagina{padding:0!important;overflow:hidden!important;}
+#sistema #relatorios .relatorio-hero{
+  padding:22px!important;background:#071724!important;border-bottom:1px solid var(--ref-line)!important;
+  border-radius:0!important;
+}
+#sistema #relatorios .relatorio-hero h2{font-size:20px!important;margin:0!important;}
+#sistema #relatorios .relatorio-hero p{font-size:13px!important;color:#7890a3!important;}
+#sistema #relatorios .relatorio-toolbar{padding:16px 20px!important;border-bottom:1px solid var(--ref-line-soft)!important;}
+#sistema #relatorios .relatorios-grid{
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important;padding:16px!important;
+}
+#sistema #relatorios .relatorio-box{
+  min-height:190px!important;padding:16px!important;border-radius:8px!important;
+  background:#06131f!important;border:1px solid var(--ref-line)!important;box-shadow:none!important;
+}
+#sistema #relatorios .relatorio-box:hover{transform:translateY(-2px)!important;border-color:#245575!important;background:#071825!important;}
+#sistema #relatorios .relatorio-box h3{font-size:15px!important;color:#e8f1f6!important;}
+#sistema #relatorios .relatorio-box p{font-size:12px!important;line-height:1.5!important;color:#71889d!important;}
+#sistema #relatorios .relatorio-box-footer{margin-top:auto!important;}
+#sistema #relatorios .btn-relatorio{height:38px!important;min-height:38px!important;padding:0 12px!important;font-size:11px!important;background:#0a70a1!important;border:1px solid #168ab8!important;}
+
+/* CONFIGURAÇÕES */
+#sistema #config .relatorio-intro{
+  padding:15px!important;background:#071724!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;margin-bottom:14px!important;
+}
+#sistema #config .relatorio-intro strong{color:#dfeaf2!important;font-size:13px!important;}
+#sistema #config .relatorio-intro p{margin:6px 0 0!important;font-size:12px!important;}
+#sistema #config .card{margin-bottom:14px!important;}
+#sistema #config .card h2{display:flex!important;align-items:center!important;gap:7px!important;}
+#sistema #config .grid{gap:10px!important;}
+#sistema #config .usuario-tabela td,#sistema #config .usuario-tabela th{padding:12px!important;}
+
+/* Modais */
+#sistema .relatorio-modal-conteudo,
+#sistema .editar-modal-conteudo,
+#sistema .camera-box{
+  background:#071522!important;border:1px solid #21445b!important;border-radius:9px!important;
+  box-shadow:0 30px 90px rgba(0,0,0,.62)!important;
+}
+
+/* Responsivo sem destruir o desktop */
+@media(max-width:1100px) and (min-width:761px){
+  #sistema .sidebar{width:260px!important;}
+  #sistema .main{margin-left:260px!important;}
+  #sistema .page-section-head{align-items:flex-start!important;}
+  #sistema .head-search-box{width:250px!important;}
+  #sistema .barra-filtros-profissional{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+  #sistema #relatorios .relatorios-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+}
+@media(max-width:760px){
+  #sistema .page-section-head{min-height:auto!important;padding:20px 2px 15px!important;flex-direction:column!important;align-items:stretch!important;}
+  #sistema .page-section-head h2{font-size:21px!important;}
+  #sistema .page-head-search{width:100%!important;}
+  #sistema .head-search-box{flex:1!important;width:auto!important;}
+  #sistema .head-camera{width:48px!important;height:48px!important;flex-basis:48px!important;}
+  #sistema .head-filter{height:48px!important;padding:0 12px!important;}
+  #sistema .page-action-bar{min-height:auto!important;padding:12px 2px!important;flex-wrap:wrap!important;}
+  #sistema .page-action-bar .btn{height:42px!important;min-height:42px!important;min-width:0!important;padding:0 13px!important;font-size:11px!important;}
+  #sistema .page-action-bar .action-refresh{margin-left:0!important;}
+  #sistema .painel-indicadores{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #sistema .barra-filtros-profissional{grid-template-columns:1fr!important;}
+  #sistema #relatorios .relatorios-grid{grid-template-columns:1fr!important;}
+}
+@media(max-width:480px){
+  #sistema .painel-indicadores{grid-template-columns:1fr!important;}
+}
+
+</style>
 </head>
 
 <body>
@@ -3162,7 +3398,7 @@ Sair
 
 <div id="estoque" class="secao">
 
-<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="pesquisaCabecalhoEstoque" placeholder="Pesquisar item ou código de barras..." autocomplete="off" oninput="sincronizarPesquisaEstoque(this.value)"><button class="head-camera" type="button" title="Ler código de barras pela câmera" aria-label="Ler código de barras pela câmera" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera"></i></button></div><button class="head-filter" onclick="document.getElementById('pesquisaCabecalhoEstoque').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitor" placeholder="Pesquisar item ou código de barras..." autocomplete="off" oninput="filtrarTabela()"></div><button class="head-camera" title="Ler código de barras pela câmera" aria-label="Ler código de barras pela câmera" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores">
 <div class="indicador-mini"><div><div class="rotulo">Itens cadastrados</div><div class="valor" id="estoqueIndicadorItens">0</div></div><div class="icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3171,20 +3407,10 @@ Sair
 <div class="indicador-mini"><div><div class="rotulo">Movimentações</div><div class="valor" id="estoqueIndicadorMov">0</div></div><div class="icone"><img src=./assets/icons/refresh.png class=emoji-img alt= aria-hidden=true></div></div>
 </div>
 
-<div id="leitorCompatibilidadeEstoque" class="scanner-compatibilidade" aria-hidden="true" style="display:none">
+<div id="cardLeitorEstoque" class="card scanner-integrado">
 
-<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitor de Código de Barras</h2>
-
-<div class="grid">
-
-<input id="codigoLeitor"
-placeholder="Bipe o código de barras aqui..."
-autocomplete="off">
-
-<button class="btn" onclick="identificarCodigo()"><i class="fa-solid fa-barcode"></i> Identificar</button>
-<button class="btn btn-secondary" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera"></i> Usar câmera</button>
-
-</div>
+<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitura de código de barras</h2>
+<p class="scanner-integrado-info">A leitura é feita pelo campo de pesquisa superior ou pelo ícone da câmera.</p>
 
 <div id="leitorStatus"
 class="leitor-status"></div>
@@ -3280,7 +3506,7 @@ CANCELAR
 
 </div>
 
-</div></div>
+</div>
 
 
 <div class="card">
@@ -3290,7 +3516,6 @@ CANCELAR
 <button class="btn" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-boxes-stacked"></i> Cadastrar item de estoque</button>
 </div>
 </div>
-
 
 
 <div class="table-container">
@@ -3347,7 +3572,7 @@ CANCELAR
 
 <div id="equipamentos" class="secao">
 
-<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="pesquisaCabecalhoEquipamentos" placeholder="Pesquisar equipamento, patrimônio, série..." autocomplete="off" oninput="sincronizarPesquisaEquipamentos(this.value)"><button class="head-camera" type="button" title="Ler número de série pela câmera" aria-label="Ler número de série pela câmera" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i></button></div><button class="head-filter" onclick="document.getElementById('pesquisaCabecalhoEquipamentos').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitorEquipamento" placeholder="Pesquisar equipamento, patrimônio, série..." autocomplete="off" oninput="filtrarEquipamentos()"></div><button class="head-camera" title="Ler número de série pela câmera" aria-label="Ler número de série pela câmera" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitorEquipamento').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores eq-resumo">
 <div class="indicador-mini"><div><div class="rotulo">Patrimônio total</div><div class="valor" id="eqIndicadorTotal">0</div></div><div class="icone"><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3366,15 +3591,10 @@ CANCELAR
 <button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Cadastrar equipamento</button>
 </div>
 
-<div id="scannerCompatibilidadeEquipamento" style="display:none" aria-hidden="true"><div class="scanner-equipamento">
-<h3><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Localizar equipamento por código</h3>
-<p style="color:#94a3b8;margin-top:6px">A câmera lê apenas códigos de barras. Use o código de barras do número de série para localizar o equipamento.</p>
-<div class="grid" style="margin-top:14px">
-<input id="codigoLeitorEquipamento" placeholder="Bipe o código de barras do Nº de série..." autocomplete="off">
-<button class="btn" onclick="identificarEquipamento('serie')"><i class="fa-solid fa-barcode"></i> Ler Nº de série</button>
-</div>
-<div class="scanner-botoes">
-<button class="btn btn-secondary" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i> Câmera — Nº de série</button>
+<div id="cardScannerEquipamento" class="card scanner-integrado">
+<div>
+<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitura de número de série</h2>
+<p class="scanner-integrado-info">Use a pesquisa superior para localizar o equipamento. O ícone da câmera lê apenas o código de barras do número de série.</p>
 </div>
 <div id="equipamentoIdentificado" class="equipamento-identificado">
 <h3><img src=./assets/icons/check.png class=emoji-img alt= aria-hidden=true> Equipamento identificado</h3>
@@ -3393,14 +3613,12 @@ CANCELAR
 </div>
 </div>
 </div>
-</div>
 
 <div class="barra-filtros-profissional" style="margin-top:22px">
 <div><label>Status</label><select id="filtroStatusEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos</option><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select></div>
 <div><label>Setor</label><select id="filtroSetorEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos os setores</option></select></div>
 <div><label>Localização</label><input id="filtroLocalEquipamento" placeholder="Filtrar localização..." oninput="filtrarEquipamentos()"></div>
 </div>
-
 
 <div class="table-container">
 <table>
@@ -3869,7 +4087,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzuCJavr8QXidmgp5XjvII9yWJzknu2fsf5bwA7vAEsnn7QRM38biAT3NNuRPGQ2EmJ/exec";
+"https://script.google.com/macros/s/AKfycbyjg0P6epNskLkgX8LL3ZgTaOyW_pj1PpSKtZ7s--FOy1oArA5yoLUiMY0hs3eRwH7q/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -4298,7 +4516,7 @@ function mudarPaginaHistorico(delta){const total=Math.max(1,Math.ceil(historicoF
 function limparFiltrosHistorico(){["histDataInicial","histDataFinal","histUsuario","histBusca"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});const a=document.getElementById("histAcao"),s=document.getElementById("histSetor");if(a)a.value="";if(s)s.value="";aplicarFiltrosHistorico();}
 function setTexto(id,v){const e=document.getElementById(id);if(e)e.innerText=v;}
 function filtrarEquipamentos(){
- const q=normalizarTextoHistorico(document.getElementById("pesquisaEquipamentos")?.value||""), status=normalizarTextoHistorico(document.getElementById("filtroStatusEquipamento")?.value||""), setor=normalizarTextoHistorico(document.getElementById("filtroSetorEquipamento")?.value||""), local=normalizarTextoHistorico(document.getElementById("filtroLocalEquipamento")?.value||"");
+ const q=normalizarTextoHistorico(document.getElementById("codigoLeitorEquipamento")?.value||""), status=normalizarTextoHistorico(document.getElementById("filtroStatusEquipamento")?.value||""), setor=normalizarTextoHistorico(document.getElementById("filtroSetorEquipamento")?.value||""), local=normalizarTextoHistorico(document.getElementById("filtroLocalEquipamento")?.value||"");
  const tabela=document.getElementById("tabelaEquipamentos");if(!tabela)return; const lista=equipamentosGlobais.filter(x=>{const texto=normalizarTextoHistorico([x.nome,x.patrimonio,x.numeroSerie,x.marca,x.setor,x.localizacao,x.status,x.observacoes].join(" "));return(!q||texto.includes(q))&&(!status||normalizarTextoHistorico(x.status)===status)&&(!setor||normalizarTextoHistorico(x.setor)===setor)&&(!local||normalizarTextoHistorico(x.localizacao).includes(local));});
  tabela.innerHTML=lista.length?lista.map(eq=>`<tr><td><strong>${escapeHtml(eq.nome)}</strong></td><td>${escapeHtml(eq.patrimonio||"-")}</td><td>${escapeHtml(eq.numeroSerie||"-")}</td><td>${escapeHtml(eq.marca||"-")}</td><td>${escapeHtml(eq.setor||"-")}</td><td>${escapeHtml(eq.localizacao||"-")}</td><td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td><td>${escapeHtml(eq.observacoes||"-")}</td><td><div class="acoes"><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true></button><button class="btn-editar" title="Histórico" onclick="abrirHistoricoEquipamento('${escapeJs(eq.id)}')"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true></button></div></td></tr>`).join(''):'<tr><td colspan="9" class="linha-vazia">Nenhum equipamento encontrado.</td></tr>';
 }
@@ -4875,26 +5093,13 @@ document.getElementById(
 if(!item){
 
 itemSelecionado=null;
-
-document.getElementById(
-"itemIdentificado"
-).classList.remove("ativo");
-
-document.getElementById(
-"acoesLeitor"
-).classList.remove("ativo");
-
-status.className=
-"leitor-status erro";
-
-status.innerHTML=
-"<img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Código não encontrado no estoque.";
-
+filtrarTabela();
 return;
 
 }
 
 itemSelecionado=item;
+document.getElementById("cardLeitorEstoque")?.classList.add("ativo");
 
 document.getElementById(
 "nomeItemLeitor"
@@ -5138,6 +5343,7 @@ toast(
 function cancelarOperacao(){
 
 itemSelecionado=null;
+document.getElementById("cardLeitorEstoque")?.classList.remove("ativo");
 
 [
 "codigoLeitor",
@@ -5190,8 +5396,6 @@ acao
 document.getElementById(
 "codigoLeitor"
 ).value=codigo;
-const topoEstoque=document.getElementById("pesquisaCabecalhoEstoque");
-if(topoEstoque)topoEstoque.value=codigo;
 
 identificarCodigo()
 .then(
@@ -5209,17 +5413,20 @@ identificarCodigo()
 ===================================================== */
 function identificarEquipamento(){
  const campo=document.getElementById("codigoLeitorEquipamento"); const codigo=campo.value.trim();
- if(!codigo){toast("Bipe o código de barras do número de série","erro");return;}
- mostrarEquipamentoEscaneado("serie",codigo);
+ if(!codigo){filtrarEquipamentos();return;}
+ const q=normalizarBuscaLocal(codigo);
+ const encontrado=(equipamentosGlobais||[]).some(x=>normalizarBuscaLocal(x.numeroSerie)===q);
+ filtrarEquipamentos();
+ if(encontrado) mostrarEquipamentoEscaneado("serie",codigo);
 }
 function mostrarEquipamentoEscaneado(tipo,codigo){
  // Scanner de equipamento sempre consulta o número de série.
  const q=normalizarBuscaLocal(codigo);
  const eq=equipamentosGlobais.find(x=>normalizarBuscaLocal(x.numeroSerie)===q);
  const box=document.getElementById("equipamentoIdentificado");
- if(!eq){box.classList.remove("ativo");toast("Equipamento não encontrado para este código.","erro");return;}
+ if(!eq){box.classList.remove("ativo");document.getElementById("cardScannerEquipamento")?.classList.add("ativo");toast("Equipamento não encontrado para este código.","erro");return;}
  document.getElementById("eqScanNome").innerText=eq.nome||"-";document.getElementById("eqScanPatrimonio").innerText=eq.patrimonio||"-";document.getElementById("eqScanSerie").innerText=eq.numeroSerie||"-";document.getElementById("eqScanMarca").innerText=eq.marca||"-";document.getElementById("eqScanSetor").innerText=eq.setor||"-";document.getElementById("eqScanLocalizacao").innerText=eq.localizacao||"-";document.getElementById("eqScanStatus").innerText=eq.status||"-";
- document.getElementById("btnEqScanEditar").onclick=()=>abrirEdicao(eq.id,"EQUIPAMENTO"); document.getElementById("btnEqScanHistorico").onclick=()=>abrirHistoricoEquipamento(eq.id); box.classList.add("ativo"); toast("Equipamento identificado com sucesso!","sucesso");
+ document.getElementById("btnEqScanEditar").onclick=()=>abrirEdicao(eq.id,"EQUIPAMENTO"); document.getElementById("btnEqScanHistorico").onclick=()=>abrirHistoricoEquipamento(eq.id); box.classList.add("ativo"); document.getElementById("cardScannerEquipamento")?.classList.add("ativo"); toast("Equipamento identificado com sucesso!","sucesso");
 }
 async function abrirCameraScanner(modo){
  // Os únicos modos permitidos são estoque e número de série de equipamento.
@@ -5418,20 +5625,14 @@ function processarResultadoCamera(texto){
 
  if(scannerModo==="estoque"){
    document.getElementById("codigoLeitor").value=codigo;
-   const topoEstoque=document.getElementById("pesquisaCabecalhoEstoque");
-   if(topoEstoque)topoEstoque.value=codigo;
-   const pesquisaEstoque=document.getElementById("pesquisa");
-   if(pesquisaEstoque)pesquisaEstoque.value=codigo;
+   filtrarTabela();
    fecharCameraScanner();
    identificarCodigo();
    return;
  }
 
  document.getElementById("codigoLeitorEquipamento").value=codigo;
- const topoEquipamento=document.getElementById("pesquisaCabecalhoEquipamentos");
- if(topoEquipamento)topoEquipamento.value=codigo;
- const pesquisaEquipamento=document.getElementById("pesquisaEquipamentos");
- if(pesquisaEquipamento)pesquisaEquipamento.value=codigo;
+ filtrarEquipamentos();
  fecharCameraScanner();
  mostrarEquipamentoEscaneado("serie",codigo);
 }
@@ -5464,7 +5665,6 @@ function fecharCameraScanner(){
 }
 
 document.getElementById("codigoLeitorEquipamento")?.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();identificarEquipamento();}});
-ativarPesquisaUnificada();
 
 /* =====================================================
    CADASTRO
@@ -5649,46 +5849,9 @@ async function excluirItemEstoque(codigo){
    PESQUISA
 ===================================================== */
 
-function sincronizarPesquisaEstoque(valor){
-  const campo=document.getElementById("pesquisa");
-  if(campo) campo.value=valor;
-  filtrarTabela();
-}
-
-function sincronizarPesquisaEquipamentos(valor){
-  const campo=document.getElementById("pesquisaEquipamentos");
-  if(campo) campo.value=valor;
-  filtrarEquipamentos();
-}
-
-function ativarPesquisaUnificada(){
-  const estoque=document.getElementById("pesquisaCabecalhoEstoque");
-  if(estoque){
-    estoque.addEventListener("keydown",e=>{
-      if(e.key==="Enter"){
-        e.preventDefault();
-        const hidden=document.getElementById("pesquisa");
-        if(hidden) hidden.value=estoque.value.trim();
-        if(estoque.value.trim()) identificarCodigo();
-      }
-    });
-  }
-  const equipamentos=document.getElementById("pesquisaCabecalhoEquipamentos");
-  if(equipamentos){
-    equipamentos.addEventListener("keydown",e=>{
-      if(e.key==="Enter"){
-        e.preventDefault();
-        const hidden=document.getElementById("pesquisaEquipamentos");
-        if(hidden) hidden.value=equipamentos.value.trim();
-        if(equipamentos.value.trim()) identificarEquipamento();
-      }
-    });
-  }
-}
-
 function filtrarTabela(){
 
-const f=document.getElementById("pesquisa").value.trim().toLowerCase();
+const f=document.getElementById("codigoLeitor").value.trim().toLowerCase();
 document.querySelectorAll("#tabela tr").forEach(l=>l.style.display=l.innerText.toLowerCase().includes(f)?"":"none");
 
 }
@@ -6640,6 +6803,252 @@ tbody tr:hover td{background:#091826!important}
   .sidebar-seguranca{margin-top:12px!important;}
 }
 </style>
+
+<style id="tih-v15-padrao-final">
+/* =========================================================
+   T.I-HEDA V15 — PADRÃO VISUAL FINAL PARA TODAS AS ABAS
+   Mantém IDs, funções e estrutura; apenas uniformiza apresentação.
+   ========================================================= */
+:root{
+  --ref-bg:#050d16;
+  --ref-panel:#071522;
+  --ref-panel-2:#081a29;
+  --ref-input:#06131f;
+  --ref-line:#17344a;
+  --ref-line-soft:#12283a;
+  --ref-text:#e7eef5;
+  --ref-muted:#7f95a9;
+  --ref-blue:#2563eb;
+  --ref-cyan:#119bc5;
+  --ref-green:#16a66a;
+  --ref-red:#e34b57;
+  --ref-amber:#e0a43b;
+}
+
+#sistema,
+#sistema .layout,
+#sistema .main{background:var(--ref-bg)!important;color:var(--ref-text)!important;}
+#sistema .main{min-height:100vh!important;}
+
+/* Cabeçalho de TODAS as páginas */
+#sistema .page-section-head{
+  min-height:108px!important;
+  padding:26px 4px 20px!important;
+  margin:0!important;
+  border-bottom:1px solid var(--ref-line-soft)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:24px!important;
+  box-sizing:border-box!important;
+}
+#sistema .page-section-head h2{
+  margin:0!important;
+  font-size:27px!important;
+  line-height:1.15!important;
+  font-weight:800!important;
+  color:#eef5fa!important;
+  letter-spacing:-.3px!important;
+}
+#sistema .page-section-head h2 span{color:#8fa4b7!important;}
+#sistema .page-section-head p{
+  margin:8px 0 0!important;
+  color:#668096!important;
+  font-size:13px!important;
+}
+#sistema .page-head-search{display:flex!important;align-items:center!important;gap:8px!important;flex:0 0 auto!important;}
+#sistema .head-search-box{width:310px!important;height:56px!important;}
+#sistema .head-search-box input{height:56px!important;border-radius:8px!important;background:var(--ref-input)!important;border:1px solid var(--ref-line)!important;color:#e7eef5!important;}
+#sistema .head-search-box input::placeholder{color:#657c91!important;}
+#sistema .head-camera{
+  width:42px!important;height:42px!important;flex:0 0 42px!important;
+  padding:0!important;border-radius:7px!important;
+  background:var(--ref-input)!important;border:1px solid var(--ref-line)!important;
+  color:#a5b7c7!important;display:grid!important;place-items:center!important;
+  font-size:16px!important;box-shadow:none!important;transform:none!important;
+}
+#sistema .head-camera:hover{background:#0a1b2b!important;border-color:#235879!important;color:#36a9e5!important;}
+#sistema .head-filter,
+#sistema .page-head-status{
+  height:56px!important;box-sizing:border-box!important;border-radius:8px!important;
+  background:var(--ref-input)!important;border:1px solid var(--ref-line)!important;
+  color:#a9b8c6!important;font-size:13px!important;font-weight:700!important;
+}
+#sistema .head-filter{padding:0 18px!important;}
+#sistema .page-head-status{display:inline-flex!important;align-items:center!important;padding:0 16px!important;gap:8px!important;}
+
+/* Barra de ações igual ao Estoque */
+#sistema .page-action-bar{
+  min-height:84px!important;padding:0 4px!important;margin:0!important;
+  border-bottom:1px solid var(--ref-line-soft)!important;
+  display:flex!important;align-items:center!important;gap:14px!important;
+}
+#sistema .page-action-bar .btn{
+  height:56px!important;min-height:56px!important;min-width:150px!important;
+  border-radius:7px!important;padding:0 21px!important;
+  font-size:14px!important;font-weight:750!important;box-shadow:none!important;
+}
+#sistema .page-action-bar .action-primary{background:#1769e8!important;border-color:#2477ed!important;}
+#sistema .page-action-bar .action-success{background:#087f9c!important;border-color:#0b91b4!important;color:#43e6a2!important;}
+#sistema .page-action-bar .action-danger{background:#126fa6!important;border-color:#e34b57!important;color:#ff6470!important;}
+#sistema .page-action-bar .action-neutral{background:#087fa9!important;border-color:#168fba!important;color:#dce9f1!important;}
+#sistema .page-action-bar .action-refresh{margin-left:auto!important;}
+
+/* Cards e indicadores */
+#sistema .painel-indicadores{margin:16px 0!important;gap:12px!important;}
+#sistema .indicador-mini{
+  min-height:96px!important;padding:18px!important;border-radius:8px!important;
+  background:#06131f!important;border:1px solid var(--ref-line)!important;
+  box-shadow:none!important;
+}
+#sistema .indicador-mini .rotulo{font-size:11px!important;text-transform:uppercase!important;letter-spacing:.45px!important;color:#6e8498!important;}
+#sistema .indicador-mini .valor{font-size:27px!important;margin-top:9px!important;color:#eef5fa!important;font-weight:800!important;}
+#sistema .indicador-mini .icone{width:40px!important;height:40px!important;border-radius:8px!important;background:#082338!important;border:1px solid #14506e!important;color:#19a5da!important;}
+
+#sistema .card{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;
+  border-radius:8px!important;box-shadow:none!important;margin:16px 0!important;padding:20px!important;
+}
+#sistema .card h2{font-size:17px!important;color:#edf4f9!important;margin:0 0 12px!important;}
+#sistema .card p{color:#718aa0!important;}
+#sistema input,#sistema select,#sistema textarea{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;
+  border-radius:7px!important;color:#e8f0f6!important;box-shadow:none!important;
+}
+#sistema input:focus,#sistema select:focus,#sistema textarea:focus{border-color:#1b6fa7!important;box-shadow:0 0 0 2px rgba(27,111,167,.08)!important;}
+#sistema .btn{border-radius:7px!important;box-shadow:none!important;}
+
+/* ESTOQUE */
+#sistema #estoque .scanner-integrado{
+  margin:0!important;padding:0!important;background:transparent!important;border:0!important;
+}
+#sistema #estoque #cardLeitorCodigo,
+#sistema #estoque .scanner-integrado.ativo{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;
+}
+#sistema #estoque .scanner-integrado-info{color:#70879b!important;}
+#sistema #estoque .table-container{margin-top:14px!important;}
+
+/* EQUIPAMENTOS — mesma composição do Estoque */
+#sistema #equipamentos > .card{padding:20px!important;}
+#sistema #equipamentos .eq-resumo{margin-top:16px!important;}
+#sistema #equipamentos .scanner-equipamento{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;
+  padding:18px!important;margin-top:14px!important;
+}
+#sistema #equipamentos .scanner-equipamento h2{font-size:17px!important;margin-bottom:7px!important;}
+#sistema #equipamentos .scanner-equipamento p{margin:0!important;color:#718aa0!important;}
+#sistema #equipamentos .equipamento-identificado{border-color:#17445f!important;background:#071824!important;}
+
+/* Filtros internos */
+#sistema .barra-filtros-profissional{
+  display:grid!important;grid-template-columns:repeat(6,minmax(0,1fr))!important;
+  gap:10px!important;padding:14px!important;margin:14px 0!important;
+  background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;
+}
+#sistema .barra-filtros-profissional label{display:block!important;margin-bottom:6px!important;color:#72889b!important;font-size:10px!important;text-transform:uppercase!important;letter-spacing:.4px!important;}
+#sistema .barra-filtros-profissional .acoes-filtro{display:flex!important;align-items:flex-end!important;gap:8px!important;}
+
+/* ALERTAS */
+#sistema #alertas .alerta-resumo{margin:14px 0!important;gap:10px!important;}
+#sistema #alertas .alerta-card{
+  min-height:92px!important;padding:17px!important;border-radius:8px!important;
+  background:#06131f!important;border:1px solid var(--ref-line)!important;box-shadow:none!important;
+}
+#sistema #alertas .alerta-card .numero{font-size:26px!important;font-weight:800!important;color:#eaf2f7!important;}
+#sistema #alertas .alerta-card.critico{border-color:rgba(227,75,87,.42)!important;}
+#sistema #alertas .alerta-card small{color:#73899d!important;}
+#sistema #alertas .alerta-acoes{display:flex!important;gap:10px!important;margin:14px 0!important;}
+
+/* HISTÓRICO */
+#sistema #historico .tabela-cabecalho{padding:0!important;margin-bottom:12px!important;border:0!important;background:transparent!important;}
+#sistema #historico .tabela-cabecalho .sub{color:#71889c!important;font-size:13px!important;}
+#sistema #historico .historico-abas{display:flex!important;gap:8px!important;padding-bottom:12px!important;border-bottom:1px solid var(--ref-line-soft)!important;}
+#sistema #historico .historico-abas .btn{height:42px!important;min-height:42px!important;padding:0 15px!important;font-size:12px!important;}
+#sistema #historico .paginacao-historico{margin-top:14px!important;}
+
+/* TABELAS — mesmo padrão em todas as abas */
+#sistema .table-container{
+  background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;
+  overflow:auto!important;box-shadow:none!important;
+}
+#sistema table{border-collapse:collapse!important;background:transparent!important;}
+#sistema th{
+  background:#081824!important;color:#7290a6!important;border-bottom:1px solid var(--ref-line)!important;
+  font-size:10px!important;text-transform:uppercase!important;letter-spacing:.35px!important;padding:15px 14px!important;
+}
+#sistema td{color:#c7d5df!important;border-bottom:1px solid #102638!important;padding:15px 14px!important;font-size:12px!important;}
+#sistema tbody tr:hover{background:#071a29!important;}
+
+/* RELATÓRIOS */
+#sistema #relatorios .relatorios-pagina{padding:0!important;overflow:hidden!important;}
+#sistema #relatorios .relatorio-hero{
+  padding:22px!important;background:#071724!important;border-bottom:1px solid var(--ref-line)!important;
+  border-radius:0!important;
+}
+#sistema #relatorios .relatorio-hero h2{font-size:20px!important;margin:0!important;}
+#sistema #relatorios .relatorio-hero p{font-size:13px!important;color:#7890a3!important;}
+#sistema #relatorios .relatorio-toolbar{padding:16px 20px!important;border-bottom:1px solid var(--ref-line-soft)!important;}
+#sistema #relatorios .relatorios-grid{
+  display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important;padding:16px!important;
+}
+#sistema #relatorios .relatorio-box{
+  min-height:190px!important;padding:16px!important;border-radius:8px!important;
+  background:#06131f!important;border:1px solid var(--ref-line)!important;box-shadow:none!important;
+}
+#sistema #relatorios .relatorio-box:hover{transform:translateY(-2px)!important;border-color:#245575!important;background:#071825!important;}
+#sistema #relatorios .relatorio-box h3{font-size:15px!important;color:#e8f1f6!important;}
+#sistema #relatorios .relatorio-box p{font-size:12px!important;line-height:1.5!important;color:#71889d!important;}
+#sistema #relatorios .relatorio-box-footer{margin-top:auto!important;}
+#sistema #relatorios .btn-relatorio{height:38px!important;min-height:38px!important;padding:0 12px!important;font-size:11px!important;background:#0a70a1!important;border:1px solid #168ab8!important;}
+
+/* CONFIGURAÇÕES */
+#sistema #config .relatorio-intro{
+  padding:15px!important;background:#071724!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;margin-bottom:14px!important;
+}
+#sistema #config .relatorio-intro strong{color:#dfeaf2!important;font-size:13px!important;}
+#sistema #config .relatorio-intro p{margin:6px 0 0!important;font-size:12px!important;}
+#sistema #config .card{margin-bottom:14px!important;}
+#sistema #config .card h2{display:flex!important;align-items:center!important;gap:7px!important;}
+#sistema #config .grid{gap:10px!important;}
+#sistema #config .usuario-tabela td,#sistema #config .usuario-tabela th{padding:12px!important;}
+
+/* Modais */
+#sistema .relatorio-modal-conteudo,
+#sistema .editar-modal-conteudo,
+#sistema .camera-box{
+  background:#071522!important;border:1px solid #21445b!important;border-radius:9px!important;
+  box-shadow:0 30px 90px rgba(0,0,0,.62)!important;
+}
+
+/* Responsivo sem destruir o desktop */
+@media(max-width:1100px) and (min-width:761px){
+  #sistema .sidebar{width:260px!important;}
+  #sistema .main{margin-left:260px!important;}
+  #sistema .page-section-head{align-items:flex-start!important;}
+  #sistema .head-search-box{width:250px!important;}
+  #sistema .barra-filtros-profissional{grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+  #sistema #relatorios .relatorios-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+}
+@media(max-width:760px){
+  #sistema .page-section-head{min-height:auto!important;padding:20px 2px 15px!important;flex-direction:column!important;align-items:stretch!important;}
+  #sistema .page-section-head h2{font-size:21px!important;}
+  #sistema .page-head-search{width:100%!important;}
+  #sistema .head-search-box{flex:1!important;width:auto!important;}
+  #sistema .head-camera{width:48px!important;height:48px!important;flex-basis:48px!important;}
+  #sistema .head-filter{height:48px!important;padding:0 12px!important;}
+  #sistema .page-action-bar{min-height:auto!important;padding:12px 2px!important;flex-wrap:wrap!important;}
+  #sistema .page-action-bar .btn{height:42px!important;min-height:42px!important;min-width:0!important;padding:0 13px!important;font-size:11px!important;}
+  #sistema .page-action-bar .action-refresh{margin-left:0!important;}
+  #sistema .painel-indicadores{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #sistema .barra-filtros-profissional{grid-template-columns:1fr!important;}
+  #sistema #relatorios .relatorios-grid{grid-template-columns:1fr!important;}
+}
+@media(max-width:480px){
+  #sistema .painel-indicadores{grid-template-columns:1fr!important;}
+}
+
+</style>
 </head>
 <body>
 <div class="pagina">
@@ -6937,6 +7346,26 @@ tbody tr:last-child td{border-bottom:0!important;}
   .relatorio-toolbar{align-items:flex-start!important;gap:10px!important;flex-wrap:wrap!important;}
 }
 
+</style>
+
+<style id="v15-ajuste-pesquisa-unificada">
+/* V15 — pesquisa única + scanner integrado */
+.page-head-search{align-items:center!important;}
+.head-camera{width:56px!important;height:56px!important;flex:0 0 56px!important;display:inline-grid!important;place-items:center!important;padding:0!important;border:1px solid #17364d!important;border-radius:8px!important;background:#06131f!important;color:#8ea5b8!important;font-size:17px!important;cursor:pointer!important;transition:.18s ease!important;}
+.head-camera:hover{border-color:#176ca5!important;color:#dceaf4!important;background:#071a28!important;transform:translateY(-1px)!important;}
+.head-camera:active{transform:translateY(0)!important;}
+.scanner-integrado{display:none!important;}
+.scanner-integrado.ativo{display:block!important;}
+.scanner-integrado-info{margin:-3px 0 0!important;color:#6f8397!important;font-size:12px!important;}
+#estoque .scanner-integrado,#equipamentos .scanner-integrado{margin-top:0!important;}
+#equipamentos .scanner-integrado .equipamento-identificado{margin-top:14px!important;}
+@media(max-width:760px){
+  .page-head-search{display:grid!important;grid-template-columns:minmax(0,1fr) 48px auto!important;gap:7px!important;}
+  .head-search-box{width:auto!important;height:48px!important;}
+  .head-search-box input{height:48px!important;}
+  .head-camera{width:48px!important;height:48px!important;flex-basis:48px!important;}
+  .head-filter{height:48px!important;padding:0 12px!important;}
+}
 </style>
 </body>
 </html>`);
