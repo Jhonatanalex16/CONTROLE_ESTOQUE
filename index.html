@@ -2358,7 +2358,7 @@ tbody tr:hover td{background:#091826!important}
 .exclusao-btn-confirmar{background:linear-gradient(180deg,#f04444,#d93333)!important;border:1px solid #ff5a5a!important;color:#fff!important;box-shadow:0 8px 22px rgba(240,68,68,.18)!important}
 
 /* ---------- LOGIN: DESKTOP FIEL AO MODELO ---------- */
-#loginTela{position:fixed!important;inset:0!important;padding:28px!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:auto!important;background:radial-gradient(circle at 10% 15%,rgba(20,118,255,.12),transparent 26%),radial-gradient(circle at 86% 86%,rgba(14,165,233,.08),transparent 30%),linear-gradient(135deg,#020711,#061326 54%,#020b18)!important}
+#loginTela{position:fixed!important;inset:0!important;padding:28px!important;display:flex;align-items:center!important;justify-content:center!important;overflow:auto!important;background:radial-gradient(circle at 10% 15%,rgba(20,118,255,.12),transparent 26%),radial-gradient(circle at 86% 86%,rgba(14,165,233,.08),transparent 30%),linear-gradient(135deg,#020711,#061326 54%,#020b18)!important}
 #loginTela::before{opacity:.65!important;background-size:42px 42px!important}
 .login-shell{width:min(1180px,100%)!important;min-height:650px!important;display:grid!important;grid-template-columns:minmax(0,1fr) 500px!important;background:rgba(3,12,29,.70)!important;border:1px solid #203b56!important;border-radius:22px!important;overflow:hidden!important;box-shadow:0 35px 100px rgba(0,0,0,.58),0 0 80px rgba(37,99,235,.07)!important;backdrop-filter:blur(18px)!important}
 .login-brand{padding:64px 70px!important;background:linear-gradient(145deg,rgba(8,28,58,.72),rgba(2,12,28,.40))!important}
@@ -2385,6 +2385,8 @@ tbody tr:hover td{background:#091826!important}
 .login-btn{height:56px!important;min-height:56px!important;border-radius:8px!important;background:linear-gradient(135deg,#2563eb,#0ea5e9)!important;font-size:14px!important}
 .login-seguranca{margin-top:26px!important;padding-top:21px!important}
 .login-footer{bottom:18px!important;color:#4e6277!important}
+
+#loginTela.login-oculta{display:none!important;}
 
 /* ---------- LOGIN RESPONSIVO ---------- */
 @media(max-width:900px){
@@ -3460,7 +3462,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxSz46TkZvs3_4A1GbXrrd-tXSrUTTxd6u72bfq3Ii05pycnytwI8OJ0-HI7lMSdhDl/exec";
+"https://script.google.com/macros/s/AKfycbxkhw0ALF8H04sL0AZLH51aCRXEh4huAF69s-ajR1Qwnh-p56CxZB2N8fZWGm8R3Twh/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -3597,7 +3599,7 @@ erro.style.display="block";
 
 function entrarSistema(){
 
-document.getElementById("loginTela").style.display="none";
+document.getElementById("loginTela").classList.add("login-oculta");
 
 document.getElementById("sistema").style.display="block";
 
@@ -3660,7 +3662,7 @@ token="";
 usuarioAtual=null;
 
 document.getElementById("sistema").style.display="none";
-document.getElementById("loginTela").style.display="flex";
+document.getElementById("loginTela").classList.remove("login-oculta");
 
 document.getElementById("loginSenha").value="";
 
