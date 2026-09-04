@@ -2430,6 +2430,117 @@ tbody tr:hover td{background:#091826!important}
 }
 
 </style>
+
+<style id="tih-v12-layout-fix">
+/* =========================================================
+   T.I-HEDA V12 — REFERÊNCIA FIEL / CORREÇÃO DE LAYOUT
+   Somente apresentação. Nenhuma função JS ou regra de negócio alterada.
+   ========================================================= */
+html,body{width:100%;min-width:0;overflow-x:hidden;background:#050d16!important}
+*,*::before,*::after{box-sizing:border-box}
+
+/* Estrutura principal — mesma dinâmica da referência */
+#sistema{width:100%;min-height:100vh}
+#sistema .layout{display:flex!important;min-height:100vh!important;width:100%!important;background:#050d16!important}
+#sistema .sidebar{
+  position:fixed!important;left:0!important;top:0!important;bottom:0!important;
+  width:300px!important;height:100vh!important;min-width:300px!important;
+  padding:26px 20px 20px!important;margin:0!important;
+  display:flex!important;flex-direction:column!important;
+  background:#050e18!important;border-right:1px solid #142333!important;
+  overflow-y:auto!important;overflow-x:hidden!important;z-index:1000!important;
+}
+#sistema .main{
+  margin-left:300px!important;width:calc(100% - 300px)!important;min-width:0!important;
+  padding:0 22px 32px!important;background:#050d16!important;
+}
+
+/* Marca */
+#sistema .logo{flex:0 0 auto!important;margin:0 0 18px!important;padding:0 10px 22px!important;border-bottom:1px solid #122131!important}
+#sistema .logo h1{display:flex!important;align-items:center!important;gap:11px!important;font-size:29px!important;line-height:1!important;font-weight:800!important;color:#edf5fd!important;background:none!important;-webkit-text-fill-color:initial!important}
+#sistema .logo h1 .emoji-img{flex:0 0 42px!important;width:42px!important;height:42px!important;object-fit:contain!important}
+#sistema .logo p{margin:7px 0 0 53px!important;font-size:11px!important;letter-spacing:.55px!important;color:#7c8fa3!important}
+
+/* Usuário */
+#sistema .usuario-logado{flex:0 0 auto!important;position:relative!important;margin:0 0 18px!important;min-height:70px!important;padding:14px 12px 12px 58px!important;background:#07131f!important;border:1px solid #12283a!important;border-radius:8px!important;color:#72869a!important}
+#sistema .usuario-logado:before{content:'AD'!important;position:absolute!important;left:13px!important;top:13px!important;width:35px!important;height:35px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#0b5ed7!important;color:#fff!important;font-size:12px!important;font-weight:800!important}
+#sistema .usuario-logado strong{display:block!important;margin:0!important;color:#e0e9f2!important;font-size:14px!important;font-weight:700!important}
+
+/* Menu — ícone nunca sobrepõe o nome */
+#sistema .menu{display:flex!important;flex-direction:column!important;gap:4px!important;flex:1 1 auto!important;min-height:0!important}
+#sistema .menu button.menu-btn{
+  flex:0 0 48px!important;width:100%!important;height:48px!important;min-height:48px!important;
+  display:flex!important;align-items:center!important;gap:14px!important;
+  padding:0 14px!important;margin:0!important;border:1px solid transparent!important;border-radius:7px!important;
+  background:transparent!important;color:#8c9eb2!important;font-size:14px!important;font-weight:600!important;
+  text-align:left!important;white-space:nowrap!important;transform:none!important;box-shadow:none!important;
+}
+#sistema .menu button.menu-btn i{flex:0 0 22px!important;width:22px!important;min-width:22px!important;text-align:center!important;margin:0!important;color:#7c8ea2!important;font-size:17px!important;line-height:1!important}
+#sistema .menu button.menu-btn:hover{background:#081827!important;border-color:#10283b!important;color:#dce7f2!important}
+#sistema .menu button.menu-btn:hover i{color:#4596ff!important}
+#sistema .menu button.menu-btn.active{background:linear-gradient(90deg,#082a59,#06203d)!important;border-color:#0d4f9c!important;box-shadow:inset 2px 0 0 #1681ff!important;color:#eaf3ff!important}
+#sistema .menu button.menu-btn.active i{color:#2588ff!important}
+#sistema .menu button.menu-btn > span{min-width:0!important}
+#sistema .menu button.menu-btn > span[id="menuAlertaBadge"]{flex:0 0 auto!important;margin-left:auto!important}
+#sistema .menu button.menu-btn.btn-sair{flex:0 0 58px!important;height:58px!important;min-height:58px!important;margin-top:auto!important;padding:18px 14px 0!important;border:0!important;border-top:1px solid #122131!important;border-radius:0!important;background:transparent!important;color:#e14b4b!important}
+#sistema .menu button.menu-btn.btn-sair i{color:#e04444!important}
+#sistema .menu button.menu-btn.btn-sair:hover{background:rgba(224,68,68,.055)!important;color:#ff6666!important}
+
+/* Segurança */
+#sistema .sidebar-seguranca{flex:0 0 auto!important;margin-top:16px!important;padding:14px!important;display:flex!important;align-items:center!important;gap:11px!important;background:#07131f!important;border:1px solid #12283a!important;border-radius:8px!important}
+
+/* Cabeçalho */
+#sistema .topo{height:98px!important;margin:0!important;padding:0 12px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:20px!important;border-bottom:1px solid #122131!important}
+#sistema .topo h2{font-size:26px!important;line-height:1.2!important;font-weight:750!important;color:#e7eef6!important;letter-spacing:-.5px!important}
+#sistema .topo h2 .emoji-img{width:23px!important;height:23px!important;vertical-align:-3px!important}
+#sistema .status-online{flex:0 0 auto!important;padding:8px 12px!important;border-radius:7px!important;background:#06111c!important;border:1px solid #172b3e!important;color:#7a8ea3!important;font-size:12px!important}
+
+/* Conteúdo: nada pode criar uma coluna estreita */
+#sistema .secao{width:100%!important;max-width:none!important;min-width:0!important}
+#sistema .secao.ativa{width:100%!important}
+#sistema .card,#sistema .card-info,#sistema .grafico,#sistema .table-container,#sistema .relatorios-pagina,#sistema .painel,#sistema .barra-filtros-profissional{max-width:none!important}
+#sistema .dashboard{width:100%!important;max-width:none!important}
+#sistema .graficos-dashboard{width:100%!important;max-width:none!important}
+#sistema .table-container{width:100%!important;overflow-x:auto!important}
+
+/* Botões no mesmo padrão da referência */
+#sistema .btn{border-radius:7px!important;min-height:40px!important;font-weight:650!important}
+#sistema .entrada,#sistema .saida,#sistema .btn-editar,#sistema .btn-excluir-setor{width:38px!important;min-width:38px!important;height:38px!important;min-height:38px!important;padding:0!important;border-radius:7px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important}
+#sistema .acoes{display:flex!important;align-items:center!important;gap:8px!important;white-space:nowrap!important}
+
+/* Login — mesma linguagem, sem ícones sobre texto */
+#loginTela .login-input-wrap{position:relative!important;width:100%!important}
+#loginTela .login-input-icon{position:absolute!important;left:15px!important;top:50%!important;transform:translateY(-50%)!important;width:22px!important;text-align:center!important;z-index:2!important;pointer-events:none!important}
+#loginTela .login-campo input{width:100%!important;box-sizing:border-box!important;padding-left:48px!important;padding-right:50px!important}
+#loginTela .login-toggle-senha{position:absolute!important;right:9px!important;top:50%!important;transform:translateY(-50%)!important;z-index:3!important}
+
+/* Responsividade sem quebrar o sistema */
+@media(max-width:1100px) and (min-width:701px){
+  #sistema .sidebar{width:260px!important;min-width:260px!important}
+  #sistema .main{margin-left:260px!important;width:calc(100% - 260px)!important;padding:0 18px 28px!important}
+}
+@media(max-width:700px){
+  #sistema .layout{display:flex!important;flex-direction:column!important;width:100%!important}
+  #sistema .sidebar{position:relative!important;left:auto!important;top:auto!important;bottom:auto!important;width:100%!important;min-width:0!important;height:auto!important;max-height:none!important;padding:16px!important;border-right:0!important;border-bottom:1px solid #142333!important;overflow:visible!important}
+  #sistema .main{margin-left:0!important;width:100%!important;padding:0 14px 24px!important}
+  #sistema .logo{padding-bottom:15px!important;margin-bottom:12px!important}
+  #sistema .usuario-logado{margin-bottom:12px!important}
+  #sistema .menu{flex:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;gap:5px!important;padding-bottom:3px!important}
+  #sistema .menu button.menu-btn{flex:0 0 auto!important;width:auto!important;min-width:135px!important;height:44px!important;min-height:44px!important}
+  #sistema .menu button.menu-btn.btn-sair{margin-top:0!important;padding:0 14px!important;border-top:0!important;height:44px!important;min-height:44px!important}
+  #sistema .sidebar-seguranca{margin-top:12px!important}
+  #sistema .topo{height:auto!important;min-height:86px!important;padding:18px 4px!important;align-items:flex-start!important;flex-wrap:wrap!important}
+  #sistema .topo h2{font-size:21px!important}
+  #sistema .status-online{margin-left:auto!important}
+}
+@media(max-width:480px){
+  #sistema .main{padding:0 10px 20px!important}
+  #sistema .dashboard,#sistema .painel-indicadores{grid-template-columns:1fr!important}
+  #sistema .topo h2{font-size:19px!important}
+  #loginTela{padding:10px!important}
+}
+</style>
+
 </head>
 
 <body>
@@ -3462,7 +3573,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxkhw0ALF8H04sL0AZLH51aCRXEh4huAF69s-ajR1Qwnh-p56CxZB2N8fZWGm8R3Twh/exec";
+"https://script.google.com/macros/s/AKfycbz3OsQ7LbSVfsN_qqqU9ICx72Rg-ZQi8medrkuy9XUqIuhbUIGxpYq0Te04KOxAdgeL/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
