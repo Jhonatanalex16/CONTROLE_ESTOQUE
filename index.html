@@ -1397,6 +1397,169 @@ body.light-mode .status-online{background:#fff;color:#15803d}
   .menu button{min-width:140px}
 }
 
+
+/* =========================================================
+   T.I-HEDA — CAMADA VISUAL FINAL FIEL À REFERÊNCIA
+   Esta camada só trata apresentação/layout. Não altera a lógica.
+   ========================================================= */
+:root{--ref-bg:#020b14;--ref-panel:#06131f;--ref-panel2:#071824;--ref-line:#17364d;--ref-line2:#10283b;--ref-text:#eaf2f8;--ref-muted:#71879b;--ref-blue:#1688ff;--ref-cyan:#0db5d8;}
+html,body{min-height:100%;background:var(--ref-bg)!important;}
+body{font-family:'Segoe UI',Arial,sans-serif!important;color:var(--ref-text)!important;overflow-x:hidden!important;}
+#sistema{min-height:100vh!important;background:var(--ref-bg)!important;}
+.layout{display:flex!important;min-height:100vh!important;width:100%!important;}
+.sidebar{position:fixed!important;left:0!important;top:0!important;bottom:0!important;width:300px!important;height:100vh!important;margin:0!important;padding:28px 22px 20px!important;background:#030e18!important;border-right:1px solid var(--ref-line2)!important;backdrop-filter:none!important;display:flex!important;flex-direction:column!important;z-index:100!important;overflow:hidden!important;}
+.logo{margin:0 0 25px!important;padding:0 8px 20px!important;border-bottom:1px solid var(--ref-line2)!important;}
+.logo h1{display:flex!important;align-items:center!important;gap:11px!important;font-size:29px!important;line-height:1!important;letter-spacing:-.6px!important;color:#edf6ff!important;background:none!important;-webkit-text-fill-color:initial!important;}
+.logo h1 .emoji-img{width:36px!important;height:36px!important;}
+.logo p{margin:7px 0 0 47px!important;font-size:11px!important;letter-spacing:.4px!important;color:#60788d!important;}
+.usuario-logado{margin:0 0 23px!important;padding:14px 14px 13px!important;background:#061522!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;color:#70869a!important;}
+.usuario-logado strong{color:#e8f1f7!important;font-size:14px!important;}
+.menu{display:flex!important;flex-direction:column!important;gap:4px!important;min-height:0!important;}
+.menu button,.menu .menu-btn{position:relative!important;width:100%!important;min-height:46px!important;height:46px!important;padding:0 13px!important;margin:0!important;border:1px solid transparent!important;border-radius:7px!important;background:transparent!important;color:#8295a7!important;font-size:13px!important;font-weight:650!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:0!important;box-shadow:none!important;transform:none!important;text-align:left!important;}
+.menu button i,.menu .menu-btn i{width:22px!important;min-width:22px!important;margin:0 16px 0 0!important;text-align:center!important;font-size:17px!important;color:#71879b!important;}
+.menu button:hover,.menu .menu-btn:hover{background:#071b2b!important;color:#dce9f3!important;transform:none!important;}
+.menu button:hover i,.menu .menu-btn:hover i{color:#55b9ff!important;}
+.menu-btn.active{background:linear-gradient(90deg,#08284a,#071c31)!important;border:1px solid #1264ad!important;color:#edf6ff!important;box-shadow:inset 2px 0 0 #1594ff!important;}
+.menu-btn.active i{color:#2fa8ff!important;}
+.menu-btn span{line-height:1!important;}
+.btn-sair{margin-top:18px!important;padding-top:18px!important;border-top:1px solid var(--ref-line2)!important;border-radius:0!important;color:#f0525c!important;background:transparent!important;}
+.btn-sair:before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--ref-line2)!important;}
+.btn-sair i{color:#f0525c!important;}
+.sidebar-seguranca{margin-top:auto!important;display:flex!important;align-items:center!important;gap:11px!important;padding:12px!important;background:#061522!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;color:#70869a!important;}
+.sidebar-seguranca-icone{width:38px!important;height:38px!important;border:1px solid #15567b!important;border-radius:8px!important;background:#072237!important;display:grid!important;place-items:center!important;color:#0cb9e8!important;flex:0 0 38px!important;}
+.sidebar-seguranca strong{display:block!important;color:#e7eff5!important;font-size:12px!important;margin-bottom:3px!important;}
+.sidebar-seguranca span{display:block!important;font-size:9px!important;color:#60798d!important;line-height:1.4!important;}
+.main{margin:0 0 0 300px!important;width:calc(100% - 300px)!important;min-width:0!important;padding:0 28px 35px!important;background:#020b14!important;}
+.topo{display:none!important;}
+.secao{display:none!important;width:100%!important;max-width:none!important;}
+.secao.ativa{display:block!important;}
+.page-section-head{min-height:112px!important;padding:30px 4px 20px!important;border-bottom:1px solid var(--ref-line2)!important;display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:22px!important;}
+.page-section-head h2{margin:0!important;font-size:28px!important;line-height:1.15!important;font-weight:800!important;letter-spacing:-.6px!important;color:#edf5fb!important;}
+.page-section-head h2 span{color:#7e93a5!important;}
+.page-section-head p{margin:7px 0 0!important;color:#6f8397!important;font-size:14px!important;line-height:1.4!important;}
+.page-head-status{height:38px!important;display:flex!important;align-items:center!important;gap:7px!important;padding:0 13px!important;border:1px solid var(--ref-line)!important;border-radius:7px!important;background:#06131f!important;color:#8aa0b3!important;font-size:11px!important;white-space:nowrap!important;}
+.page-head-status span{width:6px!important;height:6px!important;border-radius:50%!important;background:#13b8e7!important;box-shadow:0 0 8px rgba(19,184,231,.45)!important;}
+.page-section-head-actions{align-items:center!important;}
+.page-head-search{display:flex!important;align-items:center!important;gap:10px!important;}
+.head-search-box{position:relative!important;width:310px!important;height:56px!important;}
+.head-search-box i{position:absolute!important;left:16px!important;top:19px!important;color:#6e8296!important;font-size:17px!important;z-index:2!important;}
+.head-search-box input{height:56px!important;width:100%!important;padding:0 16px 0 45px!important;background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;color:#e8f1f7!important;font-size:14px!important;}
+.head-search-box input::placeholder{color:#65798c!important;}
+.head-search-box input:focus{border-color:#1b6fa7!important;box-shadow:0 0 0 2px rgba(20,139,215,.08)!important;}
+.head-filter{height:56px!important;padding:0 18px!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;background:#06131f!important;color:#a6b5c2!important;font-size:13px!important;font-weight:700!important;display:inline-flex!important;align-items:center!important;gap:9px!important;cursor:pointer!important;}
+.head-filter:hover{border-color:#255778!important;color:#e4edf3!important;background:#071824!important;}
+.page-action-bar{min-height:84px!important;border-bottom:1px solid var(--ref-line2)!important;display:flex!important;align-items:center!important;gap:18px!important;padding:0 4px!important;}
+.page-action-bar .btn{height:56px!important;min-width:150px!important;padding:0 22px!important;border-radius:6px!important;font-size:14px!important;font-weight:750!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:11px!important;border:1px solid transparent!important;box-shadow:none!important;}
+.page-action-bar .action-primary{background:linear-gradient(100deg,#1769e8,#078fd5)!important;border-color:#1677ed!important;}
+.page-action-bar .action-success{background:#05251e!important;color:#5bd69a!important;border-color:#0b6549!important;}
+.page-action-bar .action-danger{background:#281117!important;color:#f47a82!important;border-color:#7e202d!important;}
+.page-action-bar .action-neutral{background:#06131f!important;color:#a6b5c2!important;border-color:#17364d!important;}
+.page-action-bar .action-refresh{margin-left:auto!important;}
+/* Stock / equipment indicator rows: reference-like compact cards */
+.painel-indicadores,.dashboard{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin:16px 0!important;}
+.indicador-mini,.card-info{min-width:0!important;padding:16px 18px!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;background:#06131f!important;box-shadow:none!important;}
+.indicador-mini .rotulo,.card-info h3{color:#6d8aa1!important;font-size:10px!important;letter-spacing:.7px!important;text-transform:uppercase!important;font-weight:800!important;}
+.indicador-mini .valor,.card-info span{font-size:25px!important;font-weight:850!important;color:#f0f6fa!important;}
+.indicador-mini .icone{width:40px!important;height:40px!important;border-radius:9px!important;background:#082238!important;border:1px solid #16425b!important;}
+.card{padding:18px!important;margin-bottom:14px!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;background:#06131f!important;box-shadow:none!important;}
+.card h2{font-size:16px!important;margin-bottom:14px!important;color:#e7eff5!important;}
+.card p{color:#6f8397!important;}
+.grid{gap:10px!important;}
+input,select,textarea{background:#05111c!important;border:1px solid var(--ref-line)!important;border-radius:7px!important;color:#e5eef4!important;}
+input,select{height:42px!important;padding:0 13px!important;font-size:12px!important;}
+textarea{padding:12px!important;}
+input:focus,select:focus,textarea:focus{border-color:#176ca5!important;box-shadow:0 0 0 2px rgba(20,139,215,.08)!important;outline:none!important;}
+.btn{border-radius:7px!important;box-shadow:none!important;transition:.18s ease!important;}
+.btn:hover{transform:translateY(-1px)!important;filter:brightness(1.08)!important;}
+/* stock reader */
+#estoque .card{margin-bottom:14px!important;}
+#estoque .card:first-of-type .grid{grid-template-columns:minmax(260px,1fr) minmax(180px,.65fr) minmax(180px,.65fr)!important;}
+#estoque .card:first-of-type .grid .btn{height:42px!important;}
+#estoque .card:nth-of-type(2){padding:18px!important;}
+#estoque .card:nth-of-type(2) .grid{grid-template-columns:minmax(240px,390px)!important;}
+.pesquisa{margin:14px 0!important;}
+.pesquisa input{height:48px!important;padding-left:46px!important;}
+.pesquisa i{top:15px!important;left:16px!important;}
+.table-container{overflow:auto!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;}
+table{background:#06131f!important;border-collapse:separate!important;border-spacing:0!important;}
+th{height:56px!important;padding:0 16px!important;background:#071824!important;border-bottom:1px solid var(--ref-line)!important;color:#7e94a6!important;font-size:10px!important;text-transform:uppercase!important;letter-spacing:.45px!important;}
+td{height:66px!important;padding:0 16px!important;border-bottom:1px solid #10283b!important;color:#cbd8e1!important;font-size:12px!important;}
+tr:hover{background:#071824!important;}
+tr:last-child td{border-bottom:0!important;}
+.acoes{gap:7px!important;}
+.acoes button,.acoes .entrada,.acoes .saida,.btn-editar,.btn-excluir-setor{width:38px!important;height:38px!important;min-width:38px!important;padding:0!important;border-radius:6px!important;display:inline-grid!important;place-items:center!important;font-size:13px!important;}
+.entrada{background:#041f1a!important;color:#45d58d!important;border:1px solid #0b6049!important;}
+.saida{background:#261116!important;color:#f36b74!important;border:1px solid #74202d!important;}
+.btn-editar{background:#071d30!important;color:#299fff!important;border:1px solid #174e75!important;}
+.btn-excluir-setor{background:#261116!important;color:#f36b74!important;border:1px solid #74202d!important;}
+.status-ok{padding:6px 10px!important;border-radius:999px!important;background:#073326!important;color:#38d88d!important;font-size:10px!important;border:1px solid #0b5943!important;}
+.status-alerta{padding:6px 10px!important;border-radius:999px!important;background:#332508!important;color:#f3b942!important;font-size:10px!important;border:1px solid #745515!important;}
+/* equipment */
+#equipamentos .card{margin-bottom:14px!important;}
+#equipamentos .eq-resumo{margin-top:16px!important;}
+#equipamentos .equipamento-detalhes{gap:10px!important;}
+#equipamentos .barra-filtros-profissional{margin-top:14px!important;padding:12px!important;background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;}
+#equipamentos .pesquisa{margin-top:12px!important;}
+/* alerts */
+.alerta-resumo{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important;margin:14px 0!important;}
+.alerta-card{padding:16px!important;background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;}
+.alerta-card .numero{font-size:25px!important;color:#eef5f9!important;font-weight:850!important;}
+.alerta-card small{color:#6f8397!important;}
+.alerta-card.critico{border-color:#6f2029!important;background:#1c0d12!important;}
+.alerta-acoes{display:flex!important;gap:9px!important;margin:14px 0!important;}
+/* history */
+.barra-filtros-profissional{padding:12px!important;background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;}
+/* reports */
+#relatorios .relatorios-pagina{padding:0!important;background:transparent!important;border:0!important;}
+#relatorios .relatorio-hero{border:1px solid var(--ref-line)!important;border-radius:8px!important;background:#06131f!important;padding:18px!important;margin:16px 0 12px!important;}
+#relatorios .relatorios-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:10px!important;}
+#relatorios .relatorio-box{border-radius:8px!important;background:#06131f!important;border:1px solid var(--ref-line)!important;min-height:180px!important;}
+/* config */
+#config .card{margin-bottom:14px!important;}
+#config .grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))!important;}
+/* Dashboard */
+#dashboard .dashboard{margin-top:16px!important;}
+#dashboard .graficos-dashboard{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important;}
+#dashboard .grafico{min-height:320px!important;padding:18px!important;background:#06131f!important;border:1px solid var(--ref-line)!important;border-radius:8px!important;}
+#dashboard .grafico-largo{grid-column:span 2!important;}
+/* modal language */
+#modalExclusaoEstoque{background:rgba(0,5,11,.80)!important;backdrop-filter:blur(5px)!important;}
+.exclusao-dialog{border-radius:9px!important;background:#07131f!important;border:1px solid #29455b!important;}
+/* responsive */
+@media(max-width:1200px){
+ .sidebar{width:270px!important;padding-left:18px!important;padding-right:18px!important;}
+ .main{margin-left:270px!important;width:calc(100% - 270px)!important;padding-left:20px!important;padding-right:20px!important;}
+ .painel-indicadores,.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+ .page-head-search{flex-wrap:wrap!important;justify-content:flex-end!important;}
+ .head-search-box{width:260px!important;}
+ #relatorios .relatorios-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+}
+@media(max-width:760px){
+ .sidebar{width:74px!important;padding:14px 9px!important;}
+ .logo{padding:0 0 15px!important;text-align:center!important;}
+ .logo h1{justify-content:center!important;font-size:0!important;}
+ .logo h1 .emoji-img{width:32px!important;height:32px!important;}
+ .logo p,.usuario-logado,.sidebar-seguranca{display:none!important;}
+ .menu button,.menu .menu-btn{justify-content:center!important;font-size:0!important;padding:0!important;}
+ .menu button i,.menu .menu-btn i{margin:0!important;}
+ .menu-btn span{display:none!important;}
+ .main{margin-left:74px!important;width:calc(100% - 74px)!important;padding:0 12px 25px!important;}
+ .page-section-head{padding:20px 2px 15px!important;min-height:auto!important;flex-direction:column!important;align-items:stretch!important;}
+ .page-section-head h2{font-size:21px!important;}
+ .page-section-head p{font-size:11px!important;}
+ .page-head-search{width:100%!important;justify-content:stretch!important;}
+ .head-search-box{width:100%!important;}
+ .head-filter{flex:0 0 auto!important;}
+ .page-action-bar{min-height:auto!important;padding:12px 2px!important;flex-wrap:wrap!important;gap:7px!important;}
+ .page-action-bar .btn{height:42px!important;min-width:0!important;padding:0 12px!important;font-size:11px!important;}
+ .page-action-bar .action-refresh{margin-left:0!important;}
+ .painel-indicadores,.dashboard,.alerta-resumo{grid-template-columns:1fr!important;}
+ #dashboard .graficos-dashboard{grid-template-columns:1fr!important;}
+ #dashboard .grafico-largo{grid-column:auto!important;}
+ #estoque .card:first-of-type .grid{grid-template-columns:1fr!important;}
+ #relatorios .relatorios-grid{grid-template-columns:1fr!important;}
+}
+
 </style>
 
 <style>
@@ -2889,17 +3052,7 @@ Sair
 
 <div class="main">
 
-<div class="topo">
 
-<div>
-<h2><img src=./assets/icons/bolt.png class=emoji-img alt= aria-hidden=true> Controle de <span>Estoque</span></h2>
-</div>
-
-<div class="status-online">
-<img src=./assets/icons/online.png class=emoji-img alt= aria-hidden=true> Sistema Online
-</div>
-
-</div>
 
 
 <!-- DASHBOARD -->
@@ -2998,6 +3151,8 @@ Sair
 <!-- ESTOQUE -->
 
 <div id="estoque" class="secao">
+
+<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="pesquisaCabecalhoEstoque" placeholder="Pesquisar item, código..." oninput="document.getElementById('pesquisa').value=this.value; filtrarTabela()"></div><button class="head-filter" onclick="document.getElementById('pesquisa').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores">
 <div class="indicador-mini"><div><div class="rotulo">Itens cadastrados</div><div class="valor" id="estoqueIndicadorItens">0</div></div><div class="icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3193,6 +3348,8 @@ onkeyup="filtrarTabela()">
 
 <div id="equipamentos" class="secao">
 
+<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="pesquisaCabecalhoEquipamentos" placeholder="Pesquisar equipamento, patrimônio..." oninput="document.getElementById('pesquisaEquipamentos').value=this.value; filtrarEquipamentos()"></div><button class="head-filter" onclick="document.getElementById('pesquisaEquipamentos').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+
 <div class="painel-indicadores eq-resumo">
 <div class="indicador-mini"><div><div class="rotulo">Patrimônio total</div><div class="valor" id="eqIndicadorTotal">0</div></div><div class="icone"><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true></div></div>
 <div class="indicador-mini"><div><div class="rotulo">Em uso</div><div class="valor" id="eqIndicadorUso">0</div></div><div class="icone"><img src=./assets/icons/online.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3276,6 +3433,8 @@ onkeyup="filtrarTabela()">
 
 <div id="alertas" class="secao">
 
+<div class="page-section-head page-section-head-actions"><div><h2>Central de <span>Alertas</span></h2><p>Itens que estão no estoque mínimo ou abaixo dele.</p></div><div class="page-head-search"><button class="head-filter" onclick="mostrarSecao('estoque')"><i class="fa-solid fa-box"></i> Ir para Estoque</button><button class="head-filter" onclick="gerarRelatorio('alertas')"><i class="fa-regular fa-file-lines"></i> Relatório</button></div></div>
+
 <div class="card">
 <h2><img src=./assets/icons/warning.png class=emoji-img alt= aria-hidden=true> Central de Alertas</h2>
 <p style="color:#94a3b8;margin:-8px 0 18px">Itens que exigem atenção por estarem no estoque mínimo ou abaixo dele.</p>
@@ -3297,6 +3456,8 @@ onkeyup="filtrarTabela()">
 <!-- HISTÓRICO -->
 
 <div id="historico" class="secao">
+
+<div class="page-section-head page-section-head-actions"><div><h2>Histórico de <span>Movimentações</span></h2><p>Rastreabilidade de entradas, saídas, setores e usuários responsáveis.</p></div><div class="page-head-search"><button class="head-filter" onclick="gerarRelatorio('historico')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button></div></div>
 
 <div class="card">
 <div class="tabela-cabecalho"><div><h2 style="margin-bottom:4px"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true> Histórico de Movimentações</h2><div class="sub">Rastreabilidade de entradas, saídas, setor e usuário responsável.</div></div></div>
@@ -3346,6 +3507,8 @@ onkeyup="filtrarTabela()">
 <!-- RELATÓRIOS -->
 
 <div id="relatorios" class="secao">
+
+<div class="page-section-head page-section-head-actions"><div><h2>Relatórios do <span>Sistema</span></h2><p>Documentos oficiais de estoque, movimentações, setores e equipamentos.</p></div><div class="page-head-search"><div class="page-head-status"><span></span> PDF oficial</div></div></div>
 
 <div class="card relatorios-pagina">
   <div class="relatorio-hero">
@@ -3422,6 +3585,8 @@ onkeyup="filtrarTabela()">
 <!-- CONFIG -->
 
 <div id="config" class="secao">
+
+<div class="page-section-head"><div><h2>Configurações do <span>Sistema</span></h2><p>Preferências, setores, usuários e segurança.</p></div><div class="page-head-status"><span></span> Ambiente seguro</div></div>
 
 <div class="card">
 <div class="relatorio-intro"><strong><img src=./assets/icons/gear.png class=emoji-img alt= aria-hidden=true> Administração do sistema</strong><p>Preferências, setores, usuários e segurança. Os recursos administrativos respeitam o perfil de acesso.</p></div>
@@ -3708,7 +3873,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzeZUBnBUx6mfgZsuwHY9hK4IPy5-rmFGnPBIz4s7mgl54wZLCVr6MVwg4PfyLNZinp/exec";
+"https://script.google.com/macros/s/AKfycbzVvm6tLI6u92impTEbt5F_C0_sx30qPpWqRlaaU_-bSpA3vGiYROY-YZn7ySuCPEkV/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
