@@ -3152,7 +3152,7 @@ Sair
 
 <div id="estoque" class="secao">
 
-<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="pesquisaCabecalhoEstoque" placeholder="Pesquisar item, código..." oninput="document.getElementById('pesquisa').value=this.value; filtrarTabela()"></div><button class="head-filter" onclick="document.getElementById('pesquisa').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitor" placeholder="Pesquisar item ou código de barras..." autocomplete="off" oninput="filtrarTabela()"></div><button class="head-camera" title="Ler código de barras pela câmera" aria-label="Ler código de barras pela câmera" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores">
 <div class="indicador-mini"><div><div class="rotulo">Itens cadastrados</div><div class="valor" id="estoqueIndicadorItens">0</div></div><div class="icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3161,20 +3161,10 @@ Sair
 <div class="indicador-mini"><div><div class="rotulo">Movimentações</div><div class="valor" id="estoqueIndicadorMov">0</div></div><div class="icone"><img src=./assets/icons/refresh.png class=emoji-img alt= aria-hidden=true></div></div>
 </div>
 
-<div class="card">
+<div id="cardLeitorEstoque" class="card scanner-integrado">
 
-<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitor de Código de Barras</h2>
-
-<div class="grid">
-
-<input id="codigoLeitor"
-placeholder="Bipe o código de barras aqui..."
-autocomplete="off">
-
-<button class="btn" onclick="identificarCodigo()"><i class="fa-solid fa-barcode"></i> Identificar</button>
-<button class="btn btn-secondary" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera"></i> Usar câmera</button>
-
-</div>
+<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitura de código de barras</h2>
+<p class="scanner-integrado-info">A leitura é feita pelo campo de pesquisa superior ou pelo ícone da câmera.</p>
 
 <div id="leitorStatus"
 class="leitor-status"></div>
@@ -3282,18 +3272,6 @@ CANCELAR
 </div>
 
 
-<div class="pesquisa">
-
-<i class="fa-solid fa-magnifying-glass"></i>
-
-<input type="text"
-id="pesquisa"
-placeholder="Pesquisar item ou código de barras..."
-onkeyup="filtrarTabela()">
-
-</div>
-
-
 <div class="table-container">
 
 <table>
@@ -3348,7 +3326,7 @@ onkeyup="filtrarTabela()">
 
 <div id="equipamentos" class="secao">
 
-<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="pesquisaCabecalhoEquipamentos" placeholder="Pesquisar equipamento, patrimônio..." oninput="document.getElementById('pesquisaEquipamentos').value=this.value; filtrarEquipamentos()"></div><button class="head-filter" onclick="document.getElementById('pesquisaEquipamentos').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitorEquipamento" placeholder="Pesquisar equipamento, patrimônio, série..." autocomplete="off" oninput="filtrarEquipamentos()"></div><button class="head-camera" title="Ler número de série pela câmera" aria-label="Ler número de série pela câmera" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitorEquipamento').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores eq-resumo">
 <div class="indicador-mini"><div><div class="rotulo">Patrimônio total</div><div class="valor" id="eqIndicadorTotal">0</div></div><div class="icone"><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3367,15 +3345,10 @@ onkeyup="filtrarTabela()">
 <button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Cadastrar equipamento</button>
 </div>
 
-<div class="scanner-equipamento">
-<h3><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Localizar equipamento por código</h3>
-<p style="color:#94a3b8;margin-top:6px">A câmera lê apenas códigos de barras. Use o código de barras do número de série para localizar o equipamento.</p>
-<div class="grid" style="margin-top:14px">
-<input id="codigoLeitorEquipamento" placeholder="Bipe o código de barras do Nº de série..." autocomplete="off">
-<button class="btn" onclick="identificarEquipamento('serie')"><i class="fa-solid fa-barcode"></i> Ler Nº de série</button>
-</div>
-<div class="scanner-botoes">
-<button class="btn btn-secondary" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i> Câmera — Nº de série</button>
+<div id="cardScannerEquipamento" class="card scanner-integrado">
+<div>
+<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitura de número de série</h2>
+<p class="scanner-integrado-info">Use a pesquisa superior para localizar o equipamento. O ícone da câmera lê apenas o código de barras do número de série.</p>
 </div>
 <div id="equipamentoIdentificado" class="equipamento-identificado">
 <h3><img src=./assets/icons/check.png class=emoji-img alt= aria-hidden=true> Equipamento identificado</h3>
@@ -3399,11 +3372,6 @@ onkeyup="filtrarTabela()">
 <div><label>Status</label><select id="filtroStatusEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos</option><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select></div>
 <div><label>Setor</label><select id="filtroSetorEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos os setores</option></select></div>
 <div><label>Localização</label><input id="filtroLocalEquipamento" placeholder="Filtrar localização..." oninput="filtrarEquipamentos()"></div>
-</div>
-
-<div class="pesquisa" style="margin-top:0">
-<i class="fa-solid fa-magnifying-glass"></i>
-<input type="text" id="pesquisaEquipamentos" placeholder="Pesquisar por equipamento, patrimônio, número de série, marca, setor ou localização..." onkeyup="filtrarEquipamentos()">
 </div>
 
 <div class="table-container">
@@ -3873,7 +3841,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbzVvm6tLI6u92impTEbt5F_C0_sx30qPpWqRlaaU_-bSpA3vGiYROY-YZn7ySuCPEkV/exec";
+"https://script.google.com/macros/s/AKfycbxx078kWkOxXxZXSUoHTvgnH_37CIai2iT6OoBpSEjxroK67AJGTQOL80OXHyBeMMls/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -4302,7 +4270,7 @@ function mudarPaginaHistorico(delta){const total=Math.max(1,Math.ceil(historicoF
 function limparFiltrosHistorico(){["histDataInicial","histDataFinal","histUsuario","histBusca"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});const a=document.getElementById("histAcao"),s=document.getElementById("histSetor");if(a)a.value="";if(s)s.value="";aplicarFiltrosHistorico();}
 function setTexto(id,v){const e=document.getElementById(id);if(e)e.innerText=v;}
 function filtrarEquipamentos(){
- const q=normalizarTextoHistorico(document.getElementById("pesquisaEquipamentos")?.value||""), status=normalizarTextoHistorico(document.getElementById("filtroStatusEquipamento")?.value||""), setor=normalizarTextoHistorico(document.getElementById("filtroSetorEquipamento")?.value||""), local=normalizarTextoHistorico(document.getElementById("filtroLocalEquipamento")?.value||"");
+ const q=normalizarTextoHistorico(document.getElementById("codigoLeitorEquipamento")?.value||""), status=normalizarTextoHistorico(document.getElementById("filtroStatusEquipamento")?.value||""), setor=normalizarTextoHistorico(document.getElementById("filtroSetorEquipamento")?.value||""), local=normalizarTextoHistorico(document.getElementById("filtroLocalEquipamento")?.value||"");
  const tabela=document.getElementById("tabelaEquipamentos");if(!tabela)return; const lista=equipamentosGlobais.filter(x=>{const texto=normalizarTextoHistorico([x.nome,x.patrimonio,x.numeroSerie,x.marca,x.setor,x.localizacao,x.status,x.observacoes].join(" "));return(!q||texto.includes(q))&&(!status||normalizarTextoHistorico(x.status)===status)&&(!setor||normalizarTextoHistorico(x.setor)===setor)&&(!local||normalizarTextoHistorico(x.localizacao).includes(local));});
  tabela.innerHTML=lista.length?lista.map(eq=>`<tr><td><strong>${escapeHtml(eq.nome)}</strong></td><td>${escapeHtml(eq.patrimonio||"-")}</td><td>${escapeHtml(eq.numeroSerie||"-")}</td><td>${escapeHtml(eq.marca||"-")}</td><td>${escapeHtml(eq.setor||"-")}</td><td>${escapeHtml(eq.localizacao||"-")}</td><td><span class="status-ativo ${classeStatus(eq.status)}">${escapeHtml(eq.status||"Disponível")}</span></td><td>${escapeHtml(eq.observacoes||"-")}</td><td><div class="acoes"><button class="btn-editar" title="Alterar informações" onclick="abrirEdicao('${escapeJs(eq.id)}','EQUIPAMENTO')"><img src=./assets/icons/edit.png class=emoji-img alt= aria-hidden=true></button><button class="btn-editar" title="Histórico" onclick="abrirHistoricoEquipamento('${escapeJs(eq.id)}')"><img src=./assets/icons/clock.png class=emoji-img alt= aria-hidden=true></button></div></td></tr>`).join(''):'<tr><td colspan="9" class="linha-vazia">Nenhum equipamento encontrado.</td></tr>';
 }
@@ -4879,26 +4847,13 @@ document.getElementById(
 if(!item){
 
 itemSelecionado=null;
-
-document.getElementById(
-"itemIdentificado"
-).classList.remove("ativo");
-
-document.getElementById(
-"acoesLeitor"
-).classList.remove("ativo");
-
-status.className=
-"leitor-status erro";
-
-status.innerHTML=
-"<img src=./assets/icons/close.png class=emoji-img alt= aria-hidden=true> Código não encontrado no estoque.";
-
+filtrarTabela();
 return;
 
 }
 
 itemSelecionado=item;
+document.getElementById("cardLeitorEstoque")?.classList.add("ativo");
 
 document.getElementById(
 "nomeItemLeitor"
@@ -5142,6 +5097,7 @@ toast(
 function cancelarOperacao(){
 
 itemSelecionado=null;
+document.getElementById("cardLeitorEstoque")?.classList.remove("ativo");
 
 [
 "codigoLeitor",
@@ -5211,17 +5167,20 @@ identificarCodigo()
 ===================================================== */
 function identificarEquipamento(){
  const campo=document.getElementById("codigoLeitorEquipamento"); const codigo=campo.value.trim();
- if(!codigo){toast("Bipe o código de barras do número de série","erro");return;}
- mostrarEquipamentoEscaneado("serie",codigo);
+ if(!codigo){filtrarEquipamentos();return;}
+ const q=normalizarBuscaLocal(codigo);
+ const encontrado=(equipamentosGlobais||[]).some(x=>normalizarBuscaLocal(x.numeroSerie)===q);
+ filtrarEquipamentos();
+ if(encontrado) mostrarEquipamentoEscaneado("serie",codigo);
 }
 function mostrarEquipamentoEscaneado(tipo,codigo){
  // Scanner de equipamento sempre consulta o número de série.
  const q=normalizarBuscaLocal(codigo);
  const eq=equipamentosGlobais.find(x=>normalizarBuscaLocal(x.numeroSerie)===q);
  const box=document.getElementById("equipamentoIdentificado");
- if(!eq){box.classList.remove("ativo");toast("Equipamento não encontrado para este código.","erro");return;}
+ if(!eq){box.classList.remove("ativo");document.getElementById("cardScannerEquipamento")?.classList.add("ativo");toast("Equipamento não encontrado para este código.","erro");return;}
  document.getElementById("eqScanNome").innerText=eq.nome||"-";document.getElementById("eqScanPatrimonio").innerText=eq.patrimonio||"-";document.getElementById("eqScanSerie").innerText=eq.numeroSerie||"-";document.getElementById("eqScanMarca").innerText=eq.marca||"-";document.getElementById("eqScanSetor").innerText=eq.setor||"-";document.getElementById("eqScanLocalizacao").innerText=eq.localizacao||"-";document.getElementById("eqScanStatus").innerText=eq.status||"-";
- document.getElementById("btnEqScanEditar").onclick=()=>abrirEdicao(eq.id,"EQUIPAMENTO"); document.getElementById("btnEqScanHistorico").onclick=()=>abrirHistoricoEquipamento(eq.id); box.classList.add("ativo"); toast("Equipamento identificado com sucesso!","sucesso");
+ document.getElementById("btnEqScanEditar").onclick=()=>abrirEdicao(eq.id,"EQUIPAMENTO"); document.getElementById("btnEqScanHistorico").onclick=()=>abrirHistoricoEquipamento(eq.id); box.classList.add("ativo"); document.getElementById("cardScannerEquipamento")?.classList.add("ativo"); toast("Equipamento identificado com sucesso!","sucesso");
 }
 async function abrirCameraScanner(modo){
  // Os únicos modos permitidos são estoque e número de série de equipamento.
@@ -5420,12 +5379,14 @@ function processarResultadoCamera(texto){
 
  if(scannerModo==="estoque"){
    document.getElementById("codigoLeitor").value=codigo;
+   filtrarTabela();
    fecharCameraScanner();
    identificarCodigo();
    return;
  }
 
  document.getElementById("codigoLeitorEquipamento").value=codigo;
+ filtrarEquipamentos();
  fecharCameraScanner();
  mostrarEquipamentoEscaneado("serie",codigo);
 }
@@ -5644,7 +5605,7 @@ async function excluirItemEstoque(codigo){
 
 function filtrarTabela(){
 
-const f=document.getElementById("pesquisa").value.trim().toLowerCase();
+const f=document.getElementById("codigoLeitor").value.trim().toLowerCase();
 document.querySelectorAll("#tabela tr").forEach(l=>l.style.display=l.innerText.toLowerCase().includes(f)?"":"none");
 
 }
@@ -6893,6 +6854,26 @@ tbody tr:last-child td{border-bottom:0!important;}
   .relatorio-toolbar{align-items:flex-start!important;gap:10px!important;flex-wrap:wrap!important;}
 }
 
+</style>
+
+<style id="v15-ajuste-pesquisa-unificada">
+/* V15 — pesquisa única + scanner integrado */
+.page-head-search{align-items:center!important;}
+.head-camera{width:56px!important;height:56px!important;flex:0 0 56px!important;display:inline-grid!important;place-items:center!important;padding:0!important;border:1px solid #17364d!important;border-radius:8px!important;background:#06131f!important;color:#8ea5b8!important;font-size:17px!important;cursor:pointer!important;transition:.18s ease!important;}
+.head-camera:hover{border-color:#176ca5!important;color:#dceaf4!important;background:#071a28!important;transform:translateY(-1px)!important;}
+.head-camera:active{transform:translateY(0)!important;}
+.scanner-integrado{display:none!important;}
+.scanner-integrado.ativo{display:block!important;}
+.scanner-integrado-info{margin:-3px 0 0!important;color:#6f8397!important;font-size:12px!important;}
+#estoque .scanner-integrado,#equipamentos .scanner-integrado{margin-top:0!important;}
+#equipamentos .scanner-integrado .equipamento-identificado{margin-top:14px!important;}
+@media(max-width:760px){
+  .page-head-search{display:grid!important;grid-template-columns:minmax(0,1fr) 48px auto!important;gap:7px!important;}
+  .head-search-box{width:auto!important;height:48px!important;}
+  .head-search-box input{height:48px!important;}
+  .head-camera{width:48px!important;height:48px!important;flex-basis:48px!important;}
+  .head-filter{height:48px!important;padding:0 12px!important;}
+}
 </style>
 </body>
 </html>`);
