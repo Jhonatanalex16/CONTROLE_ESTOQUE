@@ -2541,6 +2541,141 @@ html,body{width:100%;min-width:0;overflow-x:hidden;background:#050d16!important}
 }
 </style>
 
+
+<style id="tih-v14-layout-final">
+/* ==========================================================
+   T.I-HEDA V14 — ESTRUTURA VISUAL FINAL
+   Referência: sidebar fixa + conteúdo independente.
+   Apenas layout/apresentação; nenhuma lógica de negócio.
+   ========================================================== */
+html,body{width:100%;min-width:0;overflow-x:hidden!important;background:#050d16!important;color:#dbe6f0!important;}
+#sistema{width:100%!important;min-height:100vh!important;}
+#sistema .layout{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  min-height:100vh!important;
+  background:#050d16!important;
+}
+#sistema .sidebar{
+  position:fixed!important;
+  left:0!important;top:0!important;bottom:0!important;
+  width:300px!important;
+  height:100vh!important;
+  min-height:100vh!important;
+  margin:0!important;
+  padding:25px 20px 20px!important;
+  box-sizing:border-box!important;
+  z-index:5000!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+  background:#050e18!important;
+  border-right:1px solid #12283a!important;
+  box-shadow:none!important;
+}
+#sistema .main{
+  position:relative!important;
+  display:block!important;
+  width:auto!important;
+  min-width:0!important;
+  min-height:100vh!important;
+  margin:0 0 0 300px!important;
+  padding:0 22px 40px!important;
+  box-sizing:border-box!important;
+  background:#050d16!important;
+}
+#sistema .topo{
+  width:100%!important;
+  min-height:96px!important;
+  height:96px!important;
+  margin:0!important;
+  padding:0 12px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  border-bottom:1px solid #122131!important;
+}
+#sistema .topo>div:first-child{min-width:0!important;}
+#sistema .topo h2{margin:0!important;font-size:27px!important;line-height:1.15!important;font-weight:800!important;color:#eef4fa!important;}
+#sistema .topo h2 .emoji-img{display:none!important;}
+#sistema .topo h2 span{color:#dbe6f0!important;}
+#sistema .status-online{flex:0 0 auto!important;padding:9px 13px!important;border:1px solid #17364d!important;border-radius:7px!important;background:#061522!important;color:#72c6ef!important;}
+
+/* Sidebar: mesma dinâmica da referência */
+#sistema .logo{flex:0 0 auto!important;margin:0 0 20px!important;padding:0 10px 22px!important;border-bottom:1px solid #122131!important;}
+#sistema .logo h1{display:flex!important;align-items:center!important;gap:11px!important;margin:0!important;font-size:28px!important;line-height:1!important;color:#edf5fd!important;background:none!important;-webkit-text-fill-color:initial!important;}
+#sistema .logo h1 .emoji-img{width:42px!important;height:42px!important;flex:0 0 42px!important;margin:0!important;}
+#sistema .logo p{margin:8px 0 0 53px!important;font-size:10px!important;letter-spacing:1px!important;color:#71879b!important;}
+#sistema .usuario-logado{flex:0 0 auto!important;position:relative!important;min-height:70px!important;margin:0 0 17px!important;padding:14px 14px 13px 61px!important;border:1px solid #17344b!important;border-radius:8px!important;background:#061522!important;box-shadow:none!important;}
+#sistema .usuario-logado:before{content:'AD'!important;position:absolute!important;left:13px!important;top:13px!important;width:36px!important;height:36px!important;border-radius:50%!important;display:flex!important;align-items:center!important;justify-content:center!important;background:#0b63df!important;color:#fff!important;font-size:12px!important;font-weight:800!important;}
+#sistema .usuario-logado>div:first-child{font-size:9px!important;letter-spacing:.65px!important;color:#567087!important;margin:0 0 3px!important;}
+#sistema .usuario-logado strong{display:block!important;color:#e4edf5!important;font-size:14px!important;line-height:1.2!important;}
+#sistema .usuario-logado span{display:block!important;color:#71879b!important;font-size:11px!important;margin-top:4px!important;}
+#sistema .menu{display:flex!important;flex:1 1 auto!important;min-height:0!important;flex-direction:column!important;gap:4px!important;overflow:visible!important;}
+#sistema .menu button.menu-btn{
+  position:relative!important;width:100%!important;min-width:0!important;height:46px!important;min-height:46px!important;flex:0 0 46px!important;
+  display:flex!important;align-items:center!important;gap:14px!important;padding:0 14px!important;margin:0!important;
+  border:1px solid transparent!important;border-radius:7px!important;background:transparent!important;color:#8ea2b5!important;
+  font-size:14px!important;font-weight:600!important;line-height:1!important;text-align:left!important;transform:none!important;box-shadow:none!important;
+}
+#sistema .menu button.menu-btn i{
+  width:21px!important;min-width:21px!important;flex:0 0 21px!important;margin:0!important;text-align:center!important;font-size:17px!important;color:#7e96aa!important;
+}
+#sistema .menu button.menu-btn>span{min-width:0!important;}
+#sistema .menu button.menu-btn.active{background:#0a2b58!important;border-color:#1265c9!important;color:#e8f2fb!important;box-shadow:none!important;}
+#sistema .menu button.menu-btn.active i{color:#2d8cff!important;}
+#sistema .menu button.menu-btn:hover:not(.active){background:#071b2d!important;color:#c7d5e2!important;transform:none!important;}
+#sistema .menu button.menu-btn:hover:not(.active) i{color:#36a2e8!important;}
+#sistema .menu .btn-sair{margin-top:auto!important;border-top:1px solid #122131!important;border-radius:0!important;height:48px!important;min-height:48px!important;flex-basis:48px!important;padding-top:10px!important;color:#ed5961!important;}
+#sistema .menu .btn-sair i{color:#ed4651!important;}
+#sistema .menu .btn-sair:hover{background:rgba(227,52,63,.07)!important;color:#ff7b83!important;}
+#sistema .sidebar-seguranca{flex:0 0 auto!important;margin-top:13px!important;padding:12px!important;border:1px solid #17344b!important;border-radius:8px!important;background:#061522!important;display:flex!important;align-items:center!important;gap:10px!important;}
+#sistema .sidebar-seguranca-icone{width:34px!important;height:34px!important;flex:0 0 34px!important;display:grid!important;place-items:center!important;border:1px solid #155275!important;border-radius:7px!important;background:#082238!important;color:#12b7e9!important;}
+#sistema .sidebar-seguranca strong{display:block!important;font-size:12px!important;color:#dce8f3!important;}
+#sistema .sidebar-seguranca span{display:block!important;margin-top:3px!important;font-size:10px!important;color:#71879b!important;}
+
+/* Conteúdo: largura total restante */
+#sistema .secao{display:none!important;width:100%!important;max-width:none!important;box-sizing:border-box!important;}
+#sistema .secao.ativa{display:block!important;}
+#sistema .dashboard,#sistema .painel-indicadores,#sistema .alerta-resumo{width:100%!important;box-sizing:border-box!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;}
+#sistema .card-info,#sistema .indicador-mini{min-width:0!important;}
+#sistema .card,#sistema .grafico,#sistema .table-container,#sistema .pesquisa,#sistema .barra-filtros-profissional,#sistema .scanner-equipamento,#sistema .relatorio-intro,#sistema .config-bloco{width:100%!important;box-sizing:border-box!important;}
+#sistema table{width:100%!important;box-sizing:border-box!important;}
+#sistema .graficos-dashboard{width:100%!important;box-sizing:border-box!important;}
+
+/* Ícones de menu nunca ocupam a mesma área do texto */
+#sistema .menu-btn i+*{min-width:0!important;}
+
+/* Breakpoints controlados */
+@media(max-width:1100px) and (min-width:761px){
+  #sistema .sidebar{width:250px!important;padding:20px 15px!important;}
+  #sistema .main{margin-left:250px!important;padding:0 16px 32px!important;}
+  #sistema .dashboard,#sistema .painel-indicadores,#sistema .alerta-resumo{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+}
+@media(max-width:760px){
+  #sistema .layout{display:block!important;}
+  #sistema .sidebar{position:relative!important;left:auto!important;top:auto!important;bottom:auto!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;padding:16px!important;overflow:visible!important;border-right:0!important;border-bottom:1px solid #12283a!important;}
+  #sistema .logo{padding:0 0 16px!important;margin-bottom:12px!important;}
+  #sistema .logo h1{font-size:25px!important;}
+  #sistema .logo h1 .emoji-img{width:36px!important;height:36px!important;flex-basis:36px!important;}
+  #sistema .logo p{margin-left:47px!important;}
+  #sistema .usuario-logado{margin-bottom:12px!important;}
+  #sistema .menu{flex:none!important;display:flex!important;flex-direction:row!important;overflow-x:auto!important;padding-bottom:3px!important;}
+  #sistema .menu button.menu-btn{flex:0 0 auto!important;width:auto!important;min-width:132px!important;height:44px!important;min-height:44px!important;}
+  #sistema .menu .btn-sair{margin-top:0!important;border-top:0!important;padding-top:0!important;border-radius:7px!important;}
+  #sistema .sidebar-seguranca{margin-top:12px!important;}
+  #sistema .main{margin-left:0!important;width:100%!important;padding:0 12px 28px!important;}
+  #sistema .topo{height:auto!important;min-height:78px!important;padding:16px 2px!important;gap:12px!important;}
+  #sistema .topo h2{font-size:21px!important;}
+  #sistema .dashboard,#sistema .painel-indicadores,#sistema .alerta-resumo{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+}
+@media(max-width:480px){
+  #sistema .dashboard,#sistema .painel-indicadores,#sistema .alerta-resumo{grid-template-columns:1fr!important;}
+}
+</style>
+
 </head>
 
 <body>
@@ -3573,7 +3708,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxH8GH72W2d9u7RhSMwab_ULzCmRkij9YjZDXKHux38Rrgt3B6JyhMNolR811y4eCHE/exec";
+"https://script.google.com/macros/s/AKfycbzeZUBnBUx6mfgZsuwHY9hK4IPy5-rmFGnPBIz4s7mgl54wZLCVr6MVwg4PfyLNZinp/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
