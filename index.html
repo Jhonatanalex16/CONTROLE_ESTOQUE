@@ -2951,11 +2951,8 @@ body{overflow-x:hidden!important;}
 .page-action-bar{min-height:84px!important;border-bottom:1px solid var(--rf-line2)!important;gap:18px!important;padding:0 0!important;}
 .page-action-bar .btn{height:56px!important;min-width:152px!important;border-radius:6px!important;box-shadow:none!important;font-size:13px!important;font-weight:800!important;}
 .page-action-bar .action-primary{background:linear-gradient(100deg,#1769e8,#0799d7)!important;border-color:#176fe5!important;}
-/* Cores fiéis da referência — Entrada verde / Saída vermelho */
-#estoque .page-action-bar .action-success{background:#063b2f!important;border:1px solid #078a68!important;color:#20dca0!important;}
-#estoque .page-action-bar .action-success:hover{background:#084d3d!important;border-color:#10a77f!important;color:#42e8b7!important;}
-#estoque .page-action-bar .action-danger{background:#3a0e18!important;border:1px solid #a6263b!important;color:#ff5368!important;}
-#estoque .page-action-bar .action-danger:hover{background:#4b111f!important;border-color:#cf3049!important;color:#ff7485!important;}
+.page-action-bar .action-success{background:#062d25!important;border-color:#078a68!important;color:#18d59e!important;}
+.page-action-bar .action-danger{background:#320d17!important;border-color:#9e2238!important;color:#ff5267!important;}
 .page-action-bar .action-neutral{background:#06131f!important;border-color:var(--rf-line)!important;color:#c0cbd3!important;}
 .page-action-bar .action-refresh{margin-left:auto!important;min-width:152px!important;}
 
@@ -3036,6 +3033,111 @@ body{overflow-x:hidden!important;}
 }
 </style>
 
+
+<style id="tih-ajuste-final">
+/* AJUSTE FINAL — CONFIGURAÇÕES / SETORES / USUÁRIOS */
+.setor-item{
+  width:100% !important;
+  min-height:54px !important;
+  box-sizing:border-box !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:20px !important;
+  padding:12px 16px !important;
+  margin:0 0 10px !important;
+  background:#111827 !important;
+  border:1px solid rgba(23,105,232,.12) !important;
+  border-radius:12px !important;
+  overflow:hidden !important;
+}
+.setor-nome{
+  min-width:0 !important;
+  flex:1 1 auto !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:10px !important;
+  font-weight:700 !important;
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+}
+.setor-nome .emoji-img{width:15px !important;height:15px !important;flex:0 0 15px !important;}
+.btn-excluir-setor{
+  flex:0 0 auto !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:7px !important;
+  height:38px !important;
+  min-width:92px !important;
+  box-sizing:border-box !important;
+  margin:0 !important;
+  padding:0 12px !important;
+  white-space:nowrap !important;
+  background:#2b0d16 !important;
+  color:#ff5267 !important;
+  border:1px solid #8d2035 !important;
+  border-radius:8px !important;
+  font-weight:800 !important;
+  cursor:pointer !important;
+}
+.btn-excluir-setor .emoji-img{width:14px !important;height:14px !important;flex:0 0 14px !important;}
+.btn-excluir-setor:hover{background:#3a101c !important;border-color:#b52a43 !important;}
+
+/* tabela de usuários: ação sempre dentro e centralizada */
+.usuario-tabela th:last-child,
+.usuario-tabela td:last-child{
+  width:120px !important;
+  min-width:120px !important;
+  text-align:center !important;
+  vertical-align:middle !important;
+  white-space:nowrap !important;
+}
+.usuario-tabela td:last-child .btn-editar{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-width:88px !important;
+  height:36px !important;
+  box-sizing:border-box !important;
+  margin:0 auto !important;
+  padding:0 12px !important;
+  white-space:nowrap !important;
+}
+
+/* pesquisa — estoque e equipamentos */
+#estoque .head-search-box,
+#equipamentos .head-search-box{position:relative !important;overflow:visible !important;}
+#estoque .head-search-box input,
+#equipamentos .head-search-box input{
+  padding-left:52px !important;
+  padding-right:16px !important;
+  box-sizing:border-box !important;
+  text-indent:0 !important;
+}
+#estoque .head-search-box>i,
+#equipamentos .head-search-box>i{
+  position:absolute !important;
+  left:17px !important;
+  top:50% !important;
+  transform:translateY(-50%) !important;
+  width:20px !important;
+  height:20px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 !important;
+  z-index:3 !important;
+  pointer-events:none !important;
+}
+@media(max-width:760px){
+  #estoque .head-search-box input,#equipamentos .head-search-box input{padding-left:48px !important;}
+  #estoque .head-search-box>i,#equipamentos .head-search-box>i{left:14px !important;}
+  .setor-item{padding:10px 12px !important;gap:10px !important;}
+  .btn-excluir-setor{min-width:88px !important;height:36px !important;padding:0 9px !important;}
+}
+</style>
 </head>
 
 <body>
@@ -4038,7 +4140,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyL32DvH6KCVfVHNhWSk4Dgdfs4XTHD-15N3ACdyJGkqrYr1XJbou5radQz14_AcMZx/exec";
+"https://script.google.com/macros/s/AKfycbxGrs58OZkKlqUjw8Ns1abEKJJHYo2Yb0xE_MMzvZ6ZmvhgSjNHXXqMiWbQomhPN5qf/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
