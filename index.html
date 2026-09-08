@@ -2840,302 +2840,101 @@ html,body{width:100%;min-width:0;overflow-x:hidden!important;background:#050d16!
 </style>
 
 
-<style id="tih-exact-reference-final">
-/* =========================================================
-   T.I-HEDA — ACABAMENTO FINAL FIEL À REFERÊNCIA
-   Somente apresentação/organização visual. IDs e JS preservados.
-   ========================================================= */
-:root{
-  --rf-bg:#030b14;
-  --rf-bg2:#050f1b;
-  --rf-sidebar:#06111d;
-  --rf-panel:#071522;
-  --rf-panel2:#091a28;
-  --rf-line:#17364d;
-  --rf-line2:#102b40;
-  --rf-text:#eaf2f8;
-  --rf-muted:#71899e;
-  --rf-blue:#1769e8;
-  --rf-cyan:#159fd4;
-  --rf-green:#08a979;
-  --rf-red:#d73548;
-  --rf-amber:#d49a1e;
-}
-
-/* Fundo e estrutura */
-html,body{background:var(--rf-bg)!important;color:var(--rf-text)!important;}
-body{overflow-x:hidden!important;}
-.main{background:var(--rf-bg)!important;}
-
-/* =========================================================
-   PESQUISA — ESTOQUE + EQUIPAMENTOS
-   ========================================================= */
-#estoque .head-search-box,
-#equipamentos .head-search-box{
-  position:relative!important;
-  width:310px!important;
-  height:56px!important;
-  flex:0 0 310px!important;
-}
-#estoque .head-search-box input,
-#equipamentos .head-search-box input{
-  position:relative!important;
-  display:block!important;
-  width:100%!important;
-  height:56px!important;
-  box-sizing:border-box!important;
-  padding:0 16px 0 52px!important;
-  margin:0!important;
-  text-indent:0!important;
-  background:#06131f!important;
-  border:1px solid var(--rf-line)!important;
-  border-radius:8px!important;
-  color:var(--rf-text)!important;
-  font-size:13px!important;
-  line-height:56px!important;
-}
-#estoque .head-search-box>i,
-#equipamentos .head-search-box>i,
-#estoque .head-search-box>.fa-magnifying-glass,
-#equipamentos .head-search-box>.fa-magnifying-glass{
-  position:absolute!important;
-  left:17px!important;
-  top:50%!important;
-  width:20px!important;
-  height:20px!important;
-  margin:0!important;
-  padding:0!important;
-  transform:translateY(-50%)!important;
-  display:flex!important;
+<style id="tih-correcao-setores-usuarios">
+/* Botão Excluir setor: tamanho fixo, texto e ícone sempre dentro da caixa */
+.btn-excluir-setor{
+  width:auto!important;
+  min-width:92px!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0 12px!important;
+  display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
-  color:#70879a!important;
-  font-size:16px!important;
-  line-height:20px!important;
-  z-index:10!important;
-  pointer-events:none!important;
+  gap:7px!important;
+  box-sizing:border-box!important;
+  white-space:nowrap!important;
+  flex:0 0 auto!important;
+  border-radius:9px!important;
 }
-#estoque .head-search-box input::placeholder,
-#equipamentos .head-search-box input::placeholder{color:#65798c!important;opacity:1!important;}
-#estoque .head-search-box input:focus,
-#equipamentos .head-search-box input:focus{border-color:#1b6fa7!important;box-shadow:0 0 0 2px rgba(20,139,231,.08)!important;outline:none!important;}
-
-/* =========================================================
-   ESTOQUE — somente o cadastro superior
-   ========================================================= */
-#estoque .page-section-head{padding-bottom:20px!important;}
-#estoque .page-action-bar{padding-top:12px!important;padding-bottom:12px!important;}
-#estoque #cardLeitorEstoque{display:none!important;}
-#estoque .card:has(+ .table-container){display:none!important;}
-/* Compatibilidade caso :has não seja usado no navegador */
-#estoque .card.cadastro-estoque-redundante{display:none!important;}
-
-/* =========================================================
-   EQUIPAMENTOS — remove apenas blocos visuais redundantes
-   ========================================================= */
-#equipamentos>.card>.scanner-integrado{display:none!important;}
-#equipamentos>.card>div:first-child:has(+ .scanner-integrado){display:none!important;}
-
-/* =========================================================
-   CABEÇALHOS / AÇÕES
-   ========================================================= */
-.page-section-head{min-height:112px!important;border-bottom:1px solid var(--rf-line2)!important;padding:24px 0 20px!important;}
-.page-section-head h2{margin:0!important;color:#f1f6fa!important;font-size:27px!important;font-weight:800!important;letter-spacing:-.5px!important;}
-.page-section-head h2 span{color:#7890a5!important;}
-.page-section-head p{margin:7px 0 0!important;color:#5f7890!important;font-size:12px!important;}
-.page-head-search{gap:8px!important;}
-.head-camera{width:42px!important;height:56px!important;min-width:42px!important;border-radius:8px!important;border:1px solid var(--rf-line)!important;background:#06131f!important;color:#b6c5d0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;}
-.head-camera:hover{background:#0a1c2b!important;border-color:#245879!important;color:#fff!important;}
-.head-filter{height:56px!important;border-radius:8px!important;background:#06131f!important;border-color:var(--rf-line)!important;color:#b6c5d0!important;padding:0 17px!important;}
-.head-filter:hover{background:#0a1c2b!important;border-color:#245879!important;}
-.page-action-bar{min-height:84px!important;border-bottom:1px solid var(--rf-line2)!important;gap:18px!important;padding:0 0!important;}
-.page-action-bar .btn{height:56px!important;min-width:152px!important;border-radius:6px!important;box-shadow:none!important;font-size:13px!important;font-weight:800!important;}
-.page-action-bar .action-primary{background:linear-gradient(100deg,#1769e8,#0799d7)!important;border-color:#176fe5!important;}
-.page-action-bar .action-success{background:#062d25!important;border-color:#078a68!important;color:#18d59e!important;}
-.page-action-bar .action-danger{background:#320d17!important;border-color:#9e2238!important;color:#ff5267!important;}
-.page-action-bar .action-neutral{background:#06131f!important;border-color:var(--rf-line)!important;color:#c0cbd3!important;}
-.page-action-bar .action-refresh{margin-left:auto!important;min-width:152px!important;}
-
-/* =========================================================
-   INDICADORES
-   ========================================================= */
-.painel-indicadores{gap:12px!important;margin:16px 0!important;}
-.indicador-mini{min-height:98px!important;background:#06131f!important;border:1px solid var(--rf-line)!important;border-radius:8px!important;box-shadow:none!important;padding:18px!important;}
-.indicador-mini .rotulo{text-transform:uppercase!important;letter-spacing:.35px!important;color:#6e879c!important;font-size:10px!important;font-weight:700!important;}
-.indicador-mini .valor{margin-top:9px!important;color:#f5f8fb!important;font-size:27px!important;font-weight:850!important;}
-.indicador-mini .icone{width:40px!important;height:40px!important;border-radius:8px!important;border:1px solid #12577b!important;background:#062238!important;display:flex!important;align-items:center!important;justify-content:center!important;}
-.indicador-mini .icone img{width:17px!important;height:17px!important;object-fit:contain!important;}
-
-/* =========================================================
-   TABELAS
-   ========================================================= */
-.table-container{background:#06131f!important;border:1px solid var(--rf-line)!important;border-radius:8px!important;overflow:hidden!important;box-shadow:none!important;}
-.table-container table{width:100%!important;border-collapse:collapse!important;}
-.table-container thead th{height:56px!important;background:#081925!important;border-bottom:1px solid var(--rf-line)!important;color:#668198!important;font-size:10px!important;font-weight:800!important;text-transform:uppercase!important;letter-spacing:.35px!important;padding:0 14px!important;}
-.table-container tbody td{height:58px!important;border-bottom:1px solid #10293b!important;color:#e5edf3!important;font-size:12px!important;padding:0 14px!important;}
-.table-container tbody tr:last-child td{border-bottom:0!important;}
-.table-container tbody tr:hover{background:#091b29!important;}
-.table-container tbody td strong{color:#edf4f8!important;}
-.status-ativo{border-radius:14px!important;padding:6px 11px!important;font-size:10px!important;font-weight:800!important;display:inline-flex!important;align-items:center!important;}
-
-/* Ações em tabela */
-.acoes{display:flex!important;align-items:center!important;gap:7px!important;}
-.acoes button,.btn-editar{width:38px!important;height:38px!important;min-width:38px!important;padding:0!important;border-radius:7px!important;background:#071925!important;border:1px solid var(--rf-line)!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;}
-.acoes button:hover,.btn-editar:hover{background:#0b2232!important;border-color:#286080!important;}
-.acoes button img,.btn-editar img{width:15px!important;height:15px!important;object-fit:contain!important;}
-
-/* =========================================================
-   FILTROS DE EQUIPAMENTOS
-   ========================================================= */
-#equipamentos .barra-filtros-profissional{margin:16px 0!important;padding:14px!important;background:#06131f!important;border:1px solid var(--rf-line)!important;border-radius:8px!important;gap:12px!important;}
-#equipamentos .barra-filtros-profissional label{color:#70889b!important;font-size:10px!important;text-transform:uppercase!important;font-weight:800!important;margin-bottom:6px!important;}
-#equipamentos .barra-filtros-profissional input,
-#equipamentos .barra-filtros-profissional select{height:42px!important;background:#071925!important;border:1px solid var(--rf-line)!important;border-radius:7px!important;color:#dfe9ef!important;padding:0 12px!important;}
-
-/* =========================================================
-   CARD INTERNO DE EQUIPAMENTOS — tabela ocupa o espaço
-   ========================================================= */
-#equipamentos>.card{background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important;}
-
-/* =========================================================
-   MODAIS — mesmo padrão visual
-   ========================================================= */
-.relatorio-modal-conteudo{background:#071522!important;border:1px solid #21465f!important;border-radius:10px!important;box-shadow:0 22px 70px rgba(0,0,0,.55)!important;}
-.relatorio-modal-topo{border-bottom:1px solid var(--rf-line2)!important;padding-bottom:16px!important;margin-bottom:18px!important;}
-.relatorio-modal-topo h2{color:#edf4f8!important;}
-.relatorio-modal input,.relatorio-modal select,.relatorio-modal textarea{background:#06131f!important;border:1px solid var(--rf-line)!important;color:#e8f0f5!important;border-radius:7px!important;}
-
-/* =========================================================
-   SIDEBAR — padrão da imagem
-   ========================================================= */
-.sidebar{background:var(--rf-sidebar)!important;border-right:1px solid #0d2638!important;}
-.logo{padding-top:4px!important;}
-.logo h1{color:#edf4f8!important;}
-.menu button{border-radius:7px!important;color:#7890a3!important;}
-.menu button:hover{background:#0a1c2b!important;color:#e9f2f7!important;}
-.menu button.ativo,.menu button.active{background:#0d3974!important;border:1px solid #1678e7!important;color:#f5f9fc!important;}
-.usuario-conectado{background:#06131f!important;border:1px solid var(--rf-line)!important;border-radius:8px!important;}
-
-/* =========================================================
-   RESPONSIVO
-   ========================================================= */
-@media(max-width:1200px){
- #estoque .head-search-box,#equipamentos .head-search-box{width:270px!important;flex-basis:270px!important;}
-}
-@media(max-width:760px){
- .page-section-head{padding:18px 0!important;}
- .page-head-search{display:grid!important;grid-template-columns:minmax(0,1fr) 48px auto!important;width:100%!important;gap:7px!important;}
- #estoque .head-search-box,#equipamentos .head-search-box{width:auto!important;flex-basis:auto!important;height:48px!important;}
- #estoque .head-search-box input,#equipamentos .head-search-box input{height:48px!important;line-height:48px!important;padding-left:48px!important;}
- #estoque .head-search-box>i,#equipamentos .head-search-box>i{left:15px!important;}
- .head-camera{height:48px!important;width:48px!important;min-width:48px!important;}
- .head-filter{height:48px!important;}
-}
+.btn-excluir-setor .emoji-img{width:14px!important;height:14px!important;object-fit:contain!important;flex:0 0 14px!important;}
+.setor-item{display:flex!important;align-items:center!important;gap:14px!important;padding:12px 14px!important;box-sizing:border-box!important;}
+.setor-nome{min-width:0!important;flex:1 1 auto!important;display:flex!important;align-items:center!important;gap:10px!important;overflow:hidden!important;}
+.setor-nome .emoji-img{flex:0 0 auto!important;}
+.setor-nome{white-space:nowrap!important;text-overflow:ellipsis!important;}
+#tabelaUsuarios td:last-child{text-align:center!important;vertical-align:middle!important;}
+#tabelaUsuarios td:last-child .btn-editar{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:88px!important;height:36px!important;padding:0 12px!important;white-space:nowrap!important;box-sizing:border-box!important;}
 </style>
 
-
-<style id="tih-ajuste-final">
-/* AJUSTE FINAL — CONFIGURAÇÕES / SETORES / USUÁRIOS */
-.setor-item{
-  width:100% !important;
-  min-height:54px !important;
-  box-sizing:border-box !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:space-between !important;
-  gap:20px !important;
-  padding:12px 16px !important;
-  margin:0 0 10px !important;
-  background:#111827 !important;
-  border:1px solid rgba(23,105,232,.12) !important;
-  border-radius:12px !important;
-  overflow:hidden !important;
+<style id="tih-modal-setor-final">
+/* MODAL DE EXCLUSÃO DE SETOR — mesmo padrão visual da exclusão de estoque */
+#modalExclusaoSetor{
+  position:fixed!important;inset:0!important;z-index:100001!important;display:none!important;
+  align-items:center!important;justify-content:center!important;padding:22px!important;
+  background:rgba(0,5,11,.80)!important;backdrop-filter:blur(5px)!important;
 }
-.setor-nome{
-  min-width:0 !important;
-  flex:1 1 auto !important;
-  display:flex !important;
-  align-items:center !important;
-  gap:10px !important;
-  font-weight:700 !important;
-  white-space:nowrap !important;
-  overflow:hidden !important;
-  text-overflow:ellipsis !important;
+#modalExclusaoSetor.ativo{display:flex!important;}
+.setor-exclusao-dialog{
+  width:min(600px,calc(100vw - 32px))!important;overflow:hidden!important;
+  background:#07131f!important;border:1px solid #29455b!important;border-radius:10px!important;
+  box-shadow:0 28px 80px rgba(0,0,0,.65)!important;
 }
-.setor-nome .emoji-img{width:15px !important;height:15px !important;flex:0 0 15px !important;}
-.btn-excluir-setor{
-  flex:0 0 auto !important;
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  gap:7px !important;
-  height:38px !important;
-  min-width:92px !important;
-  box-sizing:border-box !important;
-  margin:0 !important;
-  padding:0 12px !important;
-  white-space:nowrap !important;
-  background:#2b0d16 !important;
-  color:#ff5267 !important;
-  border:1px solid #8d2035 !important;
-  border-radius:8px !important;
-  font-weight:800 !important;
-  cursor:pointer !important;
+.setor-exclusao-topo{padding:22px 24px 16px!important;display:flex!important;align-items:center!important;gap:14px!important;}
+.setor-exclusao-icone{
+  width:58px!important;height:58px!important;flex:0 0 58px!important;border-radius:50%!important;
+  display:grid!important;place-items:center!important;background:#241017!important;
+  border:1px solid #ef3d4b!important;color:#ff5965!important;font-size:20px!important;
+  box-shadow:0 0 24px rgba(227,52,63,.16)!important;
 }
-.btn-excluir-setor .emoji-img{width:14px !important;height:14px !important;flex:0 0 14px !important;}
-.btn-excluir-setor:hover{background:#3a101c !important;border-color:#b52a43 !important;}
-
-/* tabela de usuários: ação sempre dentro e centralizada */
-.usuario-tabela th:last-child,
-.usuario-tabela td:last-child{
-  width:120px !important;
-  min-width:120px !important;
-  text-align:center !important;
-  vertical-align:middle !important;
-  white-space:nowrap !important;
+.setor-exclusao-titulo{font-size:20px!important;color:#f2f7fb!important;font-weight:850!important;}
+.setor-exclusao-subtitulo{font-size:11px!important;color:#71879b!important;margin-top:4px!important;line-height:1.5!important;}
+.setor-exclusao-fechar{
+  margin-left:auto!important;width:38px!important;height:38px!important;flex:0 0 38px!important;
+  border-radius:7px!important;background:#071522!important;border:1px solid #27455c!important;
+  color:#a9bdce!important;font-size:20px!important;cursor:pointer!important;
 }
-.usuario-tabela td:last-child .btn-editar{
-  display:inline-flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  min-width:88px !important;
-  height:36px !important;
-  box-sizing:border-box !important;
-  margin:0 auto !important;
-  padding:0 12px !important;
-  white-space:nowrap !important;
+.setor-exclusao-corpo{padding:0 24px 16px!important;}
+.setor-exclusao-card{
+  display:flex!important;align-items:center!important;gap:14px!important;padding:15px!important;
+  background:#06131f!important;border:1px solid #17364d!important;border-radius:8px!important;
+}
+.setor-exclusao-item-icone{
+  width:52px!important;height:52px!important;flex:0 0 52px!important;border-radius:8px!important;
+  display:grid!important;place-items:center!important;background:#082238!important;
+  border:1px solid #174663!important;color:#2db6ef!important;font-size:19px!important;
+}
+.setor-exclusao-nome{font-size:15px!important;color:#edf5ff!important;font-weight:800!important;word-break:break-word!important;}
+.setor-exclusao-meta{font-size:10px!important;color:#70879b!important;margin-top:5px!important;}
+.setor-exclusao-alerta{
+  margin-top:12px!important;background:#20180b!important;border:1px solid #7b5a18!important;
+  color:#d6c49d!important;border-radius:8px!important;padding:12px!important;font-size:10px!important;line-height:1.5!important;
+}
+.setor-exclusao-alerta strong{display:block!important;color:#f2b936!important;margin-bottom:4px!important;font-size:11px!important;}
+.setor-exclusao-permissao{text-align:center!important;padding:0 24px 12px!important;color:#70879b!important;font-size:10px!important;}
+.setor-exclusao-rodape{padding:0 24px 20px!important;display:flex!important;justify-content:flex-end!important;gap:8px!important;}
+.setor-exclusao-btn{
+  min-height:40px!important;border-radius:7px!important;padding:10px 16px!important;
+  font-size:11px!important;font-weight:800!important;display:inline-flex!important;align-items:center!important;
+  justify-content:center!important;gap:7px!important;cursor:pointer!important;white-space:nowrap!important;
+}
+.setor-exclusao-cancelar{background:#071522!important;border:1px solid #27455c!important;color:#a9bdce!important;}
+.setor-exclusao-cancelar:hover{background:#0b1d2d!important;}
+.setor-exclusao-confirmar{background:linear-gradient(100deg,#b51f2d,#e3343f)!important;border:1px solid #d53a45!important;color:#fff!important;box-shadow:0 8px 22px rgba(240,68,68,.18)!important;}
+.setor-exclusao-confirmar:hover{filter:brightness(1.07)!important;transform:translateY(-1px)!important;}
+@media(max-width:600px){
+  .setor-exclusao-topo{padding:18px 16px 14px!important;}
+  .setor-exclusao-corpo{padding:0 16px 14px!important;}
+  .setor-exclusao-permissao{padding:0 16px 12px!important;}
+  .setor-exclusao-rodape{padding:0 16px 16px!important;}
+  .setor-exclusao-btn{flex:1 1 0!important;}
 }
 
-/* pesquisa — estoque e equipamentos */
-#estoque .head-search-box,
-#equipamentos .head-search-box{position:relative !important;overflow:visible !important;}
-#estoque .head-search-box input,
-#equipamentos .head-search-box input{
-  padding-left:52px !important;
-  padding-right:16px !important;
-  box-sizing:border-box !important;
-  text-indent:0 !important;
-}
-#estoque .head-search-box>i,
-#equipamentos .head-search-box>i{
-  position:absolute !important;
-  left:17px !important;
-  top:50% !important;
-  transform:translateY(-50%) !important;
-  width:20px !important;
-  height:20px !important;
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  margin:0 !important;
-  z-index:3 !important;
-  pointer-events:none !important;
-}
-@media(max-width:760px){
-  #estoque .head-search-box input,#equipamentos .head-search-box input{padding-left:48px !important;}
-  #estoque .head-search-box>i,#equipamentos .head-search-box>i{left:14px !important;}
-  .setor-item{padding:10px 12px !important;gap:10px !important;}
-  .btn-excluir-setor{min-width:88px !important;height:36px !important;padding:0 9px !important;}
+/* AÇÃO DE USUÁRIO — nunca deixa o texto sair do botão */
+#tabelaUsuarios td:last-child{padding:10px!important;text-align:center!important;}
+#tabelaUsuarios td:last-child .btn-editar{
+  width:auto!important;min-width:92px!important;height:36px!important;min-height:36px!important;
+  padding:0 13px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  white-space:nowrap!important;box-sizing:border-box!important;font-size:11px!important;line-height:1!important;
 }
 </style>
 </head>
@@ -3177,6 +2976,39 @@ body{overflow-x:hidden!important;}
   </div>
 </div>
 
+
+
+<!-- ================= MODAL EXCLUSÃO DE SETOR ================= -->
+<div id="modalExclusaoSetor" aria-hidden="true">
+  <div class="setor-exclusao-dialog" role="dialog" aria-modal="true" aria-labelledby="setorExclusaoTitulo">
+    <div class="setor-exclusao-topo">
+      <div class="setor-exclusao-icone"><i class="fa-solid fa-trash"></i></div>
+      <div>
+        <div class="setor-exclusao-titulo" id="setorExclusaoTitulo">Excluir setor</div>
+        <div class="setor-exclusao-subtitulo">Esta ação removerá o setor da lista de setores disponíveis.</div>
+      </div>
+      <button class="setor-exclusao-fechar" type="button" onclick="cancelarExclusaoSetor()" aria-label="Fechar">×</button>
+    </div>
+    <div class="setor-exclusao-corpo">
+      <div class="setor-exclusao-card">
+        <div class="setor-exclusao-item-icone"><i class="fa-solid fa-building"></i></div>
+        <div>
+          <div class="setor-exclusao-nome" id="exclusaoSetorNome">---</div>
+          <div class="setor-exclusao-meta">Setor cadastrado no sistema</div>
+        </div>
+      </div>
+      <div class="setor-exclusao-alerta">
+        <strong><i class="fa-solid fa-triangle-exclamation"></i> Atenção</strong>
+        O setor será removido da lista de setores disponíveis para novas movimentações. Esta ação não pode ser desfeita automaticamente.
+      </div>
+    </div>
+    <div class="setor-exclusao-permissao"><i class="fa-solid fa-lock"></i> Apenas usuários com permissão de gerenciamento podem realizar esta ação.</div>
+    <div class="setor-exclusao-rodape">
+      <button class="setor-exclusao-btn setor-exclusao-cancelar" type="button" onclick="cancelarExclusaoSetor()"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+      <button class="setor-exclusao-btn setor-exclusao-confirmar" type="button" onclick="confirmarExclusaoSetor()"><i class="fa-solid fa-trash"></i> Excluir setor</button>
+    </div>
+  </div>
+</div>
 
 <!-- ================= LOGIN ================= -->
 
@@ -4140,7 +3972,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxGrs58OZkKlqUjw8Ns1abEKJJHYo2Yb0xE_MMzvZ6ZmvhgSjNHXXqMiWbQomhPN5qf/exec";
+"https://script.google.com/macros/s/AKfycbwN3Ur5JfX_V0ECqGdUErVOP3fEEq4HNmUX5-1PROEqzfBeyUZxZXUpfDAt7EcEUjKV/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
@@ -6100,57 +5932,48 @@ toast(
 }
 
 
+let setorExclusaoPendente = null;
+
+function abrirModalExclusaoSetor(setor){
+  setorExclusaoPendente = String(setor || "").trim();
+  if(!setorExclusaoPendente) return;
+  const nome = document.getElementById("exclusaoSetorNome");
+  if(nome) nome.textContent = setorExclusaoPendente;
+  const modal = document.getElementById("modalExclusaoSetor");
+  if(modal){
+    modal.classList.add("ativo");
+    modal.setAttribute("aria-hidden","false");
+  }
+  document.body.style.overflow="hidden";
+}
+
+function cancelarExclusaoSetor(){
+  setorExclusaoPendente=null;
+  const modal=document.getElementById("modalExclusaoSetor");
+  if(modal){modal.classList.remove("ativo");modal.setAttribute("aria-hidden","true");}
+  document.body.style.overflow="";
+}
+
+async function confirmarExclusaoSetor(){
+  const setor=setorExclusaoPendente;
+  if(!setor) return;
+  cancelarExclusaoSetor();
+  try{
+    const resultado=await apiPost({tipo:"setor",acao:"excluir",setor});
+    if(!resultado.sucesso){
+      toast(resultado.mensagem || "Não foi possível excluir o setor","erro");
+      return;
+    }
+    toast("Setor excluído com sucesso!","sucesso");
+    await carregar();
+  }catch(e){
+    console.error(e);
+    toast("Erro ao excluir setor","erro");
+  }
+}
+
 async function excluirSetor(setor){
-
-if(
-!confirm(
-'Deseja realmente excluir o setor "'+
-setor+
-'"?'
-)
-)return;
-
-try{
-
-const resultado=
-await apiPost({
-
-tipo:"setor",
-acao:"excluir",
-setor
-
-});
-
-if(!resultado.sucesso){
-
-toast(
-resultado.mensagem ||
-"Não foi possível excluir o setor",
-"erro"
-);
-
-return;
-
-}
-
-toast(
-"Setor excluído com sucesso!",
-"sucesso"
-);
-
-await carregar();
-
-}catch(e){
-
-console.error(e);
-
-toast(
-"Erro ao excluir setor",
-"erro"
-);
-
-}
-
+  abrirModalExclusaoSetor(setor);
 }
 
 
@@ -6196,12 +6019,34 @@ function fecharHistoricoEquipamento(){document.getElementById("modalHistoricoEqu
 async function criarUsuario(){
  const dados={tipo:"usuarios",acao:"criar",usuario:document.getElementById("novoUsuarioLogin").value.trim(),nome:document.getElementById("novoUsuarioNome").value.trim(),senha:document.getElementById("novoUsuarioSenha").value,perfil:document.getElementById("novoUsuarioPerfil").value};
  if(!dados.usuario||!dados.nome||!dados.senha){toast("Preencha usuário, nome e senha","erro");return;} try{const r=await apiPost(dados);if(!r.sucesso){toast(r.mensagem||"Não foi possível criar usuário","erro");return;}toast("Usuário criado com sucesso!","sucesso");document.getElementById("novoUsuarioLogin").value="";document.getElementById("novoUsuarioNome").value="";document.getElementById("novoUsuarioSenha").value="";await carregar();}catch(e){toast("Erro ao criar usuário","erro");}}
-async function alterarStatusUsuario(login,ativo){try{const r=await apiPost({tipo:"usuarios",acao:"status",usuario:login,ativo:ativo?"SIM":"NÃO"});if(!r.sucesso){toast(r.mensagem||"Não foi possível alterar o usuário","erro");return;}await carregar();}catch(e){toast("Erro ao alterar usuário","erro");}}
+async function alterarStatusUsuario(login,ativo){
+  const valor = String(ativo).trim().toLowerCase();
+  const deveAtivar = (ativo === true || valor === "true" || valor === "sim" || valor === "1");
+  const statusNovo = deveAtivar ? "SIM" : "NÃO";
+  try{
+    const r=await apiPost({
+      tipo:"usuarios",
+      acao:"status",
+      usuario:String(login||"").trim(),
+      ativo:statusNovo
+    });
+    if(!r || !r.sucesso){
+      toast((r && r.mensagem) || "Não foi possível alterar o usuário","erro");
+      return;
+    }
+    toast(deveAtivar ? "Usuário ativado com sucesso!" : "Usuário desativado com sucesso!","sucesso");
+    await carregar();
+  }catch(e){
+    console.error(e);
+    toast("Erro ao alterar usuário","erro");
+  }
+}
+
 async function criarBackupSistema(){
  try{const r=await apiPost({tipo:"backup"});if(!r.sucesso){toast(r.mensagem||"Não foi possível criar o backup","erro");return;}toast("Backup criado com sucesso!","sucesso");}
  catch(e){toast("Erro ao criar backup","erro");}
 }
-function renderizarUsuarios(usuarios){const tbody=document.getElementById("tabelaUsuarios");if(!tbody)return;tbody.innerHTML="";(usuarios||[]).forEach(u=>{tbody.innerHTML+=`<tr><td>${escapeHtml(u.usuario)}</td><td>${escapeHtml(u.nome)}</td><td><span class="badge-perfil">${escapeHtml(u.perfil==="admin"?"Administrador":u.perfil==="gestor_operacional"?"Gestor Operacional":"Consulta")}</span></td><td>${escapeHtml(u.ativo)}</td><td><button class="btn-editar" onclick="alterarStatusUsuario('${escapeJs(u.usuario)}','${u.ativo!=="SIM"}')">${u.ativo==="SIM"?"Desativar":"Ativar"}</button></td></tr>`;});}
+function renderizarUsuarios(usuarios){const tbody=document.getElementById("tabelaUsuarios");if(!tbody)return;tbody.innerHTML="";(usuarios||[]).forEach(u=>{tbody.innerHTML+=`<tr><td>${escapeHtml(u.usuario)}</td><td>${escapeHtml(u.nome)}</td><td><span class="badge-perfil">${escapeHtml(u.perfil==="admin"?"Administrador":u.perfil==="gestor_operacional"?"Gestor Operacional":"Consulta")}</span></td><td>${escapeHtml(u.ativo)}</td><td><button class="btn-editar" onclick="alterarStatusUsuario('${escapeJs(u.usuario)}', ${u.ativo!=="SIM"})">${u.ativo==="SIM"?"Desativar":"Ativar"}</button></td></tr>`;});}
 
 /* =====================================================
    RELATÓRIOS
@@ -6856,6 +6701,32 @@ tbody tr:hover td{background:#091826!important}
   .sidebar-seguranca{margin-top:12px!important;}
 }
 </style>
+
+<style id="tih-correcao-setores-usuarios">
+/* Botão Excluir setor: tamanho fixo, texto e ícone sempre dentro da caixa */
+.btn-excluir-setor{
+  width:auto!important;
+  min-width:92px!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0 12px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  box-sizing:border-box!important;
+  white-space:nowrap!important;
+  flex:0 0 auto!important;
+  border-radius:9px!important;
+}
+.btn-excluir-setor .emoji-img{width:14px!important;height:14px!important;object-fit:contain!important;flex:0 0 14px!important;}
+.setor-item{display:flex!important;align-items:center!important;gap:14px!important;padding:12px 14px!important;box-sizing:border-box!important;}
+.setor-nome{min-width:0!important;flex:1 1 auto!important;display:flex!important;align-items:center!important;gap:10px!important;overflow:hidden!important;}
+.setor-nome .emoji-img{flex:0 0 auto!important;}
+.setor-nome{white-space:nowrap!important;text-overflow:ellipsis!important;}
+#tabelaUsuarios td:last-child{text-align:center!important;vertical-align:middle!important;}
+#tabelaUsuarios td:last-child .btn-editar{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:88px!important;height:36px!important;padding:0 12px!important;white-space:nowrap!important;box-sizing:border-box!important;}
+</style>
 </head>
 <body>
 <div class="pagina">
@@ -7444,7 +7315,7 @@ verificarSessao();
   };
 })();
 
-document.addEventListener("keydown",function(e){if(e.key==="Escape"){cancelarExclusaoEstoque();}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){cancelarExclusaoEstoque();cancelarExclusaoSetor();}});
 
 
 try{
