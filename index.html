@@ -553,11 +553,57 @@ font-weight:700
 }
 
 .btn-excluir-setor{
-background:#dc2626;
-color:white;
-padding:10px 14px;
-border-radius:10px;
-font-weight:800
+background:#3a0e18!important;
+color:#ff5368!important;
+border:1px solid #a6263b!important;
+padding:9px 14px!important;
+border-radius:8px!important;
+font-weight:800!important;
+font-size:13px!important;
+line-height:1!important;
+min-width:92px!important;
+height:38px!important;
+box-sizing:border-box!important;
+display:inline-flex!important;
+align-items:center!important;
+justify-content:center!important;
+gap:7px!important;
+white-space:nowrap!important;
+flex:0 0 auto!important;
+cursor:pointer!important;
+}
+
+.btn-excluir-setor:hover{
+background:#4b111e!important;
+border-color:#d33a52!important;
+color:#ff6a7b!important;
+}
+
+.btn-excluir-setor .emoji-img{
+width:14px!important;
+height:14px!important;
+object-fit:contain!important;
+flex:0 0 14px!important;
+}
+
+#config #listaSetores .setor-item{
+display:flex!important;
+align-items:center!important;
+justify-content:space-between!important;
+gap:16px!important;
+width:100%!important;
+box-sizing:border-box!important;
+}
+
+#config #listaSetores .setor-nome{
+flex:1 1 auto!important;
+min-width:0!important;
+overflow:hidden!important;
+white-space:nowrap!important;
+text-overflow:ellipsis!important;
+display:flex!important;
+align-items:center!important;
+gap:10px!important;
 }
 
 
@@ -1142,19 +1188,40 @@ body.light-mode .grafico h2{color:#1e293b !important}
 </style>
 
 
-<style id="tih-correcao-excluir-entrada-saida">
-/* CORREÇÃO FINAL — setores e ações do estoque */
-#listaSetores .setor-item{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:18px!important;width:100%!important;box-sizing:border-box!important;padding:14px 16px!important;margin:0 0 10px!important;background:#071522!important;border:1px solid #17364d!important;border-radius:8px!important;}
-#listaSetores .setor-nome{flex:1 1 auto!important;min-width:0!important;display:flex!important;align-items:center!important;gap:8px!important;font-weight:700!important;color:#e9f1f7!important;}
-#config #listaSetores .btn-excluir-setor,#listaSetores .btn-excluir-setor{flex:0 0 auto!important;width:auto!important;min-width:104px!important;max-width:none!important;height:38px!important;min-height:38px!important;padding:0 15px!important;margin:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:7px!important;box-sizing:border-box!important;white-space:nowrap!important;overflow:visible!important;background:#3a0e18!important;border:1px solid #a6263b!important;border-radius:7px!important;color:#ff5368!important;font-size:13px!important;font-weight:800!important;line-height:1!important;cursor:pointer!important;box-shadow:none!important;}
-#listaSetores .btn-excluir-setor:hover{background:#4a111d!important;border-color:#d13a52!important;color:#ff6b7d!important;transform:none!important;filter:none!important;}
-#listaSetores .btn-excluir-setor .emoji-img{width:15px!important;height:15px!important;margin:0!important;object-fit:contain!important;}
-/* Entrada e Saída — cores aprovadas restauradas */
-#estoque .acoes-leitor .btn-success,#estoque .page-action-bar .btn-success{background:#063b2f!important;border:1px solid #078a68!important;color:#20dca0!important;box-shadow:none!important;}
-#estoque .acoes-leitor .btn-danger,#estoque .page-action-bar .btn-danger{background:#3a0e18!important;border:1px solid #a6263b!important;color:#ff5368!important;box-shadow:none!important;}
-#estoque .acoes-leitor .btn-success:hover,#estoque .page-action-bar .btn-success:hover{background:#084b3c!important;border-color:#09a77f!important;color:#35e8b0!important;filter:none!important;}
-#estoque .acoes-leitor .btn-danger:hover,#estoque .page-action-bar .btn-danger:hover{background:#4a111d!important;border-color:#d13a52!important;color:#ff6b7d!important;filter:none!important;}
-@media(max-width:700px){#listaSetores .setor-item{align-items:stretch!important;flex-direction:column!important;gap:10px!important;}#listaSetores .btn-excluir-setor{width:100%!important;min-width:0!important;}}
+<style id="tih-setor-excluir-final">
+#sistema #listaSetores .btn-excluir-setor{
+  width:auto!important;
+  min-width:92px!important;
+  max-width:none!important;
+  height:38px!important;
+  min-height:38px!important;
+  padding:0 14px!important;
+  margin-left:auto!important;
+  border-radius:8px!important;
+  background:#3a0e18!important;
+  border:1px solid #a6263b!important;
+  color:#ff5368!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:7px!important;
+  white-space:nowrap!important;
+  box-sizing:border-box!important;
+}
+#sistema #listaSetores .btn-excluir-setor .emoji-img{
+  width:14px!important;
+  height:14px!important;
+  flex:0 0 14px!important;
+  object-fit:contain!important;
+}
+#sistema #listaSetores .btn-excluir-setor:hover{
+  background:#4b111e!important;
+  border-color:#d33a52!important;
+  color:#ff6a7b!important;
+}
+/* As cores dos botões de Entrada e Saída permanecem exatamente as da versão-base. */
+#sistema .entrada{background:#16a34a!important;color:white!important;}
+#sistema .saida{background:#dc2626!important;color:white!important;}
 </style>
 </head>
 
@@ -2077,7 +2144,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxMh_TPLDON7Bz7lFQJXKjqonCNcXYPCHeGsppjlzqOPv_eYRU680Mi3c_O5WdGlxPR/exec";
+"https://script.google.com/macros/s/AKfycbwwgCVOjCV7xvSh57MbC5ERCrLyS-9K_OvZdmQZKjskX1NMsH5MHabadP70kQmWjXHB/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
