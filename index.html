@@ -2951,8 +2951,11 @@ body{overflow-x:hidden!important;}
 .page-action-bar{min-height:84px!important;border-bottom:1px solid var(--rf-line2)!important;gap:18px!important;padding:0 0!important;}
 .page-action-bar .btn{height:56px!important;min-width:152px!important;border-radius:6px!important;box-shadow:none!important;font-size:13px!important;font-weight:800!important;}
 .page-action-bar .action-primary{background:linear-gradient(100deg,#1769e8,#0799d7)!important;border-color:#176fe5!important;}
-.page-action-bar .action-success{background:#062d25!important;border-color:#078a68!important;color:#18d59e!important;}
-.page-action-bar .action-danger{background:#320d17!important;border-color:#9e2238!important;color:#ff5267!important;}
+/* Cores fiéis da referência — Entrada verde / Saída vermelho */
+#estoque .page-action-bar .action-success{background:#063b2f!important;border:1px solid #078a68!important;color:#20dca0!important;}
+#estoque .page-action-bar .action-success:hover{background:#084d3d!important;border-color:#10a77f!important;color:#42e8b7!important;}
+#estoque .page-action-bar .action-danger{background:#3a0e18!important;border:1px solid #a6263b!important;color:#ff5368!important;}
+#estoque .page-action-bar .action-danger:hover{background:#4b111f!important;border-color:#cf3049!important;color:#ff7485!important;}
 .page-action-bar .action-neutral{background:#06131f!important;border-color:var(--rf-line)!important;color:#c0cbd3!important;}
 .page-action-bar .action-refresh{margin-left:auto!important;min-width:152px!important;}
 
@@ -4035,7 +4038,7 @@ onclick="fecharPreVisualizacao()">
 ===================================================== */
 
 const API_URL =
-"https://script.google.com/macros/s/AKfycbw-nqc1BhaD0FwB9l99H_ks3iSExXiYXukWlFVoApjQpyzipyPxJdUlmEUPxVTWDZZT/exec";
+"https://script.google.com/macros/s/AKfycbyL32DvH6KCVfVHNhWSk4Dgdfs4XTHD-15N3ACdyJGkqrYr1XJbou5radQz14_AcMZx/exec";
 
 let token = localStorage.getItem("estoque_token") || "";
 let usuarioAtual = null;
