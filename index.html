@@ -2937,6 +2937,27 @@ html,body{width:100%;min-width:0;overflow-x:hidden!important;background:#050d16!
   white-space:nowrap!important;box-sizing:border-box!important;font-size:11px!important;line-height:1!important;
 }
 </style>
+
+<style id="tih-ajustes-20260909">
+/* Entrada e Saída — cores do modelo aprovado */
+#sistema .page-action-bar .action-success{background:#063b2f!important;border:1px solid #078a68!important;color:#20dca0!important;}
+#sistema .page-action-bar .action-danger{background:#3a0e18!important;border:1px solid #a6263b!important;color:#ff5368!important;}
+#sistema .page-action-bar .action-success:hover{background:#084c3d!important;border-color:#0aa77d!important;color:#43e8b2!important;}
+#sistema .page-action-bar .action-danger:hover{background:#4a121e!important;border-color:#c12e47!important;color:#ff7180!important;}
+
+/* Scanneres: conteúdo de identificação continua funcional, mas os textos redundantes ficam fora da tela inicial. */
+#cardLeitorEstoque:not(.ativo),#cardScannerEquipamento:not(.ativo){display:none!important;}
+#cardLeitorEstoque.ativo,#cardScannerEquipamento.ativo{display:block!important;}
+
+/* Excluir setor — somente ícone, igual às demais ações */
+#sistema .btn-excluir-setor{width:38px!important;min-width:38px!important;height:38px!important;min-height:38px!important;padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;border-radius:7px!important;background:#261116!important;color:#f36b74!important;border:1px solid #74202d!important;flex:0 0 38px!important;}
+#sistema .btn-excluir-setor i{font-size:14px!important;line-height:1!important;}
+#sistema .btn-excluir-setor:hover{background:#35151d!important;border-color:#a83242!important;color:#ff7b84!important;transform:none!important;}
+
+/* Câmera — ícone mais refinado no cabeçalho */
+#sistema .head-camera{display:inline-flex!important;align-items:center!important;justify-content:center!important;}
+#sistema .head-camera i{font-size:18px!important;line-height:1!important;}
+</style>
 </head>
 
 <body>
@@ -3283,7 +3304,7 @@ Sair
 
 <div id="estoque" class="secao">
 
-<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitor" placeholder="Pesquisar item ou código de barras..." autocomplete="off" oninput="filtrarTabela()"></div><button class="head-camera" title="Ler código de barras pela câmera" aria-label="Ler código de barras pela câmera" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitor" placeholder="Pesquisar item ou código de barras..." autocomplete="off" oninput="filtrarTabela()"></div><button class="head-camera" title="Ler código de barras pela câmera" aria-label="Ler código de barras pela câmera" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera-retro"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores">
 <div class="indicador-mini"><div><div class="rotulo">Itens cadastrados</div><div class="valor" id="estoqueIndicadorItens">0</div></div><div class="icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3293,9 +3314,6 @@ Sair
 </div>
 
 <div id="cardLeitorEstoque" class="card scanner-integrado">
-
-<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitura de código de barras</h2>
-<p class="scanner-integrado-info">A leitura é feita pelo campo de pesquisa superior ou pelo ícone da câmera.</p>
 
 <div id="leitorStatus"
 class="leitor-status"></div>
@@ -3394,15 +3412,6 @@ CANCELAR
 </div>
 
 
-<div class="card">
-<h2><img src=./assets/icons/plus.png class=emoji-img alt= aria-hidden=true> Cadastro de item</h2>
-<p style="color:#94a3b8;margin-bottom:20px">Cadastre materiais de consumo controlados por quantidade.</p>
-<div class="grid" style="grid-template-columns:minmax(250px,420px)">
-<button class="btn" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-boxes-stacked"></i> Cadastrar item de estoque</button>
-</div>
-</div>
-
-
 <div class="table-container">
 
 <table>
@@ -3457,7 +3466,7 @@ CANCELAR
 
 <div id="equipamentos" class="secao">
 
-<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitorEquipamento" placeholder="Pesquisar equipamento, patrimônio, série..." autocomplete="off" oninput="filtrarEquipamentos()"></div><button class="head-camera" title="Ler número de série pela câmera" aria-label="Ler número de série pela câmera" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitorEquipamento').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitorEquipamento" placeholder="Pesquisar equipamento, patrimônio, série..." autocomplete="off" oninput="filtrarEquipamentos()"></div><button class="head-camera" title="Ler número de série pela câmera" aria-label="Ler número de série pela câmera" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera-retro"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitorEquipamento').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores eq-resumo">
 <div class="indicador-mini"><div><div class="rotulo">Patrimônio total</div><div class="valor" id="eqIndicadorTotal">0</div></div><div class="icone"><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3468,19 +3477,7 @@ CANCELAR
 
 <div class="card">
 
-<div style="display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap">
-<div>
-<h2><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true> Equipamentos</h2>
-<p style="color:#94a3b8;margin-top:5px">Controle individual de computadores, notebooks, monitores e demais equipamentos patrimoniais.</p>
-</div>
-<button class="btn" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Cadastrar equipamento</button>
-</div>
-
 <div id="cardScannerEquipamento" class="card scanner-integrado">
-<div>
-<h2><img src=./assets/icons/camera.png class=emoji-img alt= aria-hidden=true> Leitura de número de série</h2>
-<p class="scanner-integrado-info">Use a pesquisa superior para localizar o equipamento. O ícone da câmera lê apenas o código de barras do número de série.</p>
-</div>
 <div id="equipamentoIdentificado" class="equipamento-identificado">
 <h3><img src=./assets/icons/check.png class=emoji-img alt= aria-hidden=true> Equipamento identificado</h3>
 <div class="equipamento-detalhes">
@@ -5847,7 +5844,7 @@ document.createElement("button");
 botao.className=
 "btn-excluir-setor";
 
-botao.innerHTML="<img src=./assets/icons/trash.png class=emoji-img alt= aria-hidden=true> Excluir";
+botao.innerHTML='<i class="fa-solid fa-trash"></i>';
 
 botao.onclick=
 ()=>excluirSetor(setor);
@@ -6700,6 +6697,18 @@ tbody tr:hover td{background:#091826!important}
   .menu button.menu-btn.btn-sair{margin-top:0!important;border-top:0!important;height:48px!important;min-height:48px!important;padding-top:0!important;border-radius:7px!important;}
   .sidebar-seguranca{margin-top:12px!important;}
 }
+
+/* Excluir setor: somente ícone, no mesmo padrão das ações. */
+#sistema .btn-excluir-setor{
+  width:38px!important;min-width:38px!important;height:38px!important;min-height:38px!important;
+  padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:7px!important;box-sizing:border-box!important;
+  background:#261116!important;color:#f36b74!important;border:1px solid #74202d!important;
+  flex:0 0 38px!important;
+}
+#sistema .btn-excluir-setor i{font-size:14px!important;line-height:1!important;}
+#sistema .btn-excluir-setor:hover{background:#35151d!important;border-color:#a83242!important;color:#ff7b84!important;transform:none!important;}
+#sistema .head-camera i{font-size:18px!important;line-height:1!important;}
 </style>
 
 <style id="tih-correcao-setores-usuarios">
