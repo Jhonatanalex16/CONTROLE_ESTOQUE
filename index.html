@@ -3845,9 +3845,9 @@ CANCELAR
 </div>
 
 <div class="barra-filtros-profissional" style="margin-top:22px">
-<div><label>Status</label><select id="filtroStatusEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos</option><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select></div>
-<div><label>Setor</label><select id="filtroSetorEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos os setores</option></select></div>
-<div><label>Localização</label><input id="filtroLocalEquipamento" placeholder="Filtrar localização..." oninput="filtrarEquipamentos()"></div>
+<div><label><i class="fa-solid fa-circle-check"></i> Status</label><select id="filtroStatusEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos</option><option value="Em uso">Em uso</option><option value="Disponível">Disponível</option><option value="Removido">Removido</option></select></div>
+<div><label><i class="fa-solid fa-building"></i> Setor</label><select id="filtroSetorEquipamento" onchange="filtrarEquipamentos()"><option value="">Todos os setores</option></select></div>
+<div><label><i class="fa-solid fa-location-dot"></i> Localização</label><input id="filtroLocalEquipamento" placeholder="Filtrar localização..." oninput="filtrarEquipamentos()"></div>
 </div>
 
 <div class="table-container">
@@ -3912,12 +3912,12 @@ CANCELAR
 <div class="indicador-mini"><div><div class="rotulo">Unidades movimentadas</div><div class="valor" id="histIndicadorUnidades">0</div></div><div class="icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div></div>
 </div>
 <div class="barra-filtros-profissional">
-<div><label>Data inicial</label><input type="date" id="histDataInicial" onchange="aplicarFiltrosHistorico()"></div>
-<div><label>Data final</label><input type="date" id="histDataFinal" onchange="aplicarFiltrosHistorico()"></div>
-<div><label>Operação</label><select id="histAcao" onchange="aplicarFiltrosHistorico()"><option value="">Todas</option><option value="entrada">Entradas</option><option value="saida">Saídas</option></select></div>
-<div><label>Setor</label><select id="histSetor" onchange="aplicarFiltrosHistorico()"><option value="">Todos os setores</option></select></div>
-<div><label>Usuário</label><input id="histUsuario" placeholder="Filtrar usuário..." oninput="aplicarFiltrosHistorico()"></div>
-<div><label>Item / código</label><input id="histBusca" placeholder="Pesquisar..." oninput="aplicarFiltrosHistorico()"></div>
+<div><label><i class="fa-regular fa-calendar"></i> Data inicial</label><input type="date" id="histDataInicial" onchange="aplicarFiltrosHistorico()"></div>
+<div><label><i class="fa-regular fa-calendar"></i> Data final</label><input type="date" id="histDataFinal" onchange="aplicarFiltrosHistorico()"></div>
+<div><label><i class="fa-solid fa-right-left"></i> Operação</label><select id="histAcao" onchange="aplicarFiltrosHistorico()"><option value="">Todas</option><option value="entrada">Entradas</option><option value="saida">Saídas</option></select></div>
+<div><label><i class="fa-solid fa-building"></i> Setor</label><select id="histSetor" onchange="aplicarFiltrosHistorico()"><option value="">Todos os setores</option></select></div>
+<div><label><i class="fa-solid fa-user"></i> Usuário</label><input id="histUsuario" placeholder="Filtrar usuário..." oninput="aplicarFiltrosHistorico()"></div>
+<div><label><i class="fa-solid fa-barcode"></i> Item / código</label><input id="histBusca" placeholder="Pesquisar..." oninput="aplicarFiltrosHistorico()"></div>
 <div class="acoes-filtro"><button class="btn btn-secondary" onclick="limparFiltrosHistorico()"><img src=./assets/icons/refresh.png class=emoji-img alt= aria-hidden=true> Limpar</button><button class="btn" onclick="gerarRelatorio('historico')"><img src=./assets/icons/pdf.png class=emoji-img alt= aria-hidden=true> Relatório</button></div>
 </div>
 <div class="historico-abas" style="display:flex;gap:10px;flex-wrap:wrap;margin:20px 0;">
@@ -4191,31 +4191,31 @@ onclick="fecharFiltrosRelatorio()">
 <div class="filtros">
 
 <div class="filtro-grupo">
-<label>Data inicial</label>
+<label><i class="fa-regular fa-calendar"></i> Data inicial</label>
 <input type="date" id="dataInicial">
 </div>
 
 <div class="filtro-grupo">
-<label>Data final</label>
+<label><i class="fa-regular fa-calendar"></i> Data final</label>
 <input type="date" id="dataFinal">
 </div>
 
 <div class="filtro-grupo">
-<label>Setor</label>
+<label><i class="fa-solid fa-building"></i> Setor</label>
 <select id="filtroSetor">
 <option value="">Todos os setores</option>
 </select>
 </div>
 
 <div class="filtro-grupo">
-<label>Item</label>
+<label><i class="fa-solid fa-box"></i> Item</label>
 <select id="filtroItem">
 <option value="">Todos os itens</option>
 </select>
 </div>
 
 <div class="filtro-grupo">
-<label>Status</label>
+<label><i class="fa-solid fa-circle-check"></i> Status</label>
 <select id="filtroStatus">
 <option value="">Todos os status</option>
 <option value="Em uso">Em uso</option>
@@ -4225,7 +4225,7 @@ onclick="fecharFiltrosRelatorio()">
 </div>
 
 <div class="filtro-grupo" id="grupoPesquisaEquipamento">
-<label>Equipamento</label>
+<label><i class="fa-solid fa-desktop"></i> Equipamento</label>
 <select id="filtroEquipamento"><option value="">Todos os equipamentos</option></select>
 </div>
 
@@ -7681,5 +7681,176 @@ try{
 }catch(e){}
 </script>
 
+
+<style id="tih-filtros-premium-final">
+/* =========================================================
+   T.I-HEDA — FILTROS PREMIUM
+   Visual inspirado no padrão profissional das demais abas.
+   Apenas apresentação: IDs e eventos permanecem iguais.
+   ========================================================= */
+#sistema .barra-filtros-profissional,
+#sistema .filtros{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:repeat(6,minmax(130px,1fr))!important;
+  gap:12px!important;
+  padding:18px!important;
+  margin:18px 0!important;
+  background:#06131f!important;
+  border:1px solid #17364d!important;
+  border-radius:10px!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.015)!important;
+}
+#sistema .barra-filtros-profissional::before,
+#sistema .filtros::before{
+  content:""!important;
+  position:absolute!important;
+  left:18px!important;right:18px!important;top:0!important;
+  height:1px!important;
+  background:linear-gradient(90deg,transparent,#0d668f,transparent)!important;
+  opacity:.65!important;
+}
+#sistema .barra-filtros-profissional > div:not(.acoes-filtro),
+#sistema .filtro-grupo{
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:flex-end!important;
+}
+#sistema .barra-filtros-profissional label,
+#sistema .filtro-grupo label{
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  height:18px!important;
+  margin:0 0 7px!important;
+  color:#7ea1b9!important;
+  font-size:10px!important;
+  font-weight:800!important;
+  letter-spacing:.65px!important;
+  text-transform:uppercase!important;
+}
+#sistema .barra-filtros-profissional label i,
+#sistema .filtro-grupo label i{
+  color:#159bd0!important;
+  font-size:11px!important;
+  width:13px!important;
+  text-align:center!important;
+}
+#sistema .barra-filtros-profissional input,
+#sistema .barra-filtros-profissional select,
+#sistema .filtros input,
+#sistema .filtros select{
+  width:100%!important;
+  min-width:0!important;
+  height:42px!important;
+  min-height:42px!important;
+  box-sizing:border-box!important;
+  padding:0 12px!important;
+  background:#05111c!important;
+  border:1px solid #17364d!important;
+  border-radius:7px!important;
+  color:#e7eef5!important;
+  font-size:13px!important;
+  font-weight:600!important;
+  outline:none!important;
+  transition:border-color .16s ease,box-shadow .16s ease,background .16s ease!important;
+}
+#sistema .barra-filtros-profissional input::placeholder,
+#sistema .filtros input::placeholder{color:#5f7589!important;font-weight:500!important;}
+#sistema .barra-filtros-profissional input:hover,
+#sistema .barra-filtros-profissional select:hover,
+#sistema .filtros input:hover,
+#sistema .filtros select:hover{border-color:#24516d!important;background:#061522!important;}
+#sistema .barra-filtros-profissional input:focus,
+#sistema .barra-filtros-profissional select:focus,
+#sistema .filtros input:focus,
+#sistema .filtros select:focus{
+  border-color:#168fc3!important;
+  box-shadow:0 0 0 2px rgba(22,143,195,.10)!important;
+  background:#061522!important;
+}
+#sistema .barra-filtros-profissional input[type="date"]{color-scheme:dark!important;}
+#sistema .barra-filtros-profissional input[type="date"]::-webkit-calendar-picker-indicator{
+  opacity:.9!important;
+  filter:none!important;
+  cursor:pointer!important;
+}
+#sistema .barra-filtros-profissional .acoes-filtro{
+  grid-column:span 2!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:flex-end!important;
+  gap:10px!important;
+  min-width:0!important;
+}
+#sistema .barra-filtros-profissional .acoes-filtro .btn{
+  height:42px!important;
+  min-height:42px!important;
+  border-radius:7px!important;
+  padding:0 15px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  white-space:nowrap!important;
+}
+#sistema .barra-filtros-profissional .acoes-filtro .btn.btn-secondary{
+  background:#071824!important;
+  border:1px solid #24516a!important;
+  color:#8faabd!important;
+}
+#sistema .barra-filtros-profissional .acoes-filtro .btn.btn-secondary:hover{
+  border-color:#337291!important;color:#dce8ef!important;background:#09202e!important;
+}
+#sistema .barra-filtros-profissional .acoes-filtro .btn:not(.btn-secondary){
+  background:linear-gradient(100deg,#1769e8,#078fd5)!important;
+  border:1px solid #1677ed!important;
+  color:#eef8ff!important;
+  box-shadow:none!important;
+}
+#sistema .barra-filtros-profissional .acoes-filtro .btn:not(.btn-secondary):hover{
+  filter:brightness(1.08)!important;
+}
+/* Equipamentos: três filtros com largura equilibrada */
+#equipamentos .barra-filtros-profissional{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  padding:16px!important;
+}
+/* Histórico: seis filtros + ações, mantendo leitura confortável */
+#historico .barra-filtros-profissional{
+  grid-template-columns:repeat(6,minmax(110px,1fr))!important;
+  padding:16px!important;
+  align-items:end!important;
+}
+#historico .barra-filtros-profissional .acoes-filtro{grid-column:span 2!important;}
+/* Relatório modal */
+#modalFiltrosRelatorio .filtros{
+  grid-template-columns:repeat(3,minmax(180px,1fr))!important;
+  padding:18px!important;
+  gap:14px!important;
+}
+@media(max-width:1200px){
+  #historico .barra-filtros-profissional{grid-template-columns:repeat(3,minmax(150px,1fr))!important;}
+  #historico .barra-filtros-profissional .acoes-filtro{grid-column:span 3!important;justify-content:flex-end!important;}
+  #sistema .filtros{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+}
+@media(max-width:850px){
+  #equipamentos .barra-filtros-profissional,
+  #historico .barra-filtros-profissional,
+  #sistema .barra-filtros-profissional{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  #historico .barra-filtros-profissional .acoes-filtro{grid-column:span 2!important;}
+}
+@media(max-width:560px){
+  #equipamentos .barra-filtros-profissional,
+  #historico .barra-filtros-profissional,
+  #sistema .barra-filtros-profissional,
+  #sistema .filtros{grid-template-columns:1fr!important;}
+  #historico .barra-filtros-profissional .acoes-filtro{grid-column:span 1!important;justify-content:stretch!important;}
+  #historico .barra-filtros-profissional .acoes-filtro .btn{flex:1 1 0!important;}
+}
+</style>
 </body>
 </html>
