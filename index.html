@@ -2958,6 +2958,354 @@ html,body{width:100%;min-width:0;overflow-x:hidden!important;background:#050d16!
 #sistema .head-camera{display:inline-flex!important;align-items:center!important;justify-content:center!important;}
 #sistema .head-camera i{font-size:18px!important;line-height:1!important;}
 </style>
+
+<style id="tih-profissional-final-09-09">
+/* =========================================================
+   T.I-HEDA — ACABAMENTO PROFISSIONAL FINAL
+   Somente apresentação/UX. Nenhuma função de negócio alterada.
+   ========================================================= */
+:root{
+  --pro-bg:#050d16;
+  --pro-panel:#071522;
+  --pro-panel-2:#081a29;
+  --pro-input:#06131f;
+  --pro-line:#17344a;
+  --pro-line-soft:#102536;
+  --pro-text:#e7eef5;
+  --pro-muted:#7f95a9;
+  --pro-blue:#2563eb;
+  --pro-cyan:#119bc5;
+  --pro-green:#16a66a;
+  --pro-red:#e34b57;
+  --pro-amber:#e0a43b;
+}
+
+/* Base mais consistente */
+#sistema,
+#sistema *{box-sizing:border-box;}
+#sistema .main{background:var(--pro-bg)!important;color:var(--pro-text)!important;}
+#sistema .card,
+#sistema .painel,
+#sistema .table-container,
+#sistema .painel-indicadores .indicador-mini{
+  background:var(--pro-panel)!important;
+  border:1px solid var(--pro-line)!important;
+  box-shadow:0 8px 24px rgba(0,0,0,.10)!important;
+}
+
+/* Sidebar corporativa */
+#sistema .sidebar{
+  background:#06111c!important;
+  border-right:1px solid var(--pro-line)!important;
+  box-shadow:8px 0 28px rgba(0,0,0,.14)!important;
+}
+#sistema .logo{
+  letter-spacing:-.3px!important;
+}
+#sistema .usuario-logado{
+  background:#081925!important;
+  border:1px solid var(--pro-line-soft)!important;
+  border-radius:9px!important;
+}
+#sistema .menu button.menu-btn{
+  border:1px solid transparent!important;
+  border-radius:7px!important;
+  transition:background .16s ease,border-color .16s ease,color .16s ease,transform .16s ease!important;
+}
+#sistema .menu button.menu-btn:hover{
+  background:#0b1d2d!important;
+  border-color:#16364c!important;
+  transform:translateX(1px)!important;
+}
+#sistema .menu button.menu-btn.ativo,
+#sistema .menu button.menu-btn.active{
+  background:#0d2740!important;
+  border-color:#164b72!important;
+  color:#e8f4ff!important;
+}
+#sistema .menu button.menu-btn.btn-sair{
+  border-top:1px solid var(--pro-line-soft)!important;
+  margin-top:14px!important;
+  padding-top:14px!important;
+}
+#sistema .sidebar-seguranca{
+  background:#071923!important;
+  border:1px solid #173b45!important;
+  border-radius:9px!important;
+}
+
+/* Cabeçalhos */
+#sistema .page-section-head{
+  border-bottom:1px solid var(--pro-line-soft)!important;
+}
+#sistema .page-section-head h2{letter-spacing:-.55px!important;}
+#sistema .page-section-head h2 span{color:#9db1c3!important;}
+#sistema .page-section-head p{color:#7891a6!important;}
+
+/* Pesquisa e filtros superiores */
+#sistema .page-head-search{gap:8px!important;}
+#sistema .head-search-box{
+  background:var(--pro-input)!important;
+  border:1px solid var(--pro-line)!important;
+  border-radius:8px!important;
+  box-shadow:none!important;
+}
+#sistema .head-search-box:focus-within{
+  border-color:#21618a!important;
+  box-shadow:0 0 0 2px rgba(17,155,197,.08)!important;
+}
+#sistema .head-search-box input{color:#e7eef5!important;}
+#sistema .head-search-box input::placeholder{color:#627b90!important;}
+#sistema .head-camera{
+  width:42px!important;height:42px!important;min-width:42px!important;
+  border-radius:8px!important;
+  background:#071725!important;
+  border:1px solid #17344a!important;
+  color:#86a9bd!important;
+}
+#sistema .head-camera:hover{
+  background:#0b2234!important;
+  border-color:#21618a!important;
+  color:#d8edf7!important;
+}
+#sistema .head-camera i{font-size:16px!important;}
+#sistema .head-filter{
+  height:42px!important;
+  border-radius:8px!important;
+  background:#071725!important;
+  border:1px solid var(--pro-line)!important;
+  color:#a7bbca!important;
+}
+#sistema .head-filter:hover{
+  background:#0b2234!important;
+  border-color:#21618a!important;
+  color:#e1edf5!important;
+}
+
+/* Barras de ação */
+#sistema .page-action-bar{
+  border-bottom:1px solid var(--pro-line-soft)!important;
+  padding:14px 0!important;
+  gap:9px!important;
+}
+#sistema .page-action-bar .btn{
+  min-height:42px!important;
+  border-radius:7px!important;
+  border-width:1px!important;
+  box-shadow:none!important;
+  font-weight:700!important;
+  transition:background .16s ease,border-color .16s ease,transform .16s ease!important;
+}
+#sistema .page-action-bar .btn:hover{transform:translateY(-1px)!important;}
+#sistema .page-action-bar .action-primary{
+  background:linear-gradient(90deg,#2563eb,#119bc5)!important;
+  border-color:#2563eb!important;color:#f2f8ff!important;
+}
+#sistema .page-action-bar .action-neutral{
+  background:#0a1a28!important;
+  border-color:#173b52!important;
+  color:#a9bfce!important;
+}
+#sistema .page-action-bar .action-neutral:hover{background:#0d2435!important;color:#e5f1f7!important;}
+/* Cores aprovadas: Entrada verde / Saída vermelha */
+#sistema .page-action-bar .action-success{
+  background:#063b2f!important;
+  border:1px solid #078a68!important;
+  color:#20dca0!important;
+}
+#sistema .page-action-bar .action-success:hover{
+  background:#084c3d!important;
+  border-color:#0aa77d!important;
+  color:#43e8b2!important;
+}
+#sistema .page-action-bar .action-danger{
+  background:#3a0e18!important;
+  border:1px solid #a6263b!important;
+  color:#ff5368!important;
+}
+#sistema .page-action-bar .action-danger:hover{
+  background:#4a121e!important;
+  border-color:#c12e47!important;
+  color:#ff7180!important;
+}
+
+/* Indicadores */
+#sistema .painel-indicadores{gap:12px!important;}
+#sistema .painel-indicadores .indicador-mini{
+  min-height:96px!important;
+  border-radius:8px!important;
+  padding:18px!important;
+}
+#sistema .indicador-mini .rotulo{
+  color:#7894aa!important;
+  letter-spacing:.55px!important;
+  font-size:10px!important;
+  font-weight:700!important;
+  text-transform:uppercase!important;
+}
+#sistema .indicador-mini .valor{
+  color:#f1f6fa!important;
+  font-size:26px!important;
+  font-weight:800!important;
+}
+#sistema .indicador-mini .icone{
+  width:40px!important;height:40px!important;
+  border-radius:9px!important;
+  background:#0a2638!important;
+  border:1px solid #164966!important;
+}
+#sistema .indicador-mini .icone .emoji-img{width:17px!important;height:17px!important;}
+
+/* Tabelas */
+#sistema .table-container{border-radius:8px!important;overflow:auto!important;}
+#sistema table{border-collapse:separate!important;border-spacing:0!important;}
+#sistema table thead th{
+  background:#081a28!important;
+  color:#7793a8!important;
+  border-bottom:1px solid #17344a!important;
+  font-size:10px!important;
+  letter-spacing:.65px!important;
+  text-transform:uppercase!important;
+}
+#sistema table tbody td{
+  border-bottom:1px solid #0e2637!important;
+  color:#cbd8e1!important;
+}
+#sistema table tbody tr:hover td{background:#091b29!important;}
+#sistema table tbody tr:last-child td{border-bottom:0!important;}
+#sistema .acoes{gap:6px!important;}
+#sistema .acoes button,
+#sistema .acoes .entrada,
+#sistema .acoes .saida,
+#sistema .acoes .btn-editar,
+#sistema .acoes .btn-excluir-item{
+  width:36px!important;min-width:36px!important;height:36px!important;min-height:36px!important;
+  padding:0!important;border-radius:7px!important;
+  box-shadow:none!important;
+}
+
+/* Status em formato de badge */
+#sistema .status-badge,
+#sistema .badge-disponivel,
+#sistema .badge-uso,
+#sistema .badge-removido{
+  border-radius:999px!important;
+  padding:5px 9px!important;
+  font-size:10px!important;
+  font-weight:800!important;
+  border:1px solid transparent!important;
+}
+
+/* Setores — somente ícone de lixeira */
+#sistema .setor-item{
+  min-height:54px!important;
+  padding:9px 12px!important;
+  background:#0a1725!important;
+  border:1px solid #102a3c!important;
+  border-radius:9px!important;
+  margin-bottom:7px!important;
+}
+#sistema .setor-item:hover{background:#0c1d2c!important;border-color:#183b52!important;}
+#sistema .setor-nome{font-weight:700!important;color:#dbe6ed!important;}
+#sistema .btn-excluir-setor{
+  width:36px!important;min-width:36px!important;height:36px!important;min-height:36px!important;
+  padding:0!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  border-radius:7px!important;background:#261116!important;color:#f36b74!important;
+  border:1px solid #74202d!important;flex:0 0 36px!important;
+}
+#sistema .btn-excluir-setor i{font-size:14px!important;line-height:1!important;}
+#sistema .btn-excluir-setor:hover{background:#35151d!important;border-color:#a83242!important;color:#ff7b84!important;}
+
+/* Filtros internos */
+#sistema .barra-filtros-profissional{
+  background:#06131f!important;
+  border:1px solid #153248!important;
+  border-radius:8px!important;
+  padding:12px!important;
+}
+#sistema .barra-filtros-profissional label{
+  color:#718da2!important;
+  font-size:10px!important;
+  font-weight:800!important;
+  text-transform:uppercase!important;
+  letter-spacing:.55px!important;
+}
+#sistema input,#sistema select,#sistema textarea{
+  border-color:#17344a!important;
+  background:#06131f!important;
+  color:#dbe6ee!important;
+  border-radius:7px!important;
+}
+#sistema input:focus,#sistema select:focus,#sistema textarea:focus{
+  border-color:#21618a!important;
+  box-shadow:0 0 0 2px rgba(17,155,197,.07)!important;
+}
+
+/* Modais — mesmo padrão visual */
+#sistema .relatorio-modal,
+#sistema .camera-modal{
+  background:rgba(1,7,13,.82)!important;
+  backdrop-filter:blur(7px)!important;
+}
+#sistema .relatorio-modal-conteudo,
+#sistema .camera-box{
+  background:#071522!important;
+  border:1px solid #1a3a50!important;
+  border-radius:12px!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.42)!important;
+}
+#sistema .relatorio-modal-topo{
+  border-bottom:1px solid #143147!important;
+}
+#sistema .relatorio-modal-topo h2{color:#edf4f8!important;}
+#sistema .relatorio-modal-topo p{color:#7891a5!important;}
+
+/* Scanner dinâmico: permanece disponível quando ativado, sem texto fixo ocupando a tela */
+#cardLeitorEstoque:not(.ativo),
+#cardScannerEquipamento:not(.ativo){display:none!important;}
+#cardLeitorEstoque.ativo,
+#cardScannerEquipamento.ativo{display:block!important;}
+
+/* Esconde somente blocos explicativos redundantes; não remove os elementos funcionais do scanner */
+#estoque > .scanner-integrado:not(.ativo),
+#equipamentos > .card > .scanner-integrado:not(.ativo){display:none!important;}
+
+/* Câmera do modal */
+#cameraScannerVideo{border:1px solid #17344a!important;border-radius:9px!important;}
+#cameraScannerStatus{background:#06131f!important;border:1px solid #17344a!important;color:#8ea6b8!important;border-radius:8px!important;}
+#cameraScannerAjuda{border-radius:8px!important;}
+
+/* Toast */
+#toast,
+.toast{
+  border-radius:8px!important;
+  border:1px solid #1b3b51!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.30)!important;
+}
+
+/* Evita visual “inflado” em áreas administrativas */
+#config .card,
+#relatorios .card,
+#historico .card,
+#alertas .card{border-radius:9px!important;}
+
+/* Responsividade */
+@media(max-width:900px){
+  #sistema .page-section-head{gap:14px!important;}
+  #sistema .page-head-search{width:100%!important;}
+  #sistema .head-search-box{flex:1 1 auto!important;}
+  #sistema .page-action-bar{flex-wrap:wrap!important;}
+}
+@media(max-width:600px){
+  #sistema .page-section-head{padding:20px 2px 16px!important;}
+  #sistema .page-section-head h2{font-size:22px!important;}
+  #sistema .page-head-search{flex-wrap:wrap!important;}
+  #sistema .head-search-box{min-width:0!important;width:100%!important;}
+  #sistema .head-camera,#sistema .head-filter{height:40px!important;}
+  #sistema .page-action-bar .btn{flex:1 1 auto!important;}
+}
+</style>
+
 </head>
 
 <body>
@@ -3304,7 +3652,7 @@ Sair
 
 <div id="estoque" class="secao">
 
-<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitor" placeholder="Pesquisar item ou código de barras..." autocomplete="off" oninput="filtrarTabela()"></div><button class="head-camera" title="Ler código de barras pela câmera" aria-label="Ler código de barras pela câmera" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera-retro"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+<div class="page-section-head page-section-head-actions"><div><h2>Estoque de <span>Materiais</span></h2><p>Gerencie todos os itens do estoque permanente.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitor" placeholder="Pesquisar item ou código de barras..." autocomplete="off" oninput="filtrarTabela()"></div><button class="head-camera" title="Ler código de barras pela câmera" aria-label="Ler código de barras pela câmera" onclick="abrirCameraScanner('estoque')"><i class="fa-solid fa-camera"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('CONSUMO')"><i class="fa-solid fa-plus"></i> Novo Item</button><button class="btn action-success" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-down"></i> Entrada</button><button class="btn action-danger" onclick="document.getElementById('codigoLeitor').focus()"><i class="fa-solid fa-arrow-up"></i> Saída</button><button class="btn action-neutral" onclick="gerarRelatorio('estoque')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores">
 <div class="indicador-mini"><div><div class="rotulo">Itens cadastrados</div><div class="valor" id="estoqueIndicadorItens">0</div></div><div class="icone"><img src=./assets/icons/package.png class=emoji-img alt= aria-hidden=true></div></div>
@@ -3466,7 +3814,7 @@ CANCELAR
 
 <div id="equipamentos" class="secao">
 
-<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitorEquipamento" placeholder="Pesquisar equipamento, patrimônio, série..." autocomplete="off" oninput="filtrarEquipamentos()"></div><button class="head-camera" title="Ler número de série pela câmera" aria-label="Ler número de série pela câmera" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera-retro"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitorEquipamento').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
+<div class="page-section-head page-section-head-actions"><div><h2>Controle de <span>Equipamentos</span></h2><p>Gerencie equipamentos patrimoniais, localização, setor e status.</p></div><div class="page-head-search"><div class="head-search-box"><i class="fa-solid fa-magnifying-glass"></i><input id="codigoLeitorEquipamento" placeholder="Pesquisar equipamento, patrimônio, série..." autocomplete="off" oninput="filtrarEquipamentos()"></div><button class="head-camera" title="Ler número de série pela câmera" aria-label="Ler número de série pela câmera" onclick="abrirCameraScanner('equipamentoSerie')"><i class="fa-solid fa-camera"></i></button><button class="head-filter" onclick="document.getElementById('codigoLeitorEquipamento').focus()"><i class="fa-solid fa-filter"></i> Filtros</button></div></div><div class="page-action-bar"><button class="btn action-primary" onclick="abrirCadastro('EQUIPAMENTO')"><i class="fa-solid fa-plus"></i> Novo Equipamento</button><button class="btn action-neutral" onclick="gerarRelatorio('equipamentos')"><i class="fa-regular fa-file-lines"></i> Gerar Relatório</button><button class="btn action-neutral action-refresh" onclick="carregar()"><i class="fa-solid fa-rotate"></i> Atualizar</button></div>
 
 <div class="painel-indicadores eq-resumo">
 <div class="indicador-mini"><div><div class="rotulo">Patrimônio total</div><div class="valor" id="eqIndicadorTotal">0</div></div><div class="icone"><img src=./assets/icons/computer.png class=emoji-img alt= aria-hidden=true></div></div>
